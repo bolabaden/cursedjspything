@@ -1,0 +1,750 @@
+# pyrt: CPython parity, supported surface, gaps, and bibliography
+
+This document is the **authoritative compatibility matrix** for the **`pyrt`** package in this repository: what is implemented, what is partial, what is intentionally out of scope, and where behavior **diverges from CPython 3.x**. It is written for readers who want **exhaustive** coverage and **traceability** to **CPython source** and **official Python documentation**.
+
+> **Important scope statement:** `pyrt` is a **library-level object model / data-model emulation** (explicit helpers such as `eq`, `add`, `getAttr`). It is **not** a Python language implementation, not a bytecode VM, and not a full standard library port. Any claim of “complete Python” or “zero discrepancies with CPython” should be rejected unless explicitly narrowed to a **documented subset** of this file.
+
+---
+
+## Table of contents
+
+1. [Bibliography and authoritative references](#1-bibliography-and-authoritative-references)
+2. [CPython source map (where semantics live)](#2-cpython-source-map-where-semantics-live)
+3. [Design of pyrt (what is being emulated)](#3-design-of-pyrt-what-is-being-emulated)
+4. [Supported: public API inventory](#4-supported-public-api-inventory)
+5. [Supported: `Slot` registry (81 names) vs dispatch](#5-supported-slot-registry-81-names-vs-dispatch)
+6. [Supported: `Hook` registry (non-slot specials)](#6-supported-hook-registry-non-slot-specials)
+7. [Supported: builtins shipped in `src/runtime/builtins.ts`](#7-supported-builtins-shipped-in-srcruntimebuiltinsts)
+8. [Partially supported (works, but not CPython-identical)](#8-partially-supported-works-but-not-cpython-identical)
+9. [Not supported: Python language and execution model](#9-not-supported-python-language-and-execution-model)
+10. [Not supported: data model and stdlib (exhaustive checklist)](#10-not-supported-data-model-and-stdlib-exhaustive-checklist)
+11. [JavaScript / ECMAScript limits relevant to parity](#11-javascript--ecmascript-limits-relevant-to-parity)
+12. [Verification in this repository](#12-verification-in-this-repository)
+13. [Maintainer guidance: how to extend without false claims](#13-maintainer-guidance-how-to-extend-without-false-claims)
+
+---
+
+## 1. Bibliography and authoritative references
+
+The following are the **primary** external references used when describing CPython behavior, Python semantics, and JavaScript limits. Titles are given verbatim or near-verbatim for searchability.
+
+### 1.1 Python language reference (data model)
+
+1. **Python Language Reference — 3. Data model**  
+   <https://docs.python.org/3/reference/datamodel.html>  
+   Canonical definition of objects, types, the **descriptor protocol**, **`__slots__`**, **`__class__`**, special methods, and protocol semantics.
+
+2. **Python Language Reference — 3.3.10. Special method lookup**  
+   <https://docs.python.org/3/reference/datamodel.html#special-method-lookup>  
+   Defines **implicit** special method lookup rules (type-based lookup that **does not** go through normal instance attribute access the way explicit `obj.__add__(...)` can).
+
+3. **Python Language Reference — 3.3.6. Customizing class creation**  
+   <https://docs.python.org/3/reference/datamodel.html#customizing-class-creation>  
+   Documents **`__mro_entries__`**, **`__prepare__`**, **`__set_name__`**, **`__init_subclass__`**, **`__class_getitem__`**, **`__classcell__`**, and constraints around **`__class__`** assignment.
+
+4. **Python Language Reference — 3.3.2. Customizing attribute access**  
+   <https://docs.python.org/3/reference/datamodel.html#customizing-attribute-access>  
+   Documents **`__getattribute__`**, **`__getattr__`**, **`__setattr__`**, **`__delattr__`**.
+
+5. **Python Language Reference — 3.3.4. Customizing instance and subclass checks**  
+   <https://docs.python.org/3/reference/datamodel.html#customizing-instance-and-subclass-checks>  
+   Documents **`__instancecheck__`** and **`__subclasscheck__`**.
+
+6. **Python Language Reference — 3.3.8. Emulating generic types**  
+   <https://docs.python.org/3/reference/datamodel.html#emulating-generic-types>  
+   Documents **`__class_getitem__`** for generic aliases.
+
+### 1.2 Descriptor protocol (tutorial / explanatory)
+
+7. **Python documentation — Descriptor How To Guide**  
+   <https://docs.python.org/3/howto/descriptor.html>  
+   Explains **data vs non-data descriptors** and attribute resolution precedence at a pedagogical level (still authoritative for intent).
+
+### 1.3 CPython C API documentation (type slots and abstract protocol layer)
+
+8. **Python/C API Reference Manual — Type Objects**  
+   <https://docs.python.org/3/c-api/typeobj.html>  
+   Describes the C-level type slots (`tp_*`, `nb_*`, `sq_*`, `mp_*`, …) that correspond to many Python special methods.
+
+9. **Python/C API Reference Manual — Abstract Objects Layer**  
+   <https://docs.python.org/3/c-api/abstract.html>  
+   Describes C API entry points such as `PyObject_GetItem`, `PyNumber_Add`, etc., which correspond to Python operations and protocol dispatch.
+
+10. **Python/C API Reference Manual — Calling conventions (vectorcall / `tp_call`)**  
+    <https://docs.python.org/3/c-api/call.html>  
+    Describes how callables are invoked in CPython’s C API (related to `tp_call`, `vectorcall`, and Python `__call__`).
+
+11. **Python/C API Reference Manual — Buffer Protocol**  
+    <https://docs.python.org/3/c-api/buffer.html>  
+    Documents `Py_buffer`, exporter/importer lifecycle; relevant to `__buffer__` / `__release_buffer__` parity claims.
+
+### 1.4 ECMAScript / MDN (JavaScript reality)
+
+12. **ECMA-262 — Proxy Objects**  
+    <https://tc39.es/ecma262/multipage/reflection.html#sec-proxy-objects>  
+    Defines **Proxy** semantics, invariants, and why some objects cannot be faithfully “wrapped”.
+
+13. **MDN — `Proxy`**  
+    <https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Proxy>  
+    Practical documentation of traps, invariants, and common interoperability caveats (private fields, exotic objects).
+
+14. **TC39 proposal: operator overloading (withdrawn / archived)**  
+    <https://github.com/tc39/proposal-operator-overloading>  
+    Status: **withdrawn**; documents historical exploration of user-defined operators in JavaScript and clarifies why **JS operators are not extensible** like Python’s without a compiler or nonstandard dialect.
+
+### 1.5 PEPs frequently adjacent to the data model (not implemented as runtime features in pyrt)
+
+15. **PEP 443 — Single-dispatch generic functions (`functools.singledispatch`)**  
+    <https://peps.python.org/pep-0443/>
+
+16. **PEP 544 — Protocols: Structural subtyping (`typing.Protocol`)**  
+    <https://peps.python.org/pep-0544/>
+
+17. **PEP 585 — Type hinting generics in standard collections**  
+    <https://peps.python.org/pep-0585/>
+
+18. **PEP 634 / 635 / 636 — Structural pattern matching**  
+    <https://peps.python.org/pep-0634/> (and related)
+
+19. **PEP 646 / 692 / 698 (and others) — typing / generics evolution**  
+    Use <https://peps.python.org/> search when needed; pyrt does not implement typing runtime semantics.
+
+20. **PEP 3118 — Revising the buffer protocol**  
+    <https://peps.python.org/pep-3118/>  
+    Defines the buffer protocol that backs `memoryview`, `bytes`-like consumption, and `__buffer__` / `__release_buffer__` in modern Python; pyrt does not implement PEP 3118 object semantics end-to-end.
+
+---
+
+## 2. CPython source map (where semantics live)
+
+These are the **primary CPython implementation files** most relevant to the subset pyrt emulates. Links point to the `main` branch on GitHub; for reproducible citations in papers, pin a **commit hash** or use a **release tag** (for example `v3.14.x`) instead of `main`.
+
+| Topic | CPython file | URL |
+|------|--------------|-----|
+| Type object, `slotdefs[]`, slot installation, many special cases around slots | `Objects/typeobject.c` | <https://github.com/python/cpython/blob/main/Objects/typeobject.c> |
+| Abstract protocol dispatch (`PyNumber_*`, `PyObject_GetItem`, …) | `Objects/abstract.c` | <https://github.com/python/cpython/blob/main/Objects/abstract.c> |
+| Core object operations (`PyObject_RichCompare`, generic attribute access, …) | `Objects/object.c` | <https://github.com/python/cpython/blob/main/Objects/object.c> |
+| Descriptor objects (`property`, method descriptors, member descriptors, …) | `Objects/descrobject.c` | <https://github.com/python/cpython/blob/main/Objects/descrobject.c> |
+| Calling conventions (`PyObject_Call`, vectorcall pathways) | `Objects/call.c` | <https://github.com/python/cpython/blob/main/Objects/call.c> |
+| Interpreter opcode dispatch (async/await, import, …) | `Python/ceval.c` (and related) | <https://github.com/python/cpython/blob/main/Python/ceval.c> |
+| Bytecode definitions / special opcodes | `Python/bytecodes.c` | <https://github.com/python/cpython/blob/main/Python/bytecodes.c> |
+
+**pyrt’s `Slot` registry** is explicitly aligned with the **slot table** narrative in `Objects/typeobject.c` (see comments in `src/runtime/slots.ts`). It is **not** automatically generated from CPython; it is a **curated mirror** and must be re-verified on CPython upgrades.
+
+---
+
+## 3. Design of pyrt (what is being emulated)
+
+### 3.1 Core object representations
+
+- **`PyObject`**: a heap object with stable numeric identity (`id`), a **`type`**, an instance namespace (`dict`: `Map`), and optional **`slotValues`** for `__slots__`-style layouts.  
+  Source: `src/runtime/object.ts`.
+
+- **`PyType`**: a **`PyObject`** that is also a type: bases, frozen **C3 MRO**, type namespace (`typeDict`), optional `slotNames`, and a `metaclass` reference.  
+  Source: `src/runtime/object.ts`.
+
+- **Bootstrap**: `objectType` and `typeType` are mutually referential like CPython’s bootstrap types.  
+  Source: `src/runtime/object.ts`.
+
+### 3.2 Two lookup channels (this is central to correctness claims)
+
+1. **Normal attribute access** (`getAttr` / `setAttr` / `delAttr`): modeled after **`PyObject_GenericGetAttr`** / set/delete variants — data descriptor → instance dict / slot storage → non-data descriptor / plain class attribute → `__getattr__`.  
+   Source: `src/runtime/lookup.ts`.  
+   Python reference: **\[1\], \[2\], \[4\], \[7\]**.
+
+2. **Special method lookup for implicit operations** (`lookupSpecial`): modeled after the **“special method lookup”** idea: search the **type MRO**’s type namespaces for a slot symbol; **do not** consult the instance mapping for the method’s storage location; bind descriptors if needed.  
+   Source: `src/runtime/lookup.ts`.  
+   Python reference: **\[2\]**.
+
+### 3.3 Explicit operations instead of JS syntax
+
+All “operator-like” behavior is implemented as **functions** exported from `src/index.ts` (implemented primarily in `src/runtime/operators.ts` and `src/runtime/protocols.ts`).  
+JavaScript background: **\[12\], \[13\], \[14\]**.
+
+---
+
+## 4. Supported: public API inventory
+
+This section mirrors **`src/index.ts`** exports (the package’s public contract).
+
+### 4.1 Registry and introspection of symbols
+
+| Export | Role |
+|--------|------|
+| `Slot` | Symbolic keys for **slot-backed** dunder names |
+| `Hook` | Symbolic keys for **non-slot** dunder-like hooks |
+| `ALL_SYMBOLS` | Combined lookup map |
+| `dunderName(symbol)` | Debugging: map symbol → dunder string |
+| `SLOTDEF_COUNT` | Count of `Slot` entries (expected 81) |
+| `SLOT_DUNDER_NAMES` | Iterable of dunder strings derived from registry |
+
+Source: `src/runtime/slots.ts`, exported via `src/index.ts`.
+
+### 4.2 Object model
+
+| Export | Role |
+|--------|------|
+| `PyObject`, `PyType` | Core representations |
+| `objectType`, `typeType` | Bootstrap types |
+| `computeC3` | C3 linearization helper |
+| `NotImplemented`, `isNotImplemented` | `NotImplemented` sentinel behavior for operator fallbacks |
+
+Source: `src/runtime/object.ts`.
+
+### 4.3 Attribute access + errors
+
+| Export | Role |
+|--------|------|
+| `getAttr`, `setAttr`, `delAttr` | Attribute protocol entry points |
+| `defaultGetAttr`, `defaultSetAttr`, `defaultDelAttr` | Bypass custom dunder hooks when needed |
+| `lookupInMro`, `lookupSpecial` | Introspection / advanced interop |
+| `isDataDescriptor`, `hasGet` | Descriptor classification |
+| `PyAttributeError`, `PyTypeError`, `PyKeyError`, `PyStopIteration`, `PyValueError` | Small exception subset |
+
+Source: `src/runtime/lookup.ts`.
+
+### 4.4 Operators and conversions
+
+Implemented in `src/runtime/operators.ts` and exported from `src/index.ts`:
+
+- Identity: `is`, `isNot`
+- Truth and hashing: `bool`, `hash`
+- Rich comparisons: `eq`, `ne`, `lt`, `le`, `gt`, `ge`
+- Binary ops: `add`, `sub`, `mul`, `matmul`, `truediv`, `floordiv`, `mod`, `divmod`, `pow`, shifts, bitwise ops (and reflected fallbacks internally)
+- In-place ops: `iadd`, `isub`, `imul`, `imatmul`, `itruediv`, `ifloordiv`, `imod`, `ipow`, `ilshift`, `irshift`, `iand`, `ixor`, `ior`
+- Unary ops: `neg`, `pos`, `abs`, `invert`
+- Conversions: `toInt`, `toFloat`, `index`, `toComplex`
+- Rounding hooks: `round`, `trunc`, `floor`, `ceil`
+- Representation: `repr`, `str`, `format`, `bytes`
+
+### 4.5 Class system
+
+Implemented in `src/runtime/class.ts`:
+
+- `makeClass`, `instantiate`
+- `pyClass`, `setPyClass`
+- `classGetitem`
+- `isinstance`, `issubclass`
+- `resolveBases`, `calculateMetaclass`, `prepareNamespace`
+- `MakeClassOpts` type
+
+### 4.6 Protocols
+
+Implemented in `src/runtime/protocols.ts`:
+
+- Callable: `call`
+- Container: `len`, `lengthHint`, `getItem`, `setItem`, `delItem`, `contains`
+- Iteration: `iter`, `next`, `reversed`
+- Context managers: `enter`, `exit`
+- Async surface: `pyAwait`, `aiter`, `anext`, `aenter`, `aexit`
+- Introspection: `dir`
+- Descriptor helpers: `descriptorGet`, `descriptorSet`, `descriptorDelete`
+- Buffer surface: `getBuffer`, `releaseBuffer` (thin wrappers)
+
+### 4.7 Builtin factories
+
+Implemented in `src/runtime/builtins.ts`:
+
+- `pyNone`, `noneType`
+- `pyBool`, `pyTrue`, `pyFalse`, `boolType`
+- `pyInt`, `intType`
+- `pyFloat`, `floatType`
+- `pyStr`, `strType`
+- `pyList`, `listType`
+- `pyTuple`, `tupleType`
+- `pyDict`, `dictType`
+- `pySet`, `setType`
+- `unwrap`
+
+---
+
+## 5. Supported: `Slot` registry (81 names) vs dispatch
+
+**Legend**
+
+- **Registry**: present as a key in `Slot` (`src/runtime/slots.ts`).
+- **Dispatch**: pyrt has runtime code that will call it via `lookupSpecial` / operator helpers / protocols for *some* objects.
+- **User types**: user-defined `makeClass` types can attach callables to these symbols in `typeDict`.
+
+> **Critical distinction:** “Registry + dispatch exists” does **not** mean “all edge cases match CPython”. See **Section 8**.
+
+The 81 `Slot` dunders (as symbols) are defined in `src/runtime/slots.ts`. Dispatch coverage by subsystem:
+
+| Subsystem file | What it dispatches |
+|----------------|--------------------|
+| `src/runtime/operators.ts` | comparisons, numerics, unary, conversions, `repr`/`str`/`format`/`bytes`, rounding hooks |
+| `src/runtime/protocols.ts` | `call`, container ops, iteration, context managers, async entrypoints, buffer wrappers |
+| `src/runtime/lookup.ts` | attribute hooks (`__getattribute__`, `__getattr__`, `__setattr__`, `__delattr__`) and descriptor `__get__`/`__set__`/`__delete__` during normal attribute access |
+| `src/runtime/class.ts` | `__new__`, `__init__` for instantiation; metaclass-ish hooks are mostly `Hook` (see next section) |
+| `src/runtime/builtins.ts` | concrete implementations for builtin wrappers (`pyInt`, …) |
+
+### 5.1 `Slot.__del__` (`__del__`)
+
+- **Registry:** yes (`Slot.del`).
+- **Dispatch:** **not integrated** with object lifetime. There is **no** finalizer queue, no interpreter shutdown semantics, and no GC hook that calls `__del__`.
+
+CPython background: finalization interacts with cycles, refcounts, and interpreter shutdown; see data model **\[1\]** and CPython runtime sources outside this document’s minimal list.
+
+---
+
+## 6. Supported: `Hook` registry (non-slot specials)
+
+Defined in `src/runtime/slots.ts` under `Hook`. These are **not** necessarily installed into C-level slots; they correspond to Python features often implemented via **`_PyObject_LookupSpecial`**-style paths or bytecode.
+
+| Hook symbol | Intended Python meaning | pyrt dispatch location |
+|-------------|-------------------------|------------------------|
+| `bytes`, `format`, `complex` | `__bytes__`, `__format__`, `__complex__` | `src/runtime/operators.ts` |
+| `round`, `trunc`, `floor`, `ceil` | `__round__`, `__trunc__`, `__floor__`, `__ceil__` | `src/runtime/operators.ts` |
+| `dir`, `lengthHint` | `__dir__`, `__length_hint__` | `src/runtime/protocols.ts` |
+| `enter`, `exit`, `aenter`, `aexit` | context manager protocols | `src/runtime/protocols.ts` |
+| `instancecheck`, `subclasscheck` | `__instancecheck__`, `__subclasscheck__` | `src/runtime/class.ts` (`isinstance` / `issubclass`) |
+| `initSubclass`, `setName`, `prepare`, `mroEntries`, `classGetitem` | class creation / generics | `src/runtime/class.ts` |
+| `missing`, `reversed` | `__missing__`, `__reversed__` | `src/runtime/protocols.ts` |
+
+---
+
+## 7. Supported: builtins shipped in `src/runtime/builtins.ts`
+
+These are **not** CPython-identical implementations of Python builtins; they are **JS-backed approximations** with many slot methods implemented to make examples/tests work.
+
+| Type | Notes |
+|------|------|
+| `NoneType` (`pyNone`) | Minimal |
+| `bool` | Based on JS boolean payload |
+| `int` | **JS `number`**, not arbitrary precision |
+| `float` | JS `number` |
+| `str` | JS string; indexing returns single-code-unit strings (not Python’s full grapheme semantics) |
+| `list`, `tuple` | JS arrays / frozen arrays |
+| `dict` | JS `Map` |
+| `set` | JS `Set` |
+
+---
+
+## 8. Partially supported (works, but not CPython-identical)
+
+This section lists **known** mismatches that are easy to mistake for “bugs” but are actually **scope / representation** issues.
+
+### 8.1 Class creation is not `type.__call__` / `type.__new__` faithful
+
+`makeClass` constructs `new PyType(...)` directly and runs a **subset** of the class creation pipeline (`resolveBases`, `calculateMetaclass`, `prepareNamespace` exists but is not always composed the way a Python `class` statement is, `__set_name__`, `__init_subclass__`).
+
+CPython reference: **\[3\]**, implementation: [`Objects/typeobject.c`](https://github.com/python/cpython/blob/main/Objects/typeobject.c) (notably `type_new`, `type_call`, slot installation from `slotdefs[]`, and metaclass conflict resolution).
+
+### 8.2 `hash` return normalization
+
+`hash` coerces the return value with `| 0` in `src/runtime/operators.ts`. Python’s `__hash__` rules include additional constraints (for example `hash` must be consistent with equality for hashable objects) and may use a different internal widening/narrowing strategy.
+
+CPython reference: data model **`__hash__`** **\[1\]**.
+
+### 8.3 `bool` requires a real JS boolean from `__bool__`
+
+If `__bool__` returns a truthy/falsy non-boolean, pyrt raises. Python allows additional legacy behaviors in some cases; do not assume parity.
+
+### 8.4 Numeric model: not arbitrary precision `int`
+
+`pyInt` stores a JS number (`builtins.ts`), including `| 0` truncation in the factory. This diverges from Python `int` semantics for large integers, shifts, floor division, pow with huge exponents, etc.
+
+### 8.5 `dict` / `set` key identity vs Python equality
+
+Python dict keys use **rich equality** + **consistent hashing** rules. `pyDict` uses JS `Map` keyed by **whatever** the embedder inserts; if you insert `PyObject` keys, identity/equality depends on how you compare objects outside the dict API.
+
+### 8.6 `list` / `tuple` containment and equality paths
+
+Some containment paths may use `===` fast paths before consulting `__eq__` depending on the builtin implementation. This is not guaranteed to match every CPython fast/slow path.
+
+### 8.7 Slicing
+
+There is **no** `slice` object protocol (`__getitem__(slice(...))`) in pyrt’s builtins as of this writing.
+
+### 8.8 `__missing__` integration
+
+`getItem` only consults `Hook.missing` when `__getitem__` raises **`PyKeyError`** (`src/runtime/protocols.ts`). Python’s `dict.__missing__` behavior is tied to mapping subclasses and `KeyError` propagation rules; do not assume full mapping subclass semantics.
+
+### 8.9 Async protocols
+
+`aenter` / `aexit` return **JavaScript Promises** in the TypeScript sense (`async` functions). CPython coroutine objects, `await` scheduling, `asyncio` tasks, and exception propagation are not modeled.
+
+### 8.10 Buffer protocol
+
+`getBuffer` / `releaseBuffer` forward to hooks if present, but there is **no** PEP-3118-style buffer manager, no exporter/importer lifecycle guarantees, and no `memoryview` type. See Python/C API **\[11\]** and **\[20\]**.
+
+### 8.11 `__class__` assignment constraints
+
+`setPyClass` implements a **narrow** compatibility check based on `slotNames` equality. CPython’s real `__class__` assignment rules interact with layout, `__slots__`, heap type allocation, and extension modules; see **\[3\]**.
+
+### 8.12 `super()` / zero-argument `super` / `__classcell__`
+
+Not implemented.
+
+Python reference: class creation / compiler inserted cell discussion under **\[3\]**.
+
+### 8.13 `__getattribute__` + `__getattr__` interaction
+
+`getAttr` implements a simplified interaction: if `__getattribute__` raises `PyAttributeError`, it may fall through to `__getattr__`. CPython’s exact edge cases differ (exception types, `AttributeError` subclasses, suppressed tracebacks, etc.).
+
+---
+
+## 9. Not supported: Python language and execution model
+
+This is intentionally exhaustive at the **category** level (listing every stdlib module would be infinite maintenance; the correct statement is: **stdlib is not included** except where a tiny builtin wrapper exists).
+
+### 9.1 Parsing, compilation, modules, imports
+
+- No tokenizer/parser for Python syntax.
+- No `import`, `importlib`, packages, relative imports, namespace packages.
+- No `sys.modules`, module objects as first-class runtime entities.
+- No `__name__`, `__package__`, `__spec__`, `__path__`, `__loader__` module layout model.
+
+### 9.2 Bytecode VM, frames, tracing, introspection of execution
+
+- No Python bytecode interpreter.
+- No `frame` objects, `f_locals`, `f_back`, `traceback` objects with Python semantics.
+- No `sys.settrace`, `sys.setprofile`, `inspect` fidelity.
+
+### 9.3 Exceptions as a language feature
+
+- No `try` / `except` / `finally` / `else` as a runtime feature.
+- No `raise`, `raise ... from`, exception chaining fields (`__context__`, `__cause__`).
+- No `BaseExceptionGroup` / `except*` (PEP 654 ecosystem).
+
+pyrt defines a **small** set of error classes for library signaling (`lookup.ts`), but this is not Python’s hierarchy.
+
+### 9.4 Generators and coroutines as Python objects
+
+- No `yield`, `yield from`, generator objects, `GeneratorExit`, `close`, `throw`, `send` semantics.
+- No `async def` as Python coroutine objects; no `await` bytecode; no `asyncio` event loop integration.
+
+### 9.5 `eval`, `exec`, `compile`, `globals`, `locals`
+
+Not supported.
+
+### 9.6 Garbage collection, cycles, `weakref`, finalization ordering
+
+JS GC is tracing; Python has reference counting + cycle GC + highly specified semantics around `__del__` and weakrefs. pyrt does not model this.
+
+### 9.7 The entire Python standard library
+
+Not supported: everything in the Python docs library reference unless explicitly reimplemented in this repo (it generally is not).
+
+Use: <https://docs.python.org/3/library/index.html> as the umbrella reference.
+
+---
+
+## 10. Not supported: data model and stdlib (exhaustive checklist)
+
+This section lists major **data model** items from Python’s reference **\[1\]** that are **not implemented** in pyrt (even if some names exist in Python docs). If an item is “partial”, it is listed in **Section 8** instead.
+
+### 10.1 Type and object internals
+
+- **`__dict__` on types as a full mapping object** with Python dict semantics: pyrt uses `Map` on `PyType.typeDict`, not a Python-like dict object.
+- **`__weakref__` slot**, weak references, and weak-key dictionaries.
+- **`__slots__` advanced features**: empty tuple semantics, extending slotted parents, `__dict__` slot string, copying/gc nuances — only a simplified `slotNames` + `slotValues` path exists.
+- **`__getstate__` / `__setstate__` / `__reduce__` / `__reduce_ex__`**: pickling protocol not implemented.
+
+### 10.2 Attribute access edge cases
+
+- Full **`__getattribute__`** semantics matching all CPython C-level fast paths and exception normalization: partial/simplified.
+- **`object.__getattribute__`** bypass patterns, `super()` proxy attribute access: not implemented.
+- **`__slots__` and `__setattr__` interaction** beyond basic enforcement: partial.
+
+### 10.3 Rich comparison completeness
+
+- **`NotImplemented`** handling for comparisons beyond the implemented paths: partial.
+- **`@functools.total_ordering`**: not applicable (stdlib decorator not present), and pyrt does not infer ordering methods.
+
+### 10.4 Numeric tower completeness
+
+- **`fractions.Fraction`**, **`decimal.Decimal`**, **`numbers` ABC registration**: not present.
+- **`__divmod__` / `__rdivmod__` parity** for non-int builtin types: partial (depends on types involved).
+
+### 10.5 Iterator protocol completeness
+
+- **`StopIteration.value` propagation** through generators: not modeled as Python generators.
+- **`Iterator` ABC / `collections.abc`**: not present.
+
+### 10.6 Mapping / sequence completeness
+
+- **`collections.UserDict` / `ChainMap` / `Counter` / …**: not present.
+- **`keys()` / `values()` / `items()` views** with mutation semantics: not modeled as Python view objects.
+- **`__reversed__` for arbitrary mappings**: only what user types implement.
+
+### 10.7 Context managers completeness
+
+- Exception suppression rules (`__exit__` return true/false) are only as correct as the embedder uses `exit(...)`; there is no `with` statement runtime wrapping exceptions automatically.
+
+### 10.8 Class and metaclass completeness
+
+- **`type.__prepare__` default returning dict-like insertion ordering nuances**: simplified.
+- **Metaclass `__call__` / `__new__` orchestration** for class statement: partial/incomplete vs CPython.
+- **`__init_subclass__` keyword passing** from class headers: pyrt passes `opts.kwds` only at `makeClass` callsite; not a parser.
+
+### 10.9 Pattern matching
+
+- No `match` / `case`, no `__match_args__`, no pattern classes, no `MatchError` integration.
+
+See: **\[18\]**.
+
+### 10.10 Annotations
+
+- No `__annotations__` / `__annotate__` (3.13+) wiring on types, no `typing` runtime generic instantiation beyond whatever user manually implements.
+
+### 10.11 `__sizeof__`, `sys.getsizeof`
+
+Not implemented.
+
+### 10.12 `operator` module and `inspect` module
+
+Not implemented as libraries; some operations exist as functions (`operators.ts`, `protocols.ts`) but are not drop-in compatible with Python’s `operator` module naming or edge cases.
+
+---
+
+## 11. JavaScript / ECMAScript limits relevant to parity
+
+Even a perfect TS library cannot turn JS into Python without a compiler or interpreter:
+
+- **Operators (`+`, `==`, `in`, `await`, …)** are language-defined and not user-overridable for arbitrary objects. See **\[12\], \[13\], \[14\]**.
+- **Truthiness (`if (x)`)** is not customizable.
+- **`typeof`**, primitive literals, and many syntactic forms have no Python-like dunder.
+- **Proxies** can emulate some attribute behavior but cannot transparently emulate all exotic builtins and private fields semantics. See **\[12\], \[13\]**.
+
+pyrt’s explicit-function approach is therefore aligned with JS reality.
+
+---
+
+## 12. Verification in this repository
+
+- **Unit tests:** `test/*.test.ts` (Vitest). Run: `npm test`.
+- **Examples:** `examples/python-vs-js.ts`. Run: `npx tsx examples/python-vs-js.ts`.
+- **Typecheck:** `npm run check`.
+
+These verify **project intent**, not full CPython conformance.
+
+---
+
+## 13. Maintainer guidance: how to extend without false claims
+
+1. **Treat `Slot`/`Hook` as a contract**, not a guarantee of CPython parity.
+2. When adding a feature, cite **Python reference sections** **\[1–7\]** (and C API docs **\[8–11\]** where relevant) and the **CPython source file** implementing the behavior (see **Section 2**).
+3. Add **golden tests** that compare against a pinned CPython version for the narrow behavior you claim.
+4. Maintain this document: move items from “not supported” → “partial” → “supported” with explicit caveats.
+
+---
+
+## Appendix A — Complete `Slot` dunder inventory (81 strings)
+
+These are the **dunder strings** keyed by `Slot.*` symbols in [`src/runtime/slots.ts`](../src/runtime/slots.ts). They are intended to mirror CPython’s `slotdefs[]` surface in [`Objects/typeobject.c`](https://github.com/python/cpython/blob/main/Objects/typeobject.c) (see **Section 2**).
+
+Canonical alphabetical list (81 entries; matches `SLOT_DUNDER_NAMES` / `Object.keys(Slot).length` at `SLOTDEF_COUNT` in the same file):
+
+- `__abs__`
+- `__add__`
+- `__aiter__`
+- `__and__`
+- `__anext__`
+- `__await__`
+- `__bool__`
+- `__buffer__`
+- `__call__`
+- `__contains__`
+- `__del__`
+- `__delattr__`
+- `__delete__`
+- `__delitem__`
+- `__divmod__`
+- `__eq__`
+- `__float__`
+- `__floordiv__`
+- `__ge__`
+- `__get__`
+- `__getattr__`
+- `__getattribute__`
+- `__getitem__`
+- `__gt__`
+- `__hash__`
+- `__iadd__`
+- `__iand__`
+- `__ifloordiv__`
+- `__ilshift__`
+- `__imatmul__`
+- `__imod__`
+- `__imul__`
+- `__index__`
+- `__init__`
+- `__int__`
+- `__invert__`
+- `__ior__`
+- `__ipow__`
+- `__irshift__`
+- `__isub__`
+- `__iter__`
+- `__itruediv__`
+- `__ixor__`
+- `__le__`
+- `__len__`
+- `__lshift__`
+- `__lt__`
+- `__matmul__`
+- `__mod__`
+- `__mul__`
+- `__ne__`
+- `__neg__`
+- `__new__`
+- `__next__`
+- `__or__`
+- `__pos__`
+- `__pow__`
+- `__radd__`
+- `__rand__`
+- `__rdivmod__`
+- `__release_buffer__`
+- `__repr__`
+- `__rfloordiv__`
+- `__rlshift__`
+- `__rmatmul__`
+- `__rmod__`
+- `__rmul__`
+- `__ror__`
+- `__rpow__`
+- `__rrshift__`
+- `__rshift__`
+- `__rsub__`
+- `__rtruediv__`
+- `__rxor__`
+- `__set__`
+- `__setattr__`
+- `__setitem__`
+- `__str__`
+- `__sub__`
+- `__truediv__`
+- `__xor__`
+
+---
+
+## Appendix B — `Hook` symbols (22 non-slot specials)
+
+Defined in [`src/runtime/slots.ts`](../src/runtime/slots.ts) under `Hook` (each maps to a dunder string via `Symbol("...")`):
+
+| `Hook` field | Python dunder |
+|--------------|---------------|
+| `bytes` | `__bytes__` |
+| `format` | `__format__` |
+| `complex` | `__complex__` |
+| `round` | `__round__` |
+| `trunc` | `__trunc__` |
+| `floor` | `__floor__` |
+| `ceil` | `__ceil__` |
+| `dir` | `__dir__` |
+| `lengthHint` | `__length_hint__` |
+| `enter` | `__enter__` |
+| `exit` | `__exit__` |
+| `aenter` | `__aenter__` |
+| `aexit` | `__aexit__` |
+| `instancecheck` | `__instancecheck__` |
+| `subclasscheck` | `__subclasscheck__` |
+| `initSubclass` | `__init_subclass__` |
+| `setName` | `__set_name__` |
+| `prepare` | `__prepare__` |
+| `mroEntries` | `__mro_entries__` |
+| `classGetitem` | `__class_getitem__` |
+| `missing` | `__missing__` |
+| `reversed` | `__reversed__` |
+
+---
+
+## Appendix C — Python data model specials **not** represented as `Slot`/`Hook` keys in pyrt
+
+This appendix is “exhaustive at the protocol-name level” for the **Language Reference’s special method namespace** that pyrt **does not** model as first-class `Symbol` registry entries. Some items can still be simulated manually (for example storing callables under arbitrary string keys in `typeDict`), but **there is no dedicated symbol, dispatch helper, or CPython-correct runtime** for them in this repository.
+
+Names below are referenced from **Python Language Reference — Data model — Special method names** **\[1\]**, specifically the index section **Special method names** (<https://docs.python.org/3/reference/datamodel.html#special-method-names>).
+
+### C.1 Lifecycle, allocation, and finalization
+
+| Python method | pyrt status |
+|----------------|------------|
+| `__del__` | **Registry only** (`Slot.del`): **no** finalization/GC integration (see **Section 5.1**). |
+
+### C.2 Copy/pickle-related protocols (stdlib-adjacent)
+
+| Python method | pyrt status |
+|----------------|------------|
+| `__copy__`, `__deepcopy__` | **Not supported** (typically used via `copy` module). |
+| `__getinitargs__`, `__getnewargs__`, `__getnewargs_ex__` | **Not supported** (pickle protocol). |
+| `__reduce__`, `__reduce_ex__` | **Not supported** (pickle protocol). |
+| `__getstate__`, `__setstate__` | **Not supported** (pickle protocol). |
+
+### C.3 Introspection and debugging hooks
+
+| Python method | pyrt status |
+|----------------|------------|
+| `__sizeof__` | **Not supported** (`sys.getsizeof` not modeled). |
+
+### C.4 `super()` and compiler-inserted class cells
+
+| Python concept | pyrt status |
+|----------------|------------|
+| `super()` / `super(type, obj)` / zero-argument `super` | **Not supported** (requires frames / `__classcell__` lowering). See **\[3\]**. |
+
+### C.5 Pattern matching
+
+| Python concept | pyrt status |
+|----------------|------------|
+| `__match_args__` and pattern matching behavior | **Not supported**. See **\[18\]**. |
+
+### C.6 Annotations and typing runtime
+
+| Python attribute / method | pyrt status |
+|---------------------------|------------|
+| `__annotations__`, `__annotate__` (3.13+), runtime generic instantiation as in `typing` | **Not supported** as type-system features. See PEP ecosystem **\[15–19\]**. |
+
+### C.7 Coroutine object protocol beyond hooks
+
+Python documents coroutine-specific behaviors beyond “has `__await__`”.
+
+| Python method | pyrt status |
+|----------------|------------|
+| coroutine `send`, `throw`, `close` | **Not supported** as Python coroutine objects (no generator/coroutine VM). |
+
+### C.8 Type and class introspection attributes (`__module__`, `__qualname__`, `__doc__`, …)
+
+| Python attribute | pyrt status |
+|------------------|------------|
+| `__name__`, `__qualname__`, `__module__`, `__doc__` on classes/functions as language-managed metadata | **Not modeled** as CPython-managed fields; `PyType` has a `name` string only. |
+
+### C.9 `types` / `abc` integration
+
+| Python concept | pyrt status |
+|----------------|------------|
+| `types.FunctionType`, `types.MethodType`, `abc.ABCMeta` machinery | **Not supported** (you can approximate patterns manually). |
+
+### C.10 `__objclass__` (optional descriptor metadata)
+
+| Python attribute | pyrt status |
+|------------------|------------|
+### C.11 Weak references and GC-visible resurrection
+
+| Python concept | pyrt status |
+|----------------|------------|
+| `__weakref__` slot, `weakref` module behavior, resurrection during cyclic GC | **Not supported** (JavaScript `WeakMap`/`WeakRef` exist but are not wired to `PyObject` identity or `__del__`). |
+
+---
+
+## Appendix D — pyrt source index (where to read the implementation)
+
+| Concern | Primary file |
+|---------|----------------|
+| Public exports | `src/index.ts` |
+| Slot / hook symbol tables | `src/runtime/slots.ts` |
+| `PyObject` / `PyType` / MRO | `src/runtime/object.ts` |
+| Attribute + descriptor + `lookupSpecial` | `src/runtime/lookup.ts` |
+| Operators / comparisons / conversions / repr | `src/runtime/operators.ts` |
+| Class creation / `isinstance` / `issubclass` / `setPyClass` | `src/runtime/class.ts` |
+| Protocols (`call`, containers, iter, context, async surface) | `src/runtime/protocols.ts` |
+| Builtin wrappers (`pyInt`, …) | `src/runtime/builtins.ts` |
+| Tests | `test/*.test.ts` |
+| Narrative examples | `examples/python-vs-js.ts` |
+
+---
+
+## Document history
+
+- **Initial exhaustive compatibility document** added for the `pyrt` repository, linking Python docs and CPython sources and enumerating major gaps.

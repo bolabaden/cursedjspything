@@ -1,0 +1,25 @@
+{
+  "name": "pyrt",
+  "version": "0.1.0",
+  "description": "CPython 3.14 object-model runtime for JavaScript/TypeScript",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "scripts": {
+    "build": "tsc",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "check": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "typescript": "^5.8",
+    "vitest": "^3.2"
+  },
+  "license": "MIT"
+}
