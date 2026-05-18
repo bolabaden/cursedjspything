@@ -1,0 +1,1 @@
+{"mro_D": ["D", "B", "C", "A", "object"], "isinstance_D": true, "issubclass_DC": true, "rich_eq_int": true, "match_args": ["x", "y"], "slice_list": [1, 2]}

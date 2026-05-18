@@ -9,7 +9,7 @@ import {
   pyInt, pyStr, pyList, pyDict, pySet, pyTuple, pyNone,
   PyTypeError, PyKeyError, PyStopIteration,
   unwrap, PyType,
-} from "../src/index.js";
+} from "../../src/index.js";
 
 describe("call protocol", () => {
   it("dispatches __call__", () => {

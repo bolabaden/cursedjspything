@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { Slot, Hook, SLOTDEF_COUNT, SLOT_DUNDER_NAMES, ALL_SYMBOLS, dunderName } from "../src/index.js";
+import { Slot, Hook, SLOTDEF_COUNT, SLOT_DUNDER_NAMES, ALL_SYMBOLS, dunderName } from "../../src/index.js";
 
 describe("slot registry", () => {
   it("has exactly 81 slot-backed dunder names matching CPython slotdefs[]", () => {

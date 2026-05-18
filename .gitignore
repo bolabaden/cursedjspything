@@ -1,4 +1,9 @@
 node_modules/
-.history/
 dist/
-.tmp/
+*.tsbuildinfo
+.DS_Store
+coverage/
+.vitest/
+*.log
+.env
+.env.*

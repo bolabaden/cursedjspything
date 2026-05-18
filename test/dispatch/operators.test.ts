@@ -10,7 +10,7 @@ import {
   round, trunc, floor, ceil,
   pyInt, pyFloat, pyStr, pyBool, pyNone, pyList, pyTuple,
   unwrap,
-} from "../src/index.js";
+} from "../../src/index.js";
 
 describe("identity", () => {
   const A = makeClass({ name: "A", dict: new Map() });

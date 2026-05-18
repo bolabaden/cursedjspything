@@ -2,7 +2,7 @@
 
 ## Attribute lookup (`getAttr`)
 
-`[REPO]` `src/runtime/lookup.ts`
+`[REPO]` `src/runtime/core/lookup.ts`
 
 `[SYNTH]` Precedence aligned with [OFFICIAL] data model (3.9–3.14):
 
@@ -45,7 +45,7 @@ Constructor path uses `type?.slotNames` at instantiation (`object.ts`).
 
 `[OFFICIAL]` `property`, `classmethod`, `staticmethod` patterns supported via descriptor protocol on `PyObject` helpers.
 
-`[REPO]` Descriptor objects expose `__get__`, `__set__`, `__delete__` as implemented in tests (`test/object-model.test.ts`).
+`[REPO]` Descriptor objects expose `__get__`, `__set__`, `__delete__` as implemented in tests (`test/core/object-model.test.ts`).
 
 CPython: https://github.com/python/cpython/blob/v3.14.0/Objects/descrobject.c
 
@@ -53,7 +53,7 @@ CPython: https://github.com/python/cpython/blob/v3.14.0/Objects/descrobject.c
 
 ## Operators
 
-`[REPO]` `operators.ts`:
+`[REPO]` `dispatch/operators/` (`compare.ts`, `numeric.ts`):
 
 - Identity: `is`, rich compare via `__lt__` chain + `__eq__`
 - Numeric: binary, reflected, in-place where defined
@@ -64,7 +64,7 @@ CPython: https://github.com/python/cpython/blob/v3.14.0/Objects/descrobject.c
 
 ## Protocols
 
-`[REPO]` `protocols.ts`:
+`[REPO]` `dispatch/protocols.ts`:
 
 - `call`, `len`,getitem/setitem/delitem
 - Iteration (`__iter__`, `__next__`)

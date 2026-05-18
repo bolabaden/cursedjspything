@@ -16,7 +16,7 @@
 
 Pinned (example 3.14): https://docs.python.org/3.14/reference/datamodel.html#special-lookup
 
-`[REPO]` `lookupSpecial()` in `src/runtime/lookup.ts` — type-only, no instance dict.
+`[REPO]` `lookupSpecial()` in `src/runtime/core/lookup.ts` — type-only, no instance dict.
 
 ---
 
@@ -53,15 +53,15 @@ Pinned class creation (3.14): https://docs.python.org/3.14/reference/datamodel.h
 
 `[OFFICIAL]` Rich comparison, numeric, containers, iteration, context managers, async protocols — defined per dunder in data model.
 
-`[REPO]` `operators.ts`, `protocols.ts` — see test modules:
+`[REPO]` `dispatch/operators/`, `dispatch/protocols.ts` — see test modules:
 
 | Area | Tests |
 |------|-------|
-| Operators | `test/operators.test.ts` |
-| Protocols | `test/protocols.test.ts` |
-| Lookup / descriptors | `test/object-model.test.ts` |
-| Class / MRO | `test/class-system.test.ts` |
-| Slots registry | `test/slots.test.ts` |
+| Operators | `test/dispatch/operators.test.ts` |
+| Protocols | `test/dispatch/protocols.test.ts` |
+| Lookup / descriptors | `test/core/object-model.test.ts` |
+| Class / MRO | `test/class/system.test.ts` |
+| Slots registry | `test/core/slots.test.ts` |
 
 ---
 
@@ -69,9 +69,9 @@ Pinned class creation (3.14): https://docs.python.org/3.14/reference/datamodel.h
 
 | Method | Min Python | pyrt |
 |--------|------------|------|
-| `__match_args__` | 3.10 | — |
-| `__buffer__`, `__release_buffer__` | 3.12 | Stubs |
-| `__annotate__` | 3.14 | — |
+| `__match_args__` | 3.10 | `Hook.matchArgs`, `getMatchArgs()` |
+| `__buffer__`, `__release_buffer__` | 3.12 | Partial (`getBuffer` / `releaseBuffer`) |
+| `__annotate__` | 3.14 | Partial (`Hook.annotate`, `getAnnotations()`) |
 
 ---
 

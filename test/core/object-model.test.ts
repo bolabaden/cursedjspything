@@ -4,7 +4,7 @@ import {
   makeClass, instantiate, Slot, Hook,
   getAttr, setAttr, delAttr, lookupSpecial,
   PyAttributeError, isDataDescriptor,
-} from "../src/index.js";
+} from "../../src/index.js";
 
 describe("bootstrap types", () => {
   it("object and type exist with correct names", () => {

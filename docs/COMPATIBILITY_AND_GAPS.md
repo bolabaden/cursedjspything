@@ -14,7 +14,7 @@ This document is the **authoritative compatibility matrix** for the **`pyrt`** p
 4. [Supported: public API inventory](#4-supported-public-api-inventory)
 5. [Supported: `Slot` registry (81 names) vs dispatch](#5-supported-slot-registry-81-names-vs-dispatch)
 6. [Supported: `Hook` registry (non-slot specials)](#6-supported-hook-registry-non-slot-specials)
-7. [Supported: builtins shipped in `src/runtime/builtins.ts`](#7-supported-builtins-shipped-in-srcruntimebuiltinsts)
+7. [Supported: builtins shipped in `src/runtime/builtins/`](#7-supported-builtins-shipped-in-srcruntimebuiltinsts)
 8. [Partially supported (works, but not CPython-identical)](#8-partially-supported-works-but-not-cpython-identical)
 9. [Not supported: Python language and execution model](#9-not-supported-python-language-and-execution-model)
 10. [Not supported: data model and stdlib (exhaustive checklist)](#10-not-supported-data-model-and-stdlib-exhaustive-checklist)
@@ -149,16 +149,16 @@ These are the **primary CPython implementation files** most relevant to the subs
 ### 3.2 Two lookup channels (this is central to correctness claims)
 
 1. **Normal attribute access** (`getAttr` / `setAttr` / `delAttr`): modeled after **`PyObject_GenericGetAttr`** / set/delete variants — data descriptor → instance dict / slot storage → non-data descriptor / plain class attribute → `__getattr__`.  
-   Source: `src/runtime/lookup.ts`.  
+   Source: `src/runtime/core/lookup.ts`.  
    Python reference: **\[1\], \[2\], \[4\], \[7\]**.
 
 2. **Special method lookup for implicit operations** (`lookupSpecial`): modeled after the **“special method lookup”** idea: search the **type MRO**’s type namespaces for a slot symbol; **do not** consult the instance mapping for the method’s storage location; bind descriptors if needed.  
-   Source: `src/runtime/lookup.ts`.  
+   Source: `src/runtime/core/lookup.ts`.  
    Python reference: **\[2\]**.
 
 ### 3.3 Explicit operations instead of JS syntax
 
-All “operator-like” behavior is implemented as **functions** exported from `src/index.ts` (implemented primarily in `src/runtime/operators.ts` and `src/runtime/protocols.ts`).  
+All “operator-like” behavior is implemented as **functions** exported from `src/index.ts` (implemented primarily in `src/runtime/dispatch/operators/` and `src/runtime/dispatch/protocols.ts`).  
 JavaScript background: **\[12\], \[13\], \[14\]**.
 
 ---
@@ -201,11 +201,11 @@ Source: `src/runtime/object.ts`.
 | `isDataDescriptor`, `hasGet` | Descriptor classification |
 | `PyAttributeError`, `PyTypeError`, `PyKeyError`, `PyStopIteration`, `PyValueError` | Small exception subset |
 
-Source: `src/runtime/lookup.ts`.
+Source: `src/runtime/core/lookup.ts`.
 
 ### 4.4 Operators and conversions
 
-Implemented in `src/runtime/operators.ts` and exported from `src/index.ts`:
+Implemented in `src/runtime/dispatch/operators/` and exported from `src/index.ts`:
 
 - Identity: `is`, `isNot`
 - Truth and hashing: `bool`, `hash`
@@ -219,7 +219,7 @@ Implemented in `src/runtime/operators.ts` and exported from `src/index.ts`:
 
 ### 4.5 Class system
 
-Implemented in `src/runtime/class.ts`:
+Implemented in `src/runtime/class/class.ts`:
 
 - `makeClass`, `instantiate`
 - `pyClass`, `setPyClass`
@@ -230,7 +230,7 @@ Implemented in `src/runtime/class.ts`:
 
 ### 4.6 Protocols
 
-Implemented in `src/runtime/protocols.ts`:
+Implemented in `src/runtime/dispatch/protocols.ts`:
 
 - Callable: `call`
 - Container: `len`, `lengthHint`, `getItem`, `setItem`, `delItem`, `contains`
@@ -243,7 +243,7 @@ Implemented in `src/runtime/protocols.ts`:
 
 ### 4.7 Builtin factories
 
-Implemented in `src/runtime/builtins.ts`:
+Implemented in `src/runtime/builtins/`:
 
 - `pyNone`, `noneType`
 - `pyBool`, `pyTrue`, `pyFalse`, `boolType`
@@ -272,11 +272,11 @@ The 81 `Slot` dunders (as symbols) are defined in `src/runtime/slots.ts`. Dispat
 
 | Subsystem file | What it dispatches |
 |----------------|--------------------|
-| `src/runtime/operators.ts` | comparisons, numerics, unary, conversions, `repr`/`str`/`format`/`bytes`, rounding hooks |
-| `src/runtime/protocols.ts` | `call`, container ops, iteration, context managers, async entrypoints, buffer wrappers |
-| `src/runtime/lookup.ts` | attribute hooks (`__getattribute__`, `__getattr__`, `__setattr__`, `__delattr__`) and descriptor `__get__`/`__set__`/`__delete__` during normal attribute access |
-| `src/runtime/class.ts` | `__new__`, `__init__` for instantiation; metaclass-ish hooks are mostly `Hook` (see next section) |
-| `src/runtime/builtins.ts` | concrete implementations for builtin wrappers (`pyInt`, …) |
+| `src/runtime/dispatch/operators/` | comparisons, numerics, unary, conversions, `repr`/`str`/`format`/`bytes`, rounding hooks |
+| `src/runtime/dispatch/protocols.ts` | `call`, container ops, iteration, context managers, async entrypoints, buffer wrappers |
+| `src/runtime/core/lookup.ts` | attribute hooks (`__getattribute__`, `__getattr__`, `__setattr__`, `__delattr__`) and descriptor `__get__`/`__set__`/`__delete__` during normal attribute access |
+| `src/runtime/class/class.ts` | `__new__`, `__init__` for instantiation; metaclass-ish hooks are mostly `Hook` (see next section) |
+| `src/runtime/builtins/` | concrete implementations for builtin wrappers (`pyInt`, …) |
 
 ### 5.1 `Slot.__del__` (`__del__`)
 
@@ -293,17 +293,17 @@ Defined in `src/runtime/slots.ts` under `Hook`. These are **not** necessarily in
 
 | Hook symbol | Intended Python meaning | pyrt dispatch location |
 |-------------|-------------------------|------------------------|
-| `bytes`, `format`, `complex` | `__bytes__`, `__format__`, `__complex__` | `src/runtime/operators.ts` |
-| `round`, `trunc`, `floor`, `ceil` | `__round__`, `__trunc__`, `__floor__`, `__ceil__` | `src/runtime/operators.ts` |
-| `dir`, `lengthHint` | `__dir__`, `__length_hint__` | `src/runtime/protocols.ts` |
-| `enter`, `exit`, `aenter`, `aexit` | context manager protocols | `src/runtime/protocols.ts` |
-| `instancecheck`, `subclasscheck` | `__instancecheck__`, `__subclasscheck__` | `src/runtime/class.ts` (`isinstance` / `issubclass`) |
-| `initSubclass`, `setName`, `prepare`, `mroEntries`, `classGetitem` | class creation / generics | `src/runtime/class.ts` |
-| `missing`, `reversed` | `__missing__`, `__reversed__` | `src/runtime/protocols.ts` |
+| `bytes`, `format`, `complex` | `__bytes__`, `__format__`, `__complex__` | `src/runtime/dispatch/operators/` |
+| `round`, `trunc`, `floor`, `ceil` | `__round__`, `__trunc__`, `__floor__`, `__ceil__` | `src/runtime/dispatch/operators/` |
+| `dir`, `lengthHint` | `__dir__`, `__length_hint__` | `src/runtime/dispatch/protocols.ts` |
+| `enter`, `exit`, `aenter`, `aexit` | context manager protocols | `src/runtime/dispatch/protocols.ts` |
+| `instancecheck`, `subclasscheck` | `__instancecheck__`, `__subclasscheck__` | `src/runtime/class/class.ts` (`isinstance` / `issubclass`) |
+| `initSubclass`, `setName`, `prepare`, `mroEntries`, `classGetitem` | class creation / generics | `src/runtime/class/class.ts` |
+| `missing`, `reversed` | `__missing__`, `__reversed__` | `src/runtime/dispatch/protocols.ts` |
 
 ---
 
-## 7. Supported: builtins shipped in `src/runtime/builtins.ts`
+## 7. Supported: builtins shipped in `src/runtime/builtins/`
 
 These are **not** CPython-identical implementations of Python builtins; they are **JS-backed approximations** with many slot methods implemented to make examples/tests work.
 
@@ -332,7 +332,7 @@ CPython reference: **\[3\]**, implementation: [`Objects/typeobject.c`](https://g
 
 ### 8.2 `hash` return normalization
 
-`hash` coerces the return value with `| 0` in `src/runtime/operators.ts`. Python’s `__hash__` rules include additional constraints (for example `hash` must be consistent with equality for hashable objects) and may use a different internal widening/narrowing strategy.
+`hash` coerces the return value with `| 0` in `src/runtime/dispatch/operators/`. Python’s `__hash__` rules include additional constraints (for example `hash` must be consistent with equality for hashable objects) and may use a different internal widening/narrowing strategy.
 
 CPython reference: data model **`__hash__`** **\[1\]**.
 
@@ -342,7 +342,7 @@ If `__bool__` returns a truthy/falsy non-boolean, pyrt raises. Python allows add
 
 ### 8.4 Numeric model: not arbitrary precision `int`
 
-`pyInt` stores a JS number (`builtins.ts`), including `| 0` truncation in the factory. This diverges from Python `int` semantics for large integers, shifts, floor division, pow with huge exponents, etc.
+`pyInt` stores a JS number (`builtins/int.ts`), including `| 0` truncation in the factory. This diverges from Python `int` semantics for large integers, shifts, floor division, pow with huge exponents, etc.
 
 ### 8.5 `dict` / `set` key identity vs Python equality
 
@@ -358,7 +358,7 @@ There is **no** `slice` object protocol (`__getitem__(slice(...))`) in pyrt’s 
 
 ### 8.8 `__missing__` integration
 
-`getItem` only consults `Hook.missing` when `__getitem__` raises **`PyKeyError`** (`src/runtime/protocols.ts`). Python’s `dict.__missing__` behavior is tied to mapping subclasses and `KeyError` propagation rules; do not assume full mapping subclass semantics.
+`getItem` only consults `Hook.missing` when `__getitem__` raises **`PyKeyError`** (`src/runtime/dispatch/protocols.ts`). Python’s `dict.__missing__` behavior is tied to mapping subclasses and `KeyError` propagation rules; do not assume full mapping subclass semantics.
 
 ### 8.9 Async protocols
 
@@ -407,7 +407,7 @@ This is intentionally exhaustive at the **category** level (listing every stdlib
 - No `raise`, `raise ... from`, exception chaining fields (`__context__`, `__cause__`).
 - No `BaseExceptionGroup` / `except*` (PEP 654 ecosystem).
 
-pyrt defines a **small** set of error classes for library signaling (`lookup.ts`), but this is not Python’s hierarchy.
+pyrt defines a **small** set of error classes for library signaling (`core/errors.ts`, re-exported from `core/lookup.ts`), but this is not Python’s hierarchy.
 
 ### 9.4 Generators and coroutines as Python objects
 
@@ -494,7 +494,7 @@ Not implemented.
 
 ### 10.12 `operator` module and `inspect` module
 
-Not implemented as libraries; some operations exist as functions (`operators.ts`, `protocols.ts`) but are not drop-in compatible with Python’s `operator` module naming or edge cases.
+Not implemented as libraries; some operations exist as functions (`dispatch/operators/`, `dispatch/protocols.ts`) but are not drop-in compatible with Python’s `operator` module naming or edge cases.
 
 ---
 
@@ -620,7 +620,7 @@ Canonical alphabetical list (81 entries; matches `SLOT_DUNDER_NAMES` / `Object.k
 
 ---
 
-## Appendix B — `Hook` symbols (22 non-slot specials)
+## Appendix B — `Hook` symbols (24 non-slot specials)
 
 Defined in [`src/runtime/slots.ts`](../src/runtime/slots.ts) under `Hook` (each maps to a dunder string via `Symbol("...")`):
 
@@ -648,6 +648,8 @@ Defined in [`src/runtime/slots.ts`](../src/runtime/slots.ts) under `Hook` (each 
 | `classGetitem` | `__class_getitem__` |
 | `missing` | `__missing__` |
 | `reversed` | `__reversed__` |
+| `matchArgs` | `__match_args__` (3.10+) |
+| `annotate` | `__annotate__` (3.14+) |
 
 ---
 
@@ -735,11 +737,11 @@ Python documents coroutine-specific behaviors beyond “has `__await__`”.
 | Public exports | `src/index.ts` |
 | Slot / hook symbol tables | `src/runtime/slots.ts` |
 | `PyObject` / `PyType` / MRO | `src/runtime/object.ts` |
-| Attribute + descriptor + `lookupSpecial` | `src/runtime/lookup.ts` |
-| Operators / comparisons / conversions / repr | `src/runtime/operators.ts` |
-| Class creation / `isinstance` / `issubclass` / `setPyClass` | `src/runtime/class.ts` |
-| Protocols (`call`, containers, iter, context, async surface) | `src/runtime/protocols.ts` |
-| Builtin wrappers (`pyInt`, …) | `src/runtime/builtins.ts` |
+| Attribute + descriptor + `lookupSpecial` | `src/runtime/core/lookup.ts` |
+| Operators / comparisons / conversions / repr | `src/runtime/dispatch/operators/` |
+| Class creation / `isinstance` / `issubclass` / `setPyClass` | `src/runtime/class/class.ts` |
+| Protocols (`call`, containers, iter, context, async surface) | `src/runtime/dispatch/protocols.ts` |
+| Builtin wrappers (`pyInt`, …) | `src/runtime/builtins/` |
 | Tests | `test/*.test.ts` |
 | Narrative examples | `examples/python-vs-js.ts` |
 

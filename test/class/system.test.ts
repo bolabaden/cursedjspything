@@ -4,7 +4,7 @@ import {
   pyClass, setPyClass, isinstance, issubclass, classGetitem,
   objectType, typeType, Slot, Hook,
   PyTypeError,
-} from "../src/index.js";
+} from "../../src/index.js";
 
 describe("makeClass", () => {
   it("creates a type with correct name and bases", () => {

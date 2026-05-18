@@ -69,6 +69,15 @@ export class PyType extends PyObject {
   /** Metaclass of this type — `type(type)`. */
   metaclass: PyType;
 
+  /** `__match_args__` tuple for pattern matching consumers (3.10+). */
+  matchArgs: readonly string[] | null;
+
+  /** `__annotations__` dict (3.14+ / typing). */
+  annotations: Map<string, unknown>;
+
+  /** Deferred `__annotate__` callable when present (3.14+). */
+  annotateFn: ((format: number) => Record<string, unknown>) | null;
+
   constructor(
     name: string,
     bases: PyType[],
@@ -87,6 +96,9 @@ export class PyType extends PyObject {
     // root `type` object and its type is itself.
     this.metaclass = metaclass ?? (this as PyType);
     this.type = this.metaclass;
+    this.matchArgs = null;
+    this.annotations = new Map();
+    this.annotateFn = null;
 
     this.mro = computeC3(this);
     Object.freeze(this.mro);

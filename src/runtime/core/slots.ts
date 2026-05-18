@@ -165,6 +165,12 @@ export const Hook = {
   // container extras
   missing:        sym("__missing__"),
   reversed:       sym("__reversed__"),
+
+  // pattern matching (3.10+)
+  matchArgs:      sym("__match_args__"),
+
+  // annotations (3.14+)
+  annotate:       sym("__annotate__"),
 } as const;
 
 // ── dunder ↔ symbol bidirectional maps ────────────────────────────────

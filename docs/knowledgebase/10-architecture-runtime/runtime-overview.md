@@ -4,15 +4,16 @@
 
 ```
 src/
-  index.ts              # Public exports
+  index.ts              # Public exports (barrel/stable + barrel/advanced)
+  barrel/               # stable vs advanced re-exports
   runtime/
-    slots.ts            # Slot (81) + Hook (22) registry
-    object.ts           # PyObject, PyType, MRO, bootstrap types
-    lookup.ts           # getAttr, setAttr, delAttr, lookupSpecial
-    operators.ts        # eq, add, rich compare, numeric, hash, …
-    class.ts            # makeClass, instantiate, isinstance, …
-    protocols.ts        # call, containers, iter, async surface, dir
-    builtins.ts         # pyNone, pyInt, pyStr, pyList, …
+    core/               # slots, object, errors, lookup
+    dispatch/           # dispatch helpers, operators/, protocols
+    class/              # makeClass, instantiate, isinstance, …
+    builtins/           # pyNone, pyInt, pyStr, … (per-type modules)
+    collections/        # dict-keys, slice
+    buffer/             # buffer protocol helpers
+    iterators/          # sequence / reversed iterators
 ```
 
 ---
@@ -54,7 +55,7 @@ Non-slot specials (class creation, `__class_getitem__`, …) live in `Hook`.
 
 ## Builtins
 
-`[REPO]` Minimal builtin types in `builtins.ts`:
+`[REPO]` Minimal builtin types in `builtins/`:
 
 - `pyNone`, `pyBool`, `pyInt` (JS number), `pyFloat`, `pyStr`
 - `pyList`, `pyTuple`, `pyDict` (Map-backed), `pySet` (Set-backed)
@@ -73,7 +74,7 @@ Not a full CPython builtins module.
 
 | Artifact | Count / note |
 |----------|----------------|
-| Vitest | 107 tests (`test/*.test.ts`) |
+| Vitest | 116+ tests (`test/core/`, `test/dispatch/`, `test/class/`, …) |
 | Examples | 39 sections in `examples/python-vs-js.ts` |
 
 ---

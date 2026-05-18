@@ -20,11 +20,12 @@
 
 | Test file | Primary module |
 |-----------|----------------|
-| `test/slots.test.ts` | `slots.ts` |
-| `test/object-model.test.ts` | `object.ts`, `lookup.ts` |
-| `test/operators.test.ts` | `operators.ts` |
-| `test/class-system.test.ts` | `class.ts` |
-| `test/protocols.test.ts` | `protocols.ts` |
+| `test/core/slots.test.ts` | `core/slots.ts` |
+| `test/core/object-model.test.ts` | `core/object.ts`, `core/lookup.ts` |
+| `test/dispatch/operators.test.ts` | `dispatch/operators/` |
+| `test/class/system.test.ts` | `class/class.ts` |
+| `test/dispatch/protocols.test.ts` | `dispatch/protocols.ts` |
+| `test/builtins/dict-keys.test.ts` | `collections/dict-keys.ts`, `builtins/dict.ts` |
 
 No dedicated `builtins.test.ts` — builtins covered via object/protocol tests.
 

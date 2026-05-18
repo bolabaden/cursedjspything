@@ -1,0 +1,101 @@
+import { PyObject, NotImplemented } from "../core/object.js";
+import { Slot } from "../core/slots.js";
+import { makeClass } from "../class/class.js";
+import { PyStopIteration } from "../core/lookup.js";
+import { nativeVal, setNative } from "./native.js";
+import { intType } from "./int.js";
+
+// ── pyTuple ───────────────────────────────────────────────────────────
+
+export const tupleType = makeClass({
+  name: "tuple",
+  dict: new Map<string | symbol, unknown>([
+    [Slot.repr, (self: PyObject) => {
+      const items = nativeVal<readonly PyObject[]>(self);
+      if (items.length === 1) {
+        const r = items[0].type.typeDict.get(Slot.repr);
+        return "(" + (typeof r === "function" ? (r as Function)(items[0]) : "<object>") + ",)";
+      }
+      return "(" + items.map((o) => {
+        const r = o.type.typeDict.get(Slot.repr);
+        return typeof r === "function" ? (r as Function)(o) : "<object>";
+      }).join(", ") + ")";
+    }],
+    [Slot.len, (self: PyObject) => nativeVal<readonly PyObject[]>(self).length],
+    [Slot.bool, (self: PyObject) => nativeVal<readonly PyObject[]>(self).length > 0],
+    [Slot.hash, (self: PyObject) => {
+      const items = nativeVal<readonly PyObject[]>(self);
+      let h = 0x345678;
+      for (const item of items) {
+        const hFn = item.type.typeDict.get(Slot.hash);
+        const ih = typeof hFn === "function" ? ((hFn as Function)(item) as number) : 0;
+        h = (Math.imul(h, 1000003) ^ ih) | 0;
+      }
+      return h;
+    }],
+    [Slot.getitem, (self: PyObject, key: unknown) => {
+      const arr = nativeVal<readonly PyObject[]>(self);
+      if (typeof key !== "number") throw new Error("TypeError: tuple indices must be integers");
+      const idx = key < 0 ? arr.length + key : key;
+      if (idx < 0 || idx >= arr.length) throw new Error("IndexError: tuple index out of range");
+      return arr[idx];
+    }],
+    [Slot.contains, (self: PyObject, value: unknown) => {
+      for (const item of nativeVal<readonly PyObject[]>(self)) {
+        if (item === value) return true;
+        if (item instanceof PyObject && value instanceof PyObject) {
+          const eqFn = item.type.typeDict.get(Slot.eq);
+          if (typeof eqFn === "function" && (eqFn as Function)(item, value) === true) return true;
+        }
+      }
+      return false;
+    }],
+    [Slot.add, (self: PyObject, other: PyObject) => {
+      if (other.type !== tupleType) return NotImplemented;
+      return pyTuple([...nativeVal<readonly PyObject[]>(self), ...nativeVal<readonly PyObject[]>(other)]);
+    }],
+    [Slot.mul, (self: PyObject, other: PyObject) => {
+      if (other.type !== intType) return NotImplemented;
+      const n = nativeVal<number>(other);
+      const src = nativeVal<readonly PyObject[]>(self);
+      const result: PyObject[] = [];
+      for (let i = 0; i < n; i++) result.push(...src);
+      return pyTuple(result);
+    }],
+    [Slot.iter, (self: PyObject) => {
+      const arr = nativeVal<readonly PyObject[]>(self);
+      let i = 0;
+      const iterType = makeClass({
+        name: "tuple_iterator",
+        dict: new Map<string | symbol, unknown>([
+          [Slot.iter, (it: PyObject) => it],
+          [Slot.next, (_it: PyObject) => {
+            if (i >= arr.length) throw new PyStopIteration();
+            return arr[i++];
+          }],
+        ]),
+      });
+      return new PyObject(iterType);
+    }],
+    [Slot.eq, (self: PyObject, other: PyObject) => {
+      if (other.type !== tupleType) return NotImplemented;
+      const a = nativeVal<readonly PyObject[]>(self);
+      const b = nativeVal<readonly PyObject[]>(other);
+      if (a.length !== b.length) return false;
+      for (let i = 0; i < a.length; i++) {
+        const eqFn = a[i].type.typeDict.get(Slot.eq);
+        if (typeof eqFn === "function") {
+          if ((eqFn as Function)(a[i], b[i]) !== true) return false;
+        } else if (a[i] !== b[i]) return false;
+      }
+      return true;
+    }],
+  ]),
+});
+
+export function pyTuple(items: PyObject[]): PyObject {
+  const obj = new PyObject(tupleType);
+  setNative(obj, Object.freeze([...items]));
+  return obj;
+}
+

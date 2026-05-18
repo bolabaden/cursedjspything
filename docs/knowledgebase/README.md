@@ -25,7 +25,7 @@ Official docs base URLs (pinned):
 |-------|------|---------|
 | 00 Intent | [00-intent/](00-intent/) | Goals, non-goals, audience |
 | 10 Architecture & runtime | [10-architecture-runtime/](10-architecture-runtime/) | pyrt design, dispatch, repo layout |
-| 20 Domain theory | [20-domain-theory/](20-domain-theory/) | CPython data model, version gates 3.9–3.14 |
+| 20 Domain theory | [20-domain-theory/](20-domain-theory/) | CPython data model, version matrix, [implementation checklist](20-domain-theory/version-gates-implementation-checklist.md) |
 | 40 Operational risk | [40-operational-risk/](40-operational-risk/) | Gaps, parity limits, JS constraints |
 | 50 Execution | [50-execution/](50-execution/) | Build, test, examples, validation ladder |
 | 90 Meta | [90-meta/](90-meta/) | Bibliography, evidence rules, repo signals, living plan |

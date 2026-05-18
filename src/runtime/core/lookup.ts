@@ -17,8 +17,24 @@
  *   never invokes __getattribute__/__getattr__.
  */
 
-import { PyObject, PyType, isNotImplemented } from "./object.js";
-import { Slot, Hook } from "./slots.js";
+import { PyObject, PyType } from "./object.js";
+import { Slot } from "./slots.js";
+import { bindIfFunction } from "../class/method.js";
+import {
+  PyAttributeError,
+  PyTypeError,
+  PyKeyError,
+  PyStopIteration,
+  PyValueError,
+} from "./errors.js";
+
+export {
+  PyAttributeError,
+  PyTypeError,
+  PyKeyError,
+  PyStopIteration,
+  PyValueError,
+} from "./errors.js";
 
 // ── helpers ───────────────────────────────────────────────────────────
 
@@ -68,10 +84,18 @@ export function lookupSpecial(
     if (getter) return getter(method, obj, obj.type) as (...args: unknown[]) => unknown;
   }
 
-  // Plain callable stored on the type.
+  // Plain callable stored on the type → bound method object.
   if (typeof method === "function") {
-    // Bind to instance (emulates unbound method becoming bound).
-    return (...args: unknown[]) => (method as Function)(obj, ...args);
+    const bound = bindIfFunction(method, obj);
+    if (bound instanceof PyObject) {
+      const callFn = lookupInMro(bound.type, Slot.call) as
+        | ((...a: unknown[]) => unknown)
+        | undefined;
+      if (callFn) {
+        return (...args: unknown[]) =>
+          (callFn as Function)(bound, ...args) as unknown;
+      }
+    }
   }
 
   return undefined;
@@ -227,43 +251,4 @@ export function defaultDelAttr(obj: PyObject, name: string | symbol): void {
     );
   }
   obj.dict.delete(name);
-}
-
-// ── error types ───────────────────────────────────────────────────────
-
-export class PyAttributeError extends Error {
-  constructor(msg: string) {
-    super(msg);
-    this.name = "AttributeError";
-  }
-}
-
-export class PyTypeError extends Error {
-  constructor(msg: string) {
-    super(msg);
-    this.name = "TypeError";
-  }
-}
-
-export class PyKeyError extends Error {
-  constructor(msg: string) {
-    super(msg);
-    this.name = "KeyError";
-  }
-}
-
-export class PyStopIteration extends Error {
-  readonly value: unknown;
-  constructor(value?: unknown) {
-    super("StopIteration");
-    this.name = "StopIteration";
-    this.value = value;
-  }
-}
-
-export class PyValueError extends Error {
-  constructor(msg: string) {
-    super(msg);
-    this.name = "ValueError";
-  }
 }

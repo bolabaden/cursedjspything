@@ -3,21 +3,33 @@
   "version": "0.1.0",
   "description": "CPython object-model runtime for JS/TS (docs 3.9–3.14, slot anchor 3.14)",
   "type": "module",
+  "sideEffects": false,
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
+  "imports": {
+    "#core/*": "./src/runtime/core/*",
+    "#dispatch/*": "./src/runtime/dispatch/*"
+  },
   "exports": {
     ".": {
       "import": "./dist/index.js",
       "types": "./dist/index.d.ts"
+    },
+    "./builtins": {
+      "import": "./dist/runtime/builtins/index.js",
+      "types": "./dist/runtime/builtins/index.d.ts"
     }
   },
   "scripts": {
     "build": "tsc",
     "test": "vitest run",
     "test:watch": "vitest",
-    "check": "tsc --noEmit"
+    "check": "tsc --noEmit",
+    "golden": "tsx scripts/golden/run.ts",
+    "examples": "tsx examples/python-vs-js.ts"
   },
   "devDependencies": {
+    "tsx": "^4.19",
     "typescript": "^5.8",
     "vitest": "^3.2"
   },

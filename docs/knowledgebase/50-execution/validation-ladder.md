@@ -20,15 +20,20 @@ Runs `tsc --noEmit`. Required before claiming compile safety.
 npm test
 ```
 
-Vitest; 107 tests across:
+Vitest; unit tests mirror `src/runtime/` layout:
 
-| File | Focus |
+| Path | Focus |
 |------|-------|
-| `test/slots.test.ts` | Registry completeness |
-| `test/object-model.test.ts` | PyObject, types, lookup, descriptors |
-| `test/operators.test.ts` | Comparisons, numeric |
-| `test/class-system.test.ts` | MRO, class creation |
-| `test/protocols.test.ts` | call, iter, async surface, builtins via protocols |
+| `test/core/slots.test.ts` | Registry completeness |
+| `test/core/object-model.test.ts` | PyObject, types, lookup, descriptors |
+| `test/dispatch/operators.test.ts` | Comparisons, numeric |
+| `test/dispatch/protocols.test.ts` | call, iter, async surface, builtins via protocols |
+| `test/class/system.test.ts` | MRO, class creation |
+| `test/class/pipeline.test.ts` | `__prepare__` / namespace merge |
+| `test/class/instantiate.test.ts` | Type `__call__` on instantiate |
+| `test/class/version-gates.test.ts` | `__match_args__`, `__annotate__`, buffer |
+| `test/builtins/dict-keys.test.ts` | Dict key eq/hash |
+| `test/collections/slice-with.test.ts` | `pySlice`, `withObject` |
 
 ---
 
@@ -56,22 +61,25 @@ After doc or slot changes:
 
 ---
 
-## L5 — CPython golden (not in repo)
-
-`[OPEN]` Recommended future harness:
+## L3b — Golden harness
 
 ```bash
-# illustrative — not implemented
-python3.14 -c "..."  # compare to pyrt helper output
+npm run golden
 ```
 
-Repeat for 3.9–3.14 only for behaviors that vary by version.
+Runs `scripts/golden/run.ts` against `scripts/golden/cases.py` and compares to `scripts/golden/expected/{version}.json` for each available Python 3.9–3.14. CI runs this after L2.
 
 ---
 
-## CI gap
+## L5 — CPython version matrix (partial)
 
-`[REPO]` No `.github/workflows` yet. Living plan tracks adding CI for L1+L2.
+`[OPEN]` Golden uses Python 3.14 (fallback 3.13) only. Repeat selected cases on 3.9–3.12 for version-specific deltas.
+
+---
+
+## CI
+
+`[REPO]` `.github/workflows/ci.yml` runs L1 + L2 + golden.
 
 ---
 
