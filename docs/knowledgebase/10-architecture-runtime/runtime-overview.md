@@ -1,0 +1,87 @@
+# Runtime overview
+
+`[REPO]` Module layout under `src/runtime/`.
+
+```
+src/
+  index.ts              # Public exports
+  runtime/
+    slots.ts            # Slot (81) + Hook (22) registry
+    object.ts           # PyObject, PyType, MRO, bootstrap types
+    lookup.ts           # getAttr, setAttr, delAttr, lookupSpecial
+    operators.ts        # eq, add, rich compare, numeric, hash, …
+    class.ts            # makeClass, instantiate, isinstance, …
+    protocols.ts        # call, containers, iter, async surface, dir
+    builtins.ts         # pyNone, pyInt, pyStr, pyList, …
+```
+
+---
+
+## Core types
+
+| Type | Role |
+|------|------|
+| `PyObject` | Instance: `type`, optional `dict`, `slotValues` for slotted dunders |
+| `PyType` | Type object: MRO, `dict`, slot table, `hookHandlers` |
+| `NotImplemented` | Sentinel for unresolved binary ops |
+
+Bootstrap: `objectType`, `typeType` — types for `object` and `type`.
+
+---
+
+## Dispatch paths
+
+```mermaid
+flowchart TD
+  A[Caller: getAttr / add / len / call] --> B{Special implicit?}
+  B -->|yes| C[lookupSpecial on type MRO]
+  B -->|no| D[getAttr descriptor chain]
+  C --> E[Invoke slotValues or type dict]
+  D --> E
+```
+
+`[SYNTH]` Special implicit operations (`lookupSpecial`) never read instance `__dict__` for dunder names — matches [OFFICIAL] 3.9–3.14 special lookup.
+
+---
+
+## Slot registry
+
+`[REPO]` `Slot` mirrors CPython 3.14 `slotdefs[]` count (`SLOTDEF_COUNT = 81`). Each slot maps to a dunder string in `SLOT_DUNDER_NAMES`.
+
+Non-slot specials (class creation, `__class_getitem__`, …) live in `Hook`.
+
+---
+
+## Builtins
+
+`[REPO]` Minimal builtin types in `builtins.ts`:
+
+- `pyNone`, `pyBool`, `pyInt` (JS number), `pyFloat`, `pyStr`
+- `pyList`, `pyTuple`, `pyDict` (Map-backed), `pySet` (Set-backed)
+
+Not a full CPython builtins module.
+
+---
+
+## Public API
+
+`[REPO]` Re-exported from `src/index.ts` — operators, protocols, class helpers, types, slot names for introspection.
+
+---
+
+## Tests & examples
+
+| Artifact | Count / note |
+|----------|----------------|
+| Vitest | 107 tests (`test/*.test.ts`) |
+| Examples | 39 sections in `examples/python-vs-js.ts` |
+
+---
+
+## Python version alignment
+
+- **Reference:** 3.9–3.14 docs (pinned URLs)
+- **Slot list anchor:** 3.14
+- **Validation:** `npm test`, `npm run check` — no multi-version CPython golden suite
+
+See [../20-domain-theory/python-version-matrix-3.9-3.14.md](../20-domain-theory/python-version-matrix-3.9-3.14.md).

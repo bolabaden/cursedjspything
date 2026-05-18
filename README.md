@@ -4,7 +4,8 @@ TypeScript library that emulates a **subset** of **CPython’s object model** (s
 
 ## Documentation
 
-- **[Compatibility matrix, gaps, and bibliography](docs/COMPATIBILITY_AND_GAPS.md)** — exhaustive list of what is supported, partial, or out of scope, with links to Python docs and CPython source.
+- **[Knowledgebase](docs/knowledgebase/README.md)** — layered docs; **Python 3.9–3.14** official references (pinned URLs); 3.14 slot inventory anchor.
+- **[Compatibility matrix, gaps, and bibliography](docs/COMPATIBILITY_AND_GAPS.md)** — exhaustive supported / partial / out-of-scope list with CPython source map.
 
 ## Quick start
 

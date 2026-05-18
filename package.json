@@ -1,7 +1,7 @@
 {
   "name": "pyrt",
   "version": "0.1.0",
-  "description": "CPython 3.14 object-model runtime for JavaScript/TypeScript",
+  "description": "CPython object-model runtime for JS/TS (docs 3.9–3.14, slot anchor 3.14)",
   "type": "module",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
