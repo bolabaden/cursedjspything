@@ -65,16 +65,12 @@ const CMP_PAIRS: Record<string, CmpSlotPair> = {
   lt: [Slot.lt, Slot.gt],
   le: [Slot.le, Slot.ge],
   eq: [Slot.eq, Slot.eq],
-  ne: [Slot.ne, Slot.ne],
+  // ne: handled only by richCompareNe (object.__ne__ semantics differ)
   gt: [Slot.gt, Slot.lt],
   ge: [Slot.ge, Slot.le],
 };
 
-function slotDefinedOnType(type: PyType, slot: symbol): boolean {
-  return type.typeDict.has(slot);
-}
-
-/** CPython object.__ne__: __eq__ first unless the type defines its own __ne__. */
+/** CPython object.__ne__: __eq__ first only when no __ne__ exists in the MRO. */
 function richCompareNe(a: PyObject, b: PyObject): unknown {
   const aType = a.type;
   const bType = b.type;
@@ -89,13 +85,12 @@ function richCompareNe(a: PyObject, b: PyObject): unknown {
     }
   }
 
-  if (slotDefinedOnType(aType, Slot.ne)) {
-    const fNe = lookupSpecial(a, Slot.ne);
-    if (fNe) {
-      const res = fNe(b);
-      if (!isNotImplemented(res)) return res;
-    }
+  const fNe = lookupSpecial(a, Slot.ne);
+  if (fNe) {
+    const res = fNe(b);
+    if (!isNotImplemented(res)) return res;
   } else {
+    // No __ne__ in MRO — CPython object.__ne__ probes __eq__ first.
     const fEq = lookupSpecial(a, Slot.eq);
     if (fEq) {
       const res = fEq(b);
