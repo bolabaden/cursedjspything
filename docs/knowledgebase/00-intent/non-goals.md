@@ -35,7 +35,7 @@ Explicit out-of-scope items. `[SYNTH]` unless noted `[REPO]`.
 
 ## Repository hygiene (not product, but noted)
 
-`[REPO]` As of KB creation: no `LICENSE`, `.gitignore`, or CI in repo — tracked in [../LIVING-PLAN.md](../LIVING-PLAN.md).
+`[REPO]` `LICENSE`, `.gitignore`, and `.github/workflows/ci.yml` are present; golden CI currently pins one Python version per job unless matrix is expanded.
 
 ## Where detail lives
 

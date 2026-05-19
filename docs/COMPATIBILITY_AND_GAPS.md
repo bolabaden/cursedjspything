@@ -350,11 +350,11 @@ Python dict keys use **rich equality** + **consistent hashing** rules. `pyDict` 
 
 ### 8.6 `list` / `tuple` containment and equality paths
 
-Some containment paths may use `===` fast paths before consulting `__eq__` depending on the builtin implementation. This is not guaranteed to match every CPython fast/slow path.
+`list` / `tuple` `__contains__` and the `contains()` protocol fallback use `eq()` for `PyObject` pairs (`src/runtime/builtins/list.ts`, `tuple.ts`, `dispatch/protocols.ts`). Cross-type builtin delegation may still return `NotImplemented` where CPython coerces further.
 
 ### 8.7 Slicing
 
-There is **no** `slice` object protocol (`__getitem__(slice(...))`) in pyrt’s builtins as of this writing.
+`pySlice` and `sliceIndices` live in `src/runtime/collections/slice.ts`. `getItem` passes a slice object to `__getitem__` once. `pyList` / `pyTuple` implement `__getitem__(slice)` and return a new list/tuple; other types must implement slice subscripts themselves.
 
 ### 8.8 `__missing__` integration
 

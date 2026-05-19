@@ -24,10 +24,11 @@ Pinned reference (3.14): https://docs.python.org/3.14/reference/datamodel.html#o
 
 Properties:
 
-- Walk **MRO** of the object's type
+- Walk **MRO** of the object's class (`obj.type`), or the type's **own** MRO when `obj` is a `PyType`
 - Read from type dict / slot machinery only
 - **Skip** instance dict for dunder name
 - Does not route through `__getattribute__`
+- Binds descriptors, plain functions (`MethodType`), and callable `PyObject`s with `__call__`
 
 Pinned (3.14): https://docs.python.org/3.14/reference/datamodel.html#special-lookup
 

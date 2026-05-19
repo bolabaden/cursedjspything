@@ -4,6 +4,8 @@ import { makeClass } from "../class/class.js";
 import { PyStopIteration } from "../core/lookup.js";
 import { nativeVal, setNative } from "./native.js";
 import { intType } from "./int.js";
+import { isSlice, sliceFields, sliceIndices } from "../collections/slice.js";
+import { eq } from "../dispatch/operators/compare.js";
 
 // ── pyTuple ───────────────────────────────────────────────────────────
 
@@ -35,6 +37,11 @@ export const tupleType = makeClass({
     }],
     [Slot.getitem, (self: PyObject, key: unknown) => {
       const arr = nativeVal<readonly PyObject[]>(self);
+      if (isSlice(key)) {
+        const { start, stop, step } = sliceFields(key);
+        const indices = sliceIndices(arr.length, start, stop, step);
+        return pyTuple(indices.map((i) => arr[i]));
+      }
       if (typeof key !== "number") throw new Error("TypeError: tuple indices must be integers");
       const idx = key < 0 ? arr.length + key : key;
       if (idx < 0 || idx >= arr.length) throw new Error("IndexError: tuple index out of range");
@@ -42,10 +49,10 @@ export const tupleType = makeClass({
     }],
     [Slot.contains, (self: PyObject, value: unknown) => {
       for (const item of nativeVal<readonly PyObject[]>(self)) {
-        if (item === value) return true;
         if (item instanceof PyObject && value instanceof PyObject) {
-          const eqFn = item.type.typeDict.get(Slot.eq);
-          if (typeof eqFn === "function" && (eqFn as Function)(item, value) === true) return true;
+          if (eq(item, value)) return true;
+        } else if (item === value) {
+          return true;
         }
       }
       return false;

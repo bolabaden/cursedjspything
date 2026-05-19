@@ -205,17 +205,21 @@ export function instantiate(type: PyType, ...args: unknown[]): PyObject {
     if (result instanceof PyObject) return result;
   }
 
-  const newFn = lookupInMro(type, Slot.new);
+  const newFn = lookupSpecial(type, Slot.new);
   let obj: PyObject;
-  if (typeof newFn === "function") {
-    obj = (newFn as Function)(type, ...args) as PyObject;
+  if (newFn) {
+    const result = newFn(...args);
+    if (!(result instanceof PyObject)) {
+      throw new PyTypeError("__new__ must return a PyObject instance");
+    }
+    obj = result;
   } else {
     obj = new PyObject(type);
   }
 
-  const initFn = lookupInMro(type, Slot.init);
-  if (typeof initFn === "function") {
-    (initFn as Function)(obj, ...args);
+  const initFn = lookupSpecial(obj, Slot.init);
+  if (initFn) {
+    initFn(...args);
   }
 
   return obj;

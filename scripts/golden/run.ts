@@ -117,7 +117,8 @@ function buildPyrtCases(pythonVersion: string): Record<string, unknown> {
 
   const dInst = instantiate(D);
   const list = pyList([pyInt(0), pyInt(1), pyInt(2)]);
-  const sliced = getItem(list, pySlice(1, 3, null)) as unknown[];
+  const sliced = getItem(list, pySlice(1, 3, null)) as PyObject;
+  const slicedItems = unwrap<PyObject[]>(sliced);
 
   const cases: Record<string, unknown> = {
     python: pythonVersion,
@@ -125,9 +126,7 @@ function buildPyrtCases(pythonVersion: string): Record<string, unknown> {
     isinstance_D: isinstance(dInst, A),
     issubclass_DC: issubclass(D, C),
     rich_eq_int: eq(pyInt(1), pyInt(1)) === true,
-    slice_list: sliced.map((v) =>
-      v && typeof v === "object" ? unwrap<number>(v as never) : v,
-    ),
+    slice_list: slicedItems.map((v) => unwrap<number>(v)),
   };
 
   if (major > 3 || (major === 3 && minor >= 10)) {

@@ -12,7 +12,7 @@ import {
   PyStopIteration,
 } from "../core/errors.js";
 import { callSlotOrThrow, lengthOf } from "./dispatch.js";
-import { isSlice, sliceFields, sliceIndices } from "../collections/slice.js";
+import { eq } from "./operators/compare.js";
 import { attachBufferView, type PyBufferView } from "../buffer/buffer.js";
 import { makeSequenceIterator } from "../iterators/sequence-iterator.js";
 import { makeReversedIterator } from "../iterators/reversed-iterator.js";
@@ -48,12 +48,6 @@ export function getItem(obj: PyObject, key: unknown): unknown {
   const fn = lookupSpecial(obj, Slot.getitem);
   if (!fn) {
     throw new PyTypeError(`'${obj.type.name}' object is not subscriptable`);
-  }
-  if (isSlice(key)) {
-    const { start, stop, step } = sliceFields(key);
-    const length = len(obj);
-    const indices = sliceIndices(length, start, stop, step);
-    return indices.map((i) => fn(i));
   }
   try {
     return fn(key);
@@ -92,7 +86,11 @@ export function contains(obj: PyObject, value: unknown): boolean {
   while (true) {
     try {
       const item = next(it);
-      if (item === value) return true;
+      if (item instanceof PyObject && value instanceof PyObject) {
+        if (eq(item, value)) return true;
+      } else if (item === value) {
+        return true;
+      }
     } catch (e) {
       if (e instanceof PyStopIteration) return false;
       throw e;

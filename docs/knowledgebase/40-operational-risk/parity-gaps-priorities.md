@@ -18,10 +18,10 @@
 
 | # | Gap | `[REPO]` evidence | CPython expectation |
 |---|-----|-------------------|---------------------|
-| 1 | **`contains` fallback uses identity** | `protocols.ts` (`item === value`); `builtins/list.ts`, `tuple.ts` | Membership uses equality (`PyObject_RichCompareBool` / `==`) |
-| 2 | **Slice via `getItem` decomposes indices** | `protocols.ts` expands `pySlice` into repeated `__getitem__(int)` | `__getitem__(slice)` receives one slice object |
-| 3 | **`lookupSpecial` ignores non-function callables** | `lookup.ts` returns `undefined` if MRO value is `PyObject` without `__get__` | Callable objects with `__call__` can implement specials |
-| 4 | **`instantiate` uses `lookupInMro` not `lookupSpecial`** | `class/class.ts` | `__new__` / `__init__` binding rules differ for descriptors |
+| 1 | **`contains` on types without `__contains__`** | Fixed in `protocols.ts`, `list.ts`, `tuple.ts` via `eq()` | Membership uses equality |
+| 2 | **Slice via `getItem`** | Fixed: `__getitem__(slice)` on list/tuple; `getItem` passes slice through | One slice object per subscript |
+| 3 | **`lookupSpecial` and exotic callables** | `lookup.ts` supports descriptor `__get__`, plain `function`, and `PyObject` with `__call__` | Full CPython callable-object edge cases may still differ |
+| 4 | **`instantiate` / `makeClass`** | `instantiate` uses `lookupSpecial` for `__new__`/`__init__`; `makeClass` still ≠ full `type.__call__` | Full metaclass pipeline |
 | 5 | **Rich compare / `NotImplemented` edge cases** | Some tests in `test/dispatch/operators.test.ts`; not golden-tested | Full ordering when both sides return `NotImplemented` |
 | 6 | **`hash` coercion `\| 0`** | `dispatch/operators/compare.ts` | Integer hash semantics and `hash` consistent with `eq` |
 | 7 | **`__bool__` must return JS boolean** | `compare.ts` | CPython accepts truthy objects in some paths; stricter here |
@@ -38,7 +38,7 @@
 | `__match_args__` | `[REPO]` Partial | Stored + `getMatchArgs()`; **no** `match`/`case` VM |
 | `__buffer__` / PEP 688 | `[REPO]` Partial | `wrapBuffer`, minimal view; not `memoryview` / full lifecycle |
 | `__annotate__` (3.14) | `[REPO]` Partial | `getAnnotations()` on demand; not PEP 649 evaluation timing |
-| Bound methods | `[REPO]` Partial | `class/method.ts` + `lookupSpecial` for plain `function` only |
+| Bound methods | `[REPO]` Partial | `class/method.ts` + `lookupSpecial` for plain `function` and descriptor binding |
 | `pyDict` / `pySet` | `[REPO]` Partial | PyObject keys use `dict-keys.ts`; JS primitives use `Map`/`Set` identity |
 | `pyInt` | `[REPO]` Partial | JS `number`; no arbitrary precision |
 | Async protocols | `[REPO]` Partial | Hooks return `Promise`; not coroutine objects |

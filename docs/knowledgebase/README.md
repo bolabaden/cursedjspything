@@ -2,6 +2,8 @@
 
 Layered, evidence-first documentation for the **pyrt** project (CPython object-model runtime in TypeScript).
 
+**Start here on GitHub:** [../../README.md](../../README.md) — what pyrt is, how dispatch works, quick start, parity honesty.
+
 ## Python version policy (pinned)
 
 | Role | Versions | Document |

@@ -38,9 +38,8 @@ This page is the KB entry point for risk and scope. Python references use **pinn
 | `pyDict` / `pySet` | `Map` / `Set` semantics |
 | Async protocols | Surface only; no real event loop |
 | Buffer / PEP 688 | Minimal `wrapBuffer` / `getBuffer`; not full PEP 3118 |
-| `contains` fallback | Identity (`===`) instead of `eq()` when no `__contains__` |
-| Slice in `getItem` | Expands to integer indices; not single `__getitem__(slice)` |
-| `lookupSpecial` | Plain `function` + descriptors only; not arbitrary `__call__` objects |
+| `makeClass` / `instantiate` | Subset of `type.__call__`; `instantiate` uses `lookupSpecial` for `__new__`/`__init__` |
+| `pyInt` | JS `number`, not arbitrary precision |
 | `Proxy` interop | Attribute subset only |
 
 ---

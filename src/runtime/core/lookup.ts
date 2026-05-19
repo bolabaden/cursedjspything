@@ -73,15 +73,27 @@ export function lookupSpecial(
   obj: PyObject,
   slot: symbol,
 ): ((...args: unknown[]) => unknown) | undefined {
-  const method = lookupInMro(obj.type, slot);
+  // Instances: search the class MRO. Types: search the type's own MRO (not metaclass).
+  const ownerType = obj instanceof PyType ? obj : obj.type;
+  const method = lookupInMro(ownerType, slot);
   if (method === undefined) return undefined;
 
-  // If the found value is a descriptor, invoke __get__ to bind it.
-  if (method instanceof PyObject && hasGet(method)) {
-    const getter = lookupInMro(method.type, Slot.get) as
+  if (method instanceof PyObject) {
+    // Descriptor: invoke __get__ to bind.
+    if (hasGet(method)) {
+      const getter = lookupInMro(method.type, Slot.get) as
+        | ((...a: unknown[]) => unknown)
+        | undefined;
+      if (getter) return getter(method, obj, obj.type) as (...args: unknown[]) => unknown;
+    }
+    // Callable PyObject on the type (tp_call, no __get__).
+    const typeCall = lookupInMro(method.type, Slot.call) as
       | ((...a: unknown[]) => unknown)
       | undefined;
-    if (getter) return getter(method, obj, obj.type) as (...args: unknown[]) => unknown;
+    if (typeof typeCall === "function") {
+      return (...args: unknown[]) => (typeCall as Function)(method, obj, ...args);
+    }
+    return undefined;
   }
 
   // Plain callable stored on the type → bound method object.

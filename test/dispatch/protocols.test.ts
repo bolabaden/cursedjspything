@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 import {
-  PyObject, makeClass, Slot, Hook,
+  PyObject, makeClass, objectType, Slot, Hook,
   call, len, lengthHint, getItem, setItem, delItem, contains,
   iter, next, reversed,
   enter, exit, aenter, aexit,
@@ -59,6 +59,40 @@ describe("container protocols", () => {
     const lst = pyList([pyInt(1), pyInt(2), pyInt(3)]);
     delItem(lst, 1);
     expect(len(lst)).toBe(2);
+  });
+
+  it("contains fallback uses eq not identity", () => {
+    const Box = makeClass({
+      name: "Box",
+      bases: [objectType],
+      dict: new Map([
+        [
+          Slot.eq,
+          (self: PyObject, other: PyObject) =>
+            self.dict.get("v") === other.dict.get("v"),
+        ],
+        [Slot.iter, () => {
+          const items = [new PyObject(Box), new PyObject(Box)];
+          items[0].dict.set("v", 1);
+          items[1].dict.set("v", 1);
+          let i = 0;
+          const It = makeClass({
+            name: "it",
+            dict: new Map([
+              [Slot.next, () => {
+                if (i >= items.length) throw new PyStopIteration();
+                return items[i++];
+              }],
+            ]),
+          });
+          return new PyObject(It);
+        }],
+      ]),
+    });
+    const needle = new PyObject(Box);
+    needle.dict.set("v", 1);
+    const seq = new PyObject(Box);
+    expect(contains(seq, needle)).toBe(true);
   });
 
   it("contains on list", () => {

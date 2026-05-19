@@ -6,6 +6,7 @@ import {
   pyInt,
   pySlice,
   getItem,
+  len,
   withObject,
   PyObject,
 } from "../../src/index.js";
@@ -14,8 +15,8 @@ import { Hook } from "../../src/runtime/core/slots.js";
 describe("slice", () => {
   it("supports slice subscript via getItem", () => {
     const list = pyList([pyInt(0), pyInt(1), pyInt(2)]);
-    const part = getItem(list, pySlice(1, 3, null)) as PyObject[];
-    expect(part.length).toBe(2);
+    const part = getItem(list, pySlice(1, 3, null)) as PyObject;
+    expect(len(part)).toBe(2);
   });
 });
 

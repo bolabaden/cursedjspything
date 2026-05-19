@@ -13,23 +13,23 @@ Maintain an evidence-backed knowledgebase and a honest compatibility contract: w
 
 ---
 
-## Delta update (2026-05-18, parity gaps pass)
+## Delta update (2026-05-18, Tier-1 parity + docs)
 
 ### Landed
 
-- [REPO] Parity gap inventory: `docs/knowledgebase/40-operational-risk/parity-gaps-priorities.md` (Tier 1–3, verification gaps).
-- [REPO] `compatibility-summary.md` corrected for `__match_args__` (metadata only), slice/contains/`lookupSpecial` partial rows.
+- [REPO] Tier-1 parity: `contains` → `eq()`; slice `__getitem__(slice)` on list/tuple; `lookupSpecial` for callable `PyObject`; `instantiate` uses `lookupSpecial` for `__new__`/`__init__`.
+- [REPO] `STRATEGY.md`, README refresh, COMPATIBILITY §8.6–8.7 updated; CI golden matrix 3.10 / 3.12 / 3.14.
 
 ### Partial
 
-- [SYNTH] Name coverage (81 slots) is strong; semantic parity gaps remain (identity `contains`, slice decomposition, callable lookup).
-- [REPO] Golden + unit tests prove a thin slice (~9 golden checks, 118 tests); many operators untested against CPython.
+- [REPO] Golden runs all interpreters on host in one `npm run golden` invocation; CI matrix runs one Python per job.
+- [SYNTH] `makeClass` still ≠ full `type.__call__`; `pyInt` remains JS number.
 
 ### Next
 
-1. Tier-1 parity fixes: `contains` → `eq()`, `getItem(slice)` → single `__getitem__(slice)`, broaden `lookupSpecial` for `__call__` PyObjects.
-2. Expand golden harness + CI multi-Python matrix.
-3. Examples + Tier-3 roadmap (VM, import) unchanged.
+1. Golden cases for `NotImplemented` / rich compare; expand `examples/python-vs-js.ts`.
+2. Remaining Tier-1: hash/bool strictness, builtin cross-type delegation.
+3. Tier-3 roadmap (VM, import) unchanged.
 
 ---
 

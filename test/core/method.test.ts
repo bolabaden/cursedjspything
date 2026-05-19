@@ -34,6 +34,26 @@ describe("bound method (MethodType shape)", () => {
     expect(callFn(2)).toBe(3);
   });
 
+  it("lookupSpecial invokes callable PyObject on type via __call__", () => {
+    const Callable = makeClass({
+      name: "Callable",
+      bases: [objectType],
+      dict: new Map([
+        [Slot.call, (_self: PyObject, inst: PyObject) => inst.dict.get("n")],
+      ]),
+    });
+    const C = makeClass({
+      name: "C3",
+      bases: [objectType],
+      dict: new Map([[Slot.len, new PyObject(Callable)]]),
+    });
+    const inst = new PyObject(C);
+    inst.dict.set("n", 99);
+    const fn = lookupSpecial(inst, Slot.len);
+    expect(fn).toBeDefined();
+    expect(fn!()).toBe(99);
+  });
+
   it("lookupSpecial binds plain functions as method objects", () => {
     const C = makeClass({
       name: "C2",
