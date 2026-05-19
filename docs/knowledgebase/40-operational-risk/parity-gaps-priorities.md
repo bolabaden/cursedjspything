@@ -22,10 +22,10 @@
 | 2 | **Slice via `getItem`** | Fixed: `__getitem__(slice)` on list/tuple; `getItem` passes slice through | One slice object per subscript |
 | 3 | **`lookupSpecial` and exotic callables** | `lookup.ts` supports descriptor `__get__`, plain `function`, and `PyObject` with `__call__` | Full CPython callable-object edge cases may still differ |
 | 4 | **`instantiate` / `makeClass`** | `instantiate` uses `lookupSpecial` for `__new__`/`__init__`; `makeClass` still ≠ full `type.__call__` | Full metaclass pipeline |
-| 5 | **Rich compare / `NotImplemented` edge cases** | Golden `rich_lt_reflected`, `rich_lt_both_not_impl_raises`; Vitest ordering/`eq` cases | Exotic MRO/reflected chains beyond golden fixtures |
+| 5 | **Rich compare / `NotImplemented` edge cases** | Golden `rich_lt_reflected`, `rich_lt_both_not_impl_raises`; `richCompareNe` + `test/cpython-derived/compare-ne.test.ts`; Vitest ordering/`eq` cases | Exotic MRO/reflected chains beyond golden fixtures |
 | 6 | **`hash` coercion `\| 0`** | `compare.ts`; Vitest `__hash__` type check | Full integer hash tower / `hash`∘`eq` invariants |
 | 7 | **`__bool__` must return JS boolean** | `compare.ts`; Vitest non-boolean `__bool__` | CPython legacy truthy `__bool__` paths |
-| 8 | **Builtin cross-type ops return `NotImplemented`** | `builtins/*.ts` type guards; list/tuple `__eq__` uses `eq()` per element | CPython may delegate or coerce further |
+| 8 | **Builtin cross-type ops return `NotImplemented`** | `builtins/*.ts` type guards; list/tuple `__eq__` uses `eq()` per element (`list-eq.test.ts`, `tuple-eq.test.ts`) | CPython may delegate or coerce further |
 | 9 | **`makeClass` ≠ `type.__call__`** | `class/class.ts`, COMPATIBILITY §8.1 | Metaclass `__new__`, full creation protocol |
 | 10 | **Golden harness is thin** | `scripts/golden/` ~11 checks/version; CI matrix 3.10/3.12/3.14 | Broader protocol proof across versions |
 
@@ -61,7 +61,7 @@
 
 ## Verification gaps
 
-`[REPO]` **129** Vitest tests; many exported operators lack dedicated tests (`matmul`, `bytes`, `withObjectAsync`, etc.).
+`[REPO]` **142** Vitest tests (includes `test/cpython-derived/*`, `list-eq`, `tuple-eq`); many exported operators still lack dedicated tests (`matmul`, `bytes`, `withObjectAsync`, etc.).
 
 `[REPO]` CI golden matrix runs Python **3.10, 3.12, and 3.14** (one version per job). Local `npm run golden` may exercise all interpreters on PATH (3.9–3.14).
 

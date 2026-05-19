@@ -126,6 +126,37 @@ describe("cpython-derived test_compare ne delegation", () => {
     expect(calls).toEqual(["Base.__ne__"]);
   });
 
+  it("ne_reverse_subclass: Derived.__ne__ NotImplemented then Base.__eq__", () => {
+    const calls: string[] = [];
+    const Base = makeClass({
+      name: "Base",
+      dict: new Map([
+        [
+          Slot.eq,
+          () => {
+            calls.push("Base.__eq__");
+            return true;
+          },
+        ],
+      ]),
+    });
+    const Derived = makeClass({
+      name: "Derived",
+      bases: [Base],
+      dict: new Map([
+        [
+          Slot.ne,
+          () => {
+            calls.push("Derived.__ne__");
+            return NotImplemented;
+          },
+        ],
+      ]),
+    });
+    expect(ne(new PyObject(Derived), new PyObject(Base))).toBe(false);
+    expect(calls).toEqual(["Derived.__ne__", "Base.__eq__"]);
+  });
+
   it("ne_low_priority: subclass __ne__ before base __eq__", () => {
     const calls: string[] = [];
     const Base = makeClass({

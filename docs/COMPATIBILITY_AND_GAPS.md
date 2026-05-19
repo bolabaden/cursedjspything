@@ -358,7 +358,7 @@ Python dict keys use **rich equality** + **consistent hashing** rules. `pyDict` 
 
 ### 8.8 Rich compare / `NotImplemented`
 
-`richCompare` in `src/runtime/dispatch/operators/compare.ts` tries forward then reflected special methods and falls back to identity for `eq`/`ne`. Golden `rich_lt_reflected` checks `1 < Rev()` when `int.__lt__` returns `NotImplemented` and `Rev.__gt__` returns `True`. Golden `rich_lt_both_not_impl_raises` checks that `lt` between two `Incomparable` instances (both ordering ops return `NotImplemented`) raises `TypeError`, as in CPython. Vitest covers non-boolean `__bool__`, non-integer `__hash__`, and both-sides `NotImplemented` ordering.
+`richCompare` in `src/runtime/dispatch/operators/compare.ts` tries forward then reflected special methods and falls back to identity for `eq`. `!=` uses `richCompareNe` (`tryNeSide`): subclass `__ne__` first, then each operand’s MRO `__ne__` or `object.__ne__` (`__eq__` then negate when no `__ne__` in MRO). Golden `rich_lt_reflected` checks `1 < Rev()` when `int.__lt__` returns `NotImplemented` and `Rev.__gt__` returns `True`. Golden `rich_lt_both_not_impl_raises` checks that `lt` between two `Incomparable` instances (both ordering ops return `NotImplemented`) raises `TypeError`, as in CPython. Vitest + `test/cpython-derived/compare-ne.test.ts` cover `!=` delegation; non-boolean `__bool__`, non-integer `__hash__`, and both-sides `NotImplemented` ordering.
 
 ### 8.9 `__missing__` integration
 

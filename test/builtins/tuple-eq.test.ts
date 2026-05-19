@@ -5,13 +5,13 @@ import {
   Slot,
   NotImplemented,
   eq,
-  pyList,
+  pyTuple,
   pyInt,
 } from "../../src/index.js";
 
-describe("list __eq__", () => {
+describe("tuple __eq__", () => {
   it("cross-type rhs falls through to identity (false)", () => {
-    const left = pyList([pyInt(1)]);
+    const left = pyTuple([pyInt(1)]);
     expect(eq(left, pyInt(1))).toBe(false);
   });
 
@@ -24,14 +24,14 @@ describe("list __eq__", () => {
     });
     const w1 = new PyObject(Weird);
     const w2 = new PyObject(Weird);
-    expect(eq(pyList([w1]), pyList([w2]))).toBe(false);
+    expect(eq(pyTuple([w1]), pyTuple([w2]))).toBe(false);
     const w = new PyObject(Weird);
-    expect(eq(pyList([w]), pyList([w]))).toBe(true);
+    expect(eq(pyTuple([w]), pyTuple([w]))).toBe(true);
   });
 
-  it("compares equal lists with matching elements", () => {
-    expect(eq(pyList([pyInt(1), pyInt(2)]), pyList([pyInt(1), pyInt(2)]))).toBe(
-      true,
-    );
+  it("compares equal tuples with matching elements", () => {
+    expect(
+      eq(pyTuple([pyInt(1), pyInt(2)]), pyTuple([pyInt(1), pyInt(2)])),
+    ).toBe(true);
   });
 });

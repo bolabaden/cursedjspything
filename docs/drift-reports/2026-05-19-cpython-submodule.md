@@ -21,7 +21,7 @@
 ## Drift Report
 
 - **Surface:** Test count in KB  
-- **Observed:** 129 Vitest tests after tier-1 continuation  
+- **Observed:** 142 Vitest tests after tier-1 continuation + ne/tuple coverage  
 - **Claimed:** `parity-gaps-priorities.md` previously cited 118  
 - **Severity:** low  
 - **Remediation:** Updated in tier-1 docs pass; refresh after cpython-derived tests land  

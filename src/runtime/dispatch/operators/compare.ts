@@ -70,30 +70,16 @@ const CMP_PAIRS: Record<string, CmpSlotPair> = {
   ge: [Slot.ge, Slot.le],
 };
 
-/** CPython object.__ne__: __eq__ first only when no __ne__ exists in the MRO. */
-function richCompareNe(a: PyObject, b: PyObject): unknown {
-  const aType = a.type;
-  const bType = b.type;
-  const reflectSubclassFirst =
-    aType !== bType && bType.mro.includes(aType);
-
-  if (reflectSubclassFirst) {
-    const rFn = lookupSpecial(b, Slot.ne);
-    if (rFn) {
-      const res = rFn(a);
-      if (!isNotImplemented(res)) return res;
-    }
-  }
-
-  const fNe = lookupSpecial(a, Slot.ne);
+/** One operand's `!=` probe: MRO `__ne__`, else object.__ne__ (`__eq__` then negate). */
+function tryNeSide(self: PyObject, other: PyObject): unknown | undefined {
+  const fNe = lookupSpecial(self, Slot.ne);
   if (fNe) {
-    const res = fNe(b);
+    const res = fNe(other);
     if (!isNotImplemented(res)) return res;
   } else {
-    // No __ne__ in MRO — CPython object.__ne__ probes __eq__ first.
-    const fEq = lookupSpecial(a, Slot.eq);
+    const fEq = lookupSpecial(self, Slot.eq);
     if (fEq) {
-      const res = fEq(b);
+      const res = fEq(other);
       if (!isNotImplemented(res)) {
         if (typeof res !== "boolean") {
           throw new PyTypeError("__eq__ should return bool or NotImplemented");
@@ -102,13 +88,27 @@ function richCompareNe(a: PyObject, b: PyObject): unknown {
       }
     }
   }
+  return undefined;
+}
 
-  if (!reflectSubclassFirst) {
-    const rFn = lookupSpecial(b, Slot.ne);
-    if (rFn) {
-      const res = rFn(a);
-      if (!isNotImplemented(res)) return res;
-    }
+/** CPython `!=`: subclass `__ne__` first, then each side's `__ne__` / object.__ne__ delegation. */
+function richCompareNe(a: PyObject, b: PyObject): unknown {
+  const aType = a.type;
+  const bType = b.type;
+  const checkedReflectedFirst =
+    aType !== bType && bType.mro.includes(aType);
+
+  if (checkedReflectedFirst) {
+    const res = tryNeSide(b, a);
+    if (res !== undefined) return res;
+  }
+
+  const forward = tryNeSide(a, b);
+  if (forward !== undefined) return forward;
+
+  if (!checkedReflectedFirst) {
+    const res = tryNeSide(b, a);
+    if (res !== undefined) return res;
   }
 
   return isNot(a, b);

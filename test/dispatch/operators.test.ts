@@ -242,6 +242,7 @@ describe("reflected ops with NotImplemented", () => {
   });
 
   it("lt raises TypeError when both sides return NotImplemented", () => {
+    // golden:rich_lt_both_not_impl — keep in sync with scripts/golden/cases.py
     const Incomparable = makeClass({
       name: "Incomparable",
       dict: new Map<string | symbol, unknown>([
