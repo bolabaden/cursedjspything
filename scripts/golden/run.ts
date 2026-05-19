@@ -14,6 +14,7 @@ import {
   isinstance,
   issubclass,
   eq,
+  lt,
   pyInt,
   getMatchArgs,
   getAnnotations,
@@ -115,7 +116,17 @@ function buildPyrtCases(pythonVersion: string): Record<string, unknown> {
     ]),
   });
 
+  // golden:rich_lt_reflected — keep Rev/__gt__ in sync with scripts/golden/cases.py
+  const Rev = makeClass({
+    name: "Rev",
+    bases: [objectType],
+    dict: new Map([
+      [Slot.gt, () => true],
+    ]),
+  });
+
   const dInst = instantiate(D);
+  const revInst = instantiate(Rev);
   const list = pyList([pyInt(0), pyInt(1), pyInt(2)]);
   const sliced = getItem(list, pySlice(1, 3, null)) as PyObject;
   const slicedItems = unwrap<PyObject[]>(sliced);
@@ -126,6 +137,7 @@ function buildPyrtCases(pythonVersion: string): Record<string, unknown> {
     isinstance_D: isinstance(dInst, A),
     issubclass_DC: issubclass(D, C),
     rich_eq_int: eq(pyInt(1), pyInt(1)) === true,
+    rich_lt_reflected: lt(pyInt(1), revInst) === true,
     slice_list: slicedItems.map((v) => unwrap<number>(v)),
   };
 

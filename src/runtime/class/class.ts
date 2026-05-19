@@ -199,9 +199,10 @@ export function makeClass(opts: MakeClassOpts): PyType {
 }
 
 export function instantiate(type: PyType, ...args: unknown[]): PyObject {
-  const typeCall = type.typeDict.get(Slot.call);
-  if (typeof typeCall === "function") {
-    const result = (typeCall as Function)(...args);
+  // CPython: type(cls).__call__(cls, *args) — not instance __call__ from the class body.
+  const metaCall = lookupSpecial(type.type, Slot.call);
+  if (typeof metaCall === "function") {
+    const result = metaCall(type, ...args);
     if (result instanceof PyObject) return result;
   }
 

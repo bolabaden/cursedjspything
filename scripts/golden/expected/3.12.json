@@ -1,0 +1,25 @@
+{
+    "python": "3.12",
+    "mro_D": [
+        "D",
+        "B",
+        "C",
+        "A",
+        "object"
+    ],
+    "isinstance_D": true,
+    "issubclass_DC": true,
+    "rich_eq_int": true,
+    "rich_lt_reflected": true,
+    "slice_list": [
+        1,
+        2
+    ],
+    "match_args": [
+        "x",
+        "y"
+    ],
+    "buffer_readonly": true,
+    "buffer_len": 4,
+    "annotate_x": null
+}
