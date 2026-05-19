@@ -41,7 +41,7 @@ Detail: [docs/COMPATIBILITY_AND_GAPS.md](docs/COMPATIBILITY_AND_GAPS.md) · [doc
    - **Implicit specials** (`lookupSpecial`) → type MRO only; binds plain functions as `MethodType`-shaped objects (`bindMethod`)
 2. **Explicit operators in JS** — JavaScript has no user-defined `+`; pyrt exports `add`, `eq`, `getItem`, etc. from `src/barrel/stable.ts`
 3. **Registry-first** — all CPython 3.14 slot names live in `Slot` + non-slot specials in `Hook` (`src/runtime/core/slots.ts`; see `SLOTDEF_COUNT`); dispatch lives in `dispatch/operators/` and `dispatch/protocols.ts`
-4. **Evidence-backed parity** — Vitest unit tests + optional `npm run golden` against installed CPython interpreters (version-gated cases in `scripts/golden/cases.py`)
+4. **Evidence-backed parity** — Vitest unit tests + optional `npm run golden` against installed CPython interpreters (version-gated cases in `scripts/golden/cases.py`). Curated cases from CPython’s `Lib/test` are ported under `test/cpython-derived/`; `vendor/cpython` (submodule, `v3.14.0`) is a **reference** for mining, not a CI test run.
 5. **Layered source** — `core` → `dispatch` / `class` / `builtins` / `collections` / `iterators` / `buffer` (no circular imports into builtins from core)
 
 ---
@@ -134,6 +134,7 @@ npm install
 npm run check    # tsc --noEmit
 npm test         # vitest unit suite
 npm run golden   # compare to installed CPython (optional; needs python3.9–3.14 on PATH)
+npm run cpython:mine  # list Lib/test modules worth mining (needs submodule init)
 npm run build    # emit dist/ for publishing
 ```
 

@@ -10,6 +10,7 @@ import {
   round, trunc, floor, ceil,
   pyInt, pyFloat, pyStr, pyBool, pyNone, pyList, pyTuple,
   unwrap,
+  PyTypeError,
 } from "../../src/index.js";
 
 describe("identity", () => {
@@ -66,6 +67,36 @@ describe("rich comparison", () => {
   it("ne works", () => {
     expect(ne(pyInt(1), pyInt(2))).toBe(true);
     expect(ne(pyInt(1), pyInt(1))).toBe(false);
+  });
+
+  it("ne uses __eq__ before reflected __ne__ when type has no __ne__", () => {
+    const calls: string[] = [];
+    const Left = makeClass({
+      name: "Left",
+      dict: new Map([
+        [
+          Slot.eq,
+          () => {
+            calls.push("Left.__eq__");
+            return NotImplemented;
+          },
+        ],
+      ]),
+    });
+    const Right = makeClass({
+      name: "Right",
+      dict: new Map([
+        [
+          Slot.ne,
+          () => {
+            calls.push("Right.__ne__");
+            return false;
+          },
+        ],
+      ]),
+    });
+    expect(ne(new PyObject(Left), new PyObject(Right))).toBe(false);
+    expect(calls).toEqual(["Left.__eq__", "Right.__ne__"]);
   });
 });
 
@@ -173,9 +204,58 @@ describe("representation", () => {
   it("format(int)", () => { expect(format(pyInt(255), "x")).toBe("ff"); });
 });
 
+describe("hash and bool strictness", () => {
+  it("__hash__ must return a number", () => {
+    const BadHash = makeClass({
+      name: "BadHash",
+      dict: new Map<string | symbol, unknown>([
+        [Slot.hash, () => "nope"],
+      ]),
+    });
+    expect(() => hash(new PyObject(BadHash))).toThrow(PyTypeError);
+  });
+
+  it("__bool__ must return a boolean", () => {
+    const BadBool = makeClass({
+      name: "BadBool",
+      dict: new Map<string | symbol, unknown>([
+        [Slot.bool, () => 1],
+      ]),
+    });
+    expect(() => bool(new PyObject(BadBool))).toThrow(PyTypeError);
+  });
+
+  it("hash coerces with | 0 for large integers", () => {
+    const Big = makeClass({
+      name: "Big",
+      dict: new Map<string | symbol, unknown>([
+        [Slot.hash, () => 2 ** 40],
+      ]),
+    });
+    expect(hash(new PyObject(Big))).toBe((2 ** 40) | 0);
+  });
+});
+
 describe("reflected ops with NotImplemented", () => {
   it("int + str raises TypeError", () => {
     expect(() => add(pyInt(1), pyStr("a"))).toThrow();
+  });
+
+  it("lt raises TypeError when both sides return NotImplemented", () => {
+    const Incomparable = makeClass({
+      name: "Incomparable",
+      dict: new Map<string | symbol, unknown>([
+        [Slot.lt, () => NotImplemented],
+        [Slot.gt, () => NotImplemented],
+      ]),
+    });
+    const a = new PyObject(Incomparable);
+    const b = new PyObject(Incomparable);
+    expect(() => lt(a, b)).toThrow(PyTypeError);
+  });
+
+  it("eq(pyList, pyInt) is false (list __eq__ returns NotImplemented, identity fallback)", () => {
+    expect(eq(pyList([]), pyInt(1))).toBe(false);
   });
 
   it("custom reflected op is used", () => {

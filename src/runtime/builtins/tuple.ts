@@ -90,10 +90,7 @@ export const tupleType = makeClass({
       const b = nativeVal<readonly PyObject[]>(other);
       if (a.length !== b.length) return false;
       for (let i = 0; i < a.length; i++) {
-        const eqFn = a[i].type.typeDict.get(Slot.eq);
-        if (typeof eqFn === "function") {
-          if ((eqFn as Function)(a[i], b[i]) !== true) return false;
-        } else if (a[i] !== b[i]) return false;
+        if (eq(a[i], b[i]) !== true) return false;
       }
       return true;
     }],

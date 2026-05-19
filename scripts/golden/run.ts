@@ -28,6 +28,8 @@ import {
   PyObject,
 } from "../../src/index.js";
 import { Slot } from "../../src/runtime/core/slots.js";
+import { NotImplemented } from "../../src/runtime/core/object.js";
+import { PyTypeError } from "../../src/runtime/core/errors.js";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "../..");
 const casesPy = join(root, "scripts/golden/cases.py");
@@ -125,8 +127,26 @@ function buildPyrtCases(pythonVersion: string): Record<string, unknown> {
     ]),
   });
 
+  // golden:rich_lt_both_not_impl — keep Incomparable in sync with scripts/golden/cases.py
+  const Incomparable = makeClass({
+    name: "Incomparable",
+    bases: [objectType],
+    dict: new Map([
+      [Slot.lt, () => NotImplemented],
+      [Slot.gt, () => NotImplemented],
+    ]),
+  });
+
   const dInst = instantiate(D);
   const revInst = instantiate(Rev);
+  const incA = instantiate(Incomparable);
+  const incB = instantiate(Incomparable);
+  let rich_lt_both_not_impl_raises = false;
+  try {
+    lt(incA, incB);
+  } catch (e) {
+    if (e instanceof PyTypeError) rich_lt_both_not_impl_raises = true;
+  }
   const list = pyList([pyInt(0), pyInt(1), pyInt(2)]);
   const sliced = getItem(list, pySlice(1, 3, null)) as PyObject;
   const slicedItems = unwrap<PyObject[]>(sliced);
@@ -138,6 +158,7 @@ function buildPyrtCases(pythonVersion: string): Record<string, unknown> {
     issubclass_DC: issubclass(D, C),
     rich_eq_int: eq(pyInt(1), pyInt(1)) === true,
     rich_lt_reflected: lt(pyInt(1), revInst) === true,
+    rich_lt_both_not_impl_raises,
     slice_list: slicedItems.map((v) => unwrap<number>(v)),
   };
 

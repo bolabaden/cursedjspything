@@ -13,22 +13,23 @@ Maintain an evidence-backed knowledgebase and a honest compatibility contract: w
 
 ---
 
-## Delta update (2026-05-18, Tier-1 parity + docs)
+## Delta update (2026-05-19, CPython ne delegation + mining)
 
 ### Landed
 
-- [REPO] Tier-1 parity: `contains` → `eq()`; slice `__getitem__(slice)` on list/tuple; `lookupSpecial` for callable `PyObject`; `instantiate` uses `lookupSpecial` for `__new__`/`__init__`.
-- [REPO] `STRATEGY.md`, README refresh, COMPATIBILITY §8.6–8.7 updated; CI golden matrix 3.10 / 3.12 / 3.14.
+- [REPO] `richCompareNe`: CPython `object.__ne__` path (`__eq__` before reflected `__ne__` when type has no own `__ne__`; subclass `__ne__` first).
+- [REPO] `test/cpython-derived/compare-ne.test.ts` (high/low priority from `test_compare.py`); improved `scripts/cpython/mine-lib-tests.sh` (Tier A only).
+- [REPO] Prior slice: golden both-NotImplemented ordering, list/tuple `eq()`, Tier-1 docs + CPython submodule @ v3.14.0.
 
 ### Partial
 
-- [REPO] Golden runs all interpreters on host in one `npm run golden` invocation; CI matrix runs one Python per job.
-- [SYNTH] `makeClass` still ≠ full `type.__call__`; `pyInt` remains JS number.
+- [REPO] Golden ~11 keys/version; curated `cpython-derived` ports only (not bulk `Lib/test`).
+- [SYNTH] `makeClass` ≠ full `type.__call__`; `pyInt` remains JS number.
 
 ### Next
 
-1. Golden cases for `NotImplemented` / rich compare; expand `examples/python-vs-js.ts`.
-2. Remaining Tier-1: hash/bool strictness, builtin cross-type delegation.
+1. More Tier A ports (`test_richcmp` Incomparable/Rev, `test_operator` thin cases) + golden expansion.
+2. KB doc path sweep (`operators.ts` paths).
 3. Tier-3 roadmap (VM, import) unchanged.
 
 ---
