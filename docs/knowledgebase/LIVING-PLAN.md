@@ -13,24 +13,23 @@ Maintain an evidence-backed knowledgebase and a honest compatibility contract: w
 
 ---
 
-## Delta update (2026-05-18, remainder pass)
+## Delta update (2026-05-18, parity gaps pass)
 
 ### Landed
 
-- [REPO] Doc path sweep: KB + `COMPATIBILITY_AND_GAPS.md` reference layered `src/runtime/` layout and mirrored test paths.
-- [REPO] `dict-keys.ts` uses `lookupSpecial` for key `__hash__` / `__eq__` (no `operators/` import).
-- [REPO] Golden harness: per-version `scripts/golden/expected/{major.minor}.json`, version-gated cases (`match_args`, buffer, `annotate`).
-- [REPO] `class/method.ts` + `initMethodType`: bound-method objects for plain functions in `lookupSpecial`.
+- [REPO] Parity gap inventory: `docs/knowledgebase/40-operational-risk/parity-gaps-priorities.md` (Tier 1–3, verification gaps).
+- [REPO] `compatibility-summary.md` corrected for `__match_args__` (metadata only), slice/contains/`lookupSpecial` partial rows.
 
 ### Partial
 
-- [REPO] Golden matrix only validates interpreters present on the host (not all of 3.9–3.14 in CI).
+- [SYNTH] Name coverage (81 slots) is strong; semantic parity gaps remain (identity `contains`, slice decomposition, callable lookup).
+- [REPO] Golden + unit tests prove a thin slice (~9 golden checks, 118 tests); many operators untested against CPython.
 
 ### Next
 
-1. CI matrix job with multiple Python versions when available.
-2. Examples: async / with / slice sections in `examples/python-vs-js.ts`.
-3. Tier-3 roadmap: VM, import system (see gaps plan).
+1. Tier-1 parity fixes: `contains` → `eq()`, `getItem(slice)` → single `__getitem__(slice)`, broaden `lookupSpecial` for `__call__` PyObjects.
+2. Expand golden harness + CI multi-Python matrix.
+3. Examples + Tier-3 roadmap (VM, import) unchanged.
 
 ---
 

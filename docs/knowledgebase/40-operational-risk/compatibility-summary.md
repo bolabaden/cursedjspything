@@ -37,7 +37,10 @@ This page is the KB entry point for risk and scope. Python references use **pinn
 | `pyInt` | JS `number`, not arbitrary precision |
 | `pyDict` / `pySet` | `Map` / `Set` semantics |
 | Async protocols | Surface only; no real event loop |
-| Buffer / PEP 688 | Stubs |
+| Buffer / PEP 688 | Minimal `wrapBuffer` / `getBuffer`; not full PEP 3118 |
+| `contains` fallback | Identity (`===`) instead of `eq()` when no `__contains__` |
+| Slice in `getItem` | Expands to integer indices; not single `__getitem__(slice)` |
+| `lookupSpecial` | Plain `function` + descriptors only; not arbitrary `__call__` objects |
 | `Proxy` interop | Attribute subset only |
 
 ---
@@ -52,8 +55,8 @@ See COMPATIBILITY §9–10 for exhaustive list.
 | Execution | generators, `yield`, full `asyncio`, `super()` |
 | Runtime | GC, `__del__`, real weakref semantics |
 | Stdlib | essentially all |
-| 3.10+ | `__match_args__` |
-| 3.14 | full `__annotate__` / PEP 649 timing |
+| 3.10+ | `match`/`case` VM (metadata `__match_args__` only — see version-gates checklist) |
+| 3.14 | full `__annotate__` / PEP 649 evaluation timing |
 
 ---
 
@@ -73,7 +76,7 @@ See COMPATIBILITY §9–10 for exhaustive list.
 |-------|-------|
 | “Follows 3.14 slotdefs names” | Yes `[REPO]` |
 | “Documents 3.9–3.14 official behavior” | Yes with pinned URLs |
-| “Matches CPython on all versions” | **No** — no golden harness `[OPEN]` |
+| “Matches CPython on all versions” | **No** — golden is a small subset per host Python `[OPEN]` |
 | “Complete Python compatibility” | **No** |
 
 ---
