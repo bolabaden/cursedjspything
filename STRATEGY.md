@@ -1,6 +1,6 @@
 ---
 name: pyrt
-last_updated: 2026-05-18
+last_updated: 2026-05-19
 ---
 
 # pyrt Strategy
@@ -19,22 +19,22 @@ Implement CPython’s **two-channel lookup** explicitly in TypeScript—`getAttr
 
 ## Key metrics
 
-- **Golden pass rate** — share of version-gated checks matching installed CPython (`npm run golden`)
-- **Unit test regressions** — `npm test` stays green on dispatch, lookup, builtins
-- **Documented parity coverage** — Tier-1 gaps in COMPATIBILITY shrink without silent semantic drift
+- **Golden pass rate** — share of version-gated checks matching installed CPython (`npm run golden`); golden set stays aligned with harness keys (no orphan cases)
+- **Unit test regressions** — `npm test` stays green on dispatch, lookup, builtins; curated `test/cpython-derived/` grows only with mined, reviewed ports
+- **Documented parity coverage** — Tier-1 gaps in COMPATIBILITY shrink without silent semantic drift; LIVING-PLAN and parity-gaps reflect what landed vs open
 - **Slot registry completeness** — `SLOTDEF_COUNT` stays aligned with CPython 3.14 `slotdefs[]` names
 
 ## Tracks
 
 ### Core dispatch fidelity
 
-Close semantic gaps between pyrt and CPython (`contains`/`eq`, slice `__getitem__`, callable `lookupSpecial`, class creation).
+Close semantic gaps between pyrt and CPython (`contains`/`eq`, slice `__getitem__`, rich compare / `!=` delegation, list/tuple element `__eq__`, callable `lookupSpecial`, class creation).
 
 _Why it serves the approach:_ Without this, the library is “Python-shaped” names only.
 
 ### Evidence & documentation
 
-Golden harness, compatibility matrix, README/KB that state what is tested vs assumed. CPython `v3.14.0` at `vendor/cpython` (submodule) is a **reference** for `Lib/test` mining; curated ports live in `test/cpython-derived/`.
+Golden harness, compatibility matrix, README/KB that state what is tested vs assumed. CPython `v3.14.0` at `vendor/cpython` (submodule) is a **reference** for `Lib/test` mining (`npm run cpython:mine`); curated ports live in `test/cpython-derived/`. Prefer **structural guards** (golden key parity, protocol-family goldens) over bulk `Lib/test` import.
 
 _Why it serves the approach:_ Python-first users need trust, not slogans.
 
