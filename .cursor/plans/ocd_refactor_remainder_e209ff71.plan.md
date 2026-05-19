@@ -93,7 +93,7 @@ Several docs still describe the **pre-refactor** flat layout. Runtime paths chan
 Not required for “done”; listed in Phase 4/5 as optional:
 
 - `**test/iterators/`** — only if iterator modules grow beyond current two files (`[sequence-iterator.ts](src/runtime/iterators/sequence-iterator.ts)`, `[reversed-iterator.ts](src/runtime/iterators/reversed-iterator.ts)`).
-- `**test/golden.test.ts**` — Vitest wrapper that shells `npm run golden` (CI already runs golden via workflow).
+- `**test/golden.test.ts`** — Vitest wrapper that shells `npm run golden` (CI already runs golden via workflow).
 - **Folder-level `core/index.ts` barrels** — plan said use only where they reduce noise; only `builtins/index.ts` exists today.
 - `**builtins/factory.ts`** — intentionally skipped (plan: avoid mini-framework).
 
