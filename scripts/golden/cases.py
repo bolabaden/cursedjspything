@@ -35,6 +35,13 @@ class Annotated:
         return {"x": "int"}
 
 
+class Rev:
+    """Reflected rich compare: int.__lt__ returns NotImplemented, __gt__ wins."""
+
+    def __gt__(self, other: object) -> bool:
+        return True
+
+
 def main() -> None:
     vi = sys.version_info
     cases: dict[str, object] = {
@@ -43,6 +50,7 @@ def main() -> None:
         "isinstance_D": isinstance(D(), A),
         "issubclass_DC": issubclass(D, C),
         "rich_eq_int": (1 == 1),
+        "rich_lt_reflected": 1 < Rev(),
         "slice_list": [0, 1, 2][1:3],
     }
 

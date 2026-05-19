@@ -10,6 +10,7 @@
   "isinstance_D": true,
   "issubclass_DC": true,
   "rich_eq_int": true,
+  "rich_lt_reflected": true,
   "slice_list": [
     1,
     2

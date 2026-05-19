@@ -31,6 +31,7 @@ import {
   // builtins
   pyInt, pyFloat, pyStr, pyBool, pyList, pyTuple, pyDict, pySet,
   pyNone, pyTrue, pyFalse,
+  pySlice,
   NotImplemented, unwrap,
   // errors
   PyStopIteration,
@@ -361,6 +362,16 @@ section("22. Container protocols (__len__, __getitem__, __contains__)");
 show("len([1,2,3])", len(pyList([pyInt(1), pyInt(2), pyInt(3)])));
 show("getItem([10,20,30], 1)", unwrap(getItem(pyList([pyInt(10), pyInt(20), pyInt(30)]), 1) as PyObject));
 show("contains('hello', 'ell')", contains(pyStr("hello"), pyStr("ell")));
+
+// ─────────────────────────────────────────────────────────────────────
+section("22b. Slice subscripts (__getitem__ with slice)");
+// Python:
+//   [0, 1, 2, 3][1:3]  → [1, 2]
+{
+  const nums = pyList([pyInt(0), pyInt(1), pyInt(2), pyInt(3)]);
+  const part = getItem(nums, pySlice(1, 3, null)) as PyObject;
+  show("getItem(list, slice(1,3))", unwrap(part as PyObject));
+}
 
 // ─────────────────────────────────────────────────────────────────────
 section("23. Iteration (__iter__, __next__)");

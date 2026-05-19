@@ -22,12 +22,12 @@
 | 2 | **Slice via `getItem`** | Fixed: `__getitem__(slice)` on list/tuple; `getItem` passes slice through | One slice object per subscript |
 | 3 | **`lookupSpecial` and exotic callables** | `lookup.ts` supports descriptor `__get__`, plain `function`, and `PyObject` with `__call__` | Full CPython callable-object edge cases may still differ |
 | 4 | **`instantiate` / `makeClass`** | `instantiate` uses `lookupSpecial` for `__new__`/`__init__`; `makeClass` still ≠ full `type.__call__` | Full metaclass pipeline |
-| 5 | **Rich compare / `NotImplemented` edge cases** | Some tests in `test/dispatch/operators.test.ts`; not golden-tested | Full ordering when both sides return `NotImplemented` |
+| 5 | **Rich compare / `NotImplemented` edge cases** | `test/dispatch/operators.test.ts`; golden `rich_lt_reflected` (`1 < Rev()` via reflected `__gt__`) | Full ordering when **both** sides return `NotImplemented` |
 | 6 | **`hash` coercion `\| 0`** | `dispatch/operators/compare.ts` | Integer hash semantics and `hash` consistent with `eq` |
 | 7 | **`__bool__` must return JS boolean** | `compare.ts` | CPython accepts truthy objects in some paths; stricter here |
 | 8 | **Builtin cross-type ops return `NotImplemented`** | `builtins/*.ts` type guards | CPython may delegate or coerce |
 | 9 | **`makeClass` ≠ `type.__call__`** | `class/class.ts`, COMPATIBILITY §8.1 | Metaclass `__new__`, full creation protocol |
-| 10 | **Golden harness is thin** | `scripts/golden/` ~9 checks; CI pins one Python | Proof of parity across versions and protocols |
+| 10 | **Golden harness is thin** | `scripts/golden/` ~10 checks; CI matrix 3.10/3.12/3.14 | Broader protocol proof across versions |
 
 ---
 
