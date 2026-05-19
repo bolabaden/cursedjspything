@@ -13,23 +13,23 @@ Maintain an evidence-backed knowledgebase and a honest compatibility contract: w
 
 ---
 
-## Delta update (2026-05-19, Tier-1 semantics continuation)
+## Delta update (2026-05-19, CPython ne delegation + mining)
 
 ### Landed
 
-- [REPO] Golden `rich_lt_both_not_impl_raises` (both ordering ops `NotImplemented` → `TypeError`); list/tuple `__eq__` uses per-element `eq()`.
-- [REPO] Vitest: hash/bool strictness, both-sides `NotImplemented` ordering, list `__eq__` edge cases (`test/dispatch/operators.test.ts`, `test/builtins/list-eq.test.ts`).
-- [REPO] COMPATIBILITY §8.6/8.8 and parity-gaps Tier-1 table updated; plan `docs/plans/2026-05-19-tier1-semantics-continuation-plan.md`.
+- [REPO] `richCompareNe`: CPython `object.__ne__` path (`__eq__` before reflected `__ne__` when type has no own `__ne__`; subclass `__ne__` first).
+- [REPO] `test/cpython-derived/compare-ne.test.ts` (high/low priority from `test_compare.py`); improved `scripts/cpython/mine-lib-tests.sh` (Tier A only).
+- [REPO] Prior slice: golden both-NotImplemented ordering, list/tuple `eq()`, Tier-1 docs + CPython submodule @ v3.14.0.
 
 ### Partial
 
-- [REPO] Golden harness ~11 keys/version; not full slot surface. Builtin cross-type coercion still differs from CPython in edge cases.
-- [SYNTH] `makeClass` still ≠ full `type.__call__`; `pyInt` remains JS number.
+- [REPO] Golden ~11 keys/version; curated `cpython-derived` ports only (not bulk `Lib/test`).
+- [SYNTH] `makeClass` ≠ full `type.__call__`; `pyInt` remains JS number.
 
 ### Next
 
-1. Broader golden by protocol family; optional `examples/python-vs-js.ts` rich-compare notes.
-2. Doc path sweep (KB stale `operators.ts` paths) — separate pass.
+1. More Tier A ports (`test_richcmp` Incomparable/Rev, `test_operator` thin cases) + golden expansion.
+2. KB doc path sweep (`operators.ts` paths).
 3. Tier-3 roadmap (VM, import) unchanged.
 
 ---

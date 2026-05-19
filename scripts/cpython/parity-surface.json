@@ -22,6 +22,8 @@
     "Lib/test/test_super.py"
   ],
   "vitest_ports": [
-    "test/cpython-derived/richcmp-number.test.ts"
-  ]
+    "test/cpython-derived/richcmp-number.test.ts",
+    "test/cpython-derived/compare-ne.test.ts"
+  ],
+  "known_gaps": []
 }

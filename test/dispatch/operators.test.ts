@@ -68,6 +68,36 @@ describe("rich comparison", () => {
     expect(ne(pyInt(1), pyInt(2))).toBe(true);
     expect(ne(pyInt(1), pyInt(1))).toBe(false);
   });
+
+  it("ne uses __eq__ before reflected __ne__ when type has no __ne__", () => {
+    const calls: string[] = [];
+    const Left = makeClass({
+      name: "Left",
+      dict: new Map([
+        [
+          Slot.eq,
+          () => {
+            calls.push("Left.__eq__");
+            return NotImplemented;
+          },
+        ],
+      ]),
+    });
+    const Right = makeClass({
+      name: "Right",
+      dict: new Map([
+        [
+          Slot.ne,
+          () => {
+            calls.push("Right.__ne__");
+            return false;
+          },
+        ],
+      ]),
+    });
+    expect(ne(new PyObject(Left), new PyObject(Right))).toBe(false);
+    expect(calls).toEqual(["Left.__eq__", "Right.__ne__"]);
+  });
 });
 
 describe("numeric binary ops", () => {

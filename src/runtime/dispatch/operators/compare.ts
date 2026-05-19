@@ -70,7 +70,58 @@ const CMP_PAIRS: Record<string, CmpSlotPair> = {
   ge: [Slot.ge, Slot.le],
 };
 
+function slotDefinedOnType(type: PyType, slot: symbol): boolean {
+  return type.typeDict.has(slot);
+}
+
+/** CPython object.__ne__: __eq__ first unless the type defines its own __ne__. */
+function richCompareNe(a: PyObject, b: PyObject): unknown {
+  const aType = a.type;
+  const bType = b.type;
+  const reflectSubclassFirst =
+    aType !== bType && bType.mro.includes(aType);
+
+  if (reflectSubclassFirst) {
+    const rFn = lookupSpecial(b, Slot.ne);
+    if (rFn) {
+      const res = rFn(a);
+      if (!isNotImplemented(res)) return res;
+    }
+  }
+
+  if (slotDefinedOnType(aType, Slot.ne)) {
+    const fNe = lookupSpecial(a, Slot.ne);
+    if (fNe) {
+      const res = fNe(b);
+      if (!isNotImplemented(res)) return res;
+    }
+  } else {
+    const fEq = lookupSpecial(a, Slot.eq);
+    if (fEq) {
+      const res = fEq(b);
+      if (!isNotImplemented(res)) {
+        if (typeof res !== "boolean") {
+          throw new PyTypeError("__eq__ should return bool or NotImplemented");
+        }
+        return !res;
+      }
+    }
+  }
+
+  if (!reflectSubclassFirst) {
+    const rFn = lookupSpecial(b, Slot.ne);
+    if (rFn) {
+      const res = rFn(a);
+      if (!isNotImplemented(res)) return res;
+    }
+  }
+
+  return isNot(a, b);
+}
+
 function richCompare(a: PyObject, b: PyObject, op: string): unknown {
+  if (op === "ne") return richCompareNe(a, b);
+
   const [forward, reflect] = CMP_PAIRS[op];
 
   const aType = a.type;
@@ -102,9 +153,8 @@ function richCompare(a: PyObject, b: PyObject, op: string): unknown {
     }
   }
 
-  // Fallbacks for eq/ne — identity-based.
+  // Fallbacks for eq — identity-based.
   if (op === "eq") return is(a, b);
-  if (op === "ne") return isNot(a, b);
 
   throw new PyTypeError(
     `'${op}' not supported between instances of '${aType.name}' and '${bType.name}'`,
