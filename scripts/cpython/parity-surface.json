@@ -1,0 +1,27 @@
+{
+  "cpython_ref": "v3.14.0",
+  "submodule_path": "vendor/cpython",
+  "tier_a_mine": [
+    "Lib/test/test_richcmp.py",
+    "Lib/test/test_compare.py",
+    "Lib/test/test_operator.py",
+    "Lib/test/test_isinstance.py",
+    "Lib/test/test_contains.py"
+  ],
+  "tier_b_reference_only": [
+    "Lib/test/test_descr.py",
+    "Lib/test/test_class.py",
+    "Lib/test/test_types.py"
+  ],
+  "out_of_scope_globs": [
+    "Lib/test/test_compile*.py",
+    "Lib/test/test_import*.py",
+    "Lib/test/test_async*.py",
+    "Lib/test/test_patma.py",
+    "Lib/test/test_gc.py",
+    "Lib/test/test_super.py"
+  ],
+  "vitest_ports": [
+    "test/cpython-derived/richcmp-number.test.ts"
+  ]
+}

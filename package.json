@@ -26,7 +26,8 @@
     "test:watch": "vitest",
     "check": "tsc --noEmit",
     "golden": "tsx scripts/golden/run.ts",
-    "examples": "tsx examples/python-vs-js.ts"
+    "examples": "tsx examples/python-vs-js.ts",
+    "cpython:mine": "bash scripts/cpython/mine-lib-tests.sh"
   },
   "devDependencies": {
     "tsx": "^4.19",
