@@ -370,7 +370,7 @@ section("22b. Slice subscripts (__getitem__ with slice)");
 {
   const nums = pyList([pyInt(0), pyInt(1), pyInt(2), pyInt(3)]);
   const part = getItem(nums, pySlice(1, 3, null)) as PyObject;
-  show("getItem(list, slice(1,3))", unwrap(part as PyObject));
+  show("getItem(list, slice(1,3))", unwrap(part));
 }
 
 // ─────────────────────────────────────────────────────────────────────

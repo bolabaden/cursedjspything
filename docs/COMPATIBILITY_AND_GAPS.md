@@ -360,29 +360,29 @@ Python dict keys use **rich equality** + **consistent hashing** rules. `pyDict` 
 
 `richCompare` in `src/runtime/dispatch/operators/compare.ts` tries forward then reflected special methods and falls back to identity for `eq`/`ne`. Golden case `rich_lt_reflected` checks `1 < Rev()` when `int.__lt__` returns `NotImplemented` and `Rev.__gt__` returns `True`. Ordering when **both** operands return `NotImplemented` for the same op is not golden-tested.
 
-### 8.8 `__missing__` integration
+### 8.9 `__missing__` integration
 
 `getItem` only consults `Hook.missing` when `__getitem__` raises **`PyKeyError`** (`src/runtime/dispatch/protocols.ts`). Python’s `dict.__missing__` behavior is tied to mapping subclasses and `KeyError` propagation rules; do not assume full mapping subclass semantics.
 
-### 8.9 Async protocols
+### 8.10 Async protocols
 
 `aenter` / `aexit` return **JavaScript Promises** in the TypeScript sense (`async` functions). CPython coroutine objects, `await` scheduling, `asyncio` tasks, and exception propagation are not modeled.
 
-### 8.10 Buffer protocol
+### 8.11 Buffer protocol
 
 `getBuffer` / `releaseBuffer` forward to hooks if present, but there is **no** PEP-3118-style buffer manager, no exporter/importer lifecycle guarantees, and no `memoryview` type. See Python/C API **\[11\]** and **\[20\]**.
 
-### 8.11 `__class__` assignment constraints
+### 8.12 `__class__` assignment constraints
 
 `setPyClass` implements a **narrow** compatibility check based on `slotNames` equality. CPython’s real `__class__` assignment rules interact with layout, `__slots__`, heap type allocation, and extension modules; see **\[3\]**.
 
-### 8.12 `super()` / zero-argument `super` / `__classcell__`
+### 8.13 `super()` / zero-argument `super` / `__classcell__`
 
 Not implemented.
 
 Python reference: class creation / compiler inserted cell discussion under **\[3\]**.
 
-### 8.13 `__getattribute__` + `__getattr__` interaction
+### 8.14 `__getattribute__` + `__getattr__` interaction
 
 `getAttr` implements a simplified interaction: if `__getattribute__` raises `PyAttributeError`, it may fall through to `__getattr__`. CPython’s exact edge cases differ (exception types, `AttributeError` subclasses, suppressed tracebacks, etc.).
 

@@ -35,6 +35,7 @@ class Annotated:
         return {"x": "int"}
 
 
+# golden:rich_lt_reflected — keep Rev/__gt__ in sync with scripts/golden/run.ts
 class Rev:
     """Reflected rich compare: int.__lt__ returns NotImplemented, __gt__ wins."""
 

@@ -116,6 +116,7 @@ function buildPyrtCases(pythonVersion: string): Record<string, unknown> {
     ]),
   });
 
+  // golden:rich_lt_reflected — keep Rev/__gt__ in sync with scripts/golden/cases.py
   const Rev = makeClass({
     name: "Rev",
     bases: [objectType],
@@ -125,7 +126,7 @@ function buildPyrtCases(pythonVersion: string): Record<string, unknown> {
   });
 
   const dInst = instantiate(D);
-  const revInst = new PyObject(Rev);
+  const revInst = instantiate(Rev);
   const list = pyList([pyInt(0), pyInt(1), pyInt(2)]);
   const sliced = getItem(list, pySlice(1, 3, null)) as PyObject;
   const slicedItems = unwrap<PyObject[]>(sliced);
