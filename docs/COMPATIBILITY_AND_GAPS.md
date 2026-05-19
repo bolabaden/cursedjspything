@@ -350,7 +350,7 @@ Python dict keys use **rich equality** + **consistent hashing** rules. `pyDict` 
 
 ### 8.6 `list` / `tuple` containment and equality paths
 
-`list` / `tuple` `__contains__` and the `contains()` protocol fallback use `eq()` for `PyObject` pairs (`src/runtime/builtins/list.ts`, `tuple.ts`, `dispatch/protocols.ts`). Cross-type builtin delegation may still return `NotImplemented` where CPython coerces further.
+`list` / `tuple` `__contains__` and the `contains()` protocol fallback use `eq()` for `PyObject` pairs (`src/runtime/builtins/list.ts`, `tuple.ts`, `dispatch/protocols.ts`). Sequence `__eq__` compares elements with `eq()` (rich-compare semantics per item); element-level `NotImplemented` is treated as unequal, matching CPython list/tuple equality. Cross-type builtin delegation may still return `NotImplemented` where CPython coerces further.
 
 ### 8.7 Slicing
 
@@ -358,7 +358,7 @@ Python dict keys use **rich equality** + **consistent hashing** rules. `pyDict` 
 
 ### 8.8 Rich compare / `NotImplemented`
 
-`richCompare` in `src/runtime/dispatch/operators/compare.ts` tries forward then reflected special methods and falls back to identity for `eq`/`ne`. Golden case `rich_lt_reflected` checks `1 < Rev()` when `int.__lt__` returns `NotImplemented` and `Rev.__gt__` returns `True`. Ordering when **both** operands return `NotImplemented` for the same op is not golden-tested.
+`richCompare` in `src/runtime/dispatch/operators/compare.ts` tries forward then reflected special methods and falls back to identity for `eq`/`ne`. Golden `rich_lt_reflected` checks `1 < Rev()` when `int.__lt__` returns `NotImplemented` and `Rev.__gt__` returns `True`. Golden `rich_lt_both_not_impl_raises` checks that `lt` between two `Incomparable` instances (both ordering ops return `NotImplemented`) raises `TypeError`, as in CPython. Vitest covers non-boolean `__bool__`, non-integer `__hash__`, and both-sides `NotImplemented` ordering.
 
 ### 8.9 `__missing__` integration
 
@@ -517,8 +517,9 @@ pyrt’s explicit-function approach is therefore aligned with JS reality.
 
 ## 12. Verification in this repository
 
-- **Unit tests:** `test/*.test.ts` (Vitest). Run: `npm test`.
-- **Examples:** `examples/python-vs-js.ts`. Run: `npx tsx examples/python-vs-js.ts`.
+- **Unit tests:** `test/**/*.test.ts` (Vitest). Run: `npm test`.
+- **Golden harness:** `scripts/golden/` (CPython reference vs pyrt). Run: `npm run golden` (CI matrix: Python 3.10, 3.12, 3.14).
+- **Examples:** `examples/python-vs-js.ts`. Run: `npm run examples`.
 - **Typecheck:** `npm run check`.
 
 These verify **project intent**, not full CPython conformance.

@@ -13,22 +13,23 @@ Maintain an evidence-backed knowledgebase and a honest compatibility contract: w
 
 ---
 
-## Delta update (2026-05-18, Tier-1 parity + docs)
+## Delta update (2026-05-19, Tier-1 semantics continuation)
 
 ### Landed
 
-- [REPO] Tier-1 parity: `contains` → `eq()`; slice `__getitem__(slice)` on list/tuple; `lookupSpecial` for callable `PyObject`; `instantiate` uses `lookupSpecial` for `__new__`/`__init__`.
-- [REPO] `STRATEGY.md`, README refresh, COMPATIBILITY §8.6–8.7 updated; CI golden matrix 3.10 / 3.12 / 3.14.
+- [REPO] Golden `rich_lt_both_not_impl_raises` (both ordering ops `NotImplemented` → `TypeError`); list/tuple `__eq__` uses per-element `eq()`.
+- [REPO] Vitest: hash/bool strictness, both-sides `NotImplemented` ordering, list `__eq__` edge cases (`test/dispatch/operators.test.ts`, `test/builtins/list-eq.test.ts`).
+- [REPO] COMPATIBILITY §8.6/8.8 and parity-gaps Tier-1 table updated; plan `docs/plans/2026-05-19-tier1-semantics-continuation-plan.md`.
 
 ### Partial
 
-- [REPO] Golden runs all interpreters on host in one `npm run golden` invocation; CI matrix runs one Python per job.
+- [REPO] Golden harness ~11 keys/version; not full slot surface. Builtin cross-type coercion still differs from CPython in edge cases.
 - [SYNTH] `makeClass` still ≠ full `type.__call__`; `pyInt` remains JS number.
 
 ### Next
 
-1. Golden cases for `NotImplemented` / rich compare; expand `examples/python-vs-js.ts`.
-2. Remaining Tier-1: hash/bool strictness, builtin cross-type delegation.
+1. Broader golden by protocol family; optional `examples/python-vs-js.ts` rich-compare notes.
+2. Doc path sweep (KB stale `operators.ts` paths) — separate pass.
 3. Tier-3 roadmap (VM, import) unchanged.
 
 ---
