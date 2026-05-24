@@ -4,7 +4,7 @@ import { makeClass } from "../class/class.js";
 import { nativeVal, setNative } from "./native.js";
 import { floatType, pyFloat } from "./float.js";
 import { pyTuple } from "./tuple.js";
-import { PyZeroDivisionError } from "../core/errors.js";
+import { PyZeroDivisionError, PyValueError } from "../core/errors.js";
 
 function isBoolOperand(other: PyObject): boolean {
   return other.type.name === "bool";
@@ -135,6 +135,7 @@ export const intType = makeClass({
       const exp = numericOperand(other);
       if (modObj !== undefined && modObj instanceof PyObject) {
         const m = nativeVal<number>(modObj);
+        if (m === 0) throw new PyValueError("pow() 3rd argument cannot be 0");
         return pyInt(Number(BigInt(base) ** BigInt(exp) % BigInt(m)));
       }
       return other.type === floatType
