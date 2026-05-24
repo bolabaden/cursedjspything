@@ -9,7 +9,7 @@
 | Path | Role |
 |------|------|
 | `src/runtime/` | Core implementation |
-| `test/` | Vitest (196 tests, 24 files) |
+| `test/` | Vitest (203 tests, 25 files) |
 | `test/cpython-derived/` | Curated CPython `Lib/test` ports |
 | `test/golden/` | Golden key-parity snapshot tests |
 | `examples/python-vs-js.ts` | 39 narrative sections |
@@ -32,6 +32,7 @@
 | `test/builtins/dict-keys.test.ts` | `collections/dict-keys.ts`, `builtins/dict.ts` |
 | `test/cpython-derived/*.test.ts` | Tier A CPython evidence (operator, isinstance, contains, sequence index) |
 | `test/golden/key-parity.test.ts` | `scripts/golden/keys.ts`, `pyrt-cases.ts` |
+| `test/golden/pyrt-cases-version-gates.test.ts` | Offline `buildPyrtCases` version-gate semantics |
 
 No dedicated `builtins.test.ts` — builtins covered via object/protocol tests.
 

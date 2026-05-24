@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, version-gate tests on integration branch)
+
+### Landed
+
+- [REPO] Plan 033: `pyrt-cases-version-gates.test.ts` on PR #21; validation-ladder L2/L3b/L5; KB counts 203 tests / 25 files.
+
+### Partial
+
+- [REPO] PR #19–#21 open; PR #20 superseded by plan 033 on #21 (close after merge).
+
+### Next
+
+1. Merge PR #21 (primary integration); close redundant PR #20; merge PR #19.
+2. Tier B cherry-picks or Tier-3 roadmap as prioritized.
+
+---
+
 ## Delta update (2026-05-24, exception cleanup KB sync)
 
 ### Landed
