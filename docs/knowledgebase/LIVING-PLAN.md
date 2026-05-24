@@ -7,6 +7,26 @@
 
 ---
 
+## Delta update (2026-05-23, golden Tier A expansion)
+
+### Landed
+
+- [REPO] Golden cases: `contains_str`, `contains_list`, `int_float_eq`, `int_float_add` (~15 keys/version).
+- [REPO] Updated expected fixtures and key snapshot.
+
+### Partial
+
+- [REPO] Cross-type builtin ops beyond int/float still `NotImplemented`.
+- [REPO] Tier B `Lib/test` modules reference-only.
+
+### Next
+
+1. Tier B reference mining doc (`test_descr.py`, `test_class.py`).
+2. More golden cases (descriptor / class creation).
+3. Tier-3 roadmap (VM, import) unchanged.
+
+---
+
 ## Delta update (2026-05-23, Tier A merged to main)
 
 ### Landed

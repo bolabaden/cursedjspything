@@ -22,5 +22,9 @@
   ],
   "buffer_readonly": true,
   "buffer_len": 4,
-  "annotate_x": "int"
+  "annotate_x": "int",
+  "contains_str": true,
+  "contains_list": true,
+  "int_float_eq": true,
+  "int_float_add": 2.0
 }

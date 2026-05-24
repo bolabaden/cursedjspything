@@ -64,6 +64,10 @@ def main() -> None:
         "rich_eq_int": (1 == 1),
         "rich_lt_reflected": 1 < Rev(),
         "slice_list": [0, 1, 2][1:3],
+        "contains_str": "c" in "abc",
+        "contains_list": 1 in [0, 1, 2],
+        "int_float_eq": 1 == 1.0,
+        "int_float_add": 1 + 1.0,
     }
 
     inc_a, inc_b = Incomparable(), Incomparable()

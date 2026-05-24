@@ -12,7 +12,11 @@ import {
   issubclass,
   eq,
   lt,
+  add,
+  contains,
   pyInt,
+  pyFloat,
+  pyStr,
   getMatchArgs,
   getAnnotations,
   pyList,
@@ -90,6 +94,10 @@ export function buildPyrtCases(pythonVersion: string): Record<string, unknown> {
     rich_lt_reflected: lt(pyInt(1), revInst) === true,
     rich_lt_both_not_impl_raises,
     slice_list: slicedItems.map((v) => unwrap<number>(v)),
+    contains_str: contains(pyStr("abc"), pyStr("c")),
+    contains_list: contains(list, pyInt(1)),
+    int_float_eq: eq(pyInt(1), pyFloat(1.0)) === true,
+    int_float_add: unwrap<number>(add(pyInt(1), pyFloat(1.0)) as PyObject),
   };
 
   if (major > 3 || (major === 3 && minor >= 10)) {
