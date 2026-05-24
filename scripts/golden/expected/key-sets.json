@@ -17,6 +17,7 @@
     "rich_eq_int",
     "rich_lt_both_not_impl_raises",
     "rich_lt_reflected",
+    "set_name_called",
     "slice_list"
   ],
   "3.10": [
@@ -37,6 +38,7 @@
     "rich_eq_int",
     "rich_lt_both_not_impl_raises",
     "rich_lt_reflected",
+    "set_name_called",
     "slice_list"
   ],
   "3.12": [
@@ -57,6 +59,7 @@
     "rich_eq_int",
     "rich_lt_both_not_impl_raises",
     "rich_lt_reflected",
+    "set_name_called",
     "slice_list"
   ],
   "3.14": [
@@ -77,6 +80,7 @@
     "rich_eq_int",
     "rich_lt_both_not_impl_raises",
     "rich_lt_reflected",
+    "set_name_called",
     "slice_list"
   ]
 }

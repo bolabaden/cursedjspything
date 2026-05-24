@@ -7,6 +7,24 @@
 
 ---
 
+## Delta update (2026-05-23, golden __set_name__)
+
+### Landed
+
+- [REPO] Golden case `set_name_called` — descriptor `__set_name__` at class creation (~19 keys/version).
+- [REPO] PR #14 merged: `init_subclass_called` on `main`.
+
+### Partial
+
+- [REPO] Cross-type builtin ops beyond int/float still `NotImplemented`.
+
+### Next
+
+1. More Tier B golden cherry-picks or COMPATIBILITY gap notes (mappingproxy doc-only).
+2. Tier-3 roadmap (VM, import) unchanged.
+
+---
+
 ## Delta update (2026-05-23, golden __init_subclass__)
 
 ### Landed
