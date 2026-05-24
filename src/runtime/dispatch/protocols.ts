@@ -80,6 +80,10 @@ export function delItem(obj: PyObject, key: unknown): void {
 }
 
 export function contains(obj: PyObject, value: unknown): boolean {
+  // Explicit __contains__ = None blocks iteration fallback (CPython test_contains).
+  if (lookupInMro(obj.type, Slot.contains) === null) {
+    throw new PyTypeError(`'${obj.type.name}' object is not a container`);
+  }
   const fn = lookupSpecial(obj, Slot.contains);
   if (fn) return !!fn(value);
   const it = iter(obj);

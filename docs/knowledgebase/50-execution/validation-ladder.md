@@ -36,7 +36,10 @@ Vitest; unit tests mirror `src/runtime/` layout:
 | `test/collections/slice-with.test.ts` | `pySlice`, `withObject` |
 | `test/cpython-derived/compare-ne.test.ts` | CPython `test_compare.py` `__ne__` delegation |
 | `test/cpython-derived/richcmp-number.test.ts` | CPython `test_richcmp.py` number ordering |
+| `test/cpython-derived/richcmp-incomparable.test.ts` | CPython `test_richcmp.py` Rev/Incomparable |
 | `test/cpython-derived/operator-int-float.test.ts` | CPython `test_operator.py` int/float cross-type |
+| `test/cpython-derived/contains-protocol.test.ts` | CPython `test_contains.py` membership protocol |
+| `test/golden/key-parity.test.ts` | Golden case key snapshot parity |
 
 ---
 

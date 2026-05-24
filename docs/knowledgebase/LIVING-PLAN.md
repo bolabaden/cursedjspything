@@ -7,30 +7,32 @@
 
 ---
 
-## Current objective
-
-Maintain an evidence-backed knowledgebase and a honest compatibility contract: what pyrt implements, what is partial, what is out of scope, and how that maps to **CPython 3.9–3.14**.
-
----
-
 ## Delta update (2026-05-23, Tier A integration stack)
 
 ### Landed
 
 - [REPO] Golden key-parity guard: `keys.ts`, `pyrt-cases.ts`, Vitest snapshot, `golden:keys`.
-- [REPO] Tier A cpython-derived ports: richcmp Incomparable/Rev, operator int/float, contains, isinstance (nested tuple flatten).
+- [REPO] Tier A cpython-derived ports: richcmp Incomparable/Rev, operator int/float, contains (`__contains__ = null` guard), isinstance (nested tuple flatten).
 - [REPO] `COMPATIBILITY_AND_GAPS.md` §8.15 — int↔float cross-type delegation docs.
 
 ### Partial
 
 - [REPO] Cross-type builtin ops beyond int/float still `NotImplemented`.
-- [REPO] Abstract metaclass / PEP 604 union cases not ported.
+- [REPO] Abstract metaclass / PEP 604 union / `test_nonreflexive` cases not ported.
 
 ### Next
 
 1. Merge `feat/tier-a-integration` to `main`.
 2. Close superseded PR #4.
 3. Tier-3 roadmap (VM, import) unchanged.
+
+---
+
+## Current objective
+
+Maintain an evidence-backed knowledgebase and a honest compatibility contract: what pyrt implements, what is partial, what is out of scope, and how that maps to **CPython 3.9–3.14**.
+
+---
 
 ---
 
