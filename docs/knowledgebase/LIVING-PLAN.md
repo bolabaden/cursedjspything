@@ -7,6 +7,24 @@
 
 ---
 
+## Delta update (2026-05-23, golden cases.py simplify)
+
+### Landed
+
+- [REPO] `scripts/golden/cases.py` — `version_gte` + `owner_with_instance_attr` helpers; symmetric with plan 019 TS refactor.
+- [REPO] PR #18 open: pyrt-cases.ts refactor + CI green.
+
+### Partial
+
+- [REPO] Cross-type builtin ops beyond int/float still `NotImplemented`.
+
+### Next
+
+1. Merge PR #18; Tier B golden cherry-picks or runtime gaps as prioritized.
+2. Tier-3 roadmap (VM, import) unchanged.
+
+---
+
 ## Delta update (2026-05-23, golden pyrt-cases simplify)
 
 ### Landed

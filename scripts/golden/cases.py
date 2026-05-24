@@ -4,6 +4,9 @@ from __future__ import annotations
 
 import json
 import sys
+from typing import TypeVar
+
+T = TypeVar("T")
 
 
 class A:
@@ -77,6 +80,16 @@ class NonDataOwner:
     attr = NonDataDesc()
 
 
+def version_gte(vi: tuple[int, ...], major: int, minor: int) -> bool:
+    return vi >= (major, minor)
+
+
+def owner_with_instance_attr(owner_cls: type[T], attr: str, value: str) -> T:
+    owner = owner_cls()
+    owner.__dict__[attr] = value
+    return owner
+
+
 def main() -> None:
     vi = sys.version_info
     cases: dict[str, object] = {
@@ -93,12 +106,10 @@ def main() -> None:
         "int_float_add": 1 + 1.0,
     }
 
-    desc_owner = DescOwner()
-    desc_owner.__dict__["attr"] = "instance-value"
+    desc_owner = owner_with_instance_attr(DescOwner, "attr", "instance-value")
     cases["descriptor_data_wins"] = desc_owner.attr
 
-    nodata_owner = NonDataOwner()
-    nodata_owner.__dict__["attr"] = "instance-value"
+    nodata_owner = owner_with_instance_attr(NonDataOwner, "attr", "instance-value")
     cases["descriptor_nodata_loses"] = nodata_owner.attr
 
     # golden:init_subclass_called — base __init_subclass__ runs on subclass creation
@@ -139,12 +150,12 @@ def main() -> None:
     except TypeError:
         cases["rich_lt_both_not_impl_raises"] = True
 
-    if vi >= (3, 10):
+    if version_gte(vi, 3, 10):
         cases["match_args"] = list(getattr(Point, "__match_args__", ()))
     else:
         cases["match_args"] = []
 
-    if vi >= (3, 12):
+    if version_gte(vi, 3, 12):
         mv = memoryview(b"abcd")
         cases["buffer_readonly"] = mv.readonly
         cases["buffer_len"] = len(mv)
@@ -152,7 +163,7 @@ def main() -> None:
         cases["buffer_readonly"] = None
         cases["buffer_len"] = None
 
-    if vi >= (3, 14):
+    if version_gte(vi, 3, 14):
         cases["annotate_x"] = Annotated.__annotate__(1).get("x")
     else:
         cases["annotate_x"] = None
