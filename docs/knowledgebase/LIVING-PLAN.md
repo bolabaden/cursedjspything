@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 064 int-str divmod/pow)
+
+### Landed
+
+- [REPO] Plan 064 — `operator-int-str-divmod-pow.test.ts`; COMPATIBILITY §8.15 evidence (222 Vitest).
+
+### Partial
+
+- [OPEN] PRs #28–#42 still open on other branches.
+
+### Next
+
+1. Merge stacked PRs.
+2. bytes / sequence exotic §8.15 when prioritized.
+
+---
+
 ## Delta update (2026-05-24, plan 048 PyZeroDivisionError)
 
 ### Landed
