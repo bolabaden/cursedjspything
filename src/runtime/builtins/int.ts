@@ -4,6 +4,7 @@ import { makeClass } from "../class/class.js";
 import { nativeVal, setNative } from "./native.js";
 import { floatType, pyFloat } from "./float.js";
 import { pyTuple } from "./tuple.js";
+import { PyZeroDivisionError } from "../core/errors.js";
 
 function isBoolOperand(other: PyObject): boolean {
   return other.type.name === "bool";
@@ -109,13 +110,13 @@ export const intType = makeClass({
     [Slot.truediv, (self: PyObject, other: PyObject) => {
       if (!isNumericOperand(other)) return NotImplemented;
       const d = numericOperand(other);
-      if (d === 0) throw new Error("ZeroDivisionError: division by zero");
+      if (d === 0) throw new PyZeroDivisionError("division by zero");
       return pyFloat(nativeVal<number>(self) / d);
     }],
     [Slot.floordiv, (self: PyObject, other: PyObject) => {
       if (!isNumericOperand(other)) return NotImplemented;
       const d = numericOperand(other);
-      if (d === 0) throw new Error("ZeroDivisionError: integer division or modulo by zero");
+      if (d === 0) throw new PyZeroDivisionError("integer division or modulo by zero");
       return other.type === floatType
         ? pyFloat(Math.floor(nativeVal<number>(self) / d))
         : pyInt(Math.floor(nativeVal<number>(self) / d));
@@ -123,7 +124,7 @@ export const intType = makeClass({
     [Slot.mod, (self: PyObject, other: PyObject) => {
       if (!isNumericOperand(other)) return NotImplemented;
       const d = numericOperand(other);
-      if (d === 0) throw new Error("ZeroDivisionError: integer modulo by zero");
+      if (d === 0) throw new PyZeroDivisionError("integer modulo by zero");
       const n = nativeVal<number>(self);
       const r = ((n % d) + d) % d;  // Python-style modulo
       return other.type === floatType ? pyFloat(r) : pyInt(r);
@@ -167,7 +168,7 @@ export const intType = makeClass({
     [Slot.divmod, (self: PyObject, other: PyObject) => {
       if (other.type !== intType) return NotImplemented;
       const d = nativeVal<number>(other);
-      if (d === 0) throw new Error("ZeroDivisionError: integer division or modulo by zero");
+      if (d === 0) throw new PyZeroDivisionError("integer division or modulo by zero");
       const n = nativeVal<number>(self);
       const q = Math.floor(n / d);
       const r = ((n % d) + d) % d;
