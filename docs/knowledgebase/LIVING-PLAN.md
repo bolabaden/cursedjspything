@@ -9,11 +9,11 @@
 
 ---
 
-## Delta update (2026-05-24, sequence repeat performance)
+## Delta update (2026-05-24, PR #24 merged to main)
 
 ### Landed
 
-- [REPO] Plan 045 (pending PR): `buildRepeatedArray` + spread-safe pre-sized list/tuple repeat; direct `setNative`; large-repeat Vitest.
+- [REPO] Plan 046: merged PR #24 (`3e06f21`) — plan 045 spread-safe sequence repeat + wide-source regression tests (213 Vitest, 29 golden keys).
 
 ### Partial
 
@@ -21,8 +21,24 @@
 
 ### Next
 
-1. Merge plan 045 PR; Tier B targeted ports.
-2. Optional: `ce-optimize` on test suite duration if desired.
+1. Tier B targeted ports from `tier-b-lib-test-reference.md`.
+2. Optional: `ce-optimize` on test suite duration.
+
+---
+
+## Delta update (2026-05-24, sequence repeat performance)
+
+### Landed
+
+- [REPO] ~~Plan 045 (pending PR)~~ merged in plan 046 (`3e06f21`).
+
+### Partial
+
+- ~~Tier B~~ next after merge.
+
+### Next
+
+1. ~~Merge plan 045 PR~~ done.
 
 ---
 
