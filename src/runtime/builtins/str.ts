@@ -6,6 +6,12 @@ import { PyTypeError, PyIndexError } from "../core/errors.js";
 import { nativeVal, setNative } from "./native.js";
 import { sequenceRepeatCount } from "./int.js";
 
+function repeatStr(self: PyObject, other: PyObject) {
+  const n = sequenceRepeatCount(other);
+  if (n === null) return NotImplemented;
+  return pyStr(nativeVal<string>(self).repeat(n));
+}
+
 // ── pyStr ─────────────────────────────────────────────────────────────
 
 export const strType = makeClass({
@@ -51,16 +57,8 @@ export const strType = makeClass({
       if (other.type !== strType) return NotImplemented;
       return pyStr(nativeVal<string>(self) + nativeVal<string>(other));
     }],
-    [Slot.mul, (self: PyObject, other: PyObject) => {
-      const n = sequenceRepeatCount(other);
-      if (n === null) return NotImplemented;
-      return pyStr(nativeVal<string>(self).repeat(Math.max(0, n)));
-    }],
-    [Slot.rmul, (self: PyObject, other: PyObject) => {
-      const n = sequenceRepeatCount(other);
-      if (n === null) return NotImplemented;
-      return pyStr(nativeVal<string>(self).repeat(Math.max(0, n)));
-    }],
+    [Slot.mul, repeatStr],
+    [Slot.rmul, repeatStr],
     [Slot.contains, (self: PyObject, item: unknown) => {
       if (!(item instanceof PyObject) || item.type !== strType) {
         throw new PyTypeError("'in <string>' requires string as left operand, not int");
