@@ -1,7 +1,7 @@
 ---
 title: "docs: golden harness KB coherence after builder refactors"
 type: refactor
-status: in_progress
+status: completed
 date: 2026-05-23
 origin: docs/knowledgebase/LIVING-PLAN.md
 ---
