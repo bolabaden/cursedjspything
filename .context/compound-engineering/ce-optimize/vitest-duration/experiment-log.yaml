@@ -1,0 +1,109 @@
+spec: vitest-duration
+run_id: vitest-duration-2026-05-24
+started_at: "2026-05-24T05:18:00Z"
+baseline:
+  timestamp: "2026-05-24T05:24:00Z"
+  gates:
+    test_pass_rate: 1.0
+    tests_passed: 1
+  diagnostics:
+    vitest_seconds: 3.519
+    test_count: 213
+  note: "median of 3 runs (3.756, 2.840, 3.519)"
+experiments:
+  - iteration: 1
+    hypothesis: "Use pool forks instead of default threads"
+    category: parameter-tuning
+    outcome: kept
+    gates:
+      test_pass_rate: 1.0
+      tests_passed: 1
+    diagnostics:
+      vitest_seconds: 3.318
+      test_count: 213
+    learnings: "Modest improvement during experiments; explicit pool:forks not shipped (Vitest 3.2 default is forks)"
+  - iteration: 2
+    hypothesis: "Disable test isolation (isolate false) with forks pool"
+    category: parameter-tuning
+    outcome: kept
+    gates:
+      test_pass_rate: 1.0
+      tests_passed: 1
+    diagnostics:
+      vitest_seconds: 2.770
+      test_count: 213
+    learnings: "Larger win; no test pollution observed in full suite"
+  - iteration: 3
+    hypothesis: "Enable Vite deps optimizer for web in test server"
+    category: preprocessing
+    outcome: kept
+    gates:
+      test_pass_rate: 1.0
+      tests_passed: 1
+    diagnostics:
+      vitest_seconds: 2.565
+      test_count: 213
+    learnings: "Further reduction in collect/transform time"
+best:
+  iteration: 3
+  gates:
+    test_pass_rate: 1.0
+    tests_passed: 1
+  diagnostics:
+    vitest_seconds: 2.184
+    test_count: 213
+  note: "median of 3 confirmation runs (2.094, 2.184, 2.533) on combined config"
+hypothesis_backlog:
+  - description: "Set maxWorkers explicitly to CPU count"
+    category: parameter-tuning
+    priority: low
+    dep_status: approved
+    required_deps: []
+  - description: "pool vmForks instead of forks"
+    category: parameter-tuning
+    priority: low
+    dep_status: approved
+    required_deps: []
+  - description: "Disable fileParallelism for debugging variance"
+    category: parameter-tuning
+    priority: low
+    dep_status: approved
+    required_deps: []
+final_summary:
+  completed_at: "2026-05-24T05:30:00Z"
+  total_experiments: 3
+  kept: 3
+  reverted: 0
+  baseline_vitest_seconds: 3.519
+  final_vitest_seconds: 2.184
+  improvement_seconds: 1.335
+  improvement_pct: 37.9
+round2:
+  started_at: "2026-05-24T02:35:00Z"
+  baseline:
+    vitest_seconds: 4.087
+    test_count: 220
+    note: "median of 3 runs (3.732, 4.087, 5.986)"
+  experiments:
+    - iteration: 4
+      hypothesis: "pool vmForks instead of default forks"
+      category: parameter-tuning
+      outcome: reverted
+      diagnostics:
+        vitest_seconds: 4.487
+        test_count: 220
+      note: "median of 3 runs; slower than baseline"
+      learnings: "vmForks adds overhead for this small suite"
+    - iteration: 5
+      hypothesis: "poolOptions.forks.singleFork with isolate false"
+      category: parameter-tuning
+      outcome: kept
+      diagnostics:
+        vitest_seconds: 2.071
+        test_count: 220
+      note: "confirmation median (1.543, 2.071, 2.246)"
+      learnings: "Single fork avoids per-file worker spin-up; safe with isolate false"
+  best:
+    iteration: 5
+    vitest_seconds: 2.071
+    improvement_vs_round2_baseline_pct: 49.3

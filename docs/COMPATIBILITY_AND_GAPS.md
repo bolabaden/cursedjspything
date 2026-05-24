@@ -392,7 +392,7 @@ Built-in numeric types use **explicit type guards** in slot implementations rath
 
 For **str↔scalar** and other non-numeric builtin pairs (for example `str` with `int`, `list` with unrelated types), slots return **`NotImplemented`** or raise **`TypeError`** directly (str `__contains__` requires a str operand). Rich compare / numeric dispatch then typically raises `TypeError` when no reflected method applies — there is no string↔int coercion (`"1" == 1` is `false`; `"a" + 1` raises). This differs from CPython paths that route through additional abstract APIs for some exotic pairs.
 
-**Evidence:** `test/cpython-derived/operator-int-float.test.ts`, `operator-int-bool.test.ts`, `operator-bool-float.test.ts`, `operator-str-scalar.test.ts`, `sequence-repeat-bool.test.ts`, and `sequence-repeat-nonint.test.ts` port thin matrices from CPython `Lib/test/test_operator.py` / rich-compare spirit. Golden keys: `int_float_*`, `bool_int_*`, `bool_float_*`. **Remaining gap:** cross-type ops involving `bytes`, sequences vs unrelated scalars without matching special methods are not coerced the way CPython does.
+**Evidence:** `test/cpython-derived/operator-int-float.test.ts`, `operator-int-bool.test.ts`, `operator-bool-float.test.ts`, `operator-str-scalar.test.ts`, `operator-float-str-binary.test.ts`, `operator-bool-str-binary.test.ts`, `operator-bool-str-remaining-binary.test.ts`, and `sequence-repeat-bool.test.ts` port thin matrices from CPython `Lib/test/test_operator.py` / rich-compare spirit. Golden keys: `int_float_*`, `bool_int_*`, `bool_float_*`. **Remaining gap:** cross-type ops involving `bytes`, sequences vs unrelated scalars without matching special methods are not coerced the way CPython does.
 
 ### 8.16 `types.MappingProxyType` and readonly dict views
 
@@ -409,9 +409,9 @@ CPython exposes **readonly mapping views** on class and instance namespaces — 
 - Non-integer keys → **`PyTypeError`** (`list indices must be integers`, `tuple indices must be integers`, `string indices must be integers`; str `__contains__` with non-str operand uses CPython-style `'in <string>' requires string as left operand, not int`).
 - Out-of-range integer keys → **`PyIndexError`** (`list index out of range`, `tuple index out of range`, `string index out of range`, etc.).
 
-Int and float `__truediv__`, `__floordiv__`, and `__mod__` (plus int `__motion__`/`divmod`) raise **`PyZeroDivisionError`** with CPython message text on zero divisors.
+Int and float `__truediv__`, `__floordiv__`, and `__mod__` (plus int `__divmod__`) raise **`PyZeroDivisionError`** with CPython message text on zero divisors. Int `__lshift__` / `__rshift__` with negative shift count raise **`PyValueError`** (`negative shift count`).
 
-**Evidence:** `test/cpython-derived/operator-str-scalar.test.ts`, `sequence-index-type.test.ts`, `operator-zerodivision.test.ts`. **Remaining gap:** other builtins and protocol fallbacks may still throw plain `Error` where CPython normalizes exception types.
+**Evidence:** `test/cpython-derived/operator-str-scalar.test.ts`, `sequence-index-type.test.ts`, `operator-zerodivision.test.ts`, `operator-int-shift.test.ts`. **Remaining gap:** other builtins and protocol fallbacks may still throw plain `Error` where CPython normalizes exception types.
 
 ---
 
