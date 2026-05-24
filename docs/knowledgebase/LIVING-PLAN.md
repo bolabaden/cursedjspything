@@ -9,23 +9,37 @@
 
 ---
 
+## Delta update (2026-05-24, PR #26 vitest optimize merged)
+
+### Landed
+
+- [REPO] PR #26 merged (`4be245e`) — vitest `isolate: false` + deps optimizer; measure harness; ~38% faster `npm test` (213 tests).
+
+### Partial
+
+- [OPEN] Tier B targeted ports unchanged.
+
+### Next
+
+1. Tier B targeted ports from `tier-b-lib-test-reference.md`.
+2. Optional: resume `ce-optimize/vitest-duration` for further hypotheses (maxWorkers, vmForks).
+
+---
+
 ## Delta update (2026-05-24, vitest-duration optimize + plan 047)
 
 ### Landed
 
 - [REPO] Plan 047 merged (PR #25) — sequence-repeat `buildRepeatedArray` docs + KB counts (213 tests).
-- [REPO] `ce-optimize/vitest-duration`: median `npm test` **3.52s → 2.18s** (~38%) via `isolate: false` + Vite deps optimizer; harness `scripts/measure-vitest-duration.sh`.
+- [REPO] ~~Vitest optimize PR #26~~ merged in delta above.
 
 ### Partial
 
-- [OPEN] Vitest optimize PR [#26](https://github.com/bolabaden/cursedjspything/pull/26) — rebase/merge pending.
+- ~~PR #26 pending~~ done.
 
 ### Next
 
-1. Merge vitest-duration optimize PR #26.
-2. Tier B targeted ports from `tier-b-lib-test-reference.md`.
-
----
+1. ~~Merge vitest-duration optimize PR #26~~ done.
 
 ---
 
