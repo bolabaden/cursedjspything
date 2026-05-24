@@ -7,6 +7,25 @@
 
 ---
 
+---
+
+## Delta update (2026-05-24, numeric tower docs sync)
+
+### Landed
+
+- [REPO] Plan 025: COMPATIBILITY §8.15 + §12, compatibility-summary, parity-gaps row #10, validation-ladder, README, tier-b-lib-test-reference — 23 golden keys; int/bool/float cross-type evidence.
+
+### Partial
+
+- [REPO] PR #19–#21 open; str/sequence cross-type ops still `NotImplemented`.
+
+### Next
+
+1. Merge open PRs; continue gap #8 (str/scalar) or Tier B cherry-picks.
+2. Tier-3 roadmap (VM, import) unchanged.
+
+---
+
 ## Delta update (2026-05-24, bool↔float cross-type parity)
 
 ### Landed

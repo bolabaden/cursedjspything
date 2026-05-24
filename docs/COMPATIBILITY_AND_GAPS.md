@@ -388,11 +388,11 @@ Python reference: class creation / compiler inserted cell discussion under **\[3
 
 ### 8.15 Builtin cross-type operator delegation
 
-Built-in numeric types use **explicit type guards** in slot implementations rather than CPython’s full `PyNumber_*` tower. `[REPO]` `pyInt` methods in `src/runtime/builtins/int.ts` accept operands whose `type` is `intType` or `floatType`; mixed int/float comparisons delegate to JS number compare on promoted float values, and mixed add/mul (and related arithmetic) return `pyFloat` when either operand is a float.
+Built-in numeric types use **explicit type guards** in slot implementations rather than CPython’s full `PyNumber_*` tower. `[REPO]` Shared helpers `isNumericOperand` / `numericOperand` in `src/runtime/builtins/int.ts` treat **int**, **float**, and **bool** as JS numbers (bool as 0/1). `pyInt` and `pyFloat` slots accept all three; mixed int/float arithmetic promotes to `pyFloat` when either operand is a float; int↔bool and bool↔float pairs follow the same numeric compare and add paths (float `__radd__` covers `True + 1.0`).
 
-For any other builtin operand pair (for example `str` with `int`, `list` with `int`, `bool` with unrelated types), the corresponding slot returns **`NotImplemented`**, leaving further delegation to `richCompare` / numeric dispatch — which typically raises `TypeError` when no reflected method applies. This differs from CPython paths that coerce or route through additional abstract APIs.
+For any other builtin operand pair (for example `str` with `int`, `list` with `int`), the corresponding slot returns **`NotImplemented`**, leaving further delegation to `richCompare` / numeric dispatch — which typically raises `TypeError` when no reflected method applies. This differs from CPython paths that coerce or route through additional abstract APIs.
 
-**Evidence:** `test/cpython-derived/operator-int-float.test.ts` ports thin `OperatorTestCase` matrices from CPython `Lib/test/test_operator.py` for int/float compare and promote-to-float arithmetic. **Remaining gap:** cross-type ops involving `str`, `bytes`, `bool`, sequences, and user types without matching special methods are not coerced the way CPython does.
+**Evidence:** `test/cpython-derived/operator-int-float.test.ts`, `operator-int-bool.test.ts`, and `operator-bool-float.test.ts` port thin matrices from CPython `Lib/test/test_operator.py`. Golden keys: `int_float_*`, `bool_int_*`, `bool_float_*`. **Remaining gap:** cross-type ops involving `str`, `bytes`, sequences, and user types without matching special methods are not coerced the way CPython does.
 
 ### 8.16 `types.MappingProxyType` and readonly dict views
 
@@ -535,7 +535,7 @@ pyrt’s explicit-function approach is therefore aligned with JS reality.
 ## 12. Verification in this repository
 
 - **Unit tests:** `test/**/*.test.ts` (Vitest). Run: `npm test`.
-- **Golden harness:** `scripts/golden/` (CPython reference vs pyrt). Run: `npm run golden` (CI matrix: Python 3.10, 3.12, 3.14). **~19 case keys per profile version** (3.9–3.14): MRO/`isinstance`, rich compare, slice, contains, int↔float ops, descriptor precedence, class hooks (`init_subclass_called`, `set_name_called`), plus version-gated `match_args` (3.10+), buffer (3.12+), `annotate_x` (3.14+). Key parity: `npm run golden:keys`, `test/golden/key-parity.test.ts`.
+- **Golden harness:** `scripts/golden/` (CPython reference vs pyrt). Run: `npm run golden` (CI matrix: Python 3.10, 3.12, 3.14). **23 case keys per profile version** (3.9–3.14): MRO/`isinstance`, rich compare, slice, contains, int↔float / int↔bool / bool↔float ops, descriptor precedence, class hooks (`init_subclass_called`, `set_name_called`), plus version-gated `match_args` (3.10+), buffer (3.12+), `annotate_x` (3.14+). Key parity: `npm run golden:keys`, `test/golden/key-parity.test.ts`.
 - **Examples:** `examples/python-vs-js.ts`. Run: `npm run examples`.
 - **Typecheck:** `npm run check`.
 
