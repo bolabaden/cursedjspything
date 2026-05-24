@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 073 int-str remaining binary)
+
+### Landed
+
+- [REPO] Plan 073 — `operator-int-str-remaining-binary.test.ts`; COMPATIBILITY §8.15 evidence (226 Vitest).
+
+### Partial
+
+- [OPEN] PRs #28–#51 still open on other branches.
+
+### Next
+
+1. Merge stacked PRs.
+2. float↔str remaining / bytes §8.15 when prioritized.
+
+---
+
 ## Delta update (2026-05-24, plan 048 PyZeroDivisionError)
 
 ### Landed
