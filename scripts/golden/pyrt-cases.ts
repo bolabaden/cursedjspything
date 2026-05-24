@@ -191,6 +191,8 @@ export function buildPyrtCases(pythonVersion: string): Record<string, unknown> {
     int_float_add: unwrap<number>(add(pyInt(1), pyFloat(1.0)) as PyObject),
     bool_int_eq: eq(pyInt(1), pyTrue) === true,
     bool_int_add: unwrap<number>(add(pyInt(1), pyTrue) as PyObject),
+    bool_float_eq: eq(pyTrue, pyFloat(1.0)) === true,
+    bool_float_add: unwrap<number>(add(pyTrue, pyFloat(1.0)) as PyObject),
     descriptor_data_wins: getAttr(descOwner, "attr"),
     descriptor_nodata_loses: getAttr(nonDataOwner, "attr"),
     init_subclass_called: initSubclassLog.includes("InitSubclassChild"),

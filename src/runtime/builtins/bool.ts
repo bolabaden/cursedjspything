@@ -3,6 +3,7 @@ import { Slot } from "../core/slots.js";
 import { makeClass } from "../class/class.js";
 import { nativeVal, setNative } from "./native.js";
 import { pyInt, intType } from "./int.js";
+import { floatType } from "./float.js";
 
 function boolNumeric(self: PyObject): number {
   return nativeVal<boolean>(self) ? 1 : 0;
@@ -24,6 +25,9 @@ export const boolType = makeClass({
         return nativeVal<boolean>(self) === nativeVal<boolean>(other);
       }
       if (other.type === intType) {
+        return boolNumeric(self) === nativeVal<number>(other);
+      }
+      if (other.type === floatType) {
         return boolNumeric(self) === nativeVal<number>(other);
       }
       return NotImplemented;

@@ -106,6 +106,8 @@ def main() -> None:
         "int_float_add": 1 + 1.0,
         "bool_int_eq": 1 == True,
         "bool_int_add": 1 + True,
+        "bool_float_eq": True == 1.0,
+        "bool_float_add": True + 1.0,
     }
 
     desc_owner = owner_with_instance_attr(DescOwner, "attr", "instance-value")

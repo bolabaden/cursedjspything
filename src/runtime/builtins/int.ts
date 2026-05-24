@@ -21,6 +21,8 @@ function numericOperand(other: PyObject): number {
   return nativeVal<number>(other);
 }
 
+export { isNumericOperand, numericOperand };
+
 // ── pyInt ─────────────────────────────────────────────────────────────
 
 export const intType = makeClass({

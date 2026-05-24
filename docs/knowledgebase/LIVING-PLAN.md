@@ -7,6 +7,23 @@
 
 ---
 
+## Delta update (2026-05-24, bool↔float cross-type parity)
+
+### Landed
+
+- [REPO] Plan 024: shared numeric helpers exported from `int.ts`; `float.ts` accepts bool; `bool.__eq__` accepts float; Vitest + golden `bool_float_*`.
+
+### Partial
+
+- [REPO] PR #19–#21 open; str/sequence cross-type ops still `NotImplemented`.
+
+### Next
+
+1. Merge open PRs; continue gap #8 (str/scalar) or Tier B cherry-picks.
+2. Tier-3 roadmap (VM, import) unchanged.
+
+---
+
 ## Delta update (2026-05-24, int↔bool cross-type parity)
 
 ### Landed
