@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, integration docs coherence)
+
+### Landed
+
+- [REPO] Plan 034: restored plan 021 dual-builder bullet; compatibility-summary refresh; plan 021 completed; PR #19/#20 closed as superseded by #21.
+
+### Partial
+
+- [REPO] PR #21 open — primary integration branch ready for merge review.
+
+### Next
+
+1. Merge PR #21; Tier B cherry-picks or Tier-3 roadmap as prioritized.
+2. Run full `npm run golden` when Python matrix available on CI/local.
+
+---
+
 ## Delta update (2026-05-24, version-gate tests on integration branch)
 
 ### Landed

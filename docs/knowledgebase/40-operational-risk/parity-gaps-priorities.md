@@ -27,7 +27,7 @@
 | 7 | **`__bool__` must return JS boolean** | `compare.ts`; Vitest non-boolean `__bool__` | CPython legacy truthy `__bool__` paths |
 | 8 | **Builtin cross-type ops (partial)** | `[REPO]` int↔float, int↔bool, bool↔float + golden keys; `boolType` bases `[intType]` (plan 026); str↔scalar non-coercion in `operator-str-scalar.test.ts`; str/sequence vs unrelated types still not fully mapped | CPython `PyNumber_*` / rich-compare coercion tower |
 | 9 | **`makeClass` ≠ `type.__call__`** | `class/class.ts`, COMPATIBILITY §8.1 | Metaclass `__new__`, full creation protocol |
-| 10 | **Golden harness coverage** | `[REPO]` `scripts/golden/` **23 keys/profile**; CI matrix 3.10/3.12/3.14; Tier A + Tier B cherry-picks (contains, `int_float_*`, `bool_int_*`, `bool_float_*`, descriptors, class hooks) | Broader protocol proof across versions |
+| 10 | **Golden harness coverage** | `[REPO]` `scripts/golden/` **23 keys/profile**; CI matrix 3.10/3.12/3.14; offline gate semantics in `pyrt-cases-version-gates.test.ts`; Tier A + Tier B cherry-picks | Broader protocol proof across versions |
 
 ---
 

@@ -23,7 +23,9 @@ This page is the KB entry point for risk and scope. Python references use **pinn
 | 24 `Hook` symbols | Registered; partial handlers |
 | Attribute lookup + descriptors | Implemented (tested) |
 | Rich compare, numeric, identity | Implemented |
-| Builtin int↔float / int↔bool / bool↔float cross-type | Partial — COMPATIBILITY §8.15; golden `int_float_*`, `bool_int_*`, `bool_float_*`; str/sequence pairs `NotImplemented` |
+| Builtin int↔float / int↔bool / bool↔float cross-type | Partial — COMPATIBILITY §8.15; golden `int_float_*`, `bool_int_*`, `bool_float_*`; bool subclasses int (plan 026) |
+| str↔scalar / sequence subscript errors | Partial — no coercion; `PyTypeError`/`PyIndexError` on str/list/tuple (§8.17); Vitest evidence |
+| Golden offline version gates | `pyrt-cases-version-gates.test.ts` — gate semantics without Python |
 | Class creation hooks (subset) | `makeClass`, `setName`, `initSubclass` |
 | Builtin types (minimal) | list/tuple/dict/set/str/int/float/bool/none |
 | `isinstance` / `issubclass` | Implemented |
