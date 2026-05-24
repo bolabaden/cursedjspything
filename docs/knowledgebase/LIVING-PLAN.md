@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, str repetition bool parity)
+
+### Landed
+
+- [REPO] Plan 035: `str.__mul__`/`__rmul__` accept bool (0/1 repeat); Vitest in `operator-str-scalar.test.ts`.
+
+### Partial
+
+- [REPO] PR #21 open — ready for merge after CI green.
+
+### Next
+
+1. Merge PR #21; Tier B cherry-picks or Tier-3 roadmap.
+2. Full golden matrix on CI (local: 3.14 OK).
+
+---
+
 ## Delta update (2026-05-24, integration docs coherence)
 
 ### Landed

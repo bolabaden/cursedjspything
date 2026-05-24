@@ -7,9 +7,13 @@ import {
   add,
   contains,
   eq,
+  mul,
   ne,
+  pyFalse,
   pyInt,
   pyStr,
+  pyTrue,
+  unwrap,
 } from "../../src/index.js";
 import { PyTypeError } from "../../src/runtime/core/errors.js";
 
@@ -44,5 +48,13 @@ describe("cpython-derived str contains", () => {
     expect(() => contains(pyStr("abc"), pyInt(97))).toThrow(
       /'in <string>' requires string as left operand/,
     );
+  });
+});
+
+describe("cpython-derived str repetition with bool", () => {
+  it("mul treats True as 1 and False as 0", () => {
+    expect(unwrap(mul(pyStr("ab"), pyTrue) as ReturnType<typeof pyStr>)).toBe("ab");
+    expect(unwrap(mul(pyStr("ab"), pyFalse) as ReturnType<typeof pyStr>)).toBe("");
+    expect(unwrap(mul(pyStr("x"), pyInt(2)) as ReturnType<typeof pyStr>)).toBe("xx");
   });
 });
