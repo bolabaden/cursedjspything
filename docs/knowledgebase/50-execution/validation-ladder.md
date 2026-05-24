@@ -94,7 +94,7 @@ Vitest (`test/golden/pyrt-cases-version-gates.test.ts`) asserts **gated values**
 
 **Builder maintainability:** Both emitters share the same version-gated keys (`match_args`, buffer, `annotate_x`). Use `version_gte` / `versionGte` for 3.10/3.12/3.14 gates and `owner_with_instance_attr` / `ownerWithInstanceAttr` for descriptor-precedence fixtures — extend these helpers when adding similar cases rather than inlining gates or owner setup.
 
-**Current inventory:** 27 keys per profile (see `scripts/golden/expected/key-sets.json`), including Tier A ports (contains, int/float/bool cross-type, sequence/str bool repetition) and Tier B cherry-picks (descriptor precedence, `__init_subclass__`, `__set_name__`).
+**Current inventory:** 29 keys per profile (see `scripts/golden/expected/key-sets.json`), including Tier A ports (contains, int/float/bool cross-type, list/str/tuple bool repetition) and Tier B cherry-picks (descriptor precedence, `__init_subclass__`, `__set_name__`).
 
 ---
 

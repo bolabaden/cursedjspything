@@ -26,7 +26,9 @@
     "set_name_called",
     "slice_list",
     "str_bool_mul",
-    "str_bool_rmul"
+    "str_bool_rmul",
+    "tuple_bool_mul",
+    "tuple_bool_rmul"
   ],
   "3.10": [
     "annotate_x",
@@ -55,7 +57,9 @@
     "set_name_called",
     "slice_list",
     "str_bool_mul",
-    "str_bool_rmul"
+    "str_bool_rmul",
+    "tuple_bool_mul",
+    "tuple_bool_rmul"
   ],
   "3.12": [
     "annotate_x",
@@ -84,7 +88,9 @@
     "set_name_called",
     "slice_list",
     "str_bool_mul",
-    "str_bool_rmul"
+    "str_bool_rmul",
+    "tuple_bool_mul",
+    "tuple_bool_rmul"
   ],
   "3.14": [
     "annotate_x",
@@ -113,6 +119,8 @@
     "set_name_called",
     "slice_list",
     "str_bool_mul",
-    "str_bool_rmul"
+    "str_bool_rmul",
+    "tuple_bool_mul",
+    "tuple_bool_rmul"
   ]
 }
