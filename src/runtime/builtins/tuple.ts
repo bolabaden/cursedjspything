@@ -8,6 +8,15 @@ import { sequenceRepeatCount } from "./int.js";
 import { isSlice, sliceFields, sliceIndices } from "../collections/slice.js";
 import { eq } from "../dispatch/operators/compare.js";
 
+function repeatTuple(self: PyObject, other: PyObject) {
+  const n = sequenceRepeatCount(other);
+  if (n === null) return NotImplemented;
+  const src = nativeVal<readonly PyObject[]>(self);
+  const result: PyObject[] = [];
+  for (let i = 0; i < n; i++) result.push(...src);
+  return pyTuple(result);
+}
+
 // ── pyTuple ───────────────────────────────────────────────────────────
 
 export const tupleType = makeClass({
@@ -62,22 +71,8 @@ export const tupleType = makeClass({
       if (other.type !== tupleType) return NotImplemented;
       return pyTuple([...nativeVal<readonly PyObject[]>(self), ...nativeVal<readonly PyObject[]>(other)]);
     }],
-    [Slot.mul, (self: PyObject, other: PyObject) => {
-      const n = sequenceRepeatCount(other);
-      if (n === null) return NotImplemented;
-      const src = nativeVal<readonly PyObject[]>(self);
-      const result: PyObject[] = [];
-      for (let i = 0; i < n; i++) result.push(...src);
-      return pyTuple(result);
-    }],
-    [Slot.rmul, (self: PyObject, other: PyObject) => {
-      const n = sequenceRepeatCount(other);
-      if (n === null) return NotImplemented;
-      const src = nativeVal<readonly PyObject[]>(self);
-      const result: PyObject[] = [];
-      for (let i = 0; i < n; i++) result.push(...src);
-      return pyTuple(result);
-    }],
+    [Slot.mul, repeatTuple],
+    [Slot.rmul, repeatTuple],
     [Slot.iter, (self: PyObject) => {
       const arr = nativeVal<readonly PyObject[]>(self);
       let i = 0;

@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, sequence mul/rmul dedupe)
+
+### Landed
+
+- [REPO] Plan 043 (pending PR): shared `repeatList`/`repeatTuple`/`repeatStr` handlers; `sequenceRepeatCount` uses `numericOperand` + non-negative clamp.
+
+### Partial
+
+- [OPEN] Performance pre-size for list/tuple repeat deferred (reviewer note).
+
+### Next
+
+1. Merge plan 043 PR; Tier B targeted ports.
+2. Optional: list/tuple repeat pre-allocation slice (performance-optimizer).
+
+---
+
 ## Delta update (2026-05-24, PR #22 merged to main)
 
 ### Landed
