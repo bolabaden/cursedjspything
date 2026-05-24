@@ -42,4 +42,12 @@ describe("cpython-derived list/tuple repetition with bool", () => {
     const oneTuple = pyTuple([pyInt(1)]);
     expect(len(mul(oneTuple, pyInt(-1)) as ReturnType<typeof pyTuple>)).toBe(0);
   });
+
+  it("large repeat count does not hit spread limits", () => {
+    const one = pyList([pyInt(0)]);
+    expect(len(mul(one, pyInt(150_000)) as ReturnType<typeof pyList>)).toBe(150_000);
+
+    const tup = pyTuple([pyInt(0)]);
+    expect(len(mul(tup, pyInt(150_000)) as ReturnType<typeof pyTuple>)).toBe(150_000);
+  });
 });

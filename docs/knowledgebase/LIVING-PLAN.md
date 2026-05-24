@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, sequence repeat performance)
+
+### Landed
+
+- [REPO] Plan 045 (pending PR): `buildRepeatedArray` + spread-safe pre-sized list/tuple repeat; direct `setNative`; large-repeat Vitest.
+
+### Partial
+
+- [OPEN] Tier B targeted ports unchanged.
+
+### Next
+
+1. Merge plan 045 PR; Tier B targeted ports.
+2. Optional: `ce-optimize` on test suite duration if desired.
+
+---
+
 ## Delta update (2026-05-24, PR #23 merged to main)
 
 ### Landed
@@ -17,12 +34,12 @@
 
 ### Partial
 
-- [OPEN] List/tuple pre-sized repeat / spread-limit fix deferred (performance-optimizer P0–P2).
+- ~~List/tuple pre-sized repeat / spread-limit fix~~ plan 045 (pending PR).
 
 ### Next
 
-1. Tier B targeted ports from `tier-b-lib-test-reference.md`.
-2. Optional: sequence repeat performance slice (pre-size, spread-safe copy).
+1. ~~Tier B~~ after plan 045 merge.
+2. ~~Optional: sequence repeat performance slice~~ plan 045.
 
 ---
 
