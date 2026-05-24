@@ -18,11 +18,90 @@
 ### Partial
 
 - [OPEN] PRs #28–#34 still open.
+## Delta update (2026-05-24, plan 055 sequence cross-type)
+
+### Landed
+
+- [REPO] Plan 055 — `sequence-cross-type.test.ts`; COMPATIBILITY §8.15 evidence (224 Vitest).
+
+### Partial
+
+- [OPEN] PRs #28–#33 still open.
+## Delta update (2026-05-24, plan 054 sequence repeat non-int)
+
+### Landed
+
+- [REPO] Plan 054 — `sequence-repeat-nonint.test.ts`; COMPATIBILITY §8.15 evidence; KB counts 223 tests / 28 files.
+
+### Partial
+
+- [OPEN] PRs #28–#32 still open.
+## Delta update (2026-05-24, plan 053 int shift ValueError)
+
+### Landed
+
+- [REPO] Plan 053 — int `__lshift__`/`__rshift__` negative count raises `PyValueError`; `operator-int-shift.test.ts`; COMPATIBILITY §8.17 updated.
+
+### Partial
+
+- [OPEN] PRs #28–#31 still open (slice, MRO, vitest, pow mod).
+
+### Next
+
+1. Merge stacked open PRs.
+2. Further numeric/exception cherry-picks.
+## Delta update (2026-05-24, plan 051 vitest round 2)
+
+### Landed
+
+- [REPO] Plan 051 — `poolOptions.forks.singleFork: true`; median `npm test` ~4.1s → ~2.1s (−49% vs round-2 baseline); vmForks reverted; validation-ladder updated.
+
+### Partial
+
+- [OPEN] PRs #28/#29 (slice ValueError, MRO PyTypeError) still open on GitHub.
+
+### Next
+
+1. Merge open exception-typing PRs.
+2. COMPATIBILITY cherry-picks or ce-optimize round 3 (maxWorkers).
+
+## Delta update (2026-05-24, plan 075 bool-str binary)
+
+### Landed
+
+- [REPO] Plan 075 — `operator-bool-str-binary.test.ts`; COMPATIBILITY §8.15 evidence (223 Vitest).
+
+## Delta update (2026-05-24, plan 065 float-str binary)
+
+### Landed
+
+- [REPO] Plan 065 — `operator-float-str-binary.test.ts`; COMPATIBILITY §8.15 evidence (223 Vitest).
+
+### Partial
+
+- [OPEN] PRs #28–#53 still open on other branches.
 
 ### Next
 
 1. Merge stacked PRs.
-2. bytes / remaining §8.15 gaps when prioritized.
+2. bytes / sequence exotic §8.15 when prioritized.
+
+---
+
+## Delta update (2026-05-24, plan 076 bool-str remaining binary)
+
+### Landed
+
+- [REPO] Plan 076 — `operator-bool-str-remaining-binary.test.ts`; COMPATIBILITY §8.15 evidence (224 Vitest).
+
+### Partial
+
+- [OPEN] PRs #28–#53 still open on other branches.
+
+### Next
+
+1. Merge stacked PRs.
+2. bytes / sequence exotic §8.15 when prioritized.
 
 ---
 
