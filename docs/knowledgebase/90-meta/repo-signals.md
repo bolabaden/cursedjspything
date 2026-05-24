@@ -9,7 +9,7 @@
 | Path | Role |
 |------|------|
 | `src/runtime/` | Core implementation |
-| `test/` | Vitest (213 tests, 26 files) |
+| `test/` | Vitest (223 tests, 28 files) |
 | `test/cpython-derived/` | Curated CPython `Lib/test` ports |
 | `test/golden/` | Golden key-parity snapshot tests |
 | `examples/python-vs-js.ts` | 39 narrative sections |

@@ -9,6 +9,15 @@
 
 ---
 
+## Delta update (2026-05-24, plan 054 sequence repeat non-int)
+
+### Landed
+
+- [REPO] Plan 054 — `sequence-repeat-nonint.test.ts`; COMPATIBILITY §8.15 evidence; KB counts 223 tests / 28 files.
+
+### Partial
+
+- [OPEN] PRs #28–#32 still open.
 ## Delta update (2026-05-24, plan 053 int shift ValueError)
 
 ### Landed
