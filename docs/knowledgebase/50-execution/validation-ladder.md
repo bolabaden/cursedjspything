@@ -84,11 +84,13 @@ npm run golden:keys
 
 Vitest (`test/golden/key-parity.test.ts`) asserts pyrt keys against `scripts/golden/expected/key-sets.json` without Python installed.
 
+**Current inventory:** ~19 keys per profile (see `scripts/golden/expected/key-sets.json`), including Tier A ports (contains, int/float) and Tier B cherry-picks (descriptor precedence, `__init_subclass__`, `__set_name__`).
+
 ---
 
 ## L5 — CPython version matrix (partial)
 
-`[OPEN]` Golden uses Python 3.14 (fallback 3.13) only. Repeat selected cases on 3.9–3.12 for version-specific deltas.
+`[REPO]` CI golden matrix: Python 3.10, 3.12, 3.14 (`.github/workflows/ci.yml`). Local runs use whichever `python3.x` binaries are on PATH (3.9–3.14). Repeat selected cases when validating version-specific gates (`match_args`, buffer, `annotate_x`).
 
 ---
 
