@@ -386,6 +386,14 @@ Python reference: class creation / compiler inserted cell discussion under **\[3
 
 `getAttr` implements a simplified interaction: if `__getattribute__` raises `PyAttributeError`, it may fall through to `__getattr__`. CPython’s exact edge cases differ (exception types, `AttributeError` subclasses, suppressed tracebacks, etc.).
 
+### 8.15 Builtin cross-type operator delegation
+
+Built-in numeric types use **explicit type guards** in slot implementations rather than CPython’s full `PyNumber_*` tower. `[REPO]` `pyInt` methods in `src/runtime/builtins/int.ts` accept operands whose `type` is `intType` or `floatType`; mixed int/float comparisons delegate to JS number compare on promoted float values, and mixed add/mul (and related arithmetic) return `pyFloat` when either operand is a float.
+
+For any other builtin operand pair (for example `str` with `int`, `list` with `int`, `bool` with unrelated types), the corresponding slot returns **`NotImplemented`**, leaving further delegation to `richCompare` / numeric dispatch — which typically raises `TypeError` when no reflected method applies. This differs from CPython paths that coerce or route through additional abstract APIs.
+
+**Evidence:** `test/cpython-derived/operator-int-float.test.ts` ports thin `OperatorTestCase` matrices from CPython `Lib/test/test_operator.py` for int/float compare and promote-to-float arithmetic. **Remaining gap:** cross-type ops involving `str`, `bytes`, `bool`, sequences, and user types without matching special methods are not coerced the way CPython does.
+
 ---
 
 ## 9. Not supported: Python language and execution model

@@ -25,7 +25,7 @@
 | 5 | **Rich compare / `NotImplemented` edge cases** | Golden `rich_lt_reflected`, `rich_lt_both_not_impl_raises`; Vitest ordering/`eq` cases | Exotic MRO/reflected chains beyond golden fixtures |
 | 6 | **`hash` coercion `\| 0`** | `compare.ts`; Vitest `__hash__` type check | Full integer hash tower / `hash`∘`eq` invariants |
 | 7 | **`__bool__` must return JS boolean** | `compare.ts`; Vitest non-boolean `__bool__` | CPython legacy truthy `__bool__` paths |
-| 8 | **Builtin cross-type ops return `NotImplemented`** | `builtins/*.ts` type guards; list/tuple `__eq__` uses `eq()` per element | CPython may delegate or coerce further |
+| 8 | **Builtin cross-type ops (partial)** | `int.ts` int↔float guards + `operator-int-float.test.ts`; other pairs (`str`, `bool`, sequences vs scalars) still `NotImplemented` | CPython `PyNumber_*` / rich-compare coercion tower |
 | 9 | **`makeClass` ≠ `type.__call__`** | `class/class.ts`, COMPATIBILITY §8.1 | Metaclass `__new__`, full creation protocol |
 | 10 | **Golden harness is thin** | `scripts/golden/` ~11 checks/version; CI matrix 3.10/3.12/3.14 | Broader protocol proof across versions |
 

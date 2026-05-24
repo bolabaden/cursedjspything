@@ -19,6 +19,7 @@ Maintain an evidence-backed knowledgebase and a honest compatibility contract: w
 
 - [REPO] Golden key-parity guard: `keys.ts`, `pyrt-cases.ts`, Vitest snapshot, `golden:keys`.
 - [REPO] Tier A cpython-derived ports: richcmp Incomparable/Rev, operator int/float, contains, isinstance (nested tuple flatten).
+- [REPO] `COMPATIBILITY_AND_GAPS.md` §8.15 — int↔float cross-type delegation docs.
 
 ### Partial
 
