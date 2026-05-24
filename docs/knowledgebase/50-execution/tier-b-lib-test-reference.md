@@ -50,7 +50,7 @@
 1. Run `npm run cpython:mine` (or `bash scripts/cpython/mine-lib-tests.sh`) after submodule init.
 2. Pick a **single** test method; read CPython source in `vendor/cpython/Lib/test/…`.
 3. Decide surface: golden JSON (cross-runtime) vs Vitest (pyrt-only) vs COMPATIBILITY gap note only.
-4. If adding golden keys, update `cases.py`, `pyrt-cases.ts`, expected JSON, and run `npm run golden:keys`.
+4. If adding golden keys, update `cases.py` and `pyrt-cases.ts` in parallel (keep `# golden:*` sync comments). Reuse `version_gte` / `versionGte` for version gates and `owner_with_instance_attr` / `ownerWithInstanceAttr` for descriptor-owner fixtures when the pattern fits; then refresh expected JSON and run `npm run golden:keys`.
 
 ---
 

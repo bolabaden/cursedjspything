@@ -74,7 +74,7 @@ After doc or slot changes:
 npm run golden
 ```
 
-Runs `scripts/golden/run.ts` against `scripts/golden/cases.py` and compares to `scripts/golden/expected/{version}.json` for each available Python 3.9–3.14. **Key parity** (symmetric case keys between CPython and `buildPyrtCases`) runs before value comparison. CI runs this after L2.
+Runs `scripts/golden/run.ts` against `scripts/golden/cases.py` (CPython reference) and `scripts/golden/pyrt-cases.ts` (`buildPyrtCases`) and compares to `scripts/golden/expected/{version}.json` for each available Python 3.9–3.14. **Key parity** (symmetric case keys between CPython and `buildPyrtCases`) runs before value comparison. CI runs this after L2.
 
 When adding or renaming case keys, update both `cases.py` and `scripts/golden/pyrt-cases.ts`, then:
 
@@ -83,6 +83,8 @@ npm run golden:keys
 ```
 
 Vitest (`test/golden/key-parity.test.ts`) asserts pyrt keys against `scripts/golden/expected/key-sets.json` without Python installed.
+
+**Builder maintainability:** Both emitters share the same version-gated keys (`match_args`, buffer, `annotate_x`). Use `version_gte` / `versionGte` for 3.10/3.12/3.14 gates and `owner_with_instance_attr` / `ownerWithInstanceAttr` for descriptor-precedence fixtures — extend these helpers when adding similar cases rather than inlining gates or owner setup.
 
 **Current inventory:** ~19 keys per profile (see `scripts/golden/expected/key-sets.json`), including Tier A ports (contains, int/float) and Tier B cherry-picks (descriptor precedence, `__init_subclass__`, `__set_name__`).
 

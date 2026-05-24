@@ -17,9 +17,9 @@
 
 ## Parity surfaces
 
-| Surface | Mechanism | CPython source |
-|---------|-----------|----------------|
-| Cross-runtime JSON | `npm run golden` | `scripts/golden/cases.py` (executed on installed Python) |
+| Surface | Mechanism | CPython source | pyrt mirror |
+|---------|-----------|----------------|-------------|
+| Cross-runtime JSON | `npm run golden` | `scripts/golden/cases.py` (executed on installed Python) | `scripts/golden/pyrt-cases.ts` (`buildPyrtCases`) |
 | Ported unittest logic | Vitest `test/cpython-derived/*` | Curated methods from `Lib/test` |
 | Unit regressions | `npm test` | pyrt-specific |
 
