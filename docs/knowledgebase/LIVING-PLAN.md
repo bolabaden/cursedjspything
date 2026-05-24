@@ -18,7 +18,6 @@
 ### Partial
 
 - [OPEN] Tier B targeted ports unchanged.
-- [OPEN] ce-optimize experiment log still credits explicit `pool: forks` (removed pre-merge; Vitest 3.2 default).
 
 ### Next
 

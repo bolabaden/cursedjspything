@@ -24,6 +24,14 @@ Vitest; unit tests mirror `src/runtime/` layout:
 
 `[REPO]` `vitest.config.ts` uses `isolate: false` for faster repeat runs. Tests must not depend on a fresh module graph per file or on `vi.mock` reset across files.
 
+Optional wall-clock measurement (ce-optimize / local tuning only, not CI):
+
+```bash
+npm run test:measure
+```
+
+Emits JSON (`vitest_seconds`, pass gates, `test_count`); use median of several runs for comparisons.
+
 | Path | Focus |
 |------|-------|
 | `test/core/slots.test.ts` | Registry completeness |
