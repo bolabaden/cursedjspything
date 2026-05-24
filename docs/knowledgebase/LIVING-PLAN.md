@@ -9,20 +9,36 @@
 
 ---
 
+## Delta update (2026-05-24, PR #23 merged to main)
+
+### Landed
+
+- [REPO] Plan 044: merged PR #23 (`e9937af`) — plan 043 sequence mul/rmul dedupe + review tests (210 Vitest, 29 golden keys).
+
+### Partial
+
+- [OPEN] List/tuple pre-sized repeat / spread-limit fix deferred (performance-optimizer P0–P2).
+
+### Next
+
+1. Tier B targeted ports from `tier-b-lib-test-reference.md`.
+2. Optional: sequence repeat performance slice (pre-size, spread-safe copy).
+
+---
+
 ## Delta update (2026-05-24, sequence mul/rmul dedupe)
 
 ### Landed
 
-- [REPO] Plan 043 (pending PR): shared `repeatList`/`repeatTuple`/`repeatStr` handlers; `sequenceRepeatCount` uses `numericOperand` + non-negative clamp.
+- [REPO] ~~Plan 043 (pending PR)~~ merged in plan 044 (`e9937af`).
 
 ### Partial
 
-- [OPEN] Performance pre-size for list/tuple repeat deferred (reviewer note).
+- ~~Performance pre-size~~ tracked under PR #23 merge delta.
 
 ### Next
 
-1. Merge plan 043 PR; Tier B targeted ports.
-2. Optional: list/tuple repeat pre-allocation slice (performance-optimizer).
+1. ~~Merge plan 043 PR~~ done.
 
 ---
 
