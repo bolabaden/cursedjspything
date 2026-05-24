@@ -7,6 +7,24 @@
 
 ---
 
+## Delta update (2026-05-23, golden pyrt-cases simplify)
+
+### Landed
+
+- [REPO] `scripts/golden/pyrt-cases.ts` — `versionGte` + `ownerWithInstanceAttr` helpers; same golden output.
+- [REPO] PR #17 merged: cross-type parity KB refresh on `main`.
+
+### Partial
+
+- [REPO] Cross-type builtin ops beyond int/float still `NotImplemented`.
+
+### Next
+
+1. Tier B golden cherry-picks or runtime gaps as prioritized.
+2. Tier-3 roadmap (VM, import) unchanged.
+
+---
+
 ## Delta update (2026-05-23, cross-type parity KB refresh)
 
 ### Landed
