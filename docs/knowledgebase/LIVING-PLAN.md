@@ -13,20 +13,22 @@ Maintain an evidence-backed knowledgebase and a honest compatibility contract: w
 
 ---
 
-## Delta update (2026-05-23, golden key-parity guard)
+## Delta update (2026-05-23, Tier A integration stack)
 
 ### Landed
 
-- [REPO] Golden key-parity guard on current main: extract `pyrt-cases.ts`, runtime key check before value compare, Vitest snapshot + `golden:keys`.
+- [REPO] Golden key-parity guard: `keys.ts`, `pyrt-cases.ts`, Vitest snapshot, `golden:keys`.
+- [REPO] Tier A cpython-derived ports: richcmp Incomparable/Rev, operator int/float, contains, isinstance (nested tuple flatten).
 
 ### Partial
 
-- [REPO] Golden ~11 keys/version; CI matrix one Python per job.
+- [REPO] Cross-type builtin ops beyond int/float still `NotImplemented`.
+- [REPO] Abstract metaclass / PEP 604 union cases not ported.
 
 ### Next
 
-1. More Tier A CPython test ports + golden expansion.
-2. Builtin cross-type delegation (Tier-1 gap #8).
+1. Merge `feat/tier-a-integration` to `main`.
+2. Close superseded PR #4.
 3. Tier-3 roadmap (VM, import) unchanged.
 
 ---
