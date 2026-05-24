@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, list/tuple subscript PyTypeError)
+
+### Landed
+
+- [REPO] Plan 030: list/tuple non-int subscript guards throw `PyTypeError`; `sequence-index-type.test.ts`; validation-ladder entry.
+
+### Partial
+
+- [REPO] PR #19–#21 open; IndexError out-of-range still plain `Error`.
+
+### Next
+
+1. Merge open PRs; version-gate tests (PR #20) or Tier B cherry-picks.
+2. Tier-3 roadmap (VM, import) unchanged.
+
+---
+
 ## Delta update (2026-05-24, str __contains__ PyTypeError)
 
 ### Landed

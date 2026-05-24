@@ -41,6 +41,7 @@ Vitest; unit tests mirror `src/runtime/` layout:
 | `test/cpython-derived/operator-int-bool.test.ts` | CPython `test_operator.py` int/bool cross-type |
 | `test/cpython-derived/operator-bool-float.test.ts` | CPython `test_operator.py` bool/float cross-type |
 | `test/cpython-derived/operator-str-scalar.test.ts` | CPython str↔scalar non-coercion (eq/ne/add/contains) |
+| `test/cpython-derived/sequence-index-type.test.ts` | List/tuple non-integer subscript raises TypeError |
 | `test/cpython-derived/contains-protocol.test.ts` | CPython `test_contains.py` membership protocol |
 | `test/cpython-derived/isinstance-protocol.test.ts` | CPython `test_isinstance.py` MRO / tuple checks |
 | `test/golden/key-parity.test.ts` | Golden case key snapshot parity |
