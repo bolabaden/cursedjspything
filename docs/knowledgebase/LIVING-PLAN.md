@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 063 int-str binary)
+
+### Landed
+
+- [REPO] Plan 063 — `operator-int-str-binary.test.ts`; COMPATIBILITY §8.15 evidence (224 Vitest).
+
+### Partial
+
+- [OPEN] PRs #28–#41 still open on other branches.
+
+### Next
+
+1. Merge stacked PRs.
+2. bytes / sequence exotic §8.15 when prioritized.
+
+---
+
 ## Delta update (2026-05-24, plan 048 PyZeroDivisionError)
 
 ### Landed
