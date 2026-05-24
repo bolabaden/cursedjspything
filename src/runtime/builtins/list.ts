@@ -76,6 +76,14 @@ export const listType = makeClass({
       for (let i = 0; i < n; i++) result.push(...src);
       return pyList(result);
     }],
+    [Slot.rmul, (self: PyObject, other: PyObject) => {
+      const n = sequenceRepeatCount(other);
+      if (n === null) return NotImplemented;
+      const src = nativeVal<PyObject[]>(self);
+      const result: PyObject[] = [];
+      for (let i = 0; i < n; i++) result.push(...src);
+      return pyList(result);
+    }],
     [Slot.iter, (self: PyObject) => {
       const arr = nativeVal<PyObject[]>(self);
       let i = 0;

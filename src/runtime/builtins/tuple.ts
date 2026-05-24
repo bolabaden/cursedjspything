@@ -70,6 +70,14 @@ export const tupleType = makeClass({
       for (let i = 0; i < n; i++) result.push(...src);
       return pyTuple(result);
     }],
+    [Slot.rmul, (self: PyObject, other: PyObject) => {
+      const n = sequenceRepeatCount(other);
+      if (n === null) return NotImplemented;
+      const src = nativeVal<readonly PyObject[]>(self);
+      const result: PyObject[] = [];
+      for (let i = 0; i < n; i++) result.push(...src);
+      return pyTuple(result);
+    }],
     [Slot.iter, (self: PyObject) => {
       const arr = nativeVal<readonly PyObject[]>(self);
       let i = 0;

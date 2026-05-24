@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, list/tuple rmul bool parity)
+
+### Landed
+
+- [REPO] Plan 037: list/tuple `__rmul__` via `sequenceRepeatCount`; `True * [1]` works; Vitest reflected cases in `sequence-repeat-bool.test.ts` (**207** tests).
+
+### Partial
+
+- [REPO] PR #21 open — plans 026–037; CI green; ready for merge.
+
+### Next
+
+1. Merge PR #21; Tier B cherry-picks or Tier-3 roadmap.
+2. Full golden matrix on CI (local: 3.14 OK).
+
+---
+
 ## Delta update (2026-05-24, list/tuple repetition bool parity)
 
 ### Landed

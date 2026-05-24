@@ -24,4 +24,14 @@ describe("cpython-derived list/tuple repetition with bool", () => {
     expect(len(mul(one, pyTrue) as ReturnType<typeof pyTuple>)).toBe(1);
     expect(len(mul(one, pyFalse) as ReturnType<typeof pyTuple>)).toBe(0);
   });
+
+  it("reflected mul (bool * sequence) matches forward", () => {
+    const oneList = pyList([pyInt(1)]);
+    expect(len(mul(pyTrue, oneList) as ReturnType<typeof pyList>)).toBe(1);
+    expect(len(mul(pyFalse, oneList) as ReturnType<typeof pyList>)).toBe(0);
+
+    const oneTuple = pyTuple([pyInt(1)]);
+    expect(len(mul(pyTrue, oneTuple) as ReturnType<typeof pyTuple>)).toBe(1);
+    expect(len(mul(pyFalse, oneTuple) as ReturnType<typeof pyTuple>)).toBe(0);
+  });
 });
