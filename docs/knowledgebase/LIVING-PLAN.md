@@ -9,19 +9,23 @@
 
 ---
 
-## Delta update (2026-05-24, sequence repeat KB sync)
+## Delta update (2026-05-24, vitest-duration optimize + plan 047)
 
 ### Landed
 
-- [REPO] Plan 047 (pending PR): COMPATIBILITY §8.15 spread-safe repeat; runtime-overview/repo-signals 213 tests.
+- [REPO] Plan 047 merged (PR #25) — sequence-repeat `buildRepeatedArray` docs + KB counts (213 tests).
+- [REPO] `ce-optimize/vitest-duration`: median `npm test` **3.52s → 2.18s** (~38%) via `isolate: false` + Vite deps optimizer; harness `scripts/measure-vitest-duration.sh`.
 
 ### Partial
 
-- [OPEN] Tier B targeted ports unchanged; ce-optimize vitest-duration spec drafted.
+- [OPEN] Vitest optimize PR [#26](https://github.com/bolabaden/cursedjspything/pull/26) — rebase/merge pending.
 
 ### Next
 
-1. Merge plan 047 PR; Tier B or ce-optimize vitest loop (user selected minimize `npm test` wall time).
+1. Merge vitest-duration optimize PR #26.
+2. Tier B targeted ports from `tier-b-lib-test-reference.md`.
+
+---
 
 ---
 
