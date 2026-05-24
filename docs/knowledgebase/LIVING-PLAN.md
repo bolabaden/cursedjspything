@@ -13,6 +13,24 @@ Maintain an evidence-backed knowledgebase and a honest compatibility contract: w
 
 ---
 
+## Delta update (2026-05-23, cpython-derived Rev/Incomparable tests)
+
+### Landed
+
+- [REPO] `test/cpython-derived/richcmp-incomparable.test.ts` — Tier A Vitest ports for golden Rev/Incomparable rich-compare fixtures.
+
+### Partial
+
+- [REPO] Golden ~11 keys/version; `test_operator` Tier A ports still open.
+
+### Next
+
+1. Thin `test_operator` Vitest ports.
+2. Builtin cross-type delegation (Tier-1 gap #8).
+3. Merge golden key-parity guard (PR #3).
+
+---
+
 ## Delta update (2026-05-19, CPython ne delegation + mining)
 
 ### Landed
