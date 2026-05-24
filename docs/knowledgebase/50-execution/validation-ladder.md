@@ -54,6 +54,7 @@ Emits JSON (`vitest_seconds`, pass gates, `test_count`); use median of several r
 | `test/cpython-derived/operator-str-scalar.test.ts` | CPython str↔scalar non-coercion; str bool/negative repeat |
 | `test/cpython-derived/sequence-index-type.test.ts` | List/tuple non-integer subscript raises TypeError |
 | `test/cpython-derived/contains-protocol.test.ts` | CPython `test_contains.py` membership protocol |
+| `test/cpython-derived/operator-int-bitwise-float.test.ts` | Int bitwise/shift reject float operands |
 | `test/cpython-derived/isinstance-protocol.test.ts` | CPython `test_isinstance.py` MRO / tuple checks |
 | `test/golden/key-parity.test.ts` | Golden case key snapshot parity |
 | `test/golden/pyrt-cases-version-gates.test.ts` | `buildPyrtCases` version-gate semantics (`match_args`, buffer, `annotate_x`) per profile 3.9–3.14 |

@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 056 int bitwise float)
+
+### Landed
+
+- [REPO] Plan 056 — `operator-int-bitwise-float.test.ts`; COMPATIBILITY §8.15 evidence (225 Vitest).
+
+### Partial
+
+- [OPEN] PRs #28–#34 still open.
+
+### Next
+
+1. Merge stacked PRs.
+2. bytes / remaining §8.15 gaps when prioritized.
+
+---
+
 ## Delta update (2026-05-24, plan 048 PyZeroDivisionError)
 
 ### Landed
