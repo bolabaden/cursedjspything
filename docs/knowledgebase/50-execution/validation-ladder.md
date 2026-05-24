@@ -67,7 +67,15 @@ After doc or slot changes:
 npm run golden
 ```
 
-Runs `scripts/golden/run.ts` against `scripts/golden/cases.py` and compares to `scripts/golden/expected/{version}.json` for each available Python 3.9–3.14. CI runs this after L2.
+Runs `scripts/golden/run.ts` against `scripts/golden/cases.py` and compares to `scripts/golden/expected/{version}.json` for each available Python 3.9–3.14. **Key parity** (symmetric case keys between CPython and `buildPyrtCases`) runs before value comparison. CI runs this after L2.
+
+When adding or renaming case keys, update both `cases.py` and `scripts/golden/pyrt-cases.ts`, then:
+
+```bash
+npm run golden:keys
+```
+
+Vitest (`test/golden/key-parity.test.ts`) asserts pyrt keys against `scripts/golden/expected/key-sets.json` without Python installed.
 
 ---
 

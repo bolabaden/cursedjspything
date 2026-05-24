@@ -13,6 +13,24 @@ Maintain an evidence-backed knowledgebase and a honest compatibility contract: w
 
 ---
 
+## Delta update (2026-05-23, golden key-parity guard)
+
+### Landed
+
+- [REPO] Golden key-parity guard on current main: extract `pyrt-cases.ts`, runtime key check before value compare, Vitest snapshot + `golden:keys`.
+
+### Partial
+
+- [REPO] Golden ~11 keys/version; CI matrix one Python per job.
+
+### Next
+
+1. More Tier A CPython test ports + golden expansion.
+2. Builtin cross-type delegation (Tier-1 gap #8).
+3. Tier-3 roadmap (VM, import) unchanged.
+
+---
+
 ## Delta update (2026-05-19, CPython ne delegation + mining)
 
 ### Landed

@@ -134,6 +134,7 @@ npm install
 npm run check    # tsc --noEmit
 npm test         # vitest unit suite
 npm run golden   # compare to installed CPython (optional; needs python3.9–3.14 on PATH)
+npm run golden:keys  # refresh scripts/golden/expected/key-sets.json after adding case keys
 npm run cpython:mine  # list Lib/test modules worth mining (needs submodule init)
 npm run build    # emit dist/ for publishing
 ```
@@ -192,10 +193,11 @@ Patterns vs raw JS: `npx tsx examples/python-vs-js.ts`
 | Command | What it proves |
 |---------|----------------|
 | `npm test` | Unit behavior (lookup, operators, protocols, class, builtins) |
-| `npm run golden` | Selected behaviors vs CPython JSON expectations per installed version |
+| `npm run golden` | Selected behaviors vs CPython JSON expectations per installed version (key parity runs before value compare) |
+| `npm run golden:keys` | Regenerate committed key snapshot when adding or renaming golden case keys |
 | `npm run check` | TypeScript types for public API |
 
-Golden cases include MRO, `isinstance`, rich `==`, list slicing, and version-gated `__match_args__` (3.10+), buffer (3.12+), `__annotate__` (3.14+).
+Golden cases include MRO, `isinstance`, rich compare (`rich_lt_reflected`, `rich_lt_both_not_impl_raises`), list slicing, and version-gated `__match_args__` (3.10+), buffer (3.12+), `__annotate__` (3.14+). **New golden cases** must add the same JSON key to both `scripts/golden/cases.py` and `buildPyrtCases` in `scripts/golden/pyrt-cases.ts`; run `npm run golden:keys` when the key set changes.
 
 ---
 
