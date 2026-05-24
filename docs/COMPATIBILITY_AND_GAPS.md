@@ -199,7 +199,7 @@ Source: `src/runtime/object.ts`.
 | `defaultGetAttr`, `defaultSetAttr`, `defaultDelAttr` | Bypass custom dunder hooks when needed |
 | `lookupInMro`, `lookupSpecial` | Introspection / advanced interop |
 | `isDataDescriptor`, `hasGet` | Descriptor classification |
-| `PyAttributeError`, `PyTypeError`, `PyKeyError`, `PyStopIteration`, `PyValueError` | Small exception subset |
+| `PyAttributeError`, `PyTypeError`, `PyKeyError`, `PyIndexError`, `PyStopIteration`, `PyValueError` | Small exception subset |
 
 Source: `src/runtime/core/lookup.ts`.
 
@@ -401,6 +401,15 @@ CPython exposes **readonly mapping views** on class and instance namespaces — 
 **Status:** **Intentionally out of scope** unless a future shim is added. Embedders needing immutability should wrap or freeze their own dict-like structures before passing them to `makeClass`. **Reference mining:** CPython `Lib/test/test_descr.py` and `Lib/test/test_types.py` (see `docs/knowledgebase/50-execution/tier-b-lib-test-reference.md`); do not port mappingproxy wholesale.
 
 **Golden evidence:** Class lifecycle hooks (`init_subclass_called`, `set_name_called`) and descriptor precedence (`descriptor_data_wins`, `descriptor_nodata_loses`) are covered in the golden harness; mappingproxy behavior is not.
+
+### 8.17 Sequence subscript exceptions
+
+`str`, `list`, and `tuple` `__getitem__` / list `__setitem__` / `__delitem__` raise typed runtime exceptions rather than generic `Error`:
+
+- Non-integer keys → **`PyTypeError`** (`list indices must be integers`, `tuple indices must be integers`, `string indices must be integers`; str `__contains__` with non-str operand uses CPython-style `'in <string>' requires string as left operand, not int`).
+- Out-of-range integer keys → **`PyIndexError`** (`list index out of range`, `tuple index out of range`, `string index out of range`, etc.).
+
+**Evidence:** `test/cpython-derived/operator-str-scalar.test.ts`, `sequence-index-type.test.ts`. **Remaining gap:** other builtins and protocol fallbacks may still throw plain `Error` where CPython normalizes exception types.
 
 ---
 

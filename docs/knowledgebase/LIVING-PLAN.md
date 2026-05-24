@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, exception cleanup KB sync)
+
+### Landed
+
+- [REPO] Plan 032: COMPATIBILITY §8.17 + `PyIndexError` export table; runtime-overview/repo-signals 196 tests / 24 files.
+
+### Partial
+
+- [REPO] PR #19–#21 open; version-gate tests on PR #20 pending merge.
+
+### Next
+
+1. Merge open PRs; Tier B cherry-picks.
+2. Tier-3 roadmap (VM, import) unchanged.
+
+---
+
 ## Delta update (2026-05-24, sequence IndexError PyIndexError)
 
 ### Landed
