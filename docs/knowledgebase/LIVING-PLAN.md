@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, PR #22 merged to main)
+
+### Landed
+
+- [REPO] Plan 042: merged PR #22 (`fff546d`) — plan 041 tuple golden keys; **29** keys/profile; correctness review clean.
+
+### Partial
+
+- [OPEN] Tier B targeted ports unchanged.
+
+### Next
+
+1. New feature branch from `main` for next parity slice.
+2. Tier B cherry-picks from `tier-b-lib-test-reference.md`.
+
+---
+
 ## Delta update (2026-05-24, golden tuple bool repetition)
 
 ### Landed
@@ -17,7 +34,7 @@
 
 ### Partial
 
-- [REPO] PR opening on `feat/golden-tuple-bool-repeat`.
+- [REPO] ~~PR #22~~ merged in plan 042 (`fff546d`).
 
 ### Next
 
