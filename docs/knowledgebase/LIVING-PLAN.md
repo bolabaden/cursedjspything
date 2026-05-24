@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, PR #21 merged to main)
+
+### Landed
+
+- [REPO] Plan 040: merged PR #21 (`cb5fe2f`) — plans 021–039 on `main`: numeric tower, PyTypeError/PyIndexError, golden 27 keys/profile, 207 Vitest tests.
+
+### Partial
+
+- [OPEN] Tier B cherry-picks and Tier-3 roadmap unchanged.
+
+### Next
+
+1. Tier B targeted golden/Vitest ports from `tier-b-lib-test-reference.md`.
+2. New feature branch from `main` for next parity slice.
+
+---
+
 ## Delta update (2026-05-24, golden str bool repetition)
 
 ### Landed
