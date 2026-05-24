@@ -111,6 +111,9 @@ def main() -> None:
         # golden:seq_bool_mul / seq_bool_rmul — keep in sync with scripts/golden/pyrt-cases.ts
         "seq_bool_mul": len([1] * True),
         "seq_bool_rmul": len(True * [1]),
+        # golden:str_bool_mul / str_bool_rmul — keep in sync with scripts/golden/pyrt-cases.ts
+        "str_bool_mul": "ab" * True,
+        "str_bool_rmul": True * "ab",
     }
 
     desc_owner = owner_with_instance_attr(DescOwner, "attr", "instance-value")

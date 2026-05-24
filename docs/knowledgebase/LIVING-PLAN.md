@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, golden str bool repetition)
+
+### Landed
+
+- [REPO] Plan 039: golden `str_bool_mul`, `str_bool_rmul`; **27** keys/profile; KB/README sync.
+
+### Partial
+
+- [REPO] PR #21 open — plans 026–039; CI green; ready for merge.
+
+### Next
+
+1. Merge PR #21; Tier B cherry-picks or Tier-3 roadmap.
+2. Full golden matrix on CI (local: 3.14 OK, 27 checks/version).
+
+---
+
 ## Delta update (2026-05-24, golden sequence bool repetition)
 
 ### Landed

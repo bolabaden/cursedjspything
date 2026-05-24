@@ -199,6 +199,9 @@ export function buildPyrtCases(pythonVersion: string): Record<string, unknown> {
     // golden:seq_bool_mul / seq_bool_rmul — keep in sync with scripts/golden/cases.py
     seq_bool_mul: len(mul(oneItemList, pyTrue) as PyObject),
     seq_bool_rmul: len(mul(pyTrue, oneItemList) as PyObject),
+    // golden:str_bool_mul / str_bool_rmul — keep in sync with scripts/golden/cases.py
+    str_bool_mul: unwrap<string>(mul(pyStr("ab"), pyTrue) as PyObject),
+    str_bool_rmul: unwrap<string>(mul(pyTrue, pyStr("ab")) as PyObject),
     descriptor_data_wins: getAttr(descOwner, "attr"),
     descriptor_nodata_loses: getAttr(nonDataOwner, "attr"),
     init_subclass_called: initSubclassLog.includes("InitSubclassChild"),
