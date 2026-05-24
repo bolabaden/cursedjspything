@@ -1,0 +1,44 @@
+/**
+ * CPython: numeric conversion helpers reject types without __int__/__float__/__index__/__complex__.
+ */
+import { describe, it, expect } from "vitest";
+import {
+  index,
+  pyList,
+  toComplex,
+  toFloat,
+  toInt,
+} from "../../src/index.js";
+import { PyTypeError } from "../../src/runtime/core/errors.js";
+
+describe("cpython-derived numeric conversion on list", () => {
+  const lst = () => pyList([]);
+
+  it("toInt rejects list", () => {
+    expect(() => toInt(lst())).toThrow(PyTypeError);
+    expect(() => toInt(lst())).toThrow(
+      /int\(\) argument must be a string or a real number, not 'list'/,
+    );
+  });
+
+  it("toFloat rejects list", () => {
+    expect(() => toFloat(lst())).toThrow(PyTypeError);
+    expect(() => toFloat(lst())).toThrow(
+      /float\(\) argument must be a string or a real number, not 'list'/,
+    );
+  });
+
+  it("index rejects list", () => {
+    expect(() => index(lst())).toThrow(PyTypeError);
+    expect(() => index(lst())).toThrow(
+      /'list' object cannot be interpreted as an integer/,
+    );
+  });
+
+  it("toComplex rejects list", () => {
+    expect(() => toComplex(lst())).toThrow(PyTypeError);
+    expect(() => toComplex(lst())).toThrow(
+      /complex\(\) argument must be a string or a number, not 'list'/,
+    );
+  });
+});
