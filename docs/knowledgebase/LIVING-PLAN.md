@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, list/tuple repetition bool parity)
+
+### Landed
+
+- [REPO] Plan 036: `sequenceRepeatCount` shared helper; list/tuple `__mul__` accept bool; `sequence-repeat-bool.test.ts`; KB Vitest **206** / **26** files.
+
+### Partial
+
+- [REPO] PR #21 open — includes plans 026–036; ready for merge after CI green.
+
+### Next
+
+1. Merge PR #21; Tier B cherry-picks or Tier-3 roadmap.
+2. Full golden matrix on CI (local: 3.14 OK).
+
+---
+
 ## Delta update (2026-05-24, str repetition bool parity)
 
 ### Landed

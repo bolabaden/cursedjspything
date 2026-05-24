@@ -24,6 +24,13 @@ function numericOperand(other: PyObject): number {
   return nativeVal<number>(other);
 }
 
+/** Repeat count for str/list/tuple `__mul__`: int or bool (0/1). */
+export function sequenceRepeatCount(other: PyObject): number | null {
+  if (other.type === intType) return nativeVal<number>(other);
+  if (isBoolOperand(other)) return nativeVal<boolean>(other) ? 1 : 0;
+  return null;
+}
+
 export { isNumericOperand, numericOperand };
 
 // ── pyInt ─────────────────────────────────────────────────────────────

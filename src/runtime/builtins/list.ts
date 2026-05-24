@@ -4,7 +4,7 @@ import { makeClass } from "../class/class.js";
 import { PyStopIteration } from "../core/lookup.js";
 import { PyTypeError, PyIndexError } from "../core/errors.js";
 import { nativeVal, setNative } from "./native.js";
-import { intType } from "./int.js";
+import { sequenceRepeatCount } from "./int.js";
 import { isSlice, sliceFields, sliceIndices } from "../collections/slice.js";
 import { eq } from "../dispatch/operators/compare.js";
 
@@ -69,8 +69,8 @@ export const listType = makeClass({
       return self;
     }],
     [Slot.mul, (self: PyObject, other: PyObject) => {
-      if (other.type !== intType) return NotImplemented;
-      const n = nativeVal<number>(other);
+      const n = sequenceRepeatCount(other);
+      if (n === null) return NotImplemented;
       const src = nativeVal<PyObject[]>(self);
       const result: PyObject[] = [];
       for (let i = 0; i < n; i++) result.push(...src);

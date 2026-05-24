@@ -4,14 +4,7 @@ import { makeClass } from "../class/class.js";
 import { PyStopIteration } from "../core/lookup.js";
 import { PyTypeError, PyIndexError } from "../core/errors.js";
 import { nativeVal, setNative } from "./native.js";
-import { intType } from "./int.js";
-import { boolType } from "./bool.js";
-
-function strRepeatCount(other: PyObject): number | null {
-  if (other.type === intType) return nativeVal<number>(other);
-  if (other.type === boolType) return nativeVal<boolean>(other) ? 1 : 0;
-  return null;
-}
+import { sequenceRepeatCount } from "./int.js";
 
 // ── pyStr ─────────────────────────────────────────────────────────────
 
@@ -59,12 +52,12 @@ export const strType = makeClass({
       return pyStr(nativeVal<string>(self) + nativeVal<string>(other));
     }],
     [Slot.mul, (self: PyObject, other: PyObject) => {
-      const n = strRepeatCount(other);
+      const n = sequenceRepeatCount(other);
       if (n === null) return NotImplemented;
       return pyStr(nativeVal<string>(self).repeat(Math.max(0, n)));
     }],
     [Slot.rmul, (self: PyObject, other: PyObject) => {
-      const n = strRepeatCount(other);
+      const n = sequenceRepeatCount(other);
       if (n === null) return NotImplemented;
       return pyStr(nativeVal<string>(self).repeat(Math.max(0, n)));
     }],
