@@ -7,6 +7,60 @@
 
 ---
 
+## Delta update (2026-05-23, golden KB coherence + PR #18)
+
+### Landed
+
+- [REPO] KB: `validation-ladder.md`, `tier-b-lib-test-reference.md`, `cpython-reference-submodule.md` — document symmetric golden builder helpers and dual-file workflow.
+
+### Partial
+
+- [REPO] PR #18 open (CI green): `pyrt-cases.ts` + `cases.py` refactor (~19 keys unchanged).
+- [REPO] Cross-type builtin ops beyond int/float still `NotImplemented`.
+
+### Next
+
+1. Merge PR #18; Tier B golden cherry-picks or runtime gaps as prioritized.
+2. Tier-3 roadmap (VM, import) unchanged.
+
+---
+
+## Delta update (2026-05-23, golden cases.py simplify)
+
+### Landed
+
+- [REPO] `scripts/golden/cases.py` — `version_gte` + `owner_with_instance_attr` helpers; symmetric with plan 019 TS refactor.
+- [REPO] PR #18 open: pyrt-cases.ts refactor + CI green.
+
+### Partial
+
+- [REPO] Cross-type builtin ops beyond int/float still `NotImplemented`.
+
+### Next
+
+1. Merge PR #18; Tier B golden cherry-picks or runtime gaps as prioritized.
+2. Tier-3 roadmap (VM, import) unchanged.
+
+---
+
+## Delta update (2026-05-23, golden pyrt-cases simplify)
+
+### Landed
+
+- [REPO] `scripts/golden/pyrt-cases.ts` — `versionGte` + `ownerWithInstanceAttr` helpers; same golden output.
+- [REPO] PR #17 merged: cross-type parity KB refresh on `main`.
+
+### Partial
+
+- [REPO] Cross-type builtin ops beyond int/float still `NotImplemented`.
+
+### Next
+
+1. Tier B golden cherry-picks or runtime gaps as prioritized.
+2. Tier-3 roadmap (VM, import) unchanged.
+
+---
+
 ## Delta update (2026-05-23, cross-type parity KB refresh)
 
 ### Landed

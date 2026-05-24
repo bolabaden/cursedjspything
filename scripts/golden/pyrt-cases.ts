@@ -34,8 +34,29 @@ function parseVersion(version: string): [number, number] {
   return [a, b];
 }
 
+function versionGte(version: [number, number], minMajor: number, minMinor: number): boolean {
+  const [major, minor] = version;
+  return major > minMajor || (major === minMajor && minor >= minMinor);
+}
+
+function ownerWithInstanceAttr(
+  ownerName: string,
+  attrName: string,
+  descriptor: PyObject,
+  instanceValue: string,
+): PyObject {
+  const Owner = makeClass({
+    name: ownerName,
+    bases: [objectType],
+    dict: new Map<string | symbol, unknown>([[attrName, descriptor]]),
+  });
+  const owner = new PyObject(Owner);
+  owner.dict.set(attrName, instanceValue);
+  return owner;
+}
+
 export function buildPyrtCases(pythonVersion: string): Record<string, unknown> {
-  const [major, minor] = parseVersion(pythonVersion);
+  const version = parseVersion(pythonVersion);
 
   const A = makeClass({ name: "A", bases: [objectType], dict: {} });
   const B = makeClass({ name: "B", bases: [A], dict: {} });
@@ -101,14 +122,12 @@ export function buildPyrtCases(pythonVersion: string): Record<string, unknown> {
       }],
     ]),
   });
-  const desc = new PyObject(DataDesc);
-  const DescOwner = makeClass({
-    name: "DescOwner",
-    bases: [objectType],
-    dict: new Map<string | symbol, unknown>([["attr", desc]]),
-  });
-  const descOwner = new PyObject(DescOwner);
-  descOwner.dict.set("attr", "instance-value");
+  const descOwner = ownerWithInstanceAttr(
+    "DescOwner",
+    "attr",
+    new PyObject(DataDesc),
+    "instance-value",
+  );
 
   const NonDataDesc = makeClass({
     name: "NonDataDesc",
@@ -116,14 +135,12 @@ export function buildPyrtCases(pythonVersion: string): Record<string, unknown> {
       [Slot.get, () => "desc-value"],
     ]),
   });
-  const nonDataDesc = new PyObject(NonDataDesc);
-  const NonDataOwner = makeClass({
-    name: "NonDataOwner",
-    bases: [objectType],
-    dict: new Map<string | symbol, unknown>([["attr", nonDataDesc]]),
-  });
-  const nonDataOwner = new PyObject(NonDataOwner);
-  nonDataOwner.dict.set("attr", "instance-value");
+  const nonDataOwner = ownerWithInstanceAttr(
+    "NonDataOwner",
+    "attr",
+    new PyObject(NonDataDesc),
+    "instance-value",
+  );
 
   // golden:init_subclass_called — keep InitSubclassBase in sync with scripts/golden/cases.py
   const initSubclassLog: string[] = [];
@@ -180,13 +197,13 @@ export function buildPyrtCases(pythonVersion: string): Record<string, unknown> {
       setNameLog[0]![1] === "my_desc",
   };
 
-  if (major > 3 || (major === 3 && minor >= 10)) {
+  if (versionGte(version, 3, 10)) {
     cases.match_args = getMatchArgs(Point) ?? [];
   } else {
     cases.match_args = [];
   }
 
-  if (major > 3 || (major === 3 && minor >= 12)) {
+  if (versionGte(version, 3, 12)) {
     const data = new ArrayBuffer(4);
     const Exporter = makeClass({
       name: "Exporter",
@@ -205,7 +222,7 @@ export function buildPyrtCases(pythonVersion: string): Record<string, unknown> {
     cases.buffer_len = null;
   }
 
-  if (major > 3 || (major === 3 && minor >= 14)) {
+  if (versionGte(version, 3, 14)) {
     cases.annotate_x = getAnnotations(Annotated).get("x");
   } else {
     cases.annotate_x = null;
