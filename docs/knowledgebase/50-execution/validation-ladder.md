@@ -22,6 +22,8 @@ npm test
 
 Vitest; unit tests mirror `src/runtime/` layout:
 
+`[REPO]` `vitest.config.ts` uses `isolate: false` for faster repeat runs. Tests must not depend on a fresh module graph per file or on `vi.mock` reset across files.
+
 | Path | Focus |
 |------|-------|
 | `test/core/slots.test.ts` | Registry completeness |

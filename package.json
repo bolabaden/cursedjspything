@@ -23,6 +23,7 @@
   "scripts": {
     "build": "tsc",
     "test": "vitest run",
+    "test:measure": "bash scripts/measure-vitest-duration.sh",
     "test:watch": "vitest",
     "check": "tsc --noEmit",
     "golden": "tsx scripts/golden/run.ts",

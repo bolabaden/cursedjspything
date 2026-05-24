@@ -9,6 +9,24 @@
 
 ---
 
+## Delta update (2026-05-24, vitest doc/harness hygiene)
+
+### Landed
+
+- [REPO] validation-ladder L2 note for `isolate: false`; `npm run test:measure`; measure script parse guard + exit code.
+
+### Partial
+
+- [OPEN] Tier B targeted ports unchanged.
+- [OPEN] ce-optimize experiment log still credits explicit `pool: forks` (removed pre-merge; Vitest 3.2 default).
+
+### Next
+
+1. Tier B targeted ports from `tier-b-lib-test-reference.md`.
+2. Optional: ce-optimize round 2 (maxWorkers, vmForks).
+
+---
+
 ## Delta update (2026-05-24, PR #26 vitest optimize merged)
 
 ### Landed
