@@ -326,7 +326,7 @@ This section lists **known** mismatches that are easy to mistake for “bugs” 
 
 ### 8.1 Class creation is not `type.__call__` / `type.__new__` faithful
 
-`makeClass` constructs `new PyType(...)` directly and runs a **subset** of the class creation pipeline (`resolveBases`, `calculateMetaclass`, `prepareNamespace` exists but is not always composed the way a Python `class` statement is, `__set_name__`, `__init_subclass__`).
+`makeClass` constructs `new PyType(...)` directly and runs a **subset** of the class creation pipeline (`resolveBases`, `calculateMetaclass`, `prepareNamespace` exists but is not always composed the way a Python `class` statement is, `__set_name__`, `__init_subclass__`). Inconsistent C3 MRO raises **`PyTypeError`** (`Cannot create a consistent method resolution order (MRO)`), matching CPython's exception type.
 
 CPython reference: **\[3\]**, implementation: [`Objects/typeobject.c`](https://github.com/python/cpython/blob/main/Objects/typeobject.c) (notably `type_new`, `type_call`, slot installation from `slotdefs[]`, and metaclass conflict resolution).
 
