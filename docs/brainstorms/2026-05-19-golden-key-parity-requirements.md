@@ -15,7 +15,7 @@ Add an automated check so every JSON key emitted by the CPython golden reference
 
 The golden harness proves cross-runtime parity by comparing CPython JSON to pyrt output. Today, fixture classes and case keys are maintained in two places with comment-based discipline (`golden:*` markers). Tier-1 work added `rich_lt_both_not_impl_raises` and reinforced the Rev/Incomparable pattern — but nothing mechanically prevents adding a key on one side only.
 
-When keys drift, failures are subtle: extra pyrt-only keys are ignored by `compareCases` (it only iterates expected keys), so a forgotten `cases.py` key might not fail until someone regenerates expected JSON or notices manually. Contributors and agents extending the harness need a cheap guard that compounds trust without expanding golden scope.
+When keys drift, failures are subtle: `compareCases` only walks keys in the cached expected snapshot, so pyrt-only keys never fail, new `cases.py` keys can stay invisible while `scripts/golden/expected/{version}.json` is stale, and a missing `buildPyrtCases` entry only surfaces after that file is regenerated (as a value mismatch, not a key diff). Contributors and agents extending the harness need a cheap guard that compounds trust without expanding golden scope.
 
 ---
 
@@ -56,7 +56,7 @@ Given `annotate_x` is emitted only for ≥3.14 on one side but always on the oth
 
 **AE4 — Clean pass**  
 Covers: R1, R4  
-Given both sides match the current Rev/Incomparable/MRO/slice/buffer/annotate fixtures, when CI runs the check, then it exits 0 without invoking CPython value compare.
+Given both sides match the current Rev/Incomparable/MRO/slice/buffer/annotate fixtures, when CI runs the golden job, then key parity passes before value comparison runs for each matrix Python version.
 
 ---
 
@@ -100,11 +100,11 @@ Given both sides match the current Rev/Incomparable/MRO/slice/buffer/annotate fi
 ## Dependencies / Assumptions
 
 - Existing golden layout: `scripts/golden/cases.py`, `scripts/golden/run.ts`, `scripts/golden/expected/`.
-- STRATEGY track “Evidence & documentation” now calls for structural guards; this slice delivers one.
+- STRATEGY track “Evidence & documentation” — golden key parity guard (landed 2026-05-19).
 
 ---
 
 ## Outstanding Questions
 
-- Should the check live inside `run.ts` or as `npm run golden:keys` called from CI before `golden`? (Planning decides; R4 allows either if PR-blocking.)
-- Should unit tests in `test/dispatch/operators.test.ts` continue duplicate `golden:` comments only, or link to a shared key list later?
+- Resolved: key parity runs inside `npm run golden` (`run.ts`); `npm run golden:keys` refreshes `scripts/golden/expected/key-sets.json` for the no-Python Vitest job.
+- `test/dispatch/operators.test.ts` may keep `golden:` comments; optional follow-up to link comments to `key-sets.json`.

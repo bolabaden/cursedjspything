@@ -33,6 +33,10 @@ Vitest; unit tests mirror `src/runtime/` layout:
 | `test/class/instantiate.test.ts` | Type `__call__` on instantiate |
 | `test/class/version-gates.test.ts` | `__match_args__`, `__annotate__`, buffer |
 | `test/builtins/dict-keys.test.ts` | Dict key eq/hash |
+| `test/builtins/list-eq.test.ts` | List `__eq__` via `eq()` |
+| `test/builtins/tuple-eq.test.ts` | Tuple `__eq__` via `eq()` |
+| `test/cpython-derived/*.test.ts` | Curated Lib/test ports |
+| `test/golden/key-parity.test.ts` | Golden harness key sets vs snapshot |
 | `test/collections/slice-with.test.ts` | `pySlice`, `withObject` |
 
 ---
@@ -67,13 +71,20 @@ After doc or slot changes:
 npm run golden
 ```
 
-Runs `scripts/golden/run.ts` against `scripts/golden/cases.py` and compares to `scripts/golden/expected/{version}.json` for each available Python 3.9–3.14. CI runs this after L2.
+Runs `scripts/golden/run.ts` against `scripts/golden/cases.py`: **key-set parity** vs live CPython JSON, then value compare to `scripts/golden/expected/{version}.json` for each available Python 3.9–3.14. CI golden matrix runs 3.10 / 3.12 / 3.14 after L2.
+
+When adding a case, update both `scripts/golden/cases.py` and `buildPyrtCases` in `run.ts`, then:
+
+```bash
+npm run golden:keys   # refresh scripts/golden/expected/key-sets.json (Vitest, no Python)
+npm run golden        # value + key parity vs installed interpreters
+```
 
 ---
 
 ## L5 — CPython version matrix (partial)
 
-`[OPEN]` Golden uses Python 3.14 (fallback 3.13) only. Repeat selected cases on 3.9–3.12 for version-specific deltas.
+`[REPO]` CI golden job matrix: Python 3.10, 3.12, 3.14. Local runs use every interpreter found on PATH (3.9–3.14). Key names are identical across profiles today; gated keys use `null` / `[]` below version thresholds.
 
 ---
 

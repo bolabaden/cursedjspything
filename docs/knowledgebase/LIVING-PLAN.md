@@ -13,25 +13,23 @@ Maintain an evidence-backed knowledgebase and a honest compatibility contract: w
 
 ---
 
-## Delta update (2026-05-19, Tier-1 LFG continuation complete)
+## Delta update (2026-05-19, golden key-parity guard)
 
 ### Landed
 
-- [REPO] Golden `rich_lt_both_not_impl_raises`; list/tuple `__eq__` via per-element `eq()`; Vitest hash/bool/both-NotImplemented ordering.
-- [REPO] `richCompareNe` / `tryNeSide`: full CPython `!=` delegation (subclass `__ne__`, MRO `__ne__`, `object.__ne__` `__eq__` probe, reverse-subclass case).
-- [REPO] `test/cpython-derived/*`, `list-eq.test.ts`, `tuple-eq.test.ts`; CPython submodule @ v3.14.0 + `cpython:mine`.
-- [REPO] Plan `docs/plans/2026-05-19-tier1-semantics-continuation-plan.md` completed; COMPATIBILITY §8.6/8.8 + parity-gaps updated.
+- [REPO] Golden key-parity: `assertGoldenKeyParity` in `npm run golden`; `npm run golden:keys`; `test/golden/key-parity.test.ts`; `scripts/golden/expected/key-sets.json`.
+- [REPO] Prior Tier-1 slice: `richCompareNe`, list/tuple `__eq__`, cpython-derived ports, golden `rich_lt_both_not_impl_raises` (142 Vitest tests green).
 
 ### Partial
 
-- [REPO] Golden ~11 keys/version; U5 key-parity guard optional/not done.
-- [SYNTH] `makeClass` ≠ full `type.__call__`; `pyInt` remains JS number.
+- [SYNTH] `makeClass` ≠ full `type.__call__`; `pyInt` remains JS number; `dictKeyEq` parallel to `eq()` for dict keys.
+- [REPO] Legacy `scripts/golden/expected.json` still value-only (no key-parity assert; thin key set).
 
 ### Next
 
-1. More Tier A Lib/test ports + golden expansion by protocol family.
-2. KB path sweep (`operators.ts` stale paths in older KB pages).
-3. Tier-3 roadmap (VM, import) unchanged.
+1. Protocol-family golden expansion (contains → isinstance ladder).
+2. More Tier A Lib/test ports via `cpython:mine`.
+3. KB path sweep; optional retire or refresh legacy `expected.json`.
 
 ---
 

@@ -30,6 +30,7 @@ import {
 import { Slot } from "../../src/runtime/core/slots.js";
 import { NotImplemented } from "../../src/runtime/core/object.js";
 import { PyTypeError } from "../../src/runtime/core/errors.js";
+import { assertGoldenKeyParity } from "./keys.js";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "../..");
 const casesPy = join(root, "scripts/golden/cases.py");
@@ -96,7 +97,7 @@ function parseVersion(version: string): [number, number] {
   return [a, b];
 }
 
-function buildPyrtCases(pythonVersion: string): Record<string, unknown> {
+export function buildPyrtCases(pythonVersion: string): Record<string, unknown> {
   const [major, minor] = parseVersion(pythonVersion);
 
   const A = makeClass({ name: "A", bases: [objectType], dict: {} });
@@ -222,8 +223,10 @@ function main(): void {
 
   for (const entry of pythons) {
     const { bin, version } = parsePythonLabel(entry);
-    const expected = ensureExpected(bin, version);
+    const reference = runCasesPy(bin);
     const actual = buildPyrtCases(version);
+    assertGoldenKeyParity(`py${version}`, reference, actual);
+    const expected = ensureExpected(bin, version);
     const diff = compareCases(`py${version}`, expected, actual);
     failures.push(...diff);
     caseCount += Object.keys(expected).filter((k) => k !== "python").length;
@@ -246,4 +249,10 @@ function main(): void {
   );
 }
 
-main();
+const isGoldenMain =
+  process.argv[1] !== undefined &&
+  fileURLToPath(import.meta.url) === process.argv[1];
+
+if (isGoldenMain) {
+  main();
+}

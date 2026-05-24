@@ -1,0 +1,82 @@
+{
+  "profiles": {
+    "3.9": [
+      "annotate_x",
+      "buffer_len",
+      "buffer_readonly",
+      "isinstance_D",
+      "issubclass_DC",
+      "match_args",
+      "mro_D",
+      "rich_eq_int",
+      "rich_lt_both_not_impl_raises",
+      "rich_lt_reflected",
+      "slice_list"
+    ],
+    "3.10": [
+      "annotate_x",
+      "buffer_len",
+      "buffer_readonly",
+      "isinstance_D",
+      "issubclass_DC",
+      "match_args",
+      "mro_D",
+      "rich_eq_int",
+      "rich_lt_both_not_impl_raises",
+      "rich_lt_reflected",
+      "slice_list"
+    ],
+    "3.11": [
+      "annotate_x",
+      "buffer_len",
+      "buffer_readonly",
+      "isinstance_D",
+      "issubclass_DC",
+      "match_args",
+      "mro_D",
+      "rich_eq_int",
+      "rich_lt_both_not_impl_raises",
+      "rich_lt_reflected",
+      "slice_list"
+    ],
+    "3.12": [
+      "annotate_x",
+      "buffer_len",
+      "buffer_readonly",
+      "isinstance_D",
+      "issubclass_DC",
+      "match_args",
+      "mro_D",
+      "rich_eq_int",
+      "rich_lt_both_not_impl_raises",
+      "rich_lt_reflected",
+      "slice_list"
+    ],
+    "3.13": [
+      "annotate_x",
+      "buffer_len",
+      "buffer_readonly",
+      "isinstance_D",
+      "issubclass_DC",
+      "match_args",
+      "mro_D",
+      "rich_eq_int",
+      "rich_lt_both_not_impl_raises",
+      "rich_lt_reflected",
+      "slice_list"
+    ],
+    "3.14": [
+      "annotate_x",
+      "buffer_len",
+      "buffer_readonly",
+      "isinstance_D",
+      "issubclass_DC",
+      "match_args",
+      "mro_D",
+      "rich_eq_int",
+      "rich_lt_both_not_impl_raises",
+      "rich_lt_reflected",
+      "slice_list"
+    ]
+  }
+}

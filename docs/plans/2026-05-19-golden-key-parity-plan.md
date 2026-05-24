@@ -1,5 +1,5 @@
 ---
-status: active
+status: completed
 date: 2026-05-19
 origin: docs/brainstorms/2026-05-19-golden-key-parity-requirements.md
 ---

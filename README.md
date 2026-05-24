@@ -133,7 +133,8 @@ Every name in `Slot` / `Hook` is registered in `slots.ts`; **behavior** is only 
 npm install
 npm run check    # tsc --noEmit
 npm test         # vitest unit suite
-npm run golden   # compare to installed CPython (optional; needs python3.9–3.14 on PATH)
+npm run golden   # key parity + value compare vs installed CPython (3.9–3.14 on PATH)
+npm run golden:keys  # refresh golden key snapshot for CI Vitest (no Python required)
 npm run cpython:mine  # list Lib/test modules worth mining (needs submodule init)
 npm run build    # emit dist/ for publishing
 ```

@@ -34,7 +34,7 @@ _Why it serves the approach:_ Without this, the library is “Python-shaped” n
 
 ### Evidence & documentation
 
-Golden harness, compatibility matrix, README/KB that state what is tested vs assumed. CPython `v3.14.0` at `vendor/cpython` (submodule) is a **reference** for `Lib/test` mining (`npm run cpython:mine`); curated ports live in `test/cpython-derived/`. Prefer **structural guards** (golden key parity, protocol-family goldens) over bulk `Lib/test` import.
+Golden harness, compatibility matrix, README/KB that state what is tested vs assumed. CPython `v3.14.0` at `vendor/cpython` (submodule) is a **reference** for `Lib/test` mining (`npm run cpython:mine`); curated ports live in `test/cpython-derived/`. **Structural guards** in place: golden key parity in `npm run golden`; next evidence bet is protocol-family golden expansion, not bulk `Lib/test` import.
 
 _Why it serves the approach:_ Python-first users need trust, not slogans.
 
