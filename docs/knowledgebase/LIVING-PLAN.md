@@ -7,6 +7,25 @@
 
 ---
 
+## Delta update (2026-05-23, MappingProxyType compat docs)
+
+### Landed
+
+- [REPO] `COMPATIBILITY_AND_GAPS.md` §8.16 — MappingProxyType / mappingproxy intentional out-of-scope.
+- [REPO] Golden inventory sync in README, COMPATIBILITY §12, validation-ladder L5/L3b (~19 keys).
+- [REPO] PR #15 merged: class lifecycle golden trio complete on `main`.
+
+### Partial
+
+- [REPO] Cross-type builtin ops beyond int/float still `NotImplemented`.
+
+### Next
+
+1. Further Tier B golden cherry-picks or COMPATIBILITY gaps (cross-type builtins doc refinement).
+2. Tier-3 roadmap (VM, import) unchanged.
+
+---
+
 ## Delta update (2026-05-23, golden __set_name__)
 
 ### Landed

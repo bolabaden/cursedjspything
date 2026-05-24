@@ -394,6 +394,14 @@ For any other builtin operand pair (for example `str` with `int`, `list` with `i
 
 **Evidence:** `test/cpython-derived/operator-int-float.test.ts` ports thin `OperatorTestCase` matrices from CPython `Lib/test/test_operator.py` for int/float compare and promote-to-float arithmetic. **Remaining gap:** cross-type ops involving `str`, `bytes`, `bool`, sequences, and user types without matching special methods are not coerced the way CPython does.
 
+### 8.16 `types.MappingProxyType` and readonly dict views
+
+CPython exposes **readonly mapping views** on class and instance namespaces — notably `types.MappingProxyType` wrapping a dict (used for `type.__dict__`, `mappingproxy` objects in the descriptor tests, and similar). pyrt stores type and instance namespaces as mutable **`Map<string | symbol, unknown>`** on `PyType` and `PyObject`; there is no proxy object that blocks mutation while forwarding lookups.
+
+**Status:** **Intentionally out of scope** unless a future shim is added. Embedders needing immutability should wrap or freeze their own dict-like structures before passing them to `makeClass`. **Reference mining:** CPython `Lib/test/test_descr.py` and `Lib/test/test_types.py` (see `docs/knowledgebase/50-execution/tier-b-lib-test-reference.md`); do not port mappingproxy wholesale.
+
+**Golden evidence:** Class lifecycle hooks (`init_subclass_called`, `set_name_called`) and descriptor precedence (`descriptor_data_wins`, `descriptor_nodata_loses`) are covered in the golden harness; mappingproxy behavior is not.
+
 ---
 
 ## 9. Not supported: Python language and execution model
@@ -478,6 +486,7 @@ This section lists major **data model** items from Python’s reference **\[1\]*
 
 - **`collections.UserDict` / `ChainMap` / `Counter` / …**: not present.
 - **`keys()` / `values()` / `items()` views** with mutation semantics: not modeled as Python view objects.
+- **`types.MappingProxyType` / `mappingproxy`**: not implemented; see **§8.16**.
 - **`__reversed__` for arbitrary mappings**: only what user types implement.
 
 ### 10.7 Context managers completeness
@@ -526,7 +535,7 @@ pyrt’s explicit-function approach is therefore aligned with JS reality.
 ## 12. Verification in this repository
 
 - **Unit tests:** `test/**/*.test.ts` (Vitest). Run: `npm test`.
-- **Golden harness:** `scripts/golden/` (CPython reference vs pyrt). Run: `npm run golden` (CI matrix: Python 3.10, 3.12, 3.14).
+- **Golden harness:** `scripts/golden/` (CPython reference vs pyrt). Run: `npm run golden` (CI matrix: Python 3.10, 3.12, 3.14). **~19 case keys per profile version** (3.9–3.14): MRO/`isinstance`, rich compare, slice, contains, int↔float ops, descriptor precedence, class hooks (`init_subclass_called`, `set_name_called`), plus version-gated `match_args` (3.10+), buffer (3.12+), `annotate_x` (3.14+). Key parity: `npm run golden:keys`, `test/golden/key-parity.test.ts`.
 - **Examples:** `examples/python-vs-js.ts`. Run: `npm run examples`.
 - **Typecheck:** `npm run check`.
 
@@ -730,6 +739,7 @@ Python documents coroutine-specific behaviors beyond “has `__await__`”.
 | Python concept | pyrt status |
 |----------------|------------|
 | `types.FunctionType`, `types.MethodType`, `abc.ABCMeta` machinery | **Not supported** (you can approximate patterns manually). |
+| `types.MappingProxyType`, readonly `mappingproxy` on namespaces | **Not supported**; see **§8.16**. |
 
 ### C.10 `__objclass__` (optional descriptor metadata)
 
