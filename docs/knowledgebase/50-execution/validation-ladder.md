@@ -34,6 +34,13 @@ Vitest; unit tests mirror `src/runtime/` layout:
 | `test/class/version-gates.test.ts` | `__match_args__`, `__annotate__`, buffer |
 | `test/builtins/dict-keys.test.ts` | Dict key eq/hash |
 | `test/collections/slice-with.test.ts` | `pySlice`, `withObject` |
+| `test/cpython-derived/compare-ne.test.ts` | CPython `test_compare.py` `__ne__` delegation |
+| `test/cpython-derived/richcmp-number.test.ts` | CPython `test_richcmp.py` number ordering |
+| `test/cpython-derived/richcmp-incomparable.test.ts` | CPython `test_richcmp.py` Rev/Incomparable |
+| `test/cpython-derived/operator-int-float.test.ts` | CPython `test_operator.py` int/float cross-type |
+| `test/cpython-derived/contains-protocol.test.ts` | CPython `test_contains.py` membership protocol |
+| `test/cpython-derived/isinstance-protocol.test.ts` | CPython `test_isinstance.py` MRO / tuple checks |
+| `test/golden/key-parity.test.ts` | Golden case key snapshot parity |
 
 ---
 
@@ -67,7 +74,15 @@ After doc or slot changes:
 npm run golden
 ```
 
-Runs `scripts/golden/run.ts` against `scripts/golden/cases.py` and compares to `scripts/golden/expected/{version}.json` for each available Python 3.9–3.14. CI runs this after L2.
+Runs `scripts/golden/run.ts` against `scripts/golden/cases.py` and compares to `scripts/golden/expected/{version}.json` for each available Python 3.9–3.14. **Key parity** (symmetric case keys between CPython and `buildPyrtCases`) runs before value comparison. CI runs this after L2.
+
+When adding or renaming case keys, update both `cases.py` and `scripts/golden/pyrt-cases.ts`, then:
+
+```bash
+npm run golden:keys
+```
+
+Vitest (`test/golden/key-parity.test.ts`) asserts pyrt keys against `scripts/golden/expected/key-sets.json` without Python installed.
 
 ---
 

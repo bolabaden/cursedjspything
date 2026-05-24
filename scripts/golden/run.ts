@@ -6,30 +6,8 @@ import { spawnSync } from "node:child_process";
 import { readFileSync, writeFileSync, existsSync, mkdirSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
-import { Hook } from "../../src/runtime/core/slots.js";
-import {
-  makeClass,
-  instantiate,
-  objectType,
-  isinstance,
-  issubclass,
-  eq,
-  lt,
-  pyInt,
-  getMatchArgs,
-  getAnnotations,
-  pyList,
-  getItem,
-  pySlice,
-  unwrap,
-  wrapBuffer,
-  getBuffer,
-  releaseBuffer,
-  PyObject,
-} from "../../src/index.js";
-import { Slot } from "../../src/runtime/core/slots.js";
-import { NotImplemented } from "../../src/runtime/core/object.js";
-import { PyTypeError } from "../../src/runtime/core/errors.js";
+import { assertGoldenKeyParity } from "./keys.js";
+import { buildPyrtCases } from "./pyrt-cases.js";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "../..");
 const casesPy = join(root, "scripts/golden/cases.py");
@@ -79,121 +57,20 @@ function runCasesPy(pythonBin: string): Record<string, unknown> {
   return JSON.parse(r.stdout) as Record<string, unknown>;
 }
 
-function ensureExpected(pythonBin: string, version: string): Record<string, unknown> {
+function ensureExpected(
+  pythonBin: string,
+  version: string,
+  reference?: Record<string, unknown>,
+): Record<string, unknown> {
   mkdirSync(expectedDir, { recursive: true });
   const path = expectedPathFor(version);
   if (!existsSync(path)) {
-    const data = runCasesPy(pythonBin);
+    const data = reference ?? runCasesPy(pythonBin);
     writeFileSync(path, JSON.stringify(data, null, 2) + "\n");
     console.log(`Wrote ${path} via ${pythonBin}`);
     return data;
   }
   return JSON.parse(readFileSync(path, "utf8")) as Record<string, unknown>;
-}
-
-function parseVersion(version: string): [number, number] {
-  const [a, b] = version.split(".").map(Number);
-  return [a, b];
-}
-
-function buildPyrtCases(pythonVersion: string): Record<string, unknown> {
-  const [major, minor] = parseVersion(pythonVersion);
-
-  const A = makeClass({ name: "A", bases: [objectType], dict: {} });
-  const B = makeClass({ name: "B", bases: [A], dict: {} });
-  const C = makeClass({ name: "C", bases: [A], dict: {} });
-  const D = makeClass({ name: "D", bases: [B, C], dict: {} });
-
-  const Point = makeClass({
-    name: "Point",
-    bases: [objectType],
-    dict: new Map([[Hook.matchArgs, ["x", "y"]]]),
-  });
-
-  const Annotated = makeClass({
-    name: "Annotated",
-    bases: [objectType],
-    dict: new Map([
-      [Hook.annotate, () => ({ x: "int" })],
-    ]),
-  });
-
-  // golden:rich_lt_reflected — keep Rev/__gt__ in sync with scripts/golden/cases.py
-  const Rev = makeClass({
-    name: "Rev",
-    bases: [objectType],
-    dict: new Map([
-      [Slot.gt, () => true],
-    ]),
-  });
-
-  // golden:rich_lt_both_not_impl — keep Incomparable in sync with scripts/golden/cases.py
-  const Incomparable = makeClass({
-    name: "Incomparable",
-    bases: [objectType],
-    dict: new Map([
-      [Slot.lt, () => NotImplemented],
-      [Slot.gt, () => NotImplemented],
-    ]),
-  });
-
-  const dInst = instantiate(D);
-  const revInst = instantiate(Rev);
-  const incA = instantiate(Incomparable);
-  const incB = instantiate(Incomparable);
-  let rich_lt_both_not_impl_raises = false;
-  try {
-    lt(incA, incB);
-  } catch (e) {
-    if (e instanceof PyTypeError) rich_lt_both_not_impl_raises = true;
-  }
-  const list = pyList([pyInt(0), pyInt(1), pyInt(2)]);
-  const sliced = getItem(list, pySlice(1, 3, null)) as PyObject;
-  const slicedItems = unwrap<PyObject[]>(sliced);
-
-  const cases: Record<string, unknown> = {
-    python: pythonVersion,
-    mro_D: D.mro.map((t) => t.name),
-    isinstance_D: isinstance(dInst, A),
-    issubclass_DC: issubclass(D, C),
-    rich_eq_int: eq(pyInt(1), pyInt(1)) === true,
-    rich_lt_reflected: lt(pyInt(1), revInst) === true,
-    rich_lt_both_not_impl_raises,
-    slice_list: slicedItems.map((v) => unwrap<number>(v)),
-  };
-
-  if (major > 3 || (major === 3 && minor >= 10)) {
-    cases.match_args = getMatchArgs(Point) ?? [];
-  } else {
-    cases.match_args = [];
-  }
-
-  if (major > 3 || (major === 3 && minor >= 12)) {
-    const data = new ArrayBuffer(4);
-    const Exporter = makeClass({
-      name: "Exporter",
-      bases: [objectType],
-      dict: new Map([
-        [Slot.buffer, () => wrapBuffer(data, true)],
-        [Slot.releaseBuffer, () => {}],
-      ]),
-    });
-    const obj = new PyObject(Exporter);
-    const view = getBuffer(obj, 0) as { readonly: boolean; byteLength: number };
-    cases.buffer_readonly = view.readonly;
-    cases.buffer_len = view.byteLength;
-  } else {
-    cases.buffer_readonly = null;
-    cases.buffer_len = null;
-  }
-
-  if (major > 3 || (major === 3 && minor >= 14)) {
-    cases.annotate_x = getAnnotations(Annotated).get("x");
-  } else {
-    cases.annotate_x = null;
-  }
-
-  return cases;
 }
 
 function compareCases(
@@ -222,14 +99,25 @@ function main(): void {
 
   for (const entry of pythons) {
     const { bin, version } = parsePythonLabel(entry);
-    const expected = ensureExpected(bin, version);
+    const reference = runCasesPy(bin);
+    try {
+      assertGoldenKeyParity(reference, version);
+    } catch (err) {
+      if (err instanceof Error) {
+        failures.push(err.message);
+      } else {
+        failures.push(String(err));
+      }
+      continue;
+    }
+
+    const expected = ensureExpected(bin, version, reference);
     const actual = buildPyrtCases(version);
     const diff = compareCases(`py${version}`, expected, actual);
     failures.push(...diff);
     caseCount += Object.keys(expected).filter((k) => k !== "python").length;
   }
 
-  // Legacy single-file expected.json: validate primary interpreter if present
   if (existsSync(legacyExpected)) {
     const primary = parsePythonLabel(pythons[0]);
     const legacy = JSON.parse(readFileSync(legacyExpected, "utf8")) as Record<string, unknown>;

@@ -74,8 +74,9 @@ Not a full CPython builtins module.
 
 | Artifact | Count / note |
 |----------|----------------|
-| Vitest | 116+ tests (`test/core/`, `test/dispatch/`, `test/class/`, …) |
+| Vitest | 174 tests (`test/core/`, `test/dispatch/`, `test/class/`, `test/cpython-derived/`, `test/golden/`, …) |
 | Examples | 39 sections in `examples/python-vs-js.ts` |
+| Golden | `npm run golden` — CPython JSON parity + key guard (`npm run golden:keys`) |
 
 ---
 
@@ -83,6 +84,6 @@ Not a full CPython builtins module.
 
 - **Reference:** 3.9–3.14 docs (pinned URLs)
 - **Slot list anchor:** 3.14
-- **Validation:** `npm test`, `npm run check` — no multi-version CPython golden suite
+- **Validation:** `npm test`, `npm run check`, `npm run golden` — CI matrix Python 3.10/3.12/3.14
 
 See [../20-domain-theory/python-version-matrix-3.9-3.14.md](../20-domain-theory/python-version-matrix-3.9-3.14.md).

@@ -18,6 +18,18 @@ function isSubtype(derived: PyType, base: PyType): boolean {
   return derived.mro.includes(base);
 }
 
+/** Flatten CPython-style nested type tuples for isinstance/issubclass. */
+type TypeCheckArg = PyType | TypeCheckArg[];
+
+function flattenTypes(classOrTuple: TypeCheckArg): PyType[] {
+  if (!Array.isArray(classOrTuple)) return [classOrTuple];
+  const out: PyType[] = [];
+  for (const item of classOrTuple) {
+    out.push(...flattenTypes(item));
+  }
+  return out;
+}
+
 function toDictMap(
   dict: Map<string | symbol, unknown> | Record<string | symbol, unknown>,
 ): Map<string | symbol, unknown> {
@@ -280,8 +292,8 @@ export function getMatchArgs(cls: PyType): readonly string[] | null {
   return cls.matchArgs;
 }
 
-export function isinstance(obj: PyObject, classOrTuple: PyType | PyType[]): boolean {
-  const types = Array.isArray(classOrTuple) ? classOrTuple : [classOrTuple];
+export function isinstance(obj: PyObject, classOrTuple: TypeCheckArg): boolean {
+  const types = flattenTypes(classOrTuple);
   for (const cls of types) {
     const check = lookupInMro(cls.type, Hook.instancecheck);
     if (typeof check === "function") {
@@ -293,8 +305,8 @@ export function isinstance(obj: PyObject, classOrTuple: PyType | PyType[]): bool
   return false;
 }
 
-export function issubclass(derived: PyType, classOrTuple: PyType | PyType[]): boolean {
-  const types = Array.isArray(classOrTuple) ? classOrTuple : [classOrTuple];
+export function issubclass(derived: PyType, classOrTuple: TypeCheckArg): boolean {
+  const types = flattenTypes(classOrTuple);
   for (const cls of types) {
     const check = lookupInMro(cls.type, Hook.subclasscheck);
     if (typeof check === "function") {

@@ -26,6 +26,7 @@
     "test:watch": "vitest",
     "check": "tsc --noEmit",
     "golden": "tsx scripts/golden/run.ts",
+    "golden:keys": "tsx scripts/golden/update-key-snapshot.ts",
     "examples": "tsx examples/python-vs-js.ts",
     "cpython:mine": "bash scripts/cpython/mine-lib-tests.sh"
   },
