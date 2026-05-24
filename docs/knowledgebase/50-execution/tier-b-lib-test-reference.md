@@ -3,7 +3,7 @@
 **Purpose:** Maintainer guide for CPython `Lib/test` modules that are **reference-only** for pyrt — useful for golden case ideas and gap analysis, not for wholesale Vitest transpilation.
 
 **Authoritative mining script:** `scripts/cpython/mine-lib-tests.sh`  
-**Tier A status:** Complete on `main` (see `test/cpython-derived/` and golden ~15 keys/version).
+**Tier A status:** Complete on `main` (see `test/cpython-derived/` and golden ~18 keys/version).
 
 ---
 
@@ -29,9 +29,10 @@
 
 `[SYNTH]` Ordered by payoff vs effort:
 
-1. **Descriptor golden row** — e.g. data descriptor wins over instance dict (one JSON case in `cases.py` / `pyrt-cases.ts`).
-2. **`__set_name__` / `__init_subclass__`** — already unit-tested; optional golden if embedders need cross-Python proof.
-3. **Mappingproxy / readonly dict views** — document as out of scope unless a minimal `types.MappingProxyType` shim is added later.
+1. ~~**Descriptor golden row**~~ — **Done:** `descriptor_data_wins` + `descriptor_nodata_loses` on `main`.
+2. **`__init_subclass__`** — **Done:** `init_subclass_called` golden key; Vitest coverage in `test/class/system.test.ts`.
+3. **`__set_name__`** — optional golden if embedders need cross-Python proof.
+4. **Mappingproxy / readonly dict views** — document as out of scope unless a minimal `types.MappingProxyType` shim is added later.
 
 ---
 

@@ -7,6 +7,24 @@
 
 ---
 
+## Delta update (2026-05-23, golden __init_subclass__)
+
+### Landed
+
+- [REPO] Golden case `init_subclass_called` — base `__init_subclass__` runs on subclass creation (~18 keys/version).
+- [REPO] PR #13 merged: descriptor precedence pair complete on `main`.
+
+### Partial
+
+- [REPO] Cross-type builtin ops beyond int/float still `NotImplemented`.
+
+### Next
+
+1. More Tier B golden cherry-picks (`__set_name__`, mappingproxy doc-only, etc.).
+2. Tier-3 roadmap (VM, import) unchanged.
+
+---
+
 ## Delta update (2026-05-23, golden non-data descriptor precedence)
 
 ### Landed

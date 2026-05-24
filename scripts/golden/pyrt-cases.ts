@@ -125,6 +125,17 @@ export function buildPyrtCases(pythonVersion: string): Record<string, unknown> {
   const nonDataOwner = new PyObject(NonDataOwner);
   nonDataOwner.dict.set("attr", "instance-value");
 
+  // golden:init_subclass_called — keep InitSubclassBase in sync with scripts/golden/cases.py
+  const initSubclassLog: string[] = [];
+  const InitSubclassBase = makeClass({
+    name: "InitSubclassBase",
+    bases: [objectType],
+    dict: new Map<string | symbol, unknown>([
+      [Hook.initSubclass, (cls: { name: string }) => { initSubclassLog.push(cls.name); }],
+    ]),
+  });
+  makeClass({ name: "InitSubclassChild", bases: [InitSubclassBase], dict: new Map() });
+
   const cases: Record<string, unknown> = {
     python: pythonVersion,
     mro_D: D.mro.map((t) => t.name),
@@ -140,6 +151,7 @@ export function buildPyrtCases(pythonVersion: string): Record<string, unknown> {
     int_float_add: unwrap<number>(add(pyInt(1), pyFloat(1.0)) as PyObject),
     descriptor_data_wins: getAttr(descOwner, "attr"),
     descriptor_nodata_loses: getAttr(nonDataOwner, "attr"),
+    init_subclass_called: initSubclassLog.includes("InitSubclassChild"),
   };
 
   if (major > 3 || (major === 3 && minor >= 10)) {
