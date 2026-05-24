@@ -11,16 +11,16 @@
 
 ### Landed
 
-- [REPO] KB: `validation-ladder.md`, `tier-b-lib-test-reference.md`, `cpython-reference-submodule.md` — document symmetric golden builder helpers and dual-file workflow.
+- [REPO] PR #18 merged: `pyrt-cases.ts` + `cases.py` symmetric helpers (~19 keys unchanged).
+- [REPO] KB: `validation-ladder.md`, `tier-b-lib-test-reference.md`, `cpython-reference-submodule.md` — document helper pattern and dual-file workflow.
 
 ### Partial
 
-- [REPO] PR #18 open (CI green): `pyrt-cases.ts` + `cases.py` refactor (~19 keys unchanged).
 - [REPO] Cross-type builtin ops beyond int/float still `NotImplemented`.
 
 ### Next
 
-1. Merge PR #18; Tier B golden cherry-picks or runtime gaps as prioritized.
+1. Tier B golden cherry-picks or runtime gaps as prioritized.
 2. Tier-3 roadmap (VM, import) unchanged.
 
 ---
@@ -30,7 +30,7 @@
 ### Landed
 
 - [REPO] `scripts/golden/cases.py` — `version_gte` + `owner_with_instance_attr` helpers; symmetric with plan 019 TS refactor.
-- [REPO] PR #18 open: pyrt-cases.ts refactor + CI green.
+- [REPO] PR #18 merged on `main`.
 
 ### Partial
 
