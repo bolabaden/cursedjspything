@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 055 sequence cross-type)
+
+### Landed
+
+- [REPO] Plan 055 — `sequence-cross-type.test.ts`; COMPATIBILITY §8.15 evidence (224 Vitest).
+
+### Partial
+
+- [OPEN] PRs #28–#33 still open.
+
+### Next
+
+1. Merge stacked PRs.
+2. int↔float bitwise or bytes gaps when prioritized.
+
+---
+
 ## Delta update (2026-05-24, plan 048 PyZeroDivisionError)
 
 ### Landed
