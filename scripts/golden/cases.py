@@ -67,6 +67,16 @@ class DescOwner:
     attr = DataDesc()
 
 
+# golden:descriptor_nodata_loses — non-data descriptor loses to instance __dict__
+class NonDataDesc:
+    def __get__(self, obj, owner):
+        return "desc-value"
+
+
+class NonDataOwner:
+    attr = NonDataDesc()
+
+
 def main() -> None:
     vi = sys.version_info
     cases: dict[str, object] = {
@@ -86,6 +96,10 @@ def main() -> None:
     desc_owner = DescOwner()
     desc_owner.__dict__["attr"] = "instance-value"
     cases["descriptor_data_wins"] = desc_owner.attr
+
+    nodata_owner = NonDataOwner()
+    nodata_owner.__dict__["attr"] = "instance-value"
+    cases["descriptor_nodata_loses"] = nodata_owner.attr
 
     inc_a, inc_b = Incomparable(), Incomparable()
     try:

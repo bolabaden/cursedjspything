@@ -110,6 +110,21 @@ export function buildPyrtCases(pythonVersion: string): Record<string, unknown> {
   const descOwner = new PyObject(DescOwner);
   descOwner.dict.set("attr", "instance-value");
 
+  const NonDataDesc = makeClass({
+    name: "NonDataDesc",
+    dict: new Map<string | symbol, unknown>([
+      [Slot.get, () => "desc-value"],
+    ]),
+  });
+  const nonDataDesc = new PyObject(NonDataDesc);
+  const NonDataOwner = makeClass({
+    name: "NonDataOwner",
+    bases: [objectType],
+    dict: new Map<string | symbol, unknown>([["attr", nonDataDesc]]),
+  });
+  const nonDataOwner = new PyObject(NonDataOwner);
+  nonDataOwner.dict.set("attr", "instance-value");
+
   const cases: Record<string, unknown> = {
     python: pythonVersion,
     mro_D: D.mro.map((t) => t.name),
@@ -124,6 +139,7 @@ export function buildPyrtCases(pythonVersion: string): Record<string, unknown> {
     int_float_eq: eq(pyInt(1), pyFloat(1.0)) === true,
     int_float_add: unwrap<number>(add(pyInt(1), pyFloat(1.0)) as PyObject),
     descriptor_data_wins: getAttr(descOwner, "attr"),
+    descriptor_nodata_loses: getAttr(nonDataOwner, "attr"),
   };
 
   if (major > 3 || (major === 3 && minor >= 10)) {

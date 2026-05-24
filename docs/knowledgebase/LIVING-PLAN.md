@@ -7,6 +7,24 @@
 
 ---
 
+## Delta update (2026-05-23, golden non-data descriptor precedence)
+
+### Landed
+
+- [REPO] Golden case `descriptor_nodata_loses` — instance dict beats non-data descriptor (~17 keys/version).
+- [REPO] PR #12 merged: `descriptor_data_wins` on `main`.
+
+### Partial
+
+- [REPO] Cross-type builtin ops beyond int/float still `NotImplemented`.
+
+### Next
+
+1. More Tier B golden cherry-picks per mining guide.
+2. Tier-3 roadmap (VM, import) unchanged.
+
+---
+
 ## Delta update (2026-05-23, golden descriptor precedence)
 
 ### Landed
