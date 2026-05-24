@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 057 bytes conversion)
+
+### Landed
+
+- [REPO] Plan 057 — `operator-bytes-conversion.test.ts`; COMPATIBILITY §8.15 evidence (223 Vitest on main baseline +3).
+
+### Partial
+
+- [OPEN] PRs #28–#35 still open on other branches; bytes **object** cross-type ops still partial.
+
+### Next
+
+1. Merge stacked PRs.
+2. Sequence exotic cross-type / remaining §8.15 when prioritized.
+
+---
+
 ## Delta update (2026-05-24, plan 048 PyZeroDivisionError)
 
 ### Landed
