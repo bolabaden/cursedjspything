@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 062 unary evidence)
+
+### Landed
+
+- [REPO] Plan 062 — `operator-unary-evidence.test.ts`; COMPATIBILITY §8.15 evidence (224 Vitest).
+
+### Partial
+
+- [OPEN] PRs #28–#40 still open on other branches.
+
+### Next
+
+1. Merge stacked PRs.
+2. bytes / sequence exotic §8.15 when prioritized.
+
+---
+
 ## Delta update (2026-05-24, plan 048 PyZeroDivisionError)
 
 ### Landed
