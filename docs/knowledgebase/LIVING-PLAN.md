@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 072 str-float cross-type)
+
+### Landed
+
+- [REPO] Plan 072 — `operator-str-float.test.ts`; COMPATIBILITY §8.15 evidence (225 Vitest).
+
+### Partial
+
+- [OPEN] PRs #28–#50 still open on other branches.
+
+### Next
+
+1. Merge stacked PRs.
+2. bytes / remaining §8.15 exotic pairs when prioritized.
+
+---
+
 ## Delta update (2026-05-24, plan 048 PyZeroDivisionError)
 
 ### Landed
