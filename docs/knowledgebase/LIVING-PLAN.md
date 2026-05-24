@@ -7,6 +7,26 @@
 
 ---
 
+## Delta update (2026-05-23, golden descriptor precedence)
+
+### Landed
+
+- [REPO] Golden case `descriptor_data_wins` — data descriptor beats instance dict (~16 keys/version).
+- [REPO] PR #11 merged: Tier B Lib/test reference doc on `main`.
+
+### Partial
+
+- [REPO] Non-data descriptor precedence golden case still Vitest-only.
+- [REPO] Cross-type builtin ops beyond int/float still `NotImplemented`.
+
+### Next
+
+1. Optional `descriptor_nodata_loses` golden row.
+2. More Tier B cherry-picks per mining guide.
+3. Tier-3 roadmap (VM, import) unchanged.
+
+---
+
 ## Delta update (2026-05-23, Tier B mining reference doc)
 
 ### Landed

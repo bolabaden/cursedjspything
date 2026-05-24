@@ -25,6 +25,7 @@ import {
   unwrap,
   wrapBuffer,
   getBuffer,
+  getAttr,
   PyObject,
 } from "../../src/index.js";
 
@@ -85,6 +86,30 @@ export function buildPyrtCases(pythonVersion: string): Record<string, unknown> {
   const sliced = getItem(list, pySlice(1, 3, null)) as PyObject;
   const slicedItems = unwrap<PyObject[]>(sliced);
 
+  const DataDesc = makeClass({
+    name: "DataDesc",
+    dict: new Map<string | symbol, unknown>([
+      [
+        Slot.get,
+        (desc: PyObject, obj: PyObject | null, _owner: typeof objectType) => {
+          if (obj === null) return desc;
+          return "descriptor-value";
+        },
+      ],
+      [Slot.set, (_desc: PyObject, obj: PyObject, value: unknown) => {
+        obj.dict.set("_stored", value);
+      }],
+    ]),
+  });
+  const desc = new PyObject(DataDesc);
+  const DescOwner = makeClass({
+    name: "DescOwner",
+    bases: [objectType],
+    dict: new Map<string | symbol, unknown>([["attr", desc]]),
+  });
+  const descOwner = new PyObject(DescOwner);
+  descOwner.dict.set("attr", "instance-value");
+
   const cases: Record<string, unknown> = {
     python: pythonVersion,
     mro_D: D.mro.map((t) => t.name),
@@ -98,6 +123,7 @@ export function buildPyrtCases(pythonVersion: string): Record<string, unknown> {
     contains_list: contains(list, pyInt(1)),
     int_float_eq: eq(pyInt(1), pyFloat(1.0)) === true,
     int_float_add: unwrap<number>(add(pyInt(1), pyFloat(1.0)) as PyObject),
+    descriptor_data_wins: getAttr(descOwner, "attr"),
   };
 
   if (major > 3 || (major === 3 && minor >= 10)) {
