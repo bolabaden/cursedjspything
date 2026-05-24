@@ -51,6 +51,7 @@ cat <<'EOF'
 - test/cpython-derived/richcmp-incomparable.test.ts ← Rev/Incomparable (done)
 - test/cpython-derived/operator-int-float.test.ts ← test_operator int/float (done)
 - test/cpython-derived/contains-protocol.test.ts ← test_contains (done)
-- test/cpython-derived/isinstance-protocol.test.ts ← test_isinstance (pending merge)
+- test/cpython-derived/isinstance-protocol.test.ts ← test_isinstance (done)
 - golden keys from test_richcmp Incomparable / Rev (done in golden harness)
+- Tier B next: test_descr.py, test_class.py (reference only)
 EOF
