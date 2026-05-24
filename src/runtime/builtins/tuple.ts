@@ -2,7 +2,7 @@ import { PyObject, NotImplemented } from "../core/object.js";
 import { Slot } from "../core/slots.js";
 import { makeClass } from "../class/class.js";
 import { PyStopIteration } from "../core/lookup.js";
-import { PyTypeError } from "../core/errors.js";
+import { PyTypeError, PyIndexError } from "../core/errors.js";
 import { nativeVal, setNative } from "./native.js";
 import { intType } from "./int.js";
 import { isSlice, sliceFields, sliceIndices } from "../collections/slice.js";
@@ -45,7 +45,7 @@ export const tupleType = makeClass({
       }
       if (typeof key !== "number") throw new PyTypeError("tuple indices must be integers");
       const idx = key < 0 ? arr.length + key : key;
-      if (idx < 0 || idx >= arr.length) throw new Error("IndexError: tuple index out of range");
+      if (idx < 0 || idx >= arr.length) throw new PyIndexError("tuple index out of range");
       return arr[idx];
     }],
     [Slot.contains, (self: PyObject, value: unknown) => {

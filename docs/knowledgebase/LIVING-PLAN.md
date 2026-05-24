@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, sequence IndexError PyIndexError)
+
+### Landed
+
+- [REPO] Plan 031: `PyIndexError` class; str/list/tuple out-of-range subscript; sequence-index-type tests +3; parity-gaps Vitest 196.
+
+### Partial
+
+- [REPO] PR #19–#21 open.
+
+### Next
+
+1. Merge open PRs; version-gate tests (PR #20) or Tier B cherry-picks.
+2. Tier-3 roadmap (VM, import) unchanged.
+
+---
+
 ## Delta update (2026-05-24, list/tuple subscript PyTypeError)
 
 ### Landed

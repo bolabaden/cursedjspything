@@ -2,7 +2,7 @@ import { PyObject, NotImplemented } from "../core/object.js";
 import { Slot, Hook } from "../core/slots.js";
 import { makeClass } from "../class/class.js";
 import { PyStopIteration } from "../core/lookup.js";
-import { PyTypeError } from "../core/errors.js";
+import { PyTypeError, PyIndexError } from "../core/errors.js";
 import { nativeVal, setNative } from "./native.js";
 import { intType } from "./int.js";
 
@@ -71,7 +71,7 @@ export const strType = makeClass({
       const s = nativeVal<string>(self);
       if (typeof key === "number") {
         const idx = key < 0 ? s.length + key : key;
-        if (idx < 0 || idx >= s.length) throw new Error("IndexError: string index out of range");
+        if (idx < 0 || idx >= s.length) throw new PyIndexError("string index out of range");
         return pyStr(s[idx]);
       }
       throw new PyTypeError("string indices must be integers");

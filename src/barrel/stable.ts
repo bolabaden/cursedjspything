@@ -23,6 +23,7 @@ export {
   PyAttributeError,
   PyTypeError,
   PyKeyError,
+  PyIndexError,
   PyStopIteration,
   PyValueError,
 } from "../runtime/core/lookup.js";
