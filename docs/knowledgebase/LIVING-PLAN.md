@@ -13,6 +13,26 @@ Maintain an evidence-backed knowledgebase and a honest compatibility contract: w
 
 ---
 
+## Delta update (2026-05-23, builtin cross-type docs sync)
+
+### Landed
+
+- [REPO] `COMPATIBILITY_AND_GAPS.md` §8.15 — int↔float delegation contract vs other `NotImplemented` pairs.
+- [REPO] `parity-gaps-priorities.md` row #8 refined; validation ladder lists `test/cpython-derived/*`.
+
+### Partial
+
+- [REPO] Golden ~11 keys/version; golden key-parity guard in PR #3.
+- [REPO] Cross-type builtin ops beyond int/float still `NotImplemented` (str, bool, sequences).
+
+### Next
+
+1. Merge stacked PRs (#3 key parity, #5 richcmp, #6 operator-int-float + docs).
+2. Close superseded PR #4.
+3. Tier-3 roadmap (VM, import) unchanged.
+
+---
+
 ## Delta update (2026-05-23, test_operator int/float ports)
 
 ### Landed
@@ -25,7 +45,7 @@ Maintain an evidence-backed knowledgebase and a honest compatibility contract: w
 
 ### Next
 
-1. Builtin cross-type delegation docs sync (Tier-1 gap #8).
+1. ~~Builtin cross-type delegation docs sync (Tier-1 gap #8).~~ Done in docs sync slice.
 2. Merge stacked PRs (#3 key parity, #5 richcmp fixtures).
 3. Tier-3 roadmap (VM, import) unchanged.
 

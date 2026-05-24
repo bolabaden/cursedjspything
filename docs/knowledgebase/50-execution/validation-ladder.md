@@ -34,6 +34,9 @@ Vitest; unit tests mirror `src/runtime/` layout:
 | `test/class/version-gates.test.ts` | `__match_args__`, `__annotate__`, buffer |
 | `test/builtins/dict-keys.test.ts` | Dict key eq/hash |
 | `test/collections/slice-with.test.ts` | `pySlice`, `withObject` |
+| `test/cpython-derived/compare-ne.test.ts` | CPython `test_compare.py` `__ne__` delegation |
+| `test/cpython-derived/richcmp-number.test.ts` | CPython `test_richcmp.py` number ordering |
+| `test/cpython-derived/operator-int-float.test.ts` | CPython `test_operator.py` int/float cross-type |
 
 ---
 
