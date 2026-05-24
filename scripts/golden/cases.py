@@ -54,6 +54,19 @@ class Incomparable:
         return NotImplemented
 
 
+# golden:descriptor_data_wins — data descriptor beats instance __dict__
+class DataDesc:
+    def __get__(self, obj, owner):
+        return "descriptor-value"
+
+    def __set__(self, obj, value):
+        pass
+
+
+class DescOwner:
+    attr = DataDesc()
+
+
 def main() -> None:
     vi = sys.version_info
     cases: dict[str, object] = {
@@ -69,6 +82,10 @@ def main() -> None:
         "int_float_eq": 1 == 1.0,
         "int_float_add": 1 + 1.0,
     }
+
+    desc_owner = DescOwner()
+    desc_owner.__dict__["attr"] = "instance-value"
+    cases["descriptor_data_wins"] = desc_owner.attr
 
     inc_a, inc_b = Incomparable(), Incomparable()
     try:

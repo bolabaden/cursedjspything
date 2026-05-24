@@ -26,5 +26,6 @@
   "contains_str": true,
   "contains_list": true,
   "int_float_eq": true,
-  "int_float_add": 2.0
+  "int_float_add": 2.0,
+  "descriptor_data_wins": "descriptor-value"
 }
