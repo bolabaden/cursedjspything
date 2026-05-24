@@ -21,6 +21,8 @@
     "rich_eq_int",
     "rich_lt_both_not_impl_raises",
     "rich_lt_reflected",
+    "seq_bool_mul",
+    "seq_bool_rmul",
     "set_name_called",
     "slice_list"
   ],
@@ -46,6 +48,8 @@
     "rich_eq_int",
     "rich_lt_both_not_impl_raises",
     "rich_lt_reflected",
+    "seq_bool_mul",
+    "seq_bool_rmul",
     "set_name_called",
     "slice_list"
   ],
@@ -71,6 +75,8 @@
     "rich_eq_int",
     "rich_lt_both_not_impl_raises",
     "rich_lt_reflected",
+    "seq_bool_mul",
+    "seq_bool_rmul",
     "set_name_called",
     "slice_list"
   ],
@@ -96,6 +102,8 @@
     "rich_eq_int",
     "rich_lt_both_not_impl_raises",
     "rich_lt_reflected",
+    "seq_bool_mul",
+    "seq_bool_rmul",
     "set_name_called",
     "slice_list"
   ]

@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, golden sequence bool repetition)
+
+### Landed
+
+- [REPO] Plan 038: golden keys `seq_bool_mul`, `seq_bool_rmul`; expected JSON + key snapshot (**25** keys/profile); README/COMPATIBILITY/validation-ladder sync.
+
+### Partial
+
+- [REPO] PR #21 open — plans 026–038; CI green; ready for merge.
+
+### Next
+
+1. Merge PR #21; Tier B cherry-picks or Tier-3 roadmap.
+2. Full golden matrix on CI (local: 3.14 OK, 25 checks/version).
+
+---
+
 ## Delta update (2026-05-24, list/tuple rmul bool parity)
 
 ### Landed

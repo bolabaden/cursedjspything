@@ -14,6 +14,8 @@ import {
   lt,
   add,
   contains,
+  mul,
+  len,
   pyInt,
   pyFloat,
   pyTrue,
@@ -105,6 +107,7 @@ export function buildPyrtCases(pythonVersion: string): Record<string, unknown> {
   }
 
   const list = pyList([pyInt(0), pyInt(1), pyInt(2)]);
+  const oneItemList = pyList([pyInt(1)]);
   const sliced = getItem(list, pySlice(1, 3, null)) as PyObject;
   const slicedItems = unwrap<PyObject[]>(sliced);
 
@@ -193,6 +196,9 @@ export function buildPyrtCases(pythonVersion: string): Record<string, unknown> {
     bool_int_add: unwrap<number>(add(pyInt(1), pyTrue) as PyObject),
     bool_float_eq: eq(pyTrue, pyFloat(1.0)) === true,
     bool_float_add: unwrap<number>(add(pyTrue, pyFloat(1.0)) as PyObject),
+    // golden:seq_bool_mul / seq_bool_rmul — keep in sync with scripts/golden/cases.py
+    seq_bool_mul: len(mul(oneItemList, pyTrue) as PyObject),
+    seq_bool_rmul: len(mul(pyTrue, oneItemList) as PyObject),
     descriptor_data_wins: getAttr(descOwner, "attr"),
     descriptor_nodata_loses: getAttr(nonDataOwner, "attr"),
     init_subclass_called: initSubclassLog.includes("InitSubclassChild"),

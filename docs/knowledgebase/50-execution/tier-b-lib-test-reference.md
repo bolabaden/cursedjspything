@@ -3,7 +3,7 @@
 **Purpose:** Maintainer guide for CPython `Lib/test` modules that are **reference-only** for pyrt — useful for golden case ideas and gap analysis, not for wholesale Vitest transpilation.
 
 **Authoritative mining script:** `scripts/cpython/mine-lib-tests.sh`  
-**Tier A status:** Complete on `main` (see `test/cpython-derived/` and golden 23 keys/version).
+**Tier A status:** Complete on `main` (see `test/cpython-derived/` and golden 25 keys/version).
 
 ---
 

@@ -27,6 +27,8 @@
   "bool_int_add": 2,
   "bool_float_eq": true,
   "bool_float_add": 2.0,
+  "seq_bool_mul": 1,
+  "seq_bool_rmul": 1,
   "descriptor_data_wins": "descriptor-value",
   "descriptor_nodata_loses": "instance-value",
   "init_subclass_called": true,

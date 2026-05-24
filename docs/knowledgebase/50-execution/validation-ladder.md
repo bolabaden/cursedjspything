@@ -41,6 +41,7 @@ Vitest; unit tests mirror `src/runtime/` layout:
 | `test/cpython-derived/operator-int-bool.test.ts` | CPython `test_operator.py` int/bool cross-type |
 | `test/cpython-derived/operator-bool-float.test.ts` | CPython `test_operator.py` bool/float cross-type |
 | `test/cpython-derived/operator-str-scalar.test.ts` | CPython str↔scalar non-coercion (eq/ne/add/contains) |
+| `test/cpython-derived/sequence-repeat-bool.test.ts` | List/tuple/str bool repeat counts (`* True` / `True *`) |
 | `test/cpython-derived/sequence-index-type.test.ts` | List/tuple non-integer subscript raises TypeError |
 | `test/cpython-derived/contains-protocol.test.ts` | CPython `test_contains.py` membership protocol |
 | `test/cpython-derived/isinstance-protocol.test.ts` | CPython `test_isinstance.py` MRO / tuple checks |
@@ -93,7 +94,7 @@ Vitest (`test/golden/pyrt-cases-version-gates.test.ts`) asserts **gated values**
 
 **Builder maintainability:** Both emitters share the same version-gated keys (`match_args`, buffer, `annotate_x`). Use `version_gte` / `versionGte` for 3.10/3.12/3.14 gates and `owner_with_instance_attr` / `ownerWithInstanceAttr` for descriptor-precedence fixtures — extend these helpers when adding similar cases rather than inlining gates or owner setup.
 
-**Current inventory:** 23 keys per profile (see `scripts/golden/expected/key-sets.json`), including Tier A ports (contains, int/float/bool cross-type) and Tier B cherry-picks (descriptor precedence, `__init_subclass__`, `__set_name__`).
+**Current inventory:** 25 keys per profile (see `scripts/golden/expected/key-sets.json`), including Tier A ports (contains, int/float/bool cross-type, sequence bool repetition) and Tier B cherry-picks (descriptor precedence, `__init_subclass__`, `__set_name__`).
 
 ---
 
