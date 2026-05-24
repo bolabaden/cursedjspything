@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, bool subclass-of-int MRO)
+
+### Landed
+
+- [REPO] Plan 026: `boolType` bases `[intType]`; builtin export reorder; `isinstance(True, int)` / `issubclass(bool, int)`; Vitest +2 in `isinstance-protocol.test.ts`.
+
+### Partial
+
+- [REPO] PR #19–#21 open; str/sequence cross-type ops still `NotImplemented`.
+
+### Next
+
+1. Merge open PRs; continue gap #8 (str/scalar) or Tier B cherry-picks.
+2. Tier-3 roadmap (VM, import) unchanged.
+
+---
+
 ## Delta update (2026-05-24, numeric tower docs sync)
 
 ### Landed

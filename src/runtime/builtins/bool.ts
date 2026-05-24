@@ -13,6 +13,7 @@ function boolNumeric(self: PyObject): number {
 
 export const boolType = makeClass({
   name: "bool",
+  bases: [intType],
   dict: new Map<string | symbol, unknown>([
     [Slot.repr, (self: PyObject) => nativeVal<boolean>(self) ? "True" : "False"],
     [Slot.str, (self: PyObject) => nativeVal<boolean>(self) ? "True" : "False"],

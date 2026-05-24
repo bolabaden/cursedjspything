@@ -2,20 +2,23 @@ import { PyObject, NotImplemented } from "../core/object.js";
 import { Slot, Hook } from "../core/slots.js";
 import { makeClass } from "../class/class.js";
 import { nativeVal, setNative } from "./native.js";
-import { boolType } from "./bool.js";
 import { floatType, pyFloat } from "./float.js";
 import { pyTuple } from "./tuple.js";
+
+function isBoolOperand(other: PyObject): boolean {
+  return other.type.name === "bool";
+}
 
 function isNumericOperand(other: PyObject): boolean {
   return (
     other.type === intType ||
     other.type === floatType ||
-    other.type === boolType
+    isBoolOperand(other)
   );
 }
 
 function numericOperand(other: PyObject): number {
-  if (other.type === boolType) {
+  if (isBoolOperand(other)) {
     return nativeVal<boolean>(other) ? 1 : 0;
   }
   return nativeVal<number>(other);
