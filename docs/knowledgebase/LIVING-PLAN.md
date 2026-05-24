@@ -7,6 +7,23 @@
 
 ---
 
+## Delta update (2026-05-24, int↔bool cross-type parity)
+
+### Landed
+
+- [REPO] Plan 023: int↔bool compare/add in `int.ts`/`bool.ts`; Vitest `operator-int-bool.test.ts`; golden keys `bool_int_eq`, `bool_int_add`.
+
+### Partial
+
+- [REPO] PR #19 / #20 open; str/sequence cross-type ops still `NotImplemented`.
+
+### Next
+
+1. Merge open PRs; continue Tier 1 gap #8 or Tier B cherry-picks.
+2. Tier-3 roadmap (VM, import) unchanged.
+
+---
+
 ## Delta update (2026-05-23, golden KB coherence + PR #18)
 
 ### Landed

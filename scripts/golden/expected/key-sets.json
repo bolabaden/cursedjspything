@@ -1,6 +1,8 @@
 {
   "3.9": [
     "annotate_x",
+    "bool_int_add",
+    "bool_int_eq",
     "buffer_len",
     "buffer_readonly",
     "contains_list",
@@ -22,6 +24,8 @@
   ],
   "3.10": [
     "annotate_x",
+    "bool_int_add",
+    "bool_int_eq",
     "buffer_len",
     "buffer_readonly",
     "contains_list",
@@ -43,6 +47,8 @@
   ],
   "3.12": [
     "annotate_x",
+    "bool_int_add",
+    "bool_int_eq",
     "buffer_len",
     "buffer_readonly",
     "contains_list",
@@ -64,6 +70,8 @@
   ],
   "3.14": [
     "annotate_x",
+    "bool_int_add",
+    "bool_int_eq",
     "buffer_len",
     "buffer_readonly",
     "contains_list",

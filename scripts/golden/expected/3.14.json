@@ -27,6 +27,8 @@
   "contains_list": true,
   "int_float_eq": true,
   "int_float_add": 2.0,
+  "bool_int_eq": true,
+  "bool_int_add": 2,
   "descriptor_data_wins": "descriptor-value",
   "descriptor_nodata_loses": "instance-value",
   "init_subclass_called": true,

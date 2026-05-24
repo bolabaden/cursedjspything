@@ -104,6 +104,8 @@ def main() -> None:
         "contains_list": 1 in [0, 1, 2],
         "int_float_eq": 1 == 1.0,
         "int_float_add": 1 + 1.0,
+        "bool_int_eq": 1 == True,
+        "bool_int_add": 1 + True,
     }
 
     desc_owner = owner_with_instance_attr(DescOwner, "attr", "instance-value")
