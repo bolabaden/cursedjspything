@@ -358,7 +358,7 @@ Python dict keys use **rich equality** + **consistent hashing** rules. `pyDict` 
 
 ### 8.8 Rich compare / `NotImplemented`
 
-`richCompare` in `src/runtime/dispatch/operators/compare.ts` tries forward then reflected special methods and falls back to identity for `eq`/`ne`. Golden case `rich_lt_reflected` checks `1 < Rev()` when `int.__lt__` returns `NotImplemented` and `Rev.__gt__` returns `True`. Ordering when **both** operands return `NotImplemented` for the same op is not golden-tested.
+`richCompare` in `src/runtime/dispatch/operators/compare.ts` tries forward then reflected special methods and falls back to identity for `eq`/`ne`. Golden case `rich_lt_reflected` checks `1 < Rev()` when `int.__lt__` returns `NotImplemented` and `Rev.__gt__` returns `True`. Golden case `rich_lt_both_not_impl_raises` checks that `Incomparable() < Incomparable()` raises `TypeError` when forward and reflected ordering both return `NotImplemented`.
 
 ### 8.9 `__missing__` integration
 

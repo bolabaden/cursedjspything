@@ -43,6 +43,17 @@ class Rev:
         return True
 
 
+# golden:rich_lt_both_not_impl_raises — keep Incomparable in sync with scripts/golden/run.ts
+class Incomparable:
+    """Both forward and reflected ordering return NotImplemented → TypeError."""
+
+    def __lt__(self, other: object):
+        return NotImplemented
+
+    def __gt__(self, other: object):
+        return NotImplemented
+
+
 def main() -> None:
     vi = sys.version_info
     cases: dict[str, object] = {
@@ -54,6 +65,12 @@ def main() -> None:
         "rich_lt_reflected": 1 < Rev(),
         "slice_list": [0, 1, 2][1:3],
     }
+
+    try:
+        Incomparable() < Incomparable()
+        cases["rich_lt_both_not_impl_raises"] = False
+    except TypeError:
+        cases["rich_lt_both_not_impl_raises"] = True
 
     if vi >= (3, 10):
         cases["match_args"] = list(getattr(Point, "__match_args__", ()))

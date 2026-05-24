@@ -22,7 +22,7 @@
 | 2 | **Slice via `getItem`** | Fixed: `__getitem__(slice)` on list/tuple; `getItem` passes slice through | One slice object per subscript |
 | 3 | **`lookupSpecial` and exotic callables** | `lookup.ts` supports descriptor `__get__`, plain `function`, and `PyObject` with `__call__` | Full CPython callable-object edge cases may still differ |
 | 4 | **`instantiate` / `makeClass`** | `instantiate` uses `lookupSpecial` for `__new__`/`__init__`; `makeClass` still ≠ full `type.__call__` | Full metaclass pipeline |
-| 5 | **Rich compare / `NotImplemented` edge cases** | `test/dispatch/operators.test.ts`; golden `rich_lt_reflected` (`1 < Rev()` via reflected `__gt__`) | Full ordering when **both** sides return `NotImplemented` |
+| 5 | **Rich compare / `NotImplemented` edge cases** | `test/dispatch/operators.test.ts`; golden `rich_lt_reflected`, `rich_lt_both_not_impl_raises` | Exotic subclass ordering edge cases beyond current fixtures |
 | 6 | **`hash` coercion `\| 0`** | `dispatch/operators/compare.ts` | Integer hash semantics and `hash` consistent with `eq` |
 | 7 | **`__bool__` must return JS boolean** | `compare.ts` | CPython accepts truthy objects in some paths; stricter here |
 | 8 | **Builtin cross-type ops return `NotImplemented`** | `builtins/*.ts` type guards | CPython may delegate or coerce |

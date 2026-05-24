@@ -561,6 +561,22 @@ const Custom = makeClass({
 show("add(pyInt(1), Custom())", add(pyInt(1), new PyObject(Custom)));
 
 // ─────────────────────────────────────────────────────────────────────
+section("36b. Rich compare when both sides return NotImplemented");
+const Incomparable = makeClass({
+  name: "Incomparable",
+  dict: new Map<string | symbol, unknown>([
+    [Slot.lt, () => NotImplemented],
+    [Slot.gt, () => NotImplemented],
+  ]),
+});
+try {
+  lt(new PyObject(Incomparable), new PyObject(Incomparable));
+  show("lt(Incomparable(), Incomparable())", "no error");
+} catch (e) {
+  show("lt(Incomparable(), Incomparable())", (e as Error).message);
+}
+
+// ─────────────────────────────────────────────────────────────────────
 section("37. Float/int mixed arithmetic");
 show("add(int(1), float(2.5))", unwrap(add(pyInt(1), pyFloat(2.5)) as PyObject));
 show("truediv(float(7), int(2))", unwrap(truediv(pyFloat(7), pyInt(2)) as PyObject));

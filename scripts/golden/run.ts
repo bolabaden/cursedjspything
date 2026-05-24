@@ -26,6 +26,7 @@ import {
   getBuffer,
   releaseBuffer,
   PyObject,
+  NotImplemented,
 } from "../../src/index.js";
 import { Slot } from "../../src/runtime/core/slots.js";
 
@@ -125,8 +126,20 @@ function buildPyrtCases(pythonVersion: string): Record<string, unknown> {
     ]),
   });
 
+  // golden:rich_lt_both_not_impl_raises — keep Incomparable in sync with scripts/golden/cases.py
+  const Incomparable = makeClass({
+    name: "Incomparable",
+    bases: [objectType],
+    dict: new Map([
+      [Slot.lt, () => NotImplemented],
+      [Slot.gt, () => NotImplemented],
+    ]),
+  });
+
   const dInst = instantiate(D);
   const revInst = instantiate(Rev);
+  const incomparableLeft = instantiate(Incomparable);
+  const incomparableRight = instantiate(Incomparable);
   const list = pyList([pyInt(0), pyInt(1), pyInt(2)]);
   const sliced = getItem(list, pySlice(1, 3, null)) as PyObject;
   const slicedItems = unwrap<PyObject[]>(sliced);
@@ -140,6 +153,14 @@ function buildPyrtCases(pythonVersion: string): Record<string, unknown> {
     rich_lt_reflected: lt(pyInt(1), revInst) === true,
     slice_list: slicedItems.map((v) => unwrap<number>(v)),
   };
+
+  let richLtBothNotImplRaises = false;
+  try {
+    lt(incomparableLeft, incomparableRight);
+  } catch {
+    richLtBothNotImplRaises = true;
+  }
+  cases.rich_lt_both_not_impl_raises = richLtBothNotImplRaises;
 
   if (major > 3 || (major === 3 && minor >= 10)) {
     cases.match_args = getMatchArgs(Point) ?? [];

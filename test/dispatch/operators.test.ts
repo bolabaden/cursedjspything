@@ -189,4 +189,17 @@ describe("reflected ops with NotImplemented", () => {
     const result = mul(pyInt(3), v);
     expect(unwrap(result as PyObject)).toBe("vec-scaled");
   });
+
+  it("rich compare raises when forward and reflected return NotImplemented", () => {
+    const Incomparable = makeClass({
+      name: "Incomparable",
+      dict: new Map<string | symbol, unknown>([
+        [Slot.lt, () => NotImplemented],
+        [Slot.gt, () => NotImplemented],
+      ]),
+    });
+    const left = new PyObject(Incomparable);
+    const right = new PyObject(Incomparable);
+    expect(() => lt(left, right)).toThrow(/not supported between instances/);
+  });
 });

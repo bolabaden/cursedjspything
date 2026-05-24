@@ -13,6 +13,26 @@ Maintain an evidence-backed knowledgebase and a honest compatibility contract: w
 
 ---
 
+## Delta update (2026-05-23, NotImplemented rich compare golden)
+
+### Landed
+
+- [REPO] Golden case `rich_lt_both_not_impl_raises` + unit test + examples section for both-sides `NotImplemented` ordering → `TypeError`.
+- [REPO] COMPATIBILITY §8.8 and parity-gaps doc updated.
+
+### Partial
+
+- [REPO] Golden runs all interpreters on host in one `npm run golden` invocation; CI matrix runs one Python per job.
+- [SYNTH] `makeClass` still ≠ full `type.__call__`; `pyInt` remains JS number.
+
+### Next
+
+1. Remaining Tier-1: hash/bool strictness, builtin cross-type delegation.
+2. Golden key-parity guard (PR #3) — merge when ready.
+3. Tier-3 roadmap (VM, import) unchanged.
+
+---
+
 ## Delta update (2026-05-18, Tier-1 parity + docs)
 
 ### Landed
