@@ -7,6 +7,26 @@
 
 ---
 
+## Delta update (2026-05-23, test_isinstance MRO ports)
+
+### Landed
+
+- [REPO] `test/cpython-derived/isinstance-protocol.test.ts` — Tier A ports from `test_isinstance.py` (normal + tuple branches).
+- [REPO] `isinstance`/`issubclass` flatten nested type tuples (CPython `test_subclass_tuple`).
+
+### Partial
+
+- [REPO] Golden ~11 keys/version; golden key-parity guard in PR #3.
+- [REPO] Abstract metaclass / PEP 604 union cases not ported.
+
+### Next
+
+1. Merge stacked PRs (#3–#7).
+2. Close superseded PR #4.
+3. Tier-3 roadmap (VM, import) unchanged.
+
+---
+
 ## Current objective
 
 Maintain an evidence-backed knowledgebase and a honest compatibility contract: what pyrt implements, what is partial, what is out of scope, and how that maps to **CPython 3.9–3.14**.
