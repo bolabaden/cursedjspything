@@ -52,6 +52,7 @@ Emits JSON (`vitest_seconds`, pass gates, `test_count`); use median of several r
 | `test/cpython-derived/operator-bool-float.test.ts` | CPython `test_operator.py` bool/float cross-type |
 | `test/cpython-derived/sequence-repeat-bool.test.ts` | List/tuple bool/negative repeat; multi-element and spread-safe large repeat |
 | `test/cpython-derived/operator-str-scalar.test.ts` | CPython str↔scalar non-coercion; str bool/negative repeat |
+| `test/cpython-derived/operator-format-evidence.test.ts` | format() __format__, empty-spec str fallback, TypeError |
 | `test/cpython-derived/sequence-index-type.test.ts` | List/tuple non-integer subscript raises TypeError |
 | `test/cpython-derived/contains-protocol.test.ts` | CPython `test_contains.py` membership protocol |
 | `test/cpython-derived/isinstance-protocol.test.ts` | CPython `test_isinstance.py` MRO / tuple checks |

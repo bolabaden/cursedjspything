@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 058 format evidence)
+
+### Landed
+
+- [REPO] Plan 058 — `operator-format-evidence.test.ts`; COMPATIBILITY §8.15 evidence (225 Vitest).
+
+### Partial
+
+- [OPEN] PRs #28–#36 still open on other branches.
+
+### Next
+
+1. Merge stacked PRs.
+2. bytes / sequence exotic §8.15 when prioritized.
+
+---
+
 ## Delta update (2026-05-24, plan 048 PyZeroDivisionError)
 
 ### Landed
