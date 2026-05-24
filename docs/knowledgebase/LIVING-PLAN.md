@@ -24,6 +24,25 @@
 1. COMPATIBILITY cherry-picks for operator or exception gaps.
 2. Optional: ce-optimize vitest round 2.
 
+---
+
+## Delta update (2026-05-24, plan 065 float-str binary)
+
+### Landed
+
+- [REPO] Plan 065 — `operator-float-str-binary.test.ts`; COMPATIBILITY §8.15 evidence (223 Vitest).
+
+### Partial
+
+- [OPEN] PRs #28–#53 still open on other branches.
+
+### Next
+
+1. Merge stacked PRs.
+2. bytes / sequence exotic §8.15 when prioritized.
+
+---
+
 ## Delta update (2026-05-24, plan 076 bool-str remaining binary)
 
 ### Landed
