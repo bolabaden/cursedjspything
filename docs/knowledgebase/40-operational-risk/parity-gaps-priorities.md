@@ -25,9 +25,9 @@
 | 5 | **Rich compare / `NotImplemented` edge cases** | Golden `rich_lt_reflected`, `rich_lt_both_not_impl_raises`; Vitest ordering/`eq` cases | Exotic MRO/reflected chains beyond golden fixtures |
 | 6 | **`hash` coercion `\| 0`** | `compare.ts`; Vitest `__hash__` type check | Full integer hash tower / `hash`∘`eq` invariants |
 | 7 | **`__bool__` must return JS boolean** | `compare.ts`; Vitest non-boolean `__bool__` | CPython legacy truthy `__bool__` paths |
-| 8 | **Builtin cross-type ops (partial)** | `int.ts` int↔float guards + `operator-int-float.test.ts`; other pairs (`str`, `bool`, sequences vs scalars) still `NotImplemented` | CPython `PyNumber_*` / rich-compare coercion tower |
+| 8 | **Builtin cross-type ops (partial)** | `int.ts` int↔float guards; golden `int_float_eq`, `int_float_add`; `operator-int-float.test.ts`; other pairs (`str`, `bool`, sequences vs scalars) still `NotImplemented` — see COMPATIBILITY §8.15 | CPython `PyNumber_*` / rich-compare coercion tower |
 | 9 | **`makeClass` ≠ `type.__call__`** | `class/class.ts`, COMPATIBILITY §8.1 | Metaclass `__new__`, full creation protocol |
-| 10 | **Golden harness is thin** | `scripts/golden/` ~11 checks/version; CI matrix 3.10/3.12/3.14 | Broader protocol proof across versions |
+| 10 | **Golden harness coverage** | `scripts/golden/` ~19 keys/profile; CI matrix 3.10/3.12/3.14; Tier A + Tier B cherry-picks (contains, int/float, descriptors, class hooks) | Broader protocol proof across versions |
 
 ---
 
@@ -42,7 +42,8 @@
 | `pyDict` / `pySet` | `[REPO]` Partial | PyObject keys use `dict-keys.ts`; JS primitives use `Map`/`Set` identity |
 | `pyInt` | `[REPO]` Partial | JS `number`; no arbitrary precision |
 | Async protocols | `[REPO]` Partial | Hooks return `Promise`; not coroutine objects |
-| Class hooks | `[REPO]` Partial | `__init_subclass__`, `__set_name__`, `mroEntries` in pipeline subset |
+| Class hooks | `[REPO]` Partial | `__init_subclass__`, `__set_name__`, `mroEntries` in pipeline subset; golden `init_subclass_called`, `set_name_called` |
+| `types.MappingProxyType` | `[REPO]` Out of scope | COMPATIBILITY §8.16; pyrt uses mutable `Map` namespaces |
 
 ---
 
@@ -61,7 +62,9 @@
 
 ## Verification gaps
 
-`[REPO]` **129** Vitest tests; many exported operators lack dedicated tests (`matmul`, `bytes`, `withObjectAsync`, etc.).
+`[REPO]` **174** Vitest tests; many exported operators lack dedicated tests (`matmul`, `bytes`, `withObjectAsync`, etc.).
+
+`[REPO]` Golden harness: **~19** case keys per profile (`scripts/golden/expected/key-sets.json`); key parity in `test/golden/key-parity.test.ts`.
 
 `[REPO]` CI golden matrix runs Python **3.10, 3.12, and 3.14** (one version per job). Local `npm run golden` may exercise all interpreters on PATH (3.9–3.14).
 
