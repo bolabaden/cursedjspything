@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 078 inplace cross-type)
+
+### Landed
+
+- [REPO] Plan 078 — `operator-inplace-cross-type.test.ts`; COMPATIBILITY §8.15 evidence (225 Vitest).
+
+### Partial
+
+- [OPEN] PRs #28–#53 still open on other branches.
+
+### Next
+
+1. Merge stacked PRs.
+2. bytes / scalar remaining §8.15 when prioritized.
+
+---
+
 ## Delta update (2026-05-24, plan 048 PyZeroDivisionError)
 
 ### Landed
