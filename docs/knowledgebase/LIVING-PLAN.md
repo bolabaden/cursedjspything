@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 051 vitest round 2)
+
+### Landed
+
+- [REPO] Plan 051 — `poolOptions.forks.singleFork: true`; median `npm test` ~4.1s → ~2.1s (−49% vs round-2 baseline); vmForks reverted; validation-ladder updated.
+
+### Partial
+
+- [OPEN] PRs #28/#29 (slice ValueError, MRO PyTypeError) still open on GitHub.
+
+### Next
+
+1. Merge open exception-typing PRs.
+2. COMPATIBILITY cherry-picks or ce-optimize round 3 (maxWorkers).
+
+---
+
 ## Delta update (2026-05-24, plan 048 PyZeroDivisionError)
 
 ### Landed
