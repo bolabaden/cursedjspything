@@ -7,6 +7,26 @@
 
 ---
 
+## Delta update (2026-05-23, test_contains protocol ports)
+
+### Landed
+
+- [REPO] `test/cpython-derived/contains-protocol.test.ts` — Tier A ports from `test_contains.py`.
+- [REPO] `contains()` blocks iteration when `__contains__` is explicitly `null` (CPython `test_block_fallback`).
+
+### Partial
+
+- [REPO] Golden ~11 keys/version; golden key-parity guard in PR #3.
+- [REPO] `test_nonreflexive` / mutation-during-compare cases not ported.
+
+### Next
+
+1. Merge stacked PRs (#3 key parity, #5 richcmp, #6 operator-int-float + docs).
+2. Tier A `test_isinstance.py` thin ports.
+3. Close superseded PR #4.
+
+---
+
 ## Current objective
 
 Maintain an evidence-backed knowledgebase and a honest compatibility contract: what pyrt implements, what is partial, what is out of scope, and how that maps to **CPython 3.9–3.14**.

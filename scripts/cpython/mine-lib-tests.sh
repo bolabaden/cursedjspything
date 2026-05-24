@@ -48,5 +48,9 @@ echo "## Next ports (suggested)"
 cat <<'EOF'
 - test/cpython-derived/richcmp-number.test.ts  ← test_richcmp.NumberTest (done)
 - test/cpython-derived/compare-ne.test.ts      ← test_compare ne delegation (done)
-- golden keys from test_richcmp Incomparable / Rev (partially done)
+- test/cpython-derived/contains-protocol.test.ts ← test_contains (done)
+- test/cpython-derived/operator-int-float.test.ts ← test_operator int/float (PR #6)
+- test/cpython-derived/richcmp-incomparable.test.ts ← Rev/Incomparable (PR #5)
+- test/cpython-derived/isinstance-protocol.test.ts ← test_isinstance (suggested next)
+- golden keys from test_richcmp Incomparable / Rev (PR #3)
 EOF
