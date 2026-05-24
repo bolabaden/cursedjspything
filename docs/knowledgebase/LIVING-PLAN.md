@@ -9,6 +9,22 @@
 
 ---
 
+## Delta update (2026-05-24, sequence repeat KB sync)
+
+### Landed
+
+- [REPO] Plan 047 (pending PR): COMPATIBILITY §8.15 spread-safe repeat; runtime-overview/repo-signals 213 tests.
+
+### Partial
+
+- [OPEN] Tier B targeted ports unchanged; ce-optimize vitest-duration spec drafted.
+
+### Next
+
+1. Merge plan 047 PR; Tier B or ce-optimize vitest loop (user selected minimize `npm test` wall time).
+
+---
+
 ## Delta update (2026-05-24, PR #24 merged to main)
 
 ### Landed
