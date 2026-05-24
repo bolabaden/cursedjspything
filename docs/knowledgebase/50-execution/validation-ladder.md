@@ -57,6 +57,8 @@ Emits JSON (`vitest_seconds`, pass gates, `test_count`); use median of several r
 | `test/cpython-derived/operator-bool-str-remaining-binary.test.ts` | bool↔str floordiv/mod/divmod/pow TypeError |
 | `test/cpython-derived/sequence-index-type.test.ts` | List/tuple non-integer subscript raises TypeError |
 | `test/cpython-derived/contains-protocol.test.ts` | CPython `test_contains.py` membership protocol |
+| `test/cpython-derived/sequence-cross-type.test.ts` | List/str add and list mul reject incompatible types |
+| `test/cpython-derived/isinstance-protocol.test.ts` | CPython `test_isinstance.py` MRO / tuple checks |
 | `test/cpython-derived/sequence-repeat-nonint.test.ts` | List/tuple/str repeat rejects float repeat count |
 | `test/cpython-derived/operator-zerodivision.test.ts` | Int/float division by zero raises ZeroDivisionError |
 | `test/golden/key-parity.test.ts` | Golden case key snapshot parity |

@@ -9,6 +9,15 @@
 
 ---
 
+## Delta update (2026-05-24, plan 055 sequence cross-type)
+
+### Landed
+
+- [REPO] Plan 055 — `sequence-cross-type.test.ts`; COMPATIBILITY §8.15 evidence (224 Vitest).
+
+### Partial
+
+- [OPEN] PRs #28–#33 still open.
 ## Delta update (2026-05-24, plan 054 sequence repeat non-int)
 
 ### Landed
