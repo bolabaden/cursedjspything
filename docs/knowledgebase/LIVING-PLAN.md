@@ -13,6 +13,24 @@ Maintain an evidence-backed knowledgebase and a honest compatibility contract: w
 
 ---
 
+## Delta update (2026-05-23, test_operator int/float ports)
+
+### Landed
+
+- [REPO] `test/cpython-derived/operator-int-float.test.ts` — Tier A ports of `test_operator` int/float compare and promote-to-float arithmetic.
+
+### Partial
+
+- [REPO] Golden ~11 keys/version; golden key-parity guard in PR #3.
+
+### Next
+
+1. Builtin cross-type delegation docs sync (Tier-1 gap #8).
+2. Merge stacked PRs (#3 key parity, #5 richcmp fixtures).
+3. Tier-3 roadmap (VM, import) unchanged.
+
+---
+
 ## Delta update (2026-05-19, CPython ne delegation + mining)
 
 ### Landed
