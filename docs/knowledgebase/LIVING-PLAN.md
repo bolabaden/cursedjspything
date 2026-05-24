@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, str/scalar cross-type evidence)
+
+### Landed
+
+- [REPO] Plan 027: `operator-str-scalar.test.ts`; COMPATIBILITY §8.15 bool MRO + str/scalar matrix; parity-gaps row #8 refresh.
+
+### Partial
+
+- [REPO] PR #19–#21 open; bytes/sequence exotic cross-type ops still partial.
+
+### Next
+
+1. Merge open PRs; Tier B cherry-picks or version-gate tests (PR #20).
+2. Tier-3 roadmap (VM, import) unchanged.
+
+---
+
 ## Delta update (2026-05-24, bool subclass-of-int MRO)
 
 ### Landed
