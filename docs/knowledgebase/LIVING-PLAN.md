@@ -7,6 +7,26 @@
 
 ---
 
+## Delta update (2026-05-23, Tier A merged to main)
+
+### Landed
+
+- [REPO] PR #9 merged: golden key-parity guard + full Tier A cpython-derived stack on `main`.
+- [REPO] KB doc sweep: `repo-signals.md`, `runtime-overview.md` test/CI/golden counts updated.
+
+### Partial
+
+- [REPO] Cross-type builtin ops beyond int/float still `NotImplemented`.
+- [REPO] Tier B `Lib/test` modules reference-only (not bulk ported).
+
+### Next
+
+1. Tier B reference mining (`test_descr.py`, `test_class.py`) — no bulk port.
+2. Golden harness expansion beyond ~11 keys/version.
+3. Tier-3 roadmap (VM, import) unchanged.
+
+---
+
 ## Delta update (2026-05-23, Tier A integration stack)
 
 ### Landed
@@ -22,8 +42,8 @@
 
 ### Next
 
-1. Merge `feat/tier-a-integration` to `main`.
-2. Close superseded PR #4.
+1. ~~Merge `feat/tier-a-integration` to `main`.~~ Done via PR #9.
+2. ~~Close superseded PR #4.~~ Done.
 3. Tier-3 roadmap (VM, import) unchanged.
 
 ---

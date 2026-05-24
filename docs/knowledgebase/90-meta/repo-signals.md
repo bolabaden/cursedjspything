@@ -1,6 +1,6 @@
 # Repository signals
 
-`[REPO]` Archaeology snapshot (2026-05-18). Re-verify on structural changes.
+`[REPO]` Archaeology snapshot (2026-05-23). Re-verify on structural changes.
 
 ---
 
@@ -9,10 +9,14 @@
 | Path | Role |
 |------|------|
 | `src/runtime/` | Core implementation |
-| `test/` | Vitest (107 tests, 5 files) |
+| `test/` | Vitest (174 tests, 20 files) |
+| `test/cpython-derived/` | Curated CPython `Lib/test` ports |
+| `test/golden/` | Golden key-parity snapshot tests |
 | `examples/python-vs-js.ts` | 39 narrative sections |
 | `docs/COMPATIBILITY_AND_GAPS.md` | Exhaustive compatibility |
 | `docs/knowledgebase/` | Layered KB |
+| `scripts/golden/` | CPython cross-check harness |
+| `.github/workflows/ci.yml` | L1 + L2 + golden matrix |
 
 ---
 
@@ -26,6 +30,8 @@
 | `test/class/system.test.ts` | `class/class.ts` |
 | `test/dispatch/protocols.test.ts` | `dispatch/protocols.ts` |
 | `test/builtins/dict-keys.test.ts` | `collections/dict-keys.ts`, `builtins/dict.ts` |
+| `test/cpython-derived/*.test.ts` | Tier A CPython evidence (see validation ladder) |
+| `test/golden/key-parity.test.ts` | `scripts/golden/keys.ts`, `pyrt-cases.ts` |
 
 No dedicated `builtins.test.ts` — builtins covered via object/protocol tests.
 
@@ -36,9 +42,9 @@ No dedicated `builtins.test.ts` — builtins covered via object/protocol tests.
 | Item | Status |
 |------|--------|
 | `LICENSE` file | `[OPEN]` README says MIT; file may be missing |
-| `.gitignore` | `[OPEN]` not present |
-| CI | `[OPEN]` not present |
-| Golden vs CPython | `[OPEN]` not present |
+| `.gitignore` | `[REPO]` present |
+| CI | `[REPO]` `.github/workflows/ci.yml` — check + test + golden matrix |
+| Golden vs CPython | `[REPO]` `npm run golden`; key-parity guard before value compare |
 | `tsx` in devDependencies | `[OPEN]` examples use `npx tsx` |
 
 Tracked in [../LIVING-PLAN.md](../LIVING-PLAN.md).
