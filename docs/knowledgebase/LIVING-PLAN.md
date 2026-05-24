@@ -17,7 +17,24 @@
 
 ### Partial
 
-- [OPEN] PRs #28–#43 still open on other branches.
+- [OPEN] PRs #28–#53 still open on other branches.
+
+### Next
+
+1. Merge stacked PRs.
+2. bytes / sequence exotic §8.15 when prioritized.
+
+---
+
+## Delta update (2026-05-24, plan 076 bool-str remaining binary)
+
+### Landed
+
+- [REPO] Plan 076 — `operator-bool-str-remaining-binary.test.ts`; COMPATIBILITY §8.15 evidence (224 Vitest).
+
+### Partial
+
+- [OPEN] PRs #28–#53 still open on other branches.
 
 ### Next
 
