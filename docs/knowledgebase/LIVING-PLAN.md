@@ -9,6 +9,12 @@
 
 ---
 
+## Delta update (2026-05-24, plan 075 bool-str binary)
+
+### Landed
+
+- [REPO] Plan 075 — `operator-bool-str-binary.test.ts`; COMPATIBILITY §8.15 evidence (223 Vitest).
+
 ## Delta update (2026-05-24, plan 065 float-str binary)
 
 ### Landed
