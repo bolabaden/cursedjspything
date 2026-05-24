@@ -7,6 +7,23 @@
 
 ---
 
+## Delta update (2026-05-24, validation-ladder version-gate docs)
+
+### Landed
+
+- [REPO] Plan 028: `validation-ladder.md` documents `pyrt-cases-version-gates.test.ts` in L2/L3b/L5.
+
+### Partial
+
+- [REPO] PR #19–#20 open; cross-type builtin ops beyond int/float on other branches.
+
+### Next
+
+1. Merge PR #19–#20; runtime numeric tower on PR #21 as prioritized.
+2. Tier-3 roadmap (VM, import) unchanged.
+
+---
+
 ## Delta update (2026-05-24, golden version-gate regression tests)
 
 ### Landed
