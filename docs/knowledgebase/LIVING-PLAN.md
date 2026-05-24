@@ -7,6 +7,280 @@
 
 ---
 
+---
+
+## Delta update (2026-05-24, golden str bool repetition)
+
+### Landed
+
+- [REPO] Plan 039: golden `str_bool_mul`, `str_bool_rmul`; **27** keys/profile; KB/README sync.
+
+### Partial
+
+- [REPO] PR #21 open — plans 026–039; CI green; ready for merge.
+
+### Next
+
+1. Merge PR #21; Tier B cherry-picks or Tier-3 roadmap.
+2. Full golden matrix on CI (local: 3.14 OK, 27 checks/version).
+
+---
+
+## Delta update (2026-05-24, golden sequence bool repetition)
+
+### Landed
+
+- [REPO] Plan 038: golden keys `seq_bool_mul`, `seq_bool_rmul`; expected JSON + key snapshot (**25** keys/profile); README/COMPATIBILITY/validation-ladder sync.
+
+### Partial
+
+- [REPO] PR #21 open — plans 026–038; CI green; ready for merge.
+
+### Next
+
+1. Merge PR #21; Tier B cherry-picks or Tier-3 roadmap.
+2. Full golden matrix on CI (local: 3.14 OK, 25 checks/version).
+
+---
+
+## Delta update (2026-05-24, list/tuple rmul bool parity)
+
+### Landed
+
+- [REPO] Plan 037: list/tuple `__rmul__` via `sequenceRepeatCount`; `True * [1]` works; Vitest reflected cases in `sequence-repeat-bool.test.ts` (**207** tests).
+
+### Partial
+
+- [REPO] PR #21 open — plans 026–037; CI green; ready for merge.
+
+### Next
+
+1. Merge PR #21; Tier B cherry-picks or Tier-3 roadmap.
+2. Full golden matrix on CI (local: 3.14 OK).
+
+---
+
+## Delta update (2026-05-24, list/tuple repetition bool parity)
+
+### Landed
+
+- [REPO] Plan 036: `sequenceRepeatCount` shared helper; list/tuple `__mul__` accept bool; `sequence-repeat-bool.test.ts`; KB Vitest **206** / **26** files.
+
+### Partial
+
+- [REPO] PR #21 open — includes plans 026–036; ready for merge after CI green.
+
+### Next
+
+1. Merge PR #21; Tier B cherry-picks or Tier-3 roadmap.
+2. Full golden matrix on CI (local: 3.14 OK).
+
+---
+
+## Delta update (2026-05-24, str repetition bool parity)
+
+### Landed
+
+- [REPO] Plan 035: `str.__mul__`/`__rmul__` accept bool (0/1 repeat); Vitest in `operator-str-scalar.test.ts`.
+
+### Partial
+
+- [REPO] PR #21 open — ready for merge after CI green.
+
+### Next
+
+1. Merge PR #21; Tier B cherry-picks or Tier-3 roadmap.
+2. Full golden matrix on CI (local: 3.14 OK).
+
+---
+
+## Delta update (2026-05-24, integration docs coherence)
+
+### Landed
+
+- [REPO] Plan 034: restored plan 021 dual-builder bullet; compatibility-summary refresh; plan 021 completed; PR #19/#20 closed as superseded by #21.
+
+### Partial
+
+- [REPO] PR #21 open — primary integration branch ready for merge review.
+
+### Next
+
+1. Merge PR #21; Tier B cherry-picks or Tier-3 roadmap as prioritized.
+2. Run full `npm run golden` when Python matrix available on CI/local.
+
+---
+
+## Delta update (2026-05-24, version-gate tests on integration branch)
+
+### Landed
+
+- [REPO] Plan 033: `pyrt-cases-version-gates.test.ts` on PR #21; validation-ladder L2/L3b/L5; KB counts 203 tests / 25 files.
+
+### Partial
+
+- [REPO] PR #19–#21 open; PR #20 superseded by plan 033 on #21 (close after merge).
+
+### Next
+
+1. Merge PR #21 (primary integration); close redundant PR #20; merge PR #19.
+2. Tier B cherry-picks or Tier-3 roadmap as prioritized.
+
+---
+
+## Delta update (2026-05-24, exception cleanup KB sync)
+
+### Landed
+
+- [REPO] Plan 032: COMPATIBILITY §8.17 + `PyIndexError` export table; runtime-overview/repo-signals 196 tests / 24 files.
+
+### Partial
+
+- [REPO] PR #19–#21 open; version-gate tests on PR #20 pending merge.
+
+### Next
+
+1. Merge open PRs; Tier B cherry-picks.
+2. Tier-3 roadmap (VM, import) unchanged.
+
+---
+
+## Delta update (2026-05-24, sequence IndexError PyIndexError)
+
+### Landed
+
+- [REPO] Plan 031: `PyIndexError` class; str/list/tuple out-of-range subscript; sequence-index-type tests +3; parity-gaps Vitest 196.
+
+### Partial
+
+- [REPO] PR #19–#21 open.
+
+### Next
+
+1. Merge open PRs; version-gate tests (PR #20) or Tier B cherry-picks.
+2. Tier-3 roadmap (VM, import) unchanged.
+
+---
+
+## Delta update (2026-05-24, list/tuple subscript PyTypeError)
+
+### Landed
+
+- [REPO] Plan 030: list/tuple non-int subscript guards throw `PyTypeError`; `sequence-index-type.test.ts`; validation-ladder entry.
+
+### Partial
+
+- [REPO] PR #19–#21 open; IndexError out-of-range still plain `Error`.
+
+### Next
+
+1. Merge open PRs; version-gate tests (PR #20) or Tier B cherry-picks.
+2. Tier-3 roadmap (VM, import) unchanged.
+
+---
+
+## Delta update (2026-05-24, str __contains__ PyTypeError)
+
+### Landed
+
+- [REPO] Plan 029: str `__contains__`/`__getitem__` type guards throw `PyTypeError`; validation-ladder lists `operator-str-scalar.test.ts`.
+
+### Partial
+
+- [REPO] PR #19–#21 open; list/tuple generic `Error` throws unchanged.
+
+### Next
+
+1. Merge open PRs; version-gate tests (PR #20) or Tier B cherry-picks.
+2. Tier-3 roadmap (VM, import) unchanged.
+
+---
+
+## Delta update (2026-05-24, str/scalar cross-type evidence)
+
+### Landed
+
+- [REPO] Plan 027: `operator-str-scalar.test.ts`; COMPATIBILITY §8.15 bool MRO + str/scalar matrix; parity-gaps row #8 refresh.
+
+### Partial
+
+- [REPO] PR #19–#21 open; bytes/sequence exotic cross-type ops still partial.
+
+### Next
+
+1. Merge open PRs; Tier B cherry-picks or version-gate tests (PR #20).
+2. Tier-3 roadmap (VM, import) unchanged.
+
+---
+
+## Delta update (2026-05-24, bool subclass-of-int MRO)
+
+### Landed
+
+- [REPO] Plan 026: `boolType` bases `[intType]`; builtin export reorder; `isinstance(True, int)` / `issubclass(bool, int)`; Vitest +2 in `isinstance-protocol.test.ts`.
+
+### Partial
+
+- [REPO] PR #19–#21 open; str/sequence cross-type ops still `NotImplemented`.
+
+### Next
+
+1. Merge open PRs; continue gap #8 (str/scalar) or Tier B cherry-picks.
+2. Tier-3 roadmap (VM, import) unchanged.
+
+---
+
+## Delta update (2026-05-24, numeric tower docs sync)
+
+### Landed
+
+- [REPO] Plan 025: COMPATIBILITY §8.15 + §12, compatibility-summary, parity-gaps row #10, validation-ladder, README, tier-b-lib-test-reference — 23 golden keys; int/bool/float cross-type evidence.
+
+### Partial
+
+- [REPO] PR #19–#21 open; str/sequence cross-type ops still `NotImplemented`.
+
+### Next
+
+1. Merge open PRs; continue gap #8 (str/scalar) or Tier B cherry-picks.
+2. Tier-3 roadmap (VM, import) unchanged.
+
+---
+
+## Delta update (2026-05-24, bool↔float cross-type parity)
+
+### Landed
+
+- [REPO] Plan 024: shared numeric helpers exported from `int.ts`; `float.ts` accepts bool; `bool.__eq__` accepts float; Vitest + golden `bool_float_*`.
+
+### Partial
+
+- [REPO] PR #19–#21 open; str/sequence cross-type ops still `NotImplemented`.
+
+### Next
+
+1. Merge open PRs; continue gap #8 (str/scalar) or Tier B cherry-picks.
+2. Tier-3 roadmap (VM, import) unchanged.
+
+---
+
+## Delta update (2026-05-24, int↔bool cross-type parity)
+
+### Landed
+
+- [REPO] Plan 023: int↔bool compare/add in `int.ts`/`bool.ts`; Vitest `operator-int-bool.test.ts`; golden keys `bool_int_eq`, `bool_int_add`.
+
+### Partial
+
+- [REPO] PR #19 / #20 open; str/sequence cross-type ops still `NotImplemented`.
+
+### Next
+
+1. Merge open PRs; continue Tier 1 gap #8 or Tier B cherry-picks.
+2. Tier-3 roadmap (VM, import) unchanged.
+
+---
+
 ## Delta update (2026-05-23, golden KB coherence + PR #18)
 
 ### Landed

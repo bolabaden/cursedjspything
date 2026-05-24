@@ -199,7 +199,7 @@ Source: `src/runtime/object.ts`.
 | `defaultGetAttr`, `defaultSetAttr`, `defaultDelAttr` | Bypass custom dunder hooks when needed |
 | `lookupInMro`, `lookupSpecial` | Introspection / advanced interop |
 | `isDataDescriptor`, `hasGet` | Descriptor classification |
-| `PyAttributeError`, `PyTypeError`, `PyKeyError`, `PyStopIteration`, `PyValueError` | Small exception subset |
+| `PyAttributeError`, `PyTypeError`, `PyKeyError`, `PyIndexError`, `PyStopIteration`, `PyValueError` | Small exception subset |
 
 Source: `src/runtime/core/lookup.ts`.
 
@@ -388,11 +388,11 @@ Python reference: class creation / compiler inserted cell discussion under **\[3
 
 ### 8.15 Builtin cross-type operator delegation
 
-Built-in numeric types use **explicit type guards** in slot implementations rather than CPython’s full `PyNumber_*` tower. `[REPO]` `pyInt` methods in `src/runtime/builtins/int.ts` accept operands whose `type` is `intType` or `floatType`; mixed int/float comparisons delegate to JS number compare on promoted float values, and mixed add/mul (and related arithmetic) return `pyFloat` when either operand is a float.
+Built-in numeric types use **explicit type guards** in slot implementations rather than CPython’s full `PyNumber_*` tower. `[REPO]` Shared helpers `isNumericOperand` / `numericOperand` in `src/runtime/builtins/int.ts` treat **int**, **float**, and **bool** as JS numbers (bool as 0/1). `pyInt` and `pyFloat` slots accept all three; mixed int/float arithmetic promotes to `pyFloat` when either operand is a float; int↔bool and bool↔float pairs follow the same numeric compare and add paths (float `__radd__` covers `True + 1.0`). `[REPO]` `boolType` is created with `bases: [intType]` so `isinstance(pyTrue, intType)` and `issubclass(boolType, intType)` match CPython (plan 026). `[REPO]` `sequenceRepeatCount` (same module) lets **str**, **list**, and **tuple** `__mul__` / `__rmul__` accept bool repeat counts (0/1) like CPython (plans 035–037).
 
-For any other builtin operand pair (for example `str` with `int`, `list` with `int`, `bool` with unrelated types), the corresponding slot returns **`NotImplemented`**, leaving further delegation to `richCompare` / numeric dispatch — which typically raises `TypeError` when no reflected method applies. This differs from CPython paths that coerce or route through additional abstract APIs.
+For **str↔scalar** and other non-numeric builtin pairs (for example `str` with `int`, `list` with unrelated types), slots return **`NotImplemented`** or raise **`TypeError`** directly (str `__contains__` requires a str operand). Rich compare / numeric dispatch then typically raises `TypeError` when no reflected method applies — there is no string↔int coercion (`"1" == 1` is `false`; `"a" + 1` raises). This differs from CPython paths that route through additional abstract APIs for some exotic pairs.
 
-**Evidence:** `test/cpython-derived/operator-int-float.test.ts` ports thin `OperatorTestCase` matrices from CPython `Lib/test/test_operator.py` for int/float compare and promote-to-float arithmetic. **Remaining gap:** cross-type ops involving `str`, `bytes`, `bool`, sequences, and user types without matching special methods are not coerced the way CPython does.
+**Evidence:** `test/cpython-derived/operator-int-float.test.ts`, `operator-int-bool.test.ts`, `operator-bool-float.test.ts`, `operator-str-scalar.test.ts`, and `sequence-repeat-bool.test.ts` port thin matrices from CPython `Lib/test/test_operator.py` / rich-compare spirit. Golden keys: `int_float_*`, `bool_int_*`, `bool_float_*`. **Remaining gap:** cross-type ops involving `bytes`, sequences vs unrelated scalars without matching special methods are not coerced the way CPython does.
 
 ### 8.16 `types.MappingProxyType` and readonly dict views
 
@@ -401,6 +401,15 @@ CPython exposes **readonly mapping views** on class and instance namespaces — 
 **Status:** **Intentionally out of scope** unless a future shim is added. Embedders needing immutability should wrap or freeze their own dict-like structures before passing them to `makeClass`. **Reference mining:** CPython `Lib/test/test_descr.py` and `Lib/test/test_types.py` (see `docs/knowledgebase/50-execution/tier-b-lib-test-reference.md`); do not port mappingproxy wholesale.
 
 **Golden evidence:** Class lifecycle hooks (`init_subclass_called`, `set_name_called`) and descriptor precedence (`descriptor_data_wins`, `descriptor_nodata_loses`) are covered in the golden harness; mappingproxy behavior is not.
+
+### 8.17 Sequence subscript exceptions
+
+`str`, `list`, and `tuple` `__getitem__` / list `__setitem__` / `__delitem__` raise typed runtime exceptions rather than generic `Error`:
+
+- Non-integer keys → **`PyTypeError`** (`list indices must be integers`, `tuple indices must be integers`, `string indices must be integers`; str `__contains__` with non-str operand uses CPython-style `'in <string>' requires string as left operand, not int`).
+- Out-of-range integer keys → **`PyIndexError`** (`list index out of range`, `tuple index out of range`, `string index out of range`, etc.).
+
+**Evidence:** `test/cpython-derived/operator-str-scalar.test.ts`, `sequence-index-type.test.ts`. **Remaining gap:** other builtins and protocol fallbacks may still throw plain `Error` where CPython normalizes exception types.
 
 ---
 
@@ -535,7 +544,7 @@ pyrt’s explicit-function approach is therefore aligned with JS reality.
 ## 12. Verification in this repository
 
 - **Unit tests:** `test/**/*.test.ts` (Vitest). Run: `npm test`.
-- **Golden harness:** `scripts/golden/` (CPython reference vs pyrt). Run: `npm run golden` (CI matrix: Python 3.10, 3.12, 3.14). **~19 case keys per profile version** (3.9–3.14): MRO/`isinstance`, rich compare, slice, contains, int↔float ops, descriptor precedence, class hooks (`init_subclass_called`, `set_name_called`), plus version-gated `match_args` (3.10+), buffer (3.12+), `annotate_x` (3.14+). Key parity: `npm run golden:keys`, `test/golden/key-parity.test.ts`.
+- **Golden harness:** `scripts/golden/` (CPython reference vs pyrt). Run: `npm run golden` (CI matrix: Python 3.10, 3.12, 3.14). **27 case keys per profile version** (3.9–3.14): MRO/`isinstance`, rich compare, slice, contains, int↔float / int↔bool / bool↔float ops, sequence bool repetition (`seq_bool_*`, `str_bool_*`), descriptor precedence, class hooks (`init_subclass_called`, `set_name_called`), plus version-gated `match_args` (3.10+), buffer (3.12+), `annotate_x` (3.14+). Key parity: `npm run golden:keys`, `test/golden/key-parity.test.ts`.
 - **Examples:** `examples/python-vs-js.ts`. Run: `npm run examples`.
 - **Typecheck:** `npm run check`.
 

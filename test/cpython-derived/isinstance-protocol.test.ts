@@ -10,9 +10,13 @@ import {
   isinstance,
   issubclass,
   pyInt,
+  pyTrue,
+  pyFalse,
   intType,
+  boolType,
   floatType,
   strType,
+  objectType,
 } from "../../src/index.js";
 
 function superChildHierarchy() {
@@ -43,6 +47,20 @@ describe("cpython-derived test_isinstance normal MRO", () => {
   it("builtin isinstance: pyInt is int", () => {
     expect(isinstance(pyInt(3), intType)).toBe(true);
     expect(isinstance(pyInt(3), floatType)).toBe(false);
+  });
+
+  it("builtin isinstance: bool is subclass of int (CPython)", () => {
+    expect(isinstance(pyTrue, intType)).toBe(true);
+    expect(isinstance(pyFalse, intType)).toBe(true);
+    expect(isinstance(pyTrue, boolType)).toBe(true);
+    expect(isinstance(pyInt(1), boolType)).toBe(false);
+  });
+
+  it("builtin issubclass: bool extends int", () => {
+    expect(issubclass(boolType, intType)).toBe(true);
+    expect(issubclass(boolType, objectType)).toBe(true);
+    expect(issubclass(intType, boolType)).toBe(false);
+    expect(boolType.mro.includes(intType)).toBe(true);
   });
 });
 

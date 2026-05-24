@@ -23,7 +23,9 @@ This page is the KB entry point for risk and scope. Python references use **pinn
 | 24 `Hook` symbols | Registered; partial handlers |
 | Attribute lookup + descriptors | Implemented (tested) |
 | Rich compare, numeric, identity | Implemented |
-| Builtin int↔float cross-type | Partial — COMPATIBILITY §8.15; golden `int_float_*`; other pairs `NotImplemented` |
+| Builtin int↔float / int↔bool / bool↔float cross-type | Partial — COMPATIBILITY §8.15; golden `int_float_*`, `bool_int_*`, `bool_float_*`; bool subclasses int (plan 026) |
+| str↔scalar / sequence subscript errors | Partial — no coercion; `PyTypeError`/`PyIndexError` on str/list/tuple (§8.17); Vitest + golden `seq_bool_*` |
+| Golden offline version gates | `pyrt-cases-version-gates.test.ts` — gate semantics without Python |
 | Class creation hooks (subset) | `makeClass`, `setName`, `initSubclass` |
 | Builtin types (minimal) | list/tuple/dict/set/str/int/float/bool/none |
 | `isinstance` / `issubclass` | Implemented |
@@ -77,7 +79,7 @@ See COMPATIBILITY §9–10 for exhaustive list.
 |-------|-------|
 | “Follows 3.14 slotdefs names” | Yes `[REPO]` |
 | “Documents 3.9–3.14 official behavior” | Yes with pinned URLs |
-| “Matches CPython on all versions” | **No** — golden is ~19 keys/profile per host Python `[REPO]` |
+| “Matches CPython on all versions” | **No** — golden is 27 keys/profile per host Python `[REPO]` |
 | “Complete Python compatibility” | **No** |
 
 ---

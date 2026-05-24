@@ -38,9 +38,15 @@ Vitest; unit tests mirror `src/runtime/` layout:
 | `test/cpython-derived/richcmp-number.test.ts` | CPython `test_richcmp.py` number ordering |
 | `test/cpython-derived/richcmp-incomparable.test.ts` | CPython `test_richcmp.py` Rev/Incomparable |
 | `test/cpython-derived/operator-int-float.test.ts` | CPython `test_operator.py` int/float cross-type |
+| `test/cpython-derived/operator-int-bool.test.ts` | CPython `test_operator.py` int/bool cross-type |
+| `test/cpython-derived/operator-bool-float.test.ts` | CPython `test_operator.py` bool/float cross-type |
+| `test/cpython-derived/operator-str-scalar.test.ts` | CPython str↔scalar non-coercion (eq/ne/add/contains) |
+| `test/cpython-derived/sequence-repeat-bool.test.ts` | List/tuple/str bool repeat counts (`* True` / `True *`) |
+| `test/cpython-derived/sequence-index-type.test.ts` | List/tuple non-integer subscript raises TypeError |
 | `test/cpython-derived/contains-protocol.test.ts` | CPython `test_contains.py` membership protocol |
 | `test/cpython-derived/isinstance-protocol.test.ts` | CPython `test_isinstance.py` MRO / tuple checks |
 | `test/golden/key-parity.test.ts` | Golden case key snapshot parity |
+| `test/golden/pyrt-cases-version-gates.test.ts` | `buildPyrtCases` version-gate semantics (`match_args`, buffer, `annotate_x`) per profile 3.9–3.14 |
 
 ---
 
@@ -84,15 +90,17 @@ npm run golden:keys
 
 Vitest (`test/golden/key-parity.test.ts`) asserts pyrt keys against `scripts/golden/expected/key-sets.json` without Python installed.
 
+Vitest (`test/golden/pyrt-cases-version-gates.test.ts`) asserts **gated values** per profile (empty/`null` on 3.9, staged enablement on 3.10/3.12/3.14, boundary checks on 3.11/3.13) without Python or per-version expected JSON — complements key-parity when `expected/3.9.json` is absent.
+
 **Builder maintainability:** Both emitters share the same version-gated keys (`match_args`, buffer, `annotate_x`). Use `version_gte` / `versionGte` for 3.10/3.12/3.14 gates and `owner_with_instance_attr` / `ownerWithInstanceAttr` for descriptor-precedence fixtures — extend these helpers when adding similar cases rather than inlining gates or owner setup.
 
-**Current inventory:** ~19 keys per profile (see `scripts/golden/expected/key-sets.json`), including Tier A ports (contains, int/float) and Tier B cherry-picks (descriptor precedence, `__init_subclass__`, `__set_name__`).
+**Current inventory:** 27 keys per profile (see `scripts/golden/expected/key-sets.json`), including Tier A ports (contains, int/float/bool cross-type, sequence/str bool repetition) and Tier B cherry-picks (descriptor precedence, `__init_subclass__`, `__set_name__`).
 
 ---
 
 ## L5 — CPython version matrix (partial)
 
-`[REPO]` CI golden matrix: Python 3.10, 3.12, 3.14 (`.github/workflows/ci.yml`). Local runs use whichever `python3.x` binaries are on PATH (3.9–3.14). Repeat selected cases when validating version-specific gates (`match_args`, buffer, `annotate_x`).
+`[REPO]` CI golden matrix: Python 3.10, 3.12, 3.14 (`.github/workflows/ci.yml`). Local runs use whichever `python3.x` binaries are on PATH (3.9–3.14). Offline first: `test/golden/pyrt-cases-version-gates.test.ts` (L2), then repeat selected cases in full golden when validating version-specific gates (`match_args`, buffer, `annotate_x`).
 
 ---
 

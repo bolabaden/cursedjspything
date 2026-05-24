@@ -2,8 +2,9 @@ import { PyObject, NotImplemented } from "../core/object.js";
 import { Slot, Hook } from "../core/slots.js";
 import { makeClass } from "../class/class.js";
 import { PyStopIteration } from "../core/lookup.js";
+import { PyTypeError, PyIndexError } from "../core/errors.js";
 import { nativeVal, setNative } from "./native.js";
-import { intType } from "./int.js";
+import { sequenceRepeatCount } from "./int.js";
 
 // ── pyStr ─────────────────────────────────────────────────────────────
 
@@ -51,18 +52,18 @@ export const strType = makeClass({
       return pyStr(nativeVal<string>(self) + nativeVal<string>(other));
     }],
     [Slot.mul, (self: PyObject, other: PyObject) => {
-      if (other.type !== intType) return NotImplemented;
-      const n = nativeVal<number>(other);
+      const n = sequenceRepeatCount(other);
+      if (n === null) return NotImplemented;
       return pyStr(nativeVal<string>(self).repeat(Math.max(0, n)));
     }],
     [Slot.rmul, (self: PyObject, other: PyObject) => {
-      if (other.type !== intType) return NotImplemented;
-      const n = nativeVal<number>(other);
+      const n = sequenceRepeatCount(other);
+      if (n === null) return NotImplemented;
       return pyStr(nativeVal<string>(self).repeat(Math.max(0, n)));
     }],
     [Slot.contains, (self: PyObject, item: unknown) => {
       if (!(item instanceof PyObject) || item.type !== strType) {
-        throw new Error("TypeError: 'in <string>' requires string as left operand");
+        throw new PyTypeError("'in <string>' requires string as left operand, not int");
       }
       return nativeVal<string>(self).includes(nativeVal<string>(item));
     }],
@@ -70,10 +71,10 @@ export const strType = makeClass({
       const s = nativeVal<string>(self);
       if (typeof key === "number") {
         const idx = key < 0 ? s.length + key : key;
-        if (idx < 0 || idx >= s.length) throw new Error("IndexError: string index out of range");
+        if (idx < 0 || idx >= s.length) throw new PyIndexError("string index out of range");
         return pyStr(s[idx]);
       }
-      throw new Error("TypeError: string indices must be integers");
+      throw new PyTypeError("string indices must be integers");
     }],
     [Slot.iter, (self: PyObject) => {
       const s = nativeVal<string>(self);

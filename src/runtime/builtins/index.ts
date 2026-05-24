@@ -1,6 +1,6 @@
 export * from "./none.js";
-export * from "./bool.js";
 export * from "./int.js";
+export * from "./bool.js";
 export * from "./float.js";
 export * from "./str.js";
 export * from "./list.js";

@@ -25,9 +25,9 @@
 | 5 | **Rich compare / `NotImplemented` edge cases** | Golden `rich_lt_reflected`, `rich_lt_both_not_impl_raises`; Vitest ordering/`eq` cases | Exotic MRO/reflected chains beyond golden fixtures |
 | 6 | **`hash` coercion `\| 0`** | `compare.ts`; Vitest `__hash__` type check | Full integer hash tower / `hash`∘`eq` invariants |
 | 7 | **`__bool__` must return JS boolean** | `compare.ts`; Vitest non-boolean `__bool__` | CPython legacy truthy `__bool__` paths |
-| 8 | **Builtin cross-type ops (partial)** | `int.ts` int↔float guards; golden `int_float_eq`, `int_float_add`; `operator-int-float.test.ts`; other pairs (`str`, `bool`, sequences vs scalars) still `NotImplemented` — see COMPATIBILITY §8.15 | CPython `PyNumber_*` / rich-compare coercion tower |
+| 8 | **Builtin cross-type ops (partial)** | `[REPO]` int↔float, int↔bool, bool↔float + golden keys; `boolType` bases `[intType]` (plan 026); str↔scalar non-coercion in `operator-str-scalar.test.ts`; str/sequence vs unrelated types still not fully mapped | CPython `PyNumber_*` / rich-compare coercion tower |
 | 9 | **`makeClass` ≠ `type.__call__`** | `class/class.ts`, COMPATIBILITY §8.1 | Metaclass `__new__`, full creation protocol |
-| 10 | **Golden harness coverage** | `scripts/golden/` ~19 keys/profile; CI matrix 3.10/3.12/3.14; Tier A + Tier B cherry-picks (contains, int/float, descriptors, class hooks) | Broader protocol proof across versions |
+| 10 | **Golden harness coverage** | `[REPO]` `scripts/golden/` **27 keys/profile**; CI matrix 3.10/3.12/3.14; offline gate semantics in `pyrt-cases-version-gates.test.ts`; Tier A + Tier B cherry-picks | Broader protocol proof across versions |
 
 ---
 
@@ -62,9 +62,9 @@
 
 ## Verification gaps
 
-`[REPO]` **174** Vitest tests; many exported operators lack dedicated tests (`matmul`, `bytes`, `withObjectAsync`, etc.).
+`[REPO]` **207** Vitest tests; many exported operators lack dedicated tests (`matmul`, `bytes`, `withObjectAsync`, etc.).
 
-`[REPO]` Golden harness: **~19** case keys per profile (`scripts/golden/expected/key-sets.json`); key parity in `test/golden/key-parity.test.ts`.
+`[REPO]` Golden harness: **27** case keys per profile (`scripts/golden/expected/key-sets.json`); includes `bool_int_*`, `bool_float_*`, `seq_bool_*`, `str_bool_*`; key parity in `test/golden/key-parity.test.ts`; offline gate semantics in `pyrt-cases-version-gates.test.ts`. Vitest: **207** tests (`npm test`).
 
 `[REPO]` CI golden matrix runs Python **3.10, 3.12, and 3.14** (one version per job). Local `npm run golden` may exercise all interpreters on PATH (3.9–3.14).
 

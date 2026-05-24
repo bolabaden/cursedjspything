@@ -2,8 +2,9 @@ import { PyObject, NotImplemented } from "../core/object.js";
 import { Slot } from "../core/slots.js";
 import { makeClass } from "../class/class.js";
 import { PyStopIteration } from "../core/lookup.js";
+import { PyTypeError, PyIndexError } from "../core/errors.js";
 import { nativeVal, setNative } from "./native.js";
-import { intType } from "./int.js";
+import { sequenceRepeatCount } from "./int.js";
 import { isSlice, sliceFields, sliceIndices } from "../collections/slice.js";
 import { eq } from "../dispatch/operators/compare.js";
 
@@ -42,9 +43,9 @@ export const tupleType = makeClass({
         const indices = sliceIndices(arr.length, start, stop, step);
         return pyTuple(indices.map((i) => arr[i]));
       }
-      if (typeof key !== "number") throw new Error("TypeError: tuple indices must be integers");
+      if (typeof key !== "number") throw new PyTypeError("tuple indices must be integers");
       const idx = key < 0 ? arr.length + key : key;
-      if (idx < 0 || idx >= arr.length) throw new Error("IndexError: tuple index out of range");
+      if (idx < 0 || idx >= arr.length) throw new PyIndexError("tuple index out of range");
       return arr[idx];
     }],
     [Slot.contains, (self: PyObject, value: unknown) => {
@@ -62,8 +63,16 @@ export const tupleType = makeClass({
       return pyTuple([...nativeVal<readonly PyObject[]>(self), ...nativeVal<readonly PyObject[]>(other)]);
     }],
     [Slot.mul, (self: PyObject, other: PyObject) => {
-      if (other.type !== intType) return NotImplemented;
-      const n = nativeVal<number>(other);
+      const n = sequenceRepeatCount(other);
+      if (n === null) return NotImplemented;
+      const src = nativeVal<readonly PyObject[]>(self);
+      const result: PyObject[] = [];
+      for (let i = 0; i < n; i++) result.push(...src);
+      return pyTuple(result);
+    }],
+    [Slot.rmul, (self: PyObject, other: PyObject) => {
+      const n = sequenceRepeatCount(other);
+      if (n === null) return NotImplemented;
       const src = nativeVal<readonly PyObject[]>(self);
       const result: PyObject[] = [];
       for (let i = 0; i < n; i++) result.push(...src);

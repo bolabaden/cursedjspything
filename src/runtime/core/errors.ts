@@ -21,6 +21,13 @@ export class PyKeyError extends Error {
   }
 }
 
+export class PyIndexError extends Error {
+  constructor(msg: string) {
+    super(msg);
+    this.name = "IndexError";
+  }
+}
+
 export class PyStopIteration extends Error {
   readonly value: unknown;
   constructor(value?: unknown) {

@@ -1,6 +1,10 @@
 {
   "3.9": [
     "annotate_x",
+    "bool_float_add",
+    "bool_float_eq",
+    "bool_int_add",
+    "bool_int_eq",
     "buffer_len",
     "buffer_readonly",
     "contains_list",
@@ -17,11 +21,19 @@
     "rich_eq_int",
     "rich_lt_both_not_impl_raises",
     "rich_lt_reflected",
+    "seq_bool_mul",
+    "seq_bool_rmul",
     "set_name_called",
-    "slice_list"
+    "slice_list",
+    "str_bool_mul",
+    "str_bool_rmul"
   ],
   "3.10": [
     "annotate_x",
+    "bool_float_add",
+    "bool_float_eq",
+    "bool_int_add",
+    "bool_int_eq",
     "buffer_len",
     "buffer_readonly",
     "contains_list",
@@ -38,11 +50,19 @@
     "rich_eq_int",
     "rich_lt_both_not_impl_raises",
     "rich_lt_reflected",
+    "seq_bool_mul",
+    "seq_bool_rmul",
     "set_name_called",
-    "slice_list"
+    "slice_list",
+    "str_bool_mul",
+    "str_bool_rmul"
   ],
   "3.12": [
     "annotate_x",
+    "bool_float_add",
+    "bool_float_eq",
+    "bool_int_add",
+    "bool_int_eq",
     "buffer_len",
     "buffer_readonly",
     "contains_list",
@@ -59,11 +79,19 @@
     "rich_eq_int",
     "rich_lt_both_not_impl_raises",
     "rich_lt_reflected",
+    "seq_bool_mul",
+    "seq_bool_rmul",
     "set_name_called",
-    "slice_list"
+    "slice_list",
+    "str_bool_mul",
+    "str_bool_rmul"
   ],
   "3.14": [
     "annotate_x",
+    "bool_float_add",
+    "bool_float_eq",
+    "bool_int_add",
+    "bool_int_eq",
     "buffer_len",
     "buffer_readonly",
     "contains_list",
@@ -80,7 +108,11 @@
     "rich_eq_int",
     "rich_lt_both_not_impl_raises",
     "rich_lt_reflected",
+    "seq_bool_mul",
+    "seq_bool_rmul",
     "set_name_called",
-    "slice_list"
+    "slice_list",
+    "str_bool_mul",
+    "str_bool_rmul"
   ]
 }
