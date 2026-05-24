@@ -7,6 +7,25 @@
 
 ---
 
+## Delta update (2026-05-23, cross-type parity KB refresh)
+
+### Landed
+
+- [REPO] `parity-gaps-priorities.md` — row #8/#10 golden + §8.15 refs; 174 tests; MappingProxyType Tier 2 row.
+- [REPO] `compatibility-summary.md` — int↔float partial, mappingproxy not supported, golden scale.
+- [REPO] PR #16 merged: MappingProxyType §8.16 on `main`.
+
+### Partial
+
+- [REPO] Cross-type builtin ops beyond int/float still `NotImplemented`.
+
+### Next
+
+1. Tier B golden cherry-picks or runtime gaps as prioritized.
+2. Tier-3 roadmap (VM, import) unchanged.
+
+---
+
 ## Delta update (2026-05-23, MappingProxyType compat docs)
 
 ### Landed

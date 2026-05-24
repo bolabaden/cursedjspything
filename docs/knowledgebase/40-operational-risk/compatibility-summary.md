@@ -20,9 +20,10 @@ This page is the KB entry point for risk and scope. Python references use **pinn
 |------|--------|
 | `PyObject` / `PyType`, C3 MRO | Implemented |
 | 81 `Slot` dunders (3.14 inventory) | Registered; invoke via helpers |
-| 22 `Hook` specials | Registered; partial handlers |
+| 24 `Hook` symbols | Registered; partial handlers |
 | Attribute lookup + descriptors | Implemented (tested) |
 | Rich compare, numeric, identity | Implemented |
+| Builtin int↔float cross-type | Partial — COMPATIBILITY §8.15; golden `int_float_*`; other pairs `NotImplemented` |
 | Class creation hooks (subset) | `makeClass`, `setName`, `initSubclass` |
 | Builtin types (minimal) | list/tuple/dict/set/str/int/float/bool/none |
 | `isinstance` / `issubclass` | Implemented |
@@ -54,6 +55,7 @@ See COMPATIBILITY §9–10 for exhaustive list.
 | Execution | generators, `yield`, full `asyncio`, `super()` |
 | Runtime | GC, `__del__`, real weakref semantics |
 | Stdlib | essentially all |
+| Readonly namespace views | `types.MappingProxyType` — COMPATIBILITY §8.16 |
 | 3.10+ | `match`/`case` VM (metadata `__match_args__` only — see version-gates checklist) |
 | 3.14 | full `__annotate__` / PEP 649 evaluation timing |
 
@@ -75,7 +77,7 @@ See COMPATIBILITY §9–10 for exhaustive list.
 |-------|-------|
 | “Follows 3.14 slotdefs names” | Yes `[REPO]` |
 | “Documents 3.9–3.14 official behavior” | Yes with pinned URLs |
-| “Matches CPython on all versions” | **No** — golden is a small subset per host Python `[OPEN]` |
+| “Matches CPython on all versions” | **No** — golden is ~19 keys/profile per host Python `[REPO]` |
 | “Complete Python compatibility” | **No** |
 
 ---
