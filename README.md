@@ -197,7 +197,7 @@ Patterns vs raw JS: `npx tsx examples/python-vs-js.ts`
 | `npm run golden:keys` | Regenerate committed key snapshot when adding or renaming golden case keys |
 | `npm run check` | TypeScript types for public API |
 
-Golden cases (27 keys per Python profile) include MRO, `isinstance`/`issubclass`, rich compare (`rich_lt_reflected`, `rich_lt_both_not_impl_raises`), list slicing, contains, int↔float / int↔bool / bool↔float compare/arithmetic, sequence bool repetition (`seq_bool_mul`, `seq_bool_rmul`, `str_bool_mul`, `str_bool_rmul`), descriptor precedence (`descriptor_data_wins`, `descriptor_nodata_loses`), class hooks (`init_subclass_called`, `set_name_called`), and version-gated `__match_args__` (3.10+), buffer (3.12+), `__annotate__` (3.14+). **New golden cases** must add the same JSON key to both `scripts/golden/cases.py` and `buildPyrtCases` in `scripts/golden/pyrt-cases.ts`; run `npm run golden:keys` when the key set changes.
+Golden cases (29 keys per Python profile) include MRO, `isinstance`/`issubclass`, rich compare (`rich_lt_reflected`, `rich_lt_both_not_impl_raises`), list slicing, contains, int↔float / int↔bool / bool↔float compare/arithmetic, sequence bool repetition (`seq_bool_mul`, `seq_bool_rmul`, `str_bool_mul`, `str_bool_rmul`, `tuple_bool_mul`, `tuple_bool_rmul`), descriptor precedence (`descriptor_data_wins`, `descriptor_nodata_loses`), class hooks (`init_subclass_called`, `set_name_called`), and version-gated `__match_args__` (3.10+), buffer (3.12+), `__annotate__` (3.14+). **New golden cases** must add the same JSON key to both `scripts/golden/cases.py` and `buildPyrtCases` in `scripts/golden/pyrt-cases.ts`; run `npm run golden:keys` when the key set changes.
 
 ---
 

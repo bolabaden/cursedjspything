@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, golden tuple bool repetition)
+
+### Landed
+
+- [REPO] Plan 041: golden `tuple_bool_mul`, `tuple_bool_rmul`; **29** keys/profile; feasibility review GO WITH CHANGES.
+
+### Partial
+
+- [REPO] PR opening on `feat/golden-tuple-bool-repeat`.
+
+### Next
+
+1. Merge plan 041 PR; continue Tier B targeted ports.
+2. Full golden matrix on CI (29 checks/version).
+
+---
+
 ## Delta update (2026-05-24, PR #21 merged to main)
 
 ### Landed

@@ -23,6 +23,7 @@ import {
   getMatchArgs,
   getAnnotations,
   pyList,
+  pyTuple,
   getItem,
   pySlice,
   unwrap,
@@ -108,6 +109,7 @@ export function buildPyrtCases(pythonVersion: string): Record<string, unknown> {
 
   const list = pyList([pyInt(0), pyInt(1), pyInt(2)]);
   const oneItemList = pyList([pyInt(1)]);
+  const oneItemTuple = pyTuple([pyInt(1)]);
   const sliced = getItem(list, pySlice(1, 3, null)) as PyObject;
   const slicedItems = unwrap<PyObject[]>(sliced);
 
@@ -202,6 +204,9 @@ export function buildPyrtCases(pythonVersion: string): Record<string, unknown> {
     // golden:str_bool_mul / str_bool_rmul — keep in sync with scripts/golden/cases.py
     str_bool_mul: unwrap<string>(mul(pyStr("ab"), pyTrue) as PyObject),
     str_bool_rmul: unwrap<string>(mul(pyTrue, pyStr("ab")) as PyObject),
+    // golden:tuple_bool_mul / tuple_bool_rmul — keep in sync with scripts/golden/cases.py
+    tuple_bool_mul: len(mul(oneItemTuple, pyTrue) as PyObject),
+    tuple_bool_rmul: len(mul(pyTrue, oneItemTuple) as PyObject),
     descriptor_data_wins: getAttr(descOwner, "attr"),
     descriptor_nodata_loses: getAttr(nonDataOwner, "attr"),
     init_subclass_called: initSubclassLog.includes("InitSubclassChild"),

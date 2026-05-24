@@ -35,6 +35,8 @@
   "seq_bool_rmul": 1,
   "str_bool_mul": "ab",
   "str_bool_rmul": "ab",
+  "tuple_bool_mul": 1,
+  "tuple_bool_rmul": 1,
   "descriptor_data_wins": "descriptor-value",
   "descriptor_nodata_loses": "instance-value",
   "init_subclass_called": true,

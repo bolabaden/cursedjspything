@@ -114,6 +114,9 @@ def main() -> None:
         # golden:str_bool_mul / str_bool_rmul — keep in sync with scripts/golden/pyrt-cases.ts
         "str_bool_mul": "ab" * True,
         "str_bool_rmul": True * "ab",
+        # golden:tuple_bool_mul / tuple_bool_rmul — keep in sync with scripts/golden/pyrt-cases.ts
+        "tuple_bool_mul": len((1,) * True),
+        "tuple_bool_rmul": len(True * (1,)),
     }
 
     desc_owner = owner_with_instance_attr(DescOwner, "attr", "instance-value")
