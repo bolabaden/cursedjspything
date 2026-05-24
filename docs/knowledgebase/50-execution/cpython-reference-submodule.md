@@ -6,7 +6,7 @@
 
 - Traceability links in COMPATIBILITY and ported tests (`Lib/test/test_richcmp.py` line refs)
 - Maintainer script `scripts/cpython/mine-lib-tests.sh` lists candidate `Lib/test` modules
-- Human review when adding golden cases in `scripts/golden/cases.py`
+- Human review when adding golden cases in `scripts/golden/cases.py` and `scripts/golden/pyrt-cases.ts`
 - Tier B module guide: [tier-b-lib-test-reference.md](./tier-b-lib-test-reference.md)
 
 ## What it is not for
