@@ -7,6 +7,24 @@
 
 ---
 
+## Delta update (2026-05-24, golden version-gate regression tests)
+
+### Landed
+
+- [REPO] Plan 022: `test/golden/pyrt-cases-version-gates.test.ts` — asserts `match_args`, buffer, and `annotate_x` gates per profile (3.9/3.10/3.12/3.14) plus descriptor stability.
+
+### Partial
+
+- [REPO] PR #19 open: plan 021 KB coherence (merge pending).
+- [REPO] Cross-type builtin ops beyond int/float still `NotImplemented`.
+
+### Next
+
+1. Merge PR #19; Tier B golden cherry-picks or runtime gaps as prioritized.
+2. Tier-3 roadmap (VM, import) unchanged.
+
+---
+
 ## Delta update (2026-05-23, golden KB coherence + PR #18)
 
 ### Landed
