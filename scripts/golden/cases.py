@@ -101,6 +101,19 @@ def main() -> None:
     nodata_owner.__dict__["attr"] = "instance-value"
     cases["descriptor_nodata_loses"] = nodata_owner.attr
 
+    # golden:init_subclass_called — base __init_subclass__ runs on subclass creation
+    init_subclass_log: list[str] = []
+
+    class InitSubclassBase:
+        @classmethod
+        def __init_subclass__(cls, **kwargs):
+            init_subclass_log.append(cls.__name__)
+
+    class InitSubclassChild(InitSubclassBase):
+        pass
+
+    cases["init_subclass_called"] = "InitSubclassChild" in init_subclass_log
+
     inc_a, inc_b = Incomparable(), Incomparable()
     try:
         inc_a < inc_b
