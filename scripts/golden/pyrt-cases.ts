@@ -136,6 +136,28 @@ export function buildPyrtCases(pythonVersion: string): Record<string, unknown> {
   });
   makeClass({ name: "InitSubclassChild", bases: [InitSubclassBase], dict: new Map() });
 
+  // golden:set_name_called — keep SetNameDesc in sync with scripts/golden/cases.py
+  const setNameLog: [string, string | symbol][] = [];
+  const SetNameDescType = makeClass({
+    name: "SetNameDesc",
+    dict: new Map<string | symbol, unknown>([
+      [
+        Hook.setName,
+        (_self: PyObject, owner: { name: string }, name: string | symbol) => {
+          setNameLog.push([owner.name, name]);
+        },
+      ],
+      [Slot.get, () => "val"],
+      [Slot.set, () => {}],
+    ]),
+  });
+  const setNameDesc = new PyObject(SetNameDescType);
+  makeClass({
+    name: "SetNameOwner",
+    bases: [objectType],
+    dict: new Map<string | symbol, unknown>([["my_desc", setNameDesc]]),
+  });
+
   const cases: Record<string, unknown> = {
     python: pythonVersion,
     mro_D: D.mro.map((t) => t.name),
@@ -152,6 +174,10 @@ export function buildPyrtCases(pythonVersion: string): Record<string, unknown> {
     descriptor_data_wins: getAttr(descOwner, "attr"),
     descriptor_nodata_loses: getAttr(nonDataOwner, "attr"),
     init_subclass_called: initSubclassLog.includes("InitSubclassChild"),
+    set_name_called:
+      setNameLog.length === 1 &&
+      setNameLog[0]![0] === "SetNameOwner" &&
+      setNameLog[0]![1] === "my_desc",
   };
 
   if (major > 3 || (major === 3 && minor >= 10)) {

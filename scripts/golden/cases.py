@@ -114,6 +114,24 @@ def main() -> None:
 
     cases["init_subclass_called"] = "InitSubclassChild" in init_subclass_log
 
+    # golden:set_name_called — descriptor __set_name__ runs at class creation
+    set_name_log: list[tuple[str, str]] = []
+
+    class SetNameDesc:
+        def __get__(self, obj, owner):
+            return "val"
+
+        def __set__(self, obj, value):
+            pass
+
+        def __set_name__(self, owner, name):
+            set_name_log.append((owner.__name__, name))
+
+    class SetNameOwner:
+        my_desc = SetNameDesc()
+
+    cases["set_name_called"] = set_name_log == [("SetNameOwner", "my_desc")]
+
     inc_a, inc_b = Incomparable(), Incomparable()
     try:
         inc_a < inc_b

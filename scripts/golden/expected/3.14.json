@@ -29,5 +29,6 @@
   "int_float_add": 2.0,
   "descriptor_data_wins": "descriptor-value",
   "descriptor_nodata_loses": "instance-value",
-  "init_subclass_called": true
+  "init_subclass_called": true,
+  "set_name_called": true
 }
