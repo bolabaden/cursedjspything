@@ -24,6 +24,59 @@
 1. Merge stacked open PRs when ready.
 2. Further COMPATIBILITY exception or operator cherry-picks.
 
+## Delta update (2026-05-24, plan 051 vitest round 2)
+
+### Landed
+
+- [REPO] Plan 051 — `poolOptions.forks.singleFork: true`; median `npm test` ~4.1s → ~2.1s (−49% vs round-2 baseline); vmForks reverted; validation-ladder updated.
+
+### Partial
+
+- [OPEN] PRs #28/#29 (slice ValueError, MRO PyTypeError) still open on GitHub.
+
+### Next
+
+1. Merge open exception-typing PRs.
+2. COMPATIBILITY cherry-picks or ce-optimize round 3 (maxWorkers).
+
+## Delta update (2026-05-24, plan 075 bool-str binary)
+
+### Landed
+
+- [REPO] Plan 075 — `operator-bool-str-binary.test.ts`; COMPATIBILITY §8.15 evidence (223 Vitest).
+
+## Delta update (2026-05-24, plan 065 float-str binary)
+
+### Landed
+
+- [REPO] Plan 065 — `operator-float-str-binary.test.ts`; COMPATIBILITY §8.15 evidence (223 Vitest).
+
+### Partial
+
+- [OPEN] PRs #28–#53 still open on other branches.
+
+### Next
+
+1. Merge stacked PRs.
+2. bytes / sequence exotic §8.15 when prioritized.
+
+---
+
+## Delta update (2026-05-24, plan 076 bool-str remaining binary)
+
+### Landed
+
+- [REPO] Plan 076 — `operator-bool-str-remaining-binary.test.ts`; COMPATIBILITY §8.15 evidence (224 Vitest).
+
+### Partial
+
+- [OPEN] PRs #28–#53 still open on other branches.
+
+### Next
+
+1. Merge stacked PRs.
+2. bytes / sequence exotic §8.15 when prioritized.
+
 ---
 
 ## Delta update (2026-05-24, plan 048 PyZeroDivisionError)
