@@ -402,14 +402,16 @@ CPython exposes **readonly mapping views** on class and instance namespaces — 
 
 **Golden evidence:** Class lifecycle hooks (`init_subclass_called`, `set_name_called`) and descriptor precedence (`descriptor_data_wins`, `descriptor_nodata_loses`) are covered in the golden harness; mappingproxy behavior is not.
 
-### 8.17 Sequence subscript exceptions
+### 8.17 Sequence subscript and numeric division exceptions
 
 `str`, `list`, and `tuple` `__getitem__` / list `__setitem__` / `__delitem__` raise typed runtime exceptions rather than generic `Error`:
 
 - Non-integer keys → **`PyTypeError`** (`list indices must be integers`, `tuple indices must be integers`, `string indices must be integers`; str `__contains__` with non-str operand uses CPython-style `'in <string>' requires string as left operand, not int`).
 - Out-of-range integer keys → **`PyIndexError`** (`list index out of range`, `tuple index out of range`, `string index out of range`, etc.).
 
-**Evidence:** `test/cpython-derived/operator-str-scalar.test.ts`, `sequence-index-type.test.ts`. **Remaining gap:** other builtins and protocol fallbacks may still throw plain `Error` where CPython normalizes exception types.
+Int and float `__truediv__`, `__floordiv__`, and `__mod__` (plus int `__motion__`/`divmod`) raise **`PyZeroDivisionError`** with CPython message text on zero divisors.
+
+**Evidence:** `test/cpython-derived/operator-str-scalar.test.ts`, `sequence-index-type.test.ts`, `operator-zerodivision.test.ts`. **Remaining gap:** other builtins and protocol fallbacks may still throw plain `Error` where CPython normalizes exception types.
 
 ---
 

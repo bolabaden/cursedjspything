@@ -4,6 +4,7 @@ import { makeClass } from "../class/class.js";
 import { nativeVal, setNative } from "./native.js";
 import { intType, isNumericOperand, numericOperand } from "./int.js";
 import { pyInt } from "./int.js";
+import { PyZeroDivisionError } from "../core/errors.js";
 
 // ── pyFloat ───────────────────────────────────────────────────────────
 
@@ -74,19 +75,19 @@ export const floatType = makeClass({
     [Slot.truediv, (self: PyObject, other: PyObject) => {
       if (!isNumericOperand(other)) return NotImplemented;
       const d = numericOperand(other);
-      if (d === 0) throw new Error("ZeroDivisionError: float division by zero");
+      if (d === 0) throw new PyZeroDivisionError("float division by zero");
       return pyFloat(nativeVal<number>(self) / d);
     }],
     [Slot.floordiv, (self: PyObject, other: PyObject) => {
       if (!isNumericOperand(other)) return NotImplemented;
       const d = numericOperand(other);
-      if (d === 0) throw new Error("ZeroDivisionError: float floor division by zero");
+      if (d === 0) throw new PyZeroDivisionError("float floor division by zero");
       return pyFloat(Math.floor(nativeVal<number>(self) / d));
     }],
     [Slot.mod, (self: PyObject, other: PyObject) => {
       if (!isNumericOperand(other)) return NotImplemented;
       const d = numericOperand(other);
-      if (d === 0) throw new Error("ZeroDivisionError: float modulo");
+      if (d === 0) throw new PyZeroDivisionError("float modulo");
       const n = nativeVal<number>(self);
       return pyFloat(((n % d) + d) % d);
     }],

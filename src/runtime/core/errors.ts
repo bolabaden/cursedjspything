@@ -28,6 +28,13 @@ export class PyIndexError extends Error {
   }
 }
 
+export class PyZeroDivisionError extends Error {
+  constructor(msg: string) {
+    super(msg);
+    this.name = "ZeroDivisionError";
+  }
+}
+
 export class PyStopIteration extends Error {
   readonly value: unknown;
   constructor(value?: unknown) {

@@ -25,6 +25,7 @@ import {
   PyTypeError,
   PyKeyError,
   PyIndexError,
+  PyZeroDivisionError,
   PyStopIteration,
   PyValueError,
 } from "./errors.js";
@@ -34,6 +35,7 @@ export {
   PyTypeError,
   PyKeyError,
   PyIndexError,
+  PyZeroDivisionError,
   PyStopIteration,
   PyValueError,
 } from "./errors.js";

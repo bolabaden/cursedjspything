@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 048 PyZeroDivisionError)
+
+### Landed
+
+- [REPO] Plan 048 — `PyZeroDivisionError` for int/float truediv/floordiv/mod and int divmod; `operator-zerodivision.test.ts` (220 Vitest); COMPATIBILITY §8.17 updated.
+
+### Partial
+
+- [OPEN] Other builtins may still throw plain `Error` (COMPATIBILITY §8.17 remaining gap).
+
+### Next
+
+1. Tier B / COMPATIBILITY cherry-picks for next typed-exception gaps.
+2. Optional: ce-optimize vitest round 2.
+
+---
+
 ## Delta update (2026-05-24, vitest doc/harness hygiene)
 
 ### Landed
