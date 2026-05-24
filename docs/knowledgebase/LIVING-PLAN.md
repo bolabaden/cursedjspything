@@ -9,6 +9,20 @@
 
 ---
 
+## Delta update (2026-05-24, plan 053 int shift ValueError)
+
+### Landed
+
+- [REPO] Plan 053 — int `__lshift__`/`__rshift__` negative count raises `PyValueError`; `operator-int-shift.test.ts`; COMPATIBILITY §8.17 updated.
+
+### Partial
+
+- [OPEN] PRs #28–#31 still open (slice, MRO, vitest, pow mod).
+
+### Next
+
+1. Merge stacked open PRs.
+2. Further numeric/exception cherry-picks.
 ## Delta update (2026-05-24, plan 051 vitest round 2)
 
 ### Landed
