@@ -40,6 +40,7 @@ describe("cpython-derived str/scalar arithmetic", () => {
 
 describe("cpython-derived str contains", () => {
   it("contains on str requires str operand", () => {
+    expect(() => contains(pyStr("abc"), pyInt(97))).toThrow(PyTypeError);
     expect(() => contains(pyStr("abc"), pyInt(97))).toThrow(
       /'in <string>' requires string as left operand/,
     );

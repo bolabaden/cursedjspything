@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, str __contains__ PyTypeError)
+
+### Landed
+
+- [REPO] Plan 029: str `__contains__`/`__getitem__` type guards throw `PyTypeError`; validation-ladder lists `operator-str-scalar.test.ts`.
+
+### Partial
+
+- [REPO] PR #19–#21 open; list/tuple generic `Error` throws unchanged.
+
+### Next
+
+1. Merge open PRs; version-gate tests (PR #20) or Tier B cherry-picks.
+2. Tier-3 roadmap (VM, import) unchanged.
+
+---
+
 ## Delta update (2026-05-24, str/scalar cross-type evidence)
 
 ### Landed

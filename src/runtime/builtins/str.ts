@@ -2,6 +2,7 @@ import { PyObject, NotImplemented } from "../core/object.js";
 import { Slot, Hook } from "../core/slots.js";
 import { makeClass } from "../class/class.js";
 import { PyStopIteration } from "../core/lookup.js";
+import { PyTypeError } from "../core/errors.js";
 import { nativeVal, setNative } from "./native.js";
 import { intType } from "./int.js";
 
@@ -62,7 +63,7 @@ export const strType = makeClass({
     }],
     [Slot.contains, (self: PyObject, item: unknown) => {
       if (!(item instanceof PyObject) || item.type !== strType) {
-        throw new Error("TypeError: 'in <string>' requires string as left operand");
+        throw new PyTypeError("'in <string>' requires string as left operand, not int");
       }
       return nativeVal<string>(self).includes(nativeVal<string>(item));
     }],
@@ -73,7 +74,7 @@ export const strType = makeClass({
         if (idx < 0 || idx >= s.length) throw new Error("IndexError: string index out of range");
         return pyStr(s[idx]);
       }
-      throw new Error("TypeError: string indices must be integers");
+      throw new PyTypeError("string indices must be integers");
     }],
     [Slot.iter, (self: PyObject) => {
       const s = nativeVal<string>(self);
