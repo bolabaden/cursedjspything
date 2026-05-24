@@ -7,6 +7,27 @@
 
 ---
 
+## Delta update (2026-05-23, Tier B mining reference doc)
+
+### Landed
+
+- [REPO] `tier-b-lib-test-reference.md` — Tier B module catalog and maintainer workflow.
+- [REPO] PR #10 merged: golden ~15 keys/version (contains + int/float cases).
+- [REPO] `mine-lib-tests.sh` robust under `set -e` when `rg` misses.
+
+### Partial
+
+- [REPO] Tier B modules reference-only; no descriptor golden row yet.
+- [REPO] Cross-type builtin ops beyond int/float still `NotImplemented`.
+
+### Next
+
+1. Descriptor precedence golden row (single case from `test_descr.py`).
+2. More golden / Vitest cherry-picks from Tier B guide.
+3. Tier-3 roadmap (VM, import) unchanged.
+
+---
+
 ## Delta update (2026-05-23, golden Tier A expansion)
 
 ### Landed

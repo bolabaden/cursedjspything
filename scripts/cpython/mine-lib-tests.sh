@@ -34,7 +34,7 @@ echo "## Tier A keyword hits (NotImplemented / rich compare)"
 for f in "${TIER_A[@]}"; do
   path="${CPY}/Lib/test/${f}"
   [[ -f "${path}" ]] || continue
-  hits=$(rg -n "NotImplemented" "${path}" 2>/dev/null | wc -l)
+  hits=$(rg -n "NotImplemented" "${path}" 2>/dev/null | wc -l || true)
   echo "- ${f}: ${hits} NotImplemented references"
 done
 echo
@@ -52,6 +52,6 @@ cat <<'EOF'
 - test/cpython-derived/operator-int-float.test.ts ← test_operator int/float (done)
 - test/cpython-derived/contains-protocol.test.ts ← test_contains (done)
 - test/cpython-derived/isinstance-protocol.test.ts ← test_isinstance (done)
-- golden keys from test_richcmp Incomparable / Rev (done in golden harness)
-- Tier B next: test_descr.py, test_class.py (reference only)
+- golden: contains_str, contains_list, int_float_* (done)
+- Tier B: see docs/knowledgebase/50-execution/tier-b-lib-test-reference.md
 EOF
