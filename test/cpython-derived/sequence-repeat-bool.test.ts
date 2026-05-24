@@ -43,11 +43,25 @@ describe("cpython-derived list/tuple repetition with bool", () => {
     expect(len(mul(oneTuple, pyInt(-1)) as ReturnType<typeof pyTuple>)).toBe(0);
   });
 
-  it("large repeat count does not hit spread limits", () => {
+  it("repeats multi-element sequences (general path)", () => {
+    const ab = pyList([pyInt(1), pyInt(2)]);
+    expect(len(mul(ab, pyInt(3)) as ReturnType<typeof pyList>)).toBe(6);
+
+    const tup = pyTuple([pyInt(1), pyInt(2)]);
+    expect(len(mul(tup, pyInt(2)) as ReturnType<typeof pyTuple>)).toBe(4);
+  });
+
+  it("large repeat count builds expected length", () => {
     const one = pyList([pyInt(0)]);
     expect(len(mul(one, pyInt(150_000)) as ReturnType<typeof pyList>)).toBe(150_000);
 
     const tup = pyTuple([pyInt(0)]);
     expect(len(mul(tup, pyInt(150_000)) as ReturnType<typeof pyTuple>)).toBe(150_000);
+  });
+
+  it("wide source repeat avoids V8 spread-argument limit", () => {
+    const zero = pyInt(0);
+    const wide = pyList(Array.from({ length: 127_000 }, () => zero));
+    expect(len(mul(wide, pyInt(1)) as ReturnType<typeof pyList>)).toBe(127_000);
   });
 });
