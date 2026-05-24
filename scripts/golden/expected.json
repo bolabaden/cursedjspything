@@ -6,5 +6,9 @@
   "rich_lt_reflected": true,
   "rich_lt_both_not_impl_raises": true,
   "match_args": ["x", "y"],
-  "slice_list": [1, 2]
+  "slice_list": [1, 2],
+  "contains_str": true,
+  "contains_list": true,
+  "int_float_eq": true,
+  "int_float_add": 2.0
 }
