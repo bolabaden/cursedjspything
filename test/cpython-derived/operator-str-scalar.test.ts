@@ -57,4 +57,13 @@ describe("cpython-derived str repetition with bool", () => {
     expect(unwrap(mul(pyStr("ab"), pyFalse) as ReturnType<typeof pyStr>)).toBe("");
     expect(unwrap(mul(pyStr("x"), pyInt(2)) as ReturnType<typeof pyStr>)).toBe("xx");
   });
+
+  it("reflected mul (bool * str) matches forward", () => {
+    expect(unwrap(mul(pyTrue, pyStr("ab")) as ReturnType<typeof pyStr>)).toBe("ab");
+    expect(unwrap(mul(pyFalse, pyStr("ab")) as ReturnType<typeof pyStr>)).toBe("");
+  });
+
+  it("negative int repeat count yields empty string", () => {
+    expect(unwrap(mul(pyStr("ab"), pyInt(-1)) as ReturnType<typeof pyStr>)).toBe("");
+  });
 });

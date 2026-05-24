@@ -34,4 +34,12 @@ describe("cpython-derived list/tuple repetition with bool", () => {
     expect(len(mul(pyTrue, oneTuple) as ReturnType<typeof pyTuple>)).toBe(1);
     expect(len(mul(pyFalse, oneTuple) as ReturnType<typeof pyTuple>)).toBe(0);
   });
+
+  it("negative int repeat count yields empty sequence", () => {
+    const oneList = pyList([pyInt(1)]);
+    expect(len(mul(oneList, pyInt(-1)) as ReturnType<typeof pyList>)).toBe(0);
+
+    const oneTuple = pyTuple([pyInt(1)]);
+    expect(len(mul(oneTuple, pyInt(-1)) as ReturnType<typeof pyTuple>)).toBe(0);
+  });
 });
