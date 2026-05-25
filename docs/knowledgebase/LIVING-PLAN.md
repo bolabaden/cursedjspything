@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 049 slice ValueError)
+
+### Landed
+
+- [REPO] Plan 049 — `sliceIndices` zero step raises `PyValueError`; list/tuple Vitest coverage; COMPATIBILITY §8.7 updated.
+
+### Partial
+
+- [OPEN] Other protocol fallbacks may still throw non-Python exception types (COMPATIBILITY §8.17 remaining gap).
+
+### Next
+
+1. COMPATIBILITY cherry-picks for next typed-exception or operator gaps.
+2. Optional: ce-optimize vitest round 2.
+
+---
+
 ## Delta update (2026-05-24, plan 055 sequence cross-type)
 
 ### Landed
@@ -18,6 +35,9 @@
 ### Partial
 
 - [OPEN] PRs #28–#33 still open.
+
+---
+
 ## Delta update (2026-05-24, plan 054 sequence repeat non-int)
 
 ### Landed
@@ -27,6 +47,9 @@
 ### Partial
 
 - [OPEN] PRs #28–#32 still open.
+
+---
+
 ## Delta update (2026-05-24, plan 053 int shift ValueError)
 
 ### Landed
@@ -41,6 +64,9 @@
 
 1. Merge stacked open PRs.
 2. Further numeric/exception cherry-picks.
+
+---
+
 ## Delta update (2026-05-24, plan 051 vitest round 2)
 
 ### Landed
@@ -55,6 +81,8 @@
 
 1. Merge open exception-typing PRs.
 2. COMPATIBILITY cherry-picks or ce-optimize round 3 (maxWorkers).
+
+---
 
 ## Delta update (2026-05-24, plan 075 bool-str binary)
 

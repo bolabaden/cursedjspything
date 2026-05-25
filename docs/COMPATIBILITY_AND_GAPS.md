@@ -354,7 +354,7 @@ Python dict keys use **rich equality** + **consistent hashing** rules. `pyDict` 
 
 ### 8.7 Slicing
 
-`pySlice` and `sliceIndices` live in `src/runtime/collections/slice.ts`. `getItem` passes a slice object to `__getitem__` once. `pyList` / `pyTuple` implement `__getitem__(slice)` and return a new list/tuple; other types must implement slice subscripts themselves. Golden case `slice_list` compares against CPython.
+`pySlice` and `sliceIndices` live in `src/runtime/collections/slice.ts`. `getItem` passes a slice object to `__getitem__` once. `pyList` / `pyTuple` implement `__getitem__(slice)` and return a new list/tuple; other types must implement slice subscripts themselves. Zero step raises **`PyValueError`** (`slice step cannot be zero`), matching CPython. Golden case `slice_list` compares against CPython.
 
 ### 8.8 Rich compare / `NotImplemented`
 
