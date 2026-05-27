@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 085 merge PR #56)
+
+### Landed
+
+- [REPO] Plan 085 — PR #56 merged; plan 084 sequence exotic evidence sync on `main` (309 Vitest, 50 files).
+
+### Partial
+
+- None.
+
+### Next
+
+1. bytes object cross-type §8.15 when prioritized (requires bytes PyObject surface).
+2. Optional deeper LIVING-PLAN archive when doc maintenance is scheduled.
+
+---
+
 ## Delta update (2026-05-24, plan 084 sequence exotic evidence sync)
 
 ### Landed
