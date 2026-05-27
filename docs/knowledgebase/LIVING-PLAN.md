@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 052 pow mod zero)
+
+### Landed
+
+- [REPO] Plan 052 — int `pow(base, exp, 0)` raises `PyValueError`; `operator-pow-mod.test.ts`; COMPATIBILITY §8.17 updated.
+
+### Partial
+
+- [OPEN] PRs #28–#30 still open (slice ValueError, MRO PyTypeError, vitest singleFork).
+
+### Next
+
+1. Merge stacked open PRs when ready.
+2. Further COMPATIBILITY exception or operator cherry-picks.
+
+---
+
 ## Delta update (2026-05-24, plan 050 MRO PyTypeError)
 
 ### Landed
