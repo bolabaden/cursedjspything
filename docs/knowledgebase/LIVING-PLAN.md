@@ -9,6 +9,16 @@
 
 ---
 
+## Delta update (2026-05-24, plan 062 unary evidence)
+
+### Landed
+
+- [REPO] Plan 062 — `operator-unary-evidence.test.ts`; COMPATIBILITY §8.15 evidence (224 Vitest).
+
+### Partial
+
+- [OPEN] PRs #28–#40 still open on other branches.
+
 ## Delta update (2026-05-24, plan 061 rounding evidence)
 
 ### Landed
