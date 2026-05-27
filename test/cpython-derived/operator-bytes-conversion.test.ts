@@ -2,14 +2,15 @@
  * CPython: bytes() converts str via __bytes__; rejects types without the hook.
  */
 import { describe, it, expect } from "vitest";
-import { bytes, pyFloat, pyInt, pyStr } from "../../src/index.js";
+import { bytes, bytesType, pyFloat, pyInt, pyStr, unwrap } from "../../src/index.js";
 import { PyTypeError } from "../../src/runtime/core/errors.js";
 
 describe("cpython-derived bytes conversion", () => {
   it("bytes(str) returns UTF-8 encoded bytes", () => {
     const result = bytes(pyStr("ab"));
-    expect(result).toBeInstanceOf(Uint8Array);
-    expect(Array.from(result as Uint8Array)).toEqual([97, 98]);
+    expect(result).toBeInstanceOf(Object);
+    expect((result as { type: typeof bytesType }).type).toBe(bytesType);
+    expect(Array.from(unwrap<Uint8Array>(result as never))).toEqual([97, 98]);
   });
 
   it("bytes(int) raises TypeError", () => {
