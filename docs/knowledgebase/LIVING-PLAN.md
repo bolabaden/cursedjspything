@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 099 merge PR #63)
+
+### Landed
+
+- [REPO] Plan 099 — PR #63 merged; plan 098 bytes join on `main` (341 Vitest, 55 files).
+
+### Partial
+
+- None.
+
+### Next
+
+1. `str.encode(errors=...)` or further bytes API when prioritized.
+2. PEP 3118 buffer protocol remains out of scope until planned.
+
+---
+
 ## Delta update (2026-05-24, plan 098 bytes join)
 
 ### Landed
