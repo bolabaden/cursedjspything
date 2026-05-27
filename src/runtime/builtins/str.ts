@@ -12,6 +12,7 @@ import {
 import { nativeVal, setNative } from "./native.js";
 import { sequenceRepeatCount } from "./int.js";
 import { pyBytes } from "./bytes.js";
+import { pyFalse, pyTrue } from "./bool.js";
 
 function repeatStr(self: PyObject, other: PyObject) {
   const n = sequenceRepeatCount(other);
@@ -203,6 +204,15 @@ function strCapitalize(text: string): string {
   return head + lower.slice(w0);
 }
 
+function strIsascii(text: string): PyObject {
+  for (let i = 0; i < text.length; ) {
+    const cp = text.codePointAt(i)!;
+    if (cp > 0x7f) return pyFalse;
+    i += cp > 0xffff ? 2 : 1;
+  }
+  return pyTrue;
+}
+
 // ── pyStr ─────────────────────────────────────────────────────────────
 
 export const strType = makeClass({
@@ -291,6 +301,7 @@ export const strType = makeClass({
     ["upper", (self: PyObject) => pyStr(nativeVal<string>(self).toUpperCase())],
     ["lower", (self: PyObject) => pyStr(nativeVal<string>(self).toLowerCase())],
     ["capitalize", (self: PyObject) => pyStr(strCapitalize(nativeVal<string>(self)))],
+    ["isascii", (self: PyObject) => strIsascii(nativeVal<string>(self))],
   ]),
 });
 
