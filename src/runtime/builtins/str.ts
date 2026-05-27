@@ -686,6 +686,37 @@ function rindexStr(
   return pyInt(idx);
 }
 
+function countSubInStrRange(
+  text: string,
+  sub: string,
+  start: number,
+  end: number,
+): number {
+  if (start > end) return 0;
+  if (sub.length === 0) return end - start + 1;
+  let count = 0;
+  let pos = start;
+  while (pos <= end - sub.length) {
+    const slice = text.slice(pos, end);
+    const rel = findStrSepIndex(slice, sub, false);
+    if (rel < 0) break;
+    count += 1;
+    pos += rel + sub.length;
+  }
+  return count;
+}
+
+function countStr(
+  text: string,
+  sub: unknown,
+  start?: unknown,
+  end?: unknown,
+): PyObject {
+  const subStr = requireFindStrSub(sub);
+  const [a, b] = strSliceBounds(text.length, start, end);
+  return pyInt(countSubInStrRange(text, subStr, a, b));
+}
+
 function partitionStr(text: string, sep: unknown): PyObject {
   const sepStr = requirePartitionStrSep(sep);
   const idx = findStrSepIndex(text, sepStr, false);
@@ -893,6 +924,8 @@ export const strType = makeClass({
       indexStr(nativeVal<string>(self), sub, start, end)],
     ["rindex", (self: PyObject, sub: unknown, start?: unknown, end?: unknown) =>
       rindexStr(nativeVal<string>(self), sub, start, end)],
+    ["count", (self: PyObject, sub: unknown, start?: unknown, end?: unknown) =>
+      countStr(nativeVal<string>(self), sub, start, end)],
   ]),
 });
 
