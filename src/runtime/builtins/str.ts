@@ -14,6 +14,7 @@ import { sequenceRepeatCount, intType } from "./int.js";
 import { pyBytes } from "./bytes.js";
 import { pyFalse, pyTrue } from "./bool.js";
 import { pyList } from "./list.js";
+import { pyTuple } from "./tuple.js";
 
 function repeatStr(self: PyObject, other: PyObject) {
   const n = sequenceRepeatCount(other);
@@ -468,6 +469,44 @@ function rsplitStr(text: string, sep: unknown, maxsplit: unknown): PyObject {
   return pyList(chunks.map((chunk) => pyStr(chunk)));
 }
 
+function requirePartitionStrSep(sep: unknown): string {
+  if (sep instanceof PyObject && sep.type === strType) {
+    const s = nativeVal<string>(sep);
+    if (s.length === 0) {
+      throw new PyValueError("empty separator");
+    }
+    return s;
+  }
+  const kind = sep instanceof PyObject ? sep.type.name : typeof sep;
+  throw new PyTypeError(`must be str, not ${kind}`);
+}
+
+function findStrSepIndex(text: string, sep: string, fromRight: boolean): number {
+  if (fromRight) {
+    for (let i = text.length - sep.length; i >= 0; i--) {
+      if (text.startsWith(sep, i)) return i;
+    }
+    return -1;
+  }
+  for (let i = 0; i <= text.length - sep.length; i++) {
+    if (text.startsWith(sep, i)) return i;
+  }
+  return -1;
+}
+
+function partitionStr(text: string, sep: unknown): PyObject {
+  const sepStr = requirePartitionStrSep(sep);
+  const idx = findStrSepIndex(text, sepStr, false);
+  if (idx < 0) {
+    return pyTuple([pyStr(text), pyStr(""), pyStr("")]);
+  }
+  return pyTuple([
+    pyStr(text.slice(0, idx)),
+    pyStr(sepStr),
+    pyStr(text.slice(idx + sepStr.length)),
+  ]);
+}
+
 // ── pyStr ─────────────────────────────────────────────────────────────
 
 export const strType = makeClass({
@@ -569,6 +608,8 @@ export const strType = makeClass({
       splitStr(nativeVal<string>(self), sep, maxsplit)],
     ["rsplit", (self: PyObject, sep?: unknown, maxsplit?: unknown) =>
       rsplitStr(nativeVal<string>(self), sep, maxsplit)],
+    ["partition", (self: PyObject, sep: unknown) =>
+      partitionStr(nativeVal<string>(self), sep)],
   ]),
 });
 
