@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 134 bytes title)
+
+### Landed
+
+- [REPO] Plan 134 — `bytes.title` ASCII word title case; `bytes-title.test.ts`.
+
+### Partial
+
+- None.
+
+### Next
+
+1. Merge plan 134 via PR; then codec handlers or further bytes/str API when prioritized.
+2. PEP 3118 buffer protocol remains out of scope until planned.
+
+---
+
 ## Delta update (2026-05-24, plan 133 merge PR #80)
 
 ### Landed
