@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 084 sequence exotic evidence sync)
+
+### Landed
+
+- [REPO] Plan 084 — COMPATIBILITY §8.15 evidence lists `sequence-cross-type.test.ts` and `sequence-repeat-nonint.test.ts`; remaining-gap text updated (309 Vitest).
+
+### Partial
+
+- None.
+
+### Next
+
+1. bytes object cross-type §8.15 when prioritized (requires bytes PyObject surface).
+2. Optional deeper LIVING-PLAN archive when doc maintenance is scheduled.
+
+---
+
 ## Delta update (2026-05-24, plan 083 merge PR #55)
 
 ### Landed
