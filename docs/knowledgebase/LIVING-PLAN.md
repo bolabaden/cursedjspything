@@ -9,6 +9,18 @@
 
 ---
 
+## Delta update (2026-05-24, plan 074 float-str remaining binary)
+
+### Landed
+
+- [REPO] Plan 074 — `operator-float-str-remaining-binary.test.ts`; COMPATIBILITY §8.15 evidence (225 Vitest).
+
+### Partial
+
+- [OPEN] PRs #28–#52 still open on other branches.
+
+---
+
 ## Delta update (2026-05-24, plan 073 int-str remaining binary)
 
 ### Landed
@@ -22,6 +34,10 @@
 ### Next
 
 1. Merge stacked PRs.
+2. bytes / bool↔str / sequence exotic §8.15 when prioritized.
+
+---
+
 2. float↔str remaining / bytes / sequence exotic §8.15 when prioritized.
 
 ---
