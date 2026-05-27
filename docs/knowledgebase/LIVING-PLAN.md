@@ -9,6 +9,24 @@
 
 ---
 
+## Delta update (2026-05-24, plan 081 §8.15 evidence dedupe + queue closure)
+
+### Landed
+
+- [REPO] Plan 080 — merged open PR queue (#29–#53); `main` at green CI.
+- [REPO] Plan 081 — PR #54 merged; COMPATIBILITY §8.15 duplicate Evidence paragraphs consolidated to one inventory (309 Vitest, 50 files).
+
+### Partial
+
+- None.
+
+### Next
+
+1. bytes / bool↔str / sequence exotic §8.15 when prioritized.
+2. Optional LIVING-PLAN historical delta pruning when doc maintenance is scheduled.
+
+---
+
 ## Delta update (2026-05-24, plan 074 float-str remaining binary)
 
 ### Landed
