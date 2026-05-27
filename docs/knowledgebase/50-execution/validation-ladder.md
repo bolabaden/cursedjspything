@@ -92,6 +92,7 @@ Emits JSON (`vitest_seconds`, pass gates, `test_count`); use median of several r
 | `test/cpython-derived/operator-format-evidence.test.ts` | format() __format__, empty-spec str fallback, TypeError |
 | `test/cpython-derived/str-encode.test.ts` | str.encode utf-8/ascii/latin-1 errors including backslashreplace/surrogateescape |
 | `test/cpython-derived/str-upper-lower.test.ts` | str.upper / str.lower case conversion |
+| `test/cpython-derived/str-capitalize.test.ts` | str.capitalize case conversion |
 | `test/cpython-derived/bytes-join.test.ts` | bytes.join separator concatenation |
 | `test/cpython-derived/bytes-split.test.ts` | bytes.split sep/maxsplit and whitespace |
 | `test/cpython-derived/bytes-rsplit.test.ts` | bytes.rsplit sep/maxsplit from the right |
