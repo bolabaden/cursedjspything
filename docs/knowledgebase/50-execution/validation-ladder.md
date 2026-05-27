@@ -101,6 +101,7 @@ Emits JSON (`vitest_seconds`, pass gates, `test_count`); use median of several r
 | `test/cpython-derived/bytes-find.test.ts` | bytes.find/rfind subbytes search with bounds |
 | `test/cpython-derived/bytes-index.test.ts` | bytes.index/rindex subbytes search; ValueError on miss |
 | `test/cpython-derived/bytes-count.test.ts` | bytes.count non-overlapping subbytes in slice |
+| `test/cpython-derived/bytes-replace.test.ts` | bytes.replace count-limited substitution |
 | `test/cpython-derived/bytes-decode.test.ts` | bytes.decode UTF-8/latin-1, errors strict/replace/ignore |
 | `test/cpython-derived/bytes-slice-index.test.ts` | bytes slice subscript returns bytes |
 | `test/cpython-derived/bytes-getitem-compare.test.ts` | bytes int index + lexicographic rich compare |
