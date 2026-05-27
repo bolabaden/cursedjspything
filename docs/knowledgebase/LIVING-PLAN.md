@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 096 bytes decode errors)
+
+### Landed
+
+- [REPO] Plan 096 — `bytes.decode(..., errors=)` strict/replace/ignore for UTF-8; extended `bytes-decode.test.ts`.
+
+### Partial
+
+- None.
+
+### Next
+
+1. `bytes.join` or `str.encode(errors=...)` when prioritized.
+2. PEP 3118 buffer protocol remains out of scope until planned.
+
+---
+
 ## Delta update (2026-05-24, plan 095 merge PR #61)
 
 ### Landed
