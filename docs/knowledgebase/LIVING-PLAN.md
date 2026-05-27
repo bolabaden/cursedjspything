@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 109 merge PR #68)
+
+### Landed
+
+- [REPO] Plan 109 — PR #68 merged; plan 108 bytes partition on `main` (383 Vitest, 60 files).
+
+### Partial
+
+- None.
+
+### Next
+
+1. Further bytes methods or codec handlers when prioritized.
+2. PEP 3118 buffer protocol remains out of scope until planned.
+
+---
+
 ## Delta update (2026-05-24, plan 108 bytes partition)
 
 ### Landed
