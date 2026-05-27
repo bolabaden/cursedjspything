@@ -760,6 +760,25 @@ function bytesCapitalize(data: Uint8Array): PyObject {
   return pyBytes(out);
 }
 
+function bytesTitle(data: Uint8Array): PyObject {
+  const out = new Uint8Array(data.length);
+  let newWord = true;
+  for (let i = 0; i < data.length; i++) {
+    const b = data[i]!;
+    if (b >= 0x61 && b <= 0x7a) {
+      out[i] = newWord ? b - 0x20 : b;
+      newWord = false;
+    } else if (b >= 0x41 && b <= 0x5a) {
+      out[i] = newWord ? b : b + 0x20;
+      newWord = false;
+    } else {
+      out[i] = b;
+      newWord = true;
+    }
+  }
+  return pyBytes(out);
+}
+
 function bytesSwapcase(data: Uint8Array): PyObject {
   const out = new Uint8Array(data.length);
   for (let i = 0; i < data.length; i++) {
@@ -1129,6 +1148,9 @@ export const bytesType = makeClass({
     }],
     ["capitalize", (self: PyObject) => {
       return bytesCapitalize(bytesData(self));
+    }],
+    ["title", (self: PyObject) => {
+      return bytesTitle(bytesData(self));
     }],
     ["swapcase", (self: PyObject) => {
       return bytesSwapcase(bytesData(self));
