@@ -875,6 +875,90 @@ function rjustBytes(
   return pyBytes(out);
 }
 
+const HEX_DIGITS = "0123456789abcdef";
+
+function hexCharValue(c: string): number {
+  const code = c.charCodeAt(0);
+  if (code >= 0x30 && code <= 0x39) return code - 0x30;
+  if (code >= 0x61 && code <= 0x66) return code - 0x61 + 10;
+  if (code >= 0x41 && code <= 0x46) return code - 0x41 + 10;
+  return -1;
+}
+
+function isHexWhitespace(c: string): boolean {
+  return c === " " || c === "\t" || c === "\n" || c === "\r" || c === "\f" || c === "\v";
+}
+
+function requireFromhexArg(arg: unknown): string {
+  if (arg instanceof PyObject && arg.type === strType) {
+    return nativeVal<string>(arg);
+  }
+  if (arg instanceof PyObject && arg.type === bytesType) {
+    const data = bytesData(arg);
+    return String.fromCharCode(...data);
+  }
+  const kind = arg instanceof PyObject ? arg.type.name : typeof arg;
+  throw new PyTypeError(`fromhex() argument must be str or bytes-like, not '${kind}'`);
+}
+
+function bytesFromhex(arg: unknown): PyObject {
+  const text = requireFromhexArg(arg);
+  const nybbles: number[] = [];
+  for (let i = 0; i < text.length; i++) {
+    const c = text[i]!;
+    if (isHexWhitespace(c)) continue;
+    const n = hexCharValue(c);
+    if (n < 0) {
+      throw new PyValueError(
+        `non-hexadecimal number found in fromhex() arg at position ${i}`,
+      );
+    }
+    nybbles.push(n);
+  }
+  if (nybbles.length % 2 !== 0) {
+    throw new PyValueError(
+      "fromhex() arg must contain an even number of hexadecimal digits",
+    );
+  }
+  const out = new Uint8Array(nybbles.length / 2);
+  for (let i = 0; i < out.length; i++) {
+    out[i] = (nybbles[i * 2]! << 4) | nybbles[i * 2 + 1]!;
+  }
+  return pyBytes(out);
+}
+
+function requireHexSep(sep: unknown): number {
+  if (sep === undefined || sep === null) return -1;
+  if (sep instanceof PyObject && sep.type === bytesType) {
+    const data = bytesData(sep);
+    if (data.length !== 1) {
+      throw new PyValueError("sep must be length 1.");
+    }
+    return data[0]!;
+  }
+  const kind = sep instanceof PyObject ? sep.type.name : typeof sep;
+  throw new PyTypeError(`object of type '${kind}' has no len()`);
+}
+
+function bytesHex(data: Uint8Array, sep?: unknown): PyObject {
+  const sepByte = requireHexSep(sep);
+  if (sepByte < 0) {
+    let out = "";
+    for (let i = 0; i < data.length; i++) {
+      const b = data[i]!;
+      out += HEX_DIGITS[b >> 4]! + HEX_DIGITS[b & 0x0f]!;
+    }
+    return pyStr(out);
+  }
+  const sepChar = String.fromCharCode(sepByte);
+  const parts: string[] = [];
+  for (let i = 0; i < data.length; i++) {
+    const b = data[i]!;
+    parts.push(HEX_DIGITS[b >> 4]! + HEX_DIGITS[b & 0x0f]!);
+  }
+  return pyStr(parts.join(sepChar));
+}
+
 function parseExpandtabsTabsize(tabsize: unknown): number {
   if (tabsize === undefined || tabsize === null) return 8;
   return splitMaxsplitArg(tabsize);
@@ -1138,6 +1222,9 @@ export const bytesType = makeClass({
       const text = decodeBytesPayload(bytesData(self), enc, errMode);
       return pyStr(text);
     }],
+    ["fromhex", (_cls: unknown, string: unknown) => {
+      return bytesFromhex(string);
+    }],
     ["join", (self: PyObject, iterable: unknown) => {
       return joinBytes(bytesData(self), iterable);
     }],
@@ -1179,6 +1266,9 @@ export const bytesType = makeClass({
     }],
     ["expandtabs", (self: PyObject, tabsize?: unknown) => {
       return expandTabsBytes(bytesData(self), tabsize);
+    }],
+    ["hex", (self: PyObject, sep?: unknown) => {
+      return bytesHex(bytesData(self), sep);
     }],
     ["find", (self: PyObject, sub: unknown, start?: unknown, end?: unknown) => {
       return findBytes(bytesData(self), sub, start, end);

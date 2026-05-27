@@ -111,6 +111,7 @@ Emits JSON (`vitest_seconds`, pass gates, `test_count`); use median of several r
 | `test/cpython-derived/bytes-title.test.ts` | bytes.title ASCII word title case |
 | `test/cpython-derived/bytes-removeprefix-removesuffix.test.ts` | bytes.removeprefix/removesuffix affix stripping |
 | `test/cpython-derived/bytes-expandtabs.test.ts` | bytes.expandtabs tab expansion |
+| `test/cpython-derived/bytes-hex-fromhex.test.ts` | bytes.hex / bytes.fromhex |
 | `test/cpython-derived/bytes-decode.test.ts` | bytes.decode UTF-8/latin-1, errors strict/replace/ignore |
 | `test/cpython-derived/bytes-slice-index.test.ts` | bytes slice subscript returns bytes |
 | `test/cpython-derived/bytes-getitem-compare.test.ts` | bytes int index + lexicographic rich compare |
