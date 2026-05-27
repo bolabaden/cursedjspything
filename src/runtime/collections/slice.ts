@@ -53,18 +53,35 @@ export function sliceIndices(
   const s = step ?? 1;
   if (s === 0) throw new PyValueError("slice step cannot be zero");
 
-  let a = start ?? (s < 0 ? length - 1 : 0);
-  let b = stop ?? (s < 0 ? -1 : length);
-  if (a < 0) a += length;
-  if (b < 0) b += length;
-  a = Math.max(0, Math.min(a, length));
-  b = Math.max(0, Math.min(b, length));
-
   const out: number[] = [];
   if (s > 0) {
+    let a = start ?? 0;
+    let b = stop ?? length;
+    if (a < 0) a += length;
+    if (b < 0) b += length;
+    a = Math.max(0, Math.min(a, length));
+    b = Math.max(0, Math.min(b, length));
     for (let i = a; i < b; i += s) out.push(i);
   } else {
-    for (let i = a; i > b; i += s) out.push(i);
+    let a = start ?? length - 1;
+    let b: number;
+    if (stop === null) {
+      b = -1;
+    } else {
+      b = stop;
+      if (b < 0) {
+        b += length;
+        if (b < 0) b = -1;
+      }
+    }
+    if (a < 0) {
+      a += length;
+      if (a < 0) a = -1;
+    }
+    if (a >= length) a = length - 1;
+    for (let i = a; i > b; i += s) {
+      if (i >= 0 && i < length) out.push(i);
+    }
   }
   return out;
 }
