@@ -4,6 +4,7 @@ import { makeClass } from "../class/class.js";
 import { PyIndexError, PyTypeError } from "../core/errors.js";
 import { nativeVal, setNative } from "./native.js";
 import { pyInt, sequenceRepeatCount } from "./int.js";
+import { isSlice, sliceFields, sliceIndices } from "../collections/slice.js";
 
 function bytesData(self: PyObject): Uint8Array {
   return nativeVal<Uint8Array>(self);
@@ -85,6 +86,15 @@ export const bytesType = makeClass({
     }],
     [Slot.getitem, (self: PyObject, key: unknown) => {
       const data = bytesData(self);
+      if (isSlice(key)) {
+        const { start, stop, step } = sliceFields(key);
+        const indices = sliceIndices(data.length, start, stop, step);
+        const out = new Uint8Array(indices.length);
+        for (let i = 0; i < indices.length; i++) {
+          out[i] = data[indices[i]!]!;
+        }
+        return pyBytes(out);
+      }
       if (typeof key === "number") {
         const idx = key < 0 ? data.length + key : key;
         if (idx < 0 || idx >= data.length) {
