@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 091 merge PR #59)
+
+### Landed
+
+- [REPO] Plan 091 — PR #59 merged; plan 090 bytes getitem + rich compare on `main` (320 Vitest, 52 files).
+
+### Partial
+
+- None.
+
+### Next
+
+1. bytes slice indexing and decode when prioritized.
+2. PEP 3118 buffer protocol remains out of scope until planned.
+
+---
+
 ## Delta update (2026-05-24, plan 090 bytes getitem and rich compare)
 
 ### Landed
