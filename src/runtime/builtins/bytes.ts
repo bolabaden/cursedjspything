@@ -591,6 +591,36 @@ function findSubInRange(
   return rel < 0 ? -1 : rel + start;
 }
 
+function parseContainsByte(item: unknown): number | null {
+  if (!(item instanceof PyObject)) return null;
+  if (item.type === intType) {
+    const n = nativeVal<number>(item);
+    if (n < 0 || n > 255) {
+      throw new PyValueError("byte must be in range(0, 256)");
+    }
+    return n;
+  }
+  const boolVal = sequenceRepeatCount(item);
+  if (boolVal !== null) return boolVal;
+  return null;
+}
+
+function bytesContains(data: Uint8Array, item: unknown): boolean {
+  if (item instanceof PyObject && item.type === bytesType) {
+    const sub = bytesData(item);
+    return findSubInRange(data, sub, 0, data.length, false) >= 0;
+  }
+  const byte = parseContainsByte(item);
+  if (byte !== null) {
+    for (let i = 0; i < data.length; i++) {
+      if (data[i] === byte) return true;
+    }
+    return false;
+  }
+  const kind = item instanceof PyObject ? item.type.name : typeof item;
+  throw new PyTypeError(`a bytes-like object is required, not '${kind}'`);
+}
+
 function findBytes(
   data: Uint8Array,
   sub: unknown,
@@ -889,6 +919,13 @@ function bytesIsspace(data: Uint8Array): PyObject {
     ) {
       return pyFalse;
     }
+  }
+  return pyTrue;
+}
+
+function bytesIsascii(data: Uint8Array): PyObject {
+  for (let i = 0; i < data.length; i++) {
+    if (data[i]! > 0x7f) return pyFalse;
   }
   return pyTrue;
 }
@@ -1307,6 +1344,9 @@ export const bytesType = makeClass({
       }
       throw new PyTypeError("byte indices must be integers or slices");
     }],
+    [Slot.contains, (self: PyObject, item: unknown) => {
+      return bytesContains(bytesData(self), item);
+    }],
     [Slot.add, (self: PyObject, other: PyObject) => {
       if (other.type !== bytesType) return NotImplemented;
       return pyBytes(concatBytes(bytesData(self), bytesData(other)));
@@ -1434,6 +1474,9 @@ export const bytesType = makeClass({
     }],
     ["isspace", (self: PyObject) => {
       return bytesIsspace(bytesData(self));
+    }],
+    ["isascii", (self: PyObject) => {
+      return bytesIsascii(bytesData(self));
     }],
     ["center", (self: PyObject, width: unknown, fill?: unknown) => {
       return centerBytes(bytesData(self), width, fill);
