@@ -254,11 +254,22 @@
 
 - [REPO] Plan 075 — `operator-bool-str-binary.test.ts`; COMPATIBILITY §8.15 evidence (223 Vitest).
 
-## Delta update (2026-05-24, plan 065 float-str binary)
+### Partial
+
+- [OPEN] PRs #28–#53 still open on other branches.
+
+### Next
+
+1. Merge stacked PRs.
+2. bytes / sequence exotic §8.15 when prioritized.
+
+---
+
+## Delta update (2026-05-24, plan 078 inplace cross-type)
 
 ### Landed
 
-- [REPO] Plan 065 — `operator-float-str-binary.test.ts`; COMPATIBILITY §8.15 evidence (223 Vitest).
+- [REPO] Plan 078 — `operator-inplace-cross-type.test.ts`; COMPATIBILITY §8.15 evidence (225 Vitest).
 
 ### Partial
 
@@ -277,6 +288,23 @@
 ### Landed
 
 - [REPO] Plan 076 — `operator-bool-str-remaining-binary.test.ts`; COMPATIBILITY §8.15 evidence (224 Vitest).
+
+### Partial
+
+- [OPEN] PRs #28–#53 still open on other branches.
+
+### Next
+
+1. Merge stacked PRs.
+2. bytes / sequence exotic §8.15 when prioritized.
+
+---
+
+## Delta update (2026-05-24, plan 065 float-str binary)
+
+### Landed
+
+- [REPO] Plan 065 — `operator-float-str-binary.test.ts`; COMPATIBILITY §8.15 evidence (223 Vitest).
 
 ### Partial
 
