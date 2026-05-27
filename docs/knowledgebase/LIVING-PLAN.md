@@ -9,6 +9,22 @@
 
 ---
 
+## Delta update (2026-05-24, plan 050 MRO PyTypeError)
+
+### Landed
+
+- [REPO] Plan 050 — inconsistent C3 MRO raises `PyTypeError`; Vitest in `object-model.test.ts`; COMPATIBILITY §8.1 note.
+
+### Partial
+
+- [OPEN] Internal bootstrap errors (e.g. `methodType not initialized`) remain plain `Error`.
+
+### Next
+
+1. COMPATIBILITY cherry-picks for operator or exception gaps.
+
+---
+
 ## Delta update (2026-05-24, plan 049 slice ValueError)
 
 ### Landed
@@ -123,7 +139,6 @@
 2. bytes / sequence exotic §8.15 when prioritized.
 
 ---
-
 ## Delta update (2026-05-24, plan 048 PyZeroDivisionError)
 
 ### Landed
