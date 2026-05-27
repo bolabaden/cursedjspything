@@ -541,6 +541,54 @@ function requirePartitionSep(sep: unknown): Uint8Array {
   throw new PyTypeError(`a bytes-like object is required, not '${kind}'`);
 }
 
+function requireFindSub(sub: unknown): Uint8Array {
+  if (sub instanceof PyObject && sub.type === bytesType) {
+    return bytesData(sub);
+  }
+  const kind = sub instanceof PyObject ? sub.type.name : typeof sub;
+  throw new PyTypeError(
+    `argument should be integer or bytes-like object, not '${kind}'`,
+  );
+}
+
+function findSubInRange(
+  data: Uint8Array,
+  sub: Uint8Array,
+  start: number,
+  end: number,
+  fromRight: boolean,
+): number {
+  if (start > end) return -1;
+  if (sub.length === 0) {
+    return fromRight ? end : start;
+  }
+  const slice = data.subarray(start, end);
+  const rel = findSepIndex(slice, sub, fromRight);
+  return rel < 0 ? -1 : rel + start;
+}
+
+function findBytes(
+  data: Uint8Array,
+  sub: unknown,
+  start?: unknown,
+  end?: unknown,
+): PyObject {
+  const subData = requireFindSub(sub);
+  const [a, b] = bytesSliceBounds(data.length, start, end);
+  return pyInt(findSubInRange(data, subData, a, b, false));
+}
+
+function rfindBytes(
+  data: Uint8Array,
+  sub: unknown,
+  start?: unknown,
+  end?: unknown,
+): PyObject {
+  const subData = requireFindSub(sub);
+  const [a, b] = bytesSliceBounds(data.length, start, end);
+  return pyInt(findSubInRange(data, subData, a, b, true));
+}
+
 function findSepIndex(
   data: Uint8Array,
   sep: Uint8Array,
@@ -790,6 +838,12 @@ export const bytesType = makeClass({
     }],
     ["rstrip", (self: PyObject, chars?: unknown) => {
       return stripBytes(bytesData(self), chars, "right");
+    }],
+    ["find", (self: PyObject, sub: unknown, start?: unknown, end?: unknown) => {
+      return findBytes(bytesData(self), sub, start, end);
+    }],
+    ["rfind", (self: PyObject, sub: unknown, start?: unknown, end?: unknown) => {
+      return rfindBytes(bytesData(self), sub, start, end);
     }],
   ]),
 });

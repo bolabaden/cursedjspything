@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 114 bytes find)
+
+### Landed
+
+- [REPO] Plan 114 — `bytes.find` / `rfind` with optional start/end; `bytes-find.test.ts`.
+
+### Partial
+
+- None.
+
+### Next
+
+1. Merge plan 114 via PR; then codec handlers or further bytes/str API when prioritized.
+2. PEP 3118 buffer protocol remains out of scope until planned.
+
+---
+
 ## Delta update (2026-05-24, plan 113 merge PR #70)
 
 ### Landed
