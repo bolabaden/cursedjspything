@@ -9,6 +9,16 @@
 
 ---
 
+## Delta update (2026-05-24, plan 059 matmul evidence)
+
+### Landed
+
+- [REPO] Plan 059 — `operator-matmul-evidence.test.ts`; COMPATIBILITY §8.15 evidence (223 Vitest).
+
+### Partial
+
+- [OPEN] PRs #28–#37 still open on other branches.
+
 ## Delta update (2026-05-24, plan 058 format evidence)
 
 ### Landed
@@ -192,6 +202,7 @@
 2. bytes / sequence exotic §8.15 when prioritized.
 
 ---
+
 ## Delta update (2026-05-24, plan 048 PyZeroDivisionError)
 
 ### Landed
