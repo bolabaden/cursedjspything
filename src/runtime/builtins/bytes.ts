@@ -615,6 +615,37 @@ function rindexBytes(
   return pyInt(idx);
 }
 
+function countSubInRange(
+  data: Uint8Array,
+  sub: Uint8Array,
+  start: number,
+  end: number,
+): number {
+  if (start > end) return 0;
+  if (sub.length === 0) return end - start + 1;
+  let count = 0;
+  let pos = start;
+  while (pos <= end - sub.length) {
+    const slice = data.subarray(pos, end);
+    const rel = findSepIndex(slice, sub, false);
+    if (rel < 0) break;
+    count += 1;
+    pos += rel + sub.length;
+  }
+  return count;
+}
+
+function countBytes(
+  data: Uint8Array,
+  sub: unknown,
+  start?: unknown,
+  end?: unknown,
+): PyObject {
+  const subData = requireFindSub(sub);
+  const [a, b] = bytesSliceBounds(data.length, start, end);
+  return pyInt(countSubInRange(data, subData, a, b));
+}
+
 function findSepIndex(
   data: Uint8Array,
   sep: Uint8Array,
@@ -876,6 +907,9 @@ export const bytesType = makeClass({
     }],
     ["rindex", (self: PyObject, sub: unknown, start?: unknown, end?: unknown) => {
       return rindexBytes(bytesData(self), sub, start, end);
+    }],
+    ["count", (self: PyObject, sub: unknown, start?: unknown, end?: unknown) => {
+      return countBytes(bytesData(self), sub, start, end);
     }],
   ]),
 });
