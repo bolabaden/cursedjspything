@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 121 merge PR #74)
+
+### Landed
+
+- [REPO] Plan 121 — PR #74 merged; plan 120 bytes replace on `main` (417 Vitest, 66 files).
+
+### Partial
+
+- None.
+
+### Next
+
+1. Codec handlers or further bytes/str API when prioritized.
+2. PEP 3118 buffer protocol remains out of scope until planned.
+
+---
+
 ## Delta update (2026-05-24, plan 120 bytes replace)
 
 ### Landed
