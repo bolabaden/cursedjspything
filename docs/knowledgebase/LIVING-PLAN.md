@@ -9,6 +9,22 @@
 
 ---
 
+## Delta update (2026-05-24, plan 087 merge PR #57)
+
+### Landed
+
+- [REPO] Plan 087 — PR #57 merged; plan 086 LIVING-PLAN archive on `main` (active ~129 lines + `LIVING-PLAN-ARCHIVE.md`; 309 Vitest).
+
+### Partial
+
+- None.
+
+### Next
+
+1. bytes object cross-type §8.15 when prioritized (requires bytes PyObject surface).
+
+---
+
 ## Delta update (2026-05-24, plan 086 LIVING-PLAN archive)
 
 ### Landed
