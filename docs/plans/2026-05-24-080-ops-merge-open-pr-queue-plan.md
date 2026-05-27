@@ -1,7 +1,7 @@
 ---
 title: "ops: resolve conflicts and merge open PR queue"
 type: ops
-status: active
+status: completed
 date: 2026-05-24
 ---
 
