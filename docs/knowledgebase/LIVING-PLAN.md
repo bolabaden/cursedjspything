@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 177 merge PR #102)
+
+### Landed
+
+- [REPO] Plan 177 — PR #102 merged; plan 176 str predicates on `main` (525 Vitest, 91 files).
+
+### Partial
+
+- None.
+
+### Next
+
+1. Further str/bytes API when prioritized.
+2. PEP 3118 buffer protocol remains out of scope until planned.
+
+---
+
 ## Delta update (2026-05-24, plan 176 str predicates)
 
 ### Landed
