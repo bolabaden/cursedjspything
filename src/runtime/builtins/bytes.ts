@@ -771,13 +771,13 @@ function bytesSwapcase(data: Uint8Array): PyObject {
   return pyBytes(out);
 }
 
-function requireCenterFill(fill: unknown): number {
+function requirePadFill(method: string, fill: unknown): number {
   if (fill === undefined || fill === null) return 0x20;
   if (fill instanceof PyObject && fill.type === bytesType) {
     const data = bytesData(fill);
     if (data.length !== 1) {
       throw new PyTypeError(
-        `center(): argument 2 must be a byte string of length 1, not a bytes object of length ${data.length}`,
+        `${method}(): argument 2 must be a byte string of length 1, not a bytes object of length ${data.length}`,
       );
     }
     return data[0]!;
@@ -793,13 +793,42 @@ function centerBytes(
 ): PyObject {
   const w = splitMaxsplitArg(width);
   if (w <= data.length) return pyBytes(data);
-  const fillByte = requireCenterFill(fill);
+  const fillByte = requirePadFill("center", fill);
   const pad = w - data.length;
   const left = Math.floor(pad / 2);
   const out = new Uint8Array(w);
   out.fill(fillByte, 0, left);
   out.set(data, left);
   out.fill(fillByte, left + data.length, w);
+  return pyBytes(out);
+}
+
+function ljustBytes(
+  data: Uint8Array,
+  width: unknown,
+  fill?: unknown,
+): PyObject {
+  const w = splitMaxsplitArg(width);
+  if (w <= data.length) return pyBytes(data);
+  const fillByte = requirePadFill("ljust", fill);
+  const out = new Uint8Array(w);
+  out.set(data, 0);
+  out.fill(fillByte, data.length, w);
+  return pyBytes(out);
+}
+
+function rjustBytes(
+  data: Uint8Array,
+  width: unknown,
+  fill?: unknown,
+): PyObject {
+  const w = splitMaxsplitArg(width);
+  if (w <= data.length) return pyBytes(data);
+  const fillByte = requirePadFill("rjust", fill);
+  const pad = w - data.length;
+  const out = new Uint8Array(w);
+  out.fill(fillByte, 0, pad);
+  out.set(data, pad);
   return pyBytes(out);
 }
 
@@ -1085,6 +1114,12 @@ export const bytesType = makeClass({
     }],
     ["center", (self: PyObject, width: unknown, fill?: unknown) => {
       return centerBytes(bytesData(self), width, fill);
+    }],
+    ["ljust", (self: PyObject, width: unknown, fill?: unknown) => {
+      return ljustBytes(bytesData(self), width, fill);
+    }],
+    ["rjust", (self: PyObject, width: unknown, fill?: unknown) => {
+      return rjustBytes(bytesData(self), width, fill);
     }],
   ]),
 });
