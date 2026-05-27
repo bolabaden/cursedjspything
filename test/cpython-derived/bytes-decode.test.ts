@@ -54,6 +54,24 @@ describe("cpython-derived bytes decode", () => {
     expect(unwrap<string>(s as ReturnType<typeof pyStr>)).toBe("\xff");
   });
 
+  it("decode ascii strict, replace, and ignore", () => {
+    expect(unwrap<string>(decoded(new Uint8Array([104, 105]), pyStr("ascii")) as ReturnType<typeof pyStr>)).toBe("hi");
+    expect(() => decoded(new Uint8Array([255]), pyStr("ascii"))).toThrow(PyUnicodeDecodeError);
+    expect(() => decoded(new Uint8Array([255]), pyStr("ascii"))).toThrow(
+      /ordinal not in range\(128\)/,
+    );
+    expect(
+      unwrap<string>(
+        decoded(new Uint8Array([255]), pyStr("ascii"), pyStr("replace")) as ReturnType<typeof pyStr>,
+      ),
+    ).toBe("\ufffd");
+    expect(
+      unwrap<string>(
+        decoded(new Uint8Array([97, 255, 98]), pyStr("ascii"), pyStr("ignore")) as ReturnType<typeof pyStr>,
+      ),
+    ).toBe("ab");
+  });
+
   it("invalid utf-8 raises UnicodeDecodeError", () => {
     expect(() => decoded(new Uint8Array([255]))).toThrow(PyUnicodeDecodeError);
     expect(() => decoded(new Uint8Array([255]))).toThrow(
