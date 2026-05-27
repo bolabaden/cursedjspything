@@ -368,6 +368,67 @@ function splitStr(text: string, sep: unknown, maxsplit: unknown): PyObject {
   return pyList(chunks.map((chunk) => pyStr(chunk)));
 }
 
+function rsplitStrWithSep(text: string, sep: string, maxsplit: number): string[] {
+  if (sep.length === 0) {
+    throw new PyValueError("empty separator");
+  }
+  if (maxsplit === 0) return [text];
+  const parts: string[] = [];
+  let end = text.length;
+  let splits = 0;
+  while (true) {
+    if (maxsplit >= 0 && splits >= maxsplit) break;
+    let found = -1;
+    for (let i = end - sep.length; i >= 0; i--) {
+      if (text.startsWith(sep, i)) {
+        found = i;
+        break;
+      }
+    }
+    if (found < 0) break;
+    parts.unshift(text.slice(found + sep.length, end));
+    end = found;
+    splits += 1;
+  }
+  parts.unshift(text.slice(0, end));
+  return parts;
+}
+
+function rsplitStrWhitespace(text: string, maxsplit: number): string[] {
+  if (maxsplit === 0) return [text];
+  const cps: number[] = [];
+  for (let i = 0; i < text.length; ) {
+    const cp = text.codePointAt(i)!;
+    cps.push(cp);
+    i += cp > 0xffff ? 2 : 1;
+  }
+  const parts: string[] = [];
+  let i = cps.length;
+  while (i > 0) {
+    while (i > 0 && isStrWhitespaceCodePoint(cps[i - 1]!)) i -= 1;
+    if (i === 0) break;
+    const end = i;
+    while (i > 0 && !isStrWhitespaceCodePoint(cps[i - 1]!)) i -= 1;
+    parts.unshift(String.fromCodePoint(...cps.slice(i, end)));
+    if (maxsplit >= 0 && parts.length >= maxsplit) {
+      while (i > 0 && isStrWhitespaceCodePoint(cps[i - 1]!)) i -= 1;
+      if (i > 0) parts.unshift(String.fromCodePoint(...cps.slice(0, i)));
+      return parts;
+    }
+  }
+  return parts;
+}
+
+function rsplitStr(text: string, sep: unknown, maxsplit: unknown): PyObject {
+  const limit = splitMaxsplitArg(maxsplit);
+  const sepStr = splitStrSepArg(sep);
+  const chunks =
+    sepStr === null
+      ? rsplitStrWhitespace(text, limit)
+      : rsplitStrWithSep(text, sepStr, limit);
+  return pyList(chunks.map((chunk) => pyStr(chunk)));
+}
+
 // ── pyStr ─────────────────────────────────────────────────────────────
 
 export const strType = makeClass({
@@ -465,6 +526,8 @@ export const strType = makeClass({
       pyStr(stripStr(nativeVal<string>(self), chars, "right"))],
     ["split", (self: PyObject, sep?: unknown, maxsplit?: unknown) =>
       splitStr(nativeVal<string>(self), sep, maxsplit)],
+    ["rsplit", (self: PyObject, sep?: unknown, maxsplit?: unknown) =>
+      rsplitStr(nativeVal<string>(self), sep, maxsplit)],
   ]),
 });
 
