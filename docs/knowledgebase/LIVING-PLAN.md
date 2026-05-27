@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 167 merge PR #97)
+
+### Landed
+
+- [REPO] Plan 167 — PR #97 merged; plan 166 str title on `main` (497 Vitest, 86 files).
+
+### Partial
+
+- None.
+
+### Next
+
+1. Further str/bytes API when prioritized.
+2. PEP 3118 buffer protocol remains out of scope until planned.
+
+---
+
 ## Delta update (2026-05-24, plan 166 str title)
 
 ### Landed
