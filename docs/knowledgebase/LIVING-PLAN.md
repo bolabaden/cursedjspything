@@ -18,6 +18,56 @@
 ### Partial
 
 - [OPEN] PRs #28–#34 still open.
+
+## Delta update (2026-05-24, plan 052 pow mod zero)
+
+### Landed
+
+- [REPO] Plan 052 — int `pow(base, exp, 0)` raises `PyValueError`; `operator-pow-mod.test.ts`; COMPATIBILITY §8.17 updated.
+
+### Partial
+
+- [OPEN] PRs #28–#30 still open (slice ValueError, MRO PyTypeError, vitest singleFork).
+
+### Next
+
+1. Merge stacked open PRs when ready.
+2. Further COMPATIBILITY exception or operator cherry-picks.
+
+---
+
+## Delta update (2026-05-24, plan 050 MRO PyTypeError)
+
+### Landed
+
+- [REPO] Plan 050 — inconsistent C3 MRO raises `PyTypeError`; Vitest in `object-model.test.ts`; COMPATIBILITY §8.1 note.
+
+### Partial
+
+- [OPEN] Internal bootstrap errors (e.g. `methodType not initialized`) remain plain `Error`.
+
+### Next
+
+1. COMPATIBILITY cherry-picks for operator or exception gaps.
+
+---
+
+## Delta update (2026-05-24, plan 049 slice ValueError)
+
+### Landed
+
+- [REPO] Plan 049 — `sliceIndices` zero step raises `PyValueError`; list/tuple Vitest coverage; COMPATIBILITY §8.7 updated.
+
+### Partial
+
+- [OPEN] Other protocol fallbacks may still throw non-Python exception types (COMPATIBILITY §8.17 remaining gap).
+
+### Next
+
+1. COMPATIBILITY cherry-picks for next typed-exception or operator gaps.
+2. Optional: ce-optimize vitest round 2.
+
+---
 ## Delta update (2026-05-24, plan 055 sequence cross-type)
 
 ### Landed
@@ -27,6 +77,9 @@
 ### Partial
 
 - [OPEN] PRs #28–#33 still open.
+
+---
+
 ## Delta update (2026-05-24, plan 054 sequence repeat non-int)
 
 ### Landed
@@ -36,6 +89,9 @@
 ### Partial
 
 - [OPEN] PRs #28–#32 still open.
+
+---
+
 ## Delta update (2026-05-24, plan 053 int shift ValueError)
 
 ### Landed
@@ -50,6 +106,9 @@
 
 1. Merge stacked open PRs.
 2. Further numeric/exception cherry-picks.
+
+---
+
 ## Delta update (2026-05-24, plan 051 vitest round 2)
 
 ### Landed
@@ -64,6 +123,8 @@
 
 1. Merge open exception-typing PRs.
 2. COMPATIBILITY cherry-picks or ce-optimize round 3 (maxWorkers).
+
+---
 
 ## Delta update (2026-05-24, plan 075 bool-str binary)
 
@@ -104,7 +165,6 @@
 2. bytes / sequence exotic §8.15 when prioritized.
 
 ---
-
 ## Delta update (2026-05-24, plan 048 PyZeroDivisionError)
 
 ### Landed

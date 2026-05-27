@@ -3,7 +3,7 @@ import {
   PyObject, PyType, objectType, typeType, computeC3,
   makeClass, instantiate, Slot, Hook,
   getAttr, setAttr, delAttr, lookupSpecial,
-  PyAttributeError, isDataDescriptor,
+  PyAttributeError, PyTypeError, isDataDescriptor,
 } from "../../src/index.js";
 
 describe("bootstrap types", () => {
@@ -43,6 +43,19 @@ describe("C3 linearisation", () => {
     const C = makeClass({ name: "C", bases: [A], dict: new Map() });
     const D = makeClass({ name: "D", bases: [B, C], dict: new Map() });
     expect(D.mro.map((t) => t.name)).toEqual(["D", "B", "C", "A", "object"]);
+  });
+
+  it("inconsistent bases raise PyTypeError", () => {
+    const X = makeClass({ name: "X", dict: new Map() });
+    const Y = makeClass({ name: "Y", dict: new Map() });
+    const A = makeClass({ name: "A", bases: [X, Y], dict: new Map() });
+    const B = makeClass({ name: "B", bases: [Y, X], dict: new Map() });
+    expect(() => makeClass({ name: "C", bases: [A, B], dict: new Map() })).toThrow(
+      PyTypeError,
+    );
+    expect(() => makeClass({ name: "C", bases: [A, B], dict: new Map() })).toThrow(
+      /Cannot create a consistent method resolution order \(MRO\)/,
+    );
   });
 });
 

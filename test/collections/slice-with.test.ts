@@ -3,6 +3,7 @@ import {
   makeClass,
   objectType,
   pyList,
+  pyTuple,
   pyInt,
   pySlice,
   getItem,
@@ -11,12 +12,29 @@ import {
   PyObject,
 } from "../../src/index.js";
 import { Hook } from "../../src/runtime/core/slots.js";
+import { PyValueError } from "../../src/runtime/core/errors.js";
 
 describe("slice", () => {
   it("supports slice subscript via getItem", () => {
     const list = pyList([pyInt(0), pyInt(1), pyInt(2)]);
     const part = getItem(list, pySlice(1, 3, null)) as PyObject;
     expect(len(part)).toBe(2);
+  });
+
+  it("rejects zero step with ValueError on list", () => {
+    const list = pyList([pyInt(0), pyInt(1)]);
+    expect(() => getItem(list, pySlice(null, null, 0))).toThrow(PyValueError);
+    expect(() => getItem(list, pySlice(null, null, 0))).toThrow(
+      /slice step cannot be zero/,
+    );
+  });
+
+  it("rejects zero step with ValueError on tuple", () => {
+    const tup = pyTuple([pyInt(0), pyInt(1)]);
+    expect(() => getItem(tup, pySlice(null, null, 0))).toThrow(PyValueError);
+    expect(() => getItem(tup, pySlice(null, null, 0))).toThrow(
+      /slice step cannot be zero/,
+    );
   });
 });
 
