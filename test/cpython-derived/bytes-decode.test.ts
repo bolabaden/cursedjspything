@@ -54,6 +54,32 @@ describe("cpython-derived bytes decode", () => {
     expect(unwrap<string>(s as ReturnType<typeof pyStr>)).toBe("\xff");
   });
 
+  it("decode backslashreplace escapes invalid bytes", () => {
+    expect(
+      unwrap<string>(
+        decoded(new Uint8Array([255]), pyStr("utf-8"), pyStr("backslashreplace")) as ReturnType<
+          typeof pyStr
+        >,
+      ),
+    ).toBe("\\xff");
+    expect(
+      unwrap<string>(
+        decoded(new Uint8Array([255]), pyStr("ascii"), pyStr("backslashreplace")) as ReturnType<
+          typeof pyStr
+        >,
+      ),
+    ).toBe("\\xff");
+    expect(
+      unwrap<string>(
+        decoded(
+          new Uint8Array([0xc0, 0x80]),
+          pyStr("utf-8"),
+          pyStr("backslashreplace"),
+        ) as ReturnType<typeof pyStr>,
+      ),
+    ).toBe("\\xc0\\x80");
+  });
+
   it("decode ascii strict, replace, and ignore", () => {
     expect(unwrap<string>(decoded(new Uint8Array([104, 105]), pyStr("ascii")) as ReturnType<typeof pyStr>)).toBe("hi");
     expect(() => decoded(new Uint8Array([255]), pyStr("ascii"))).toThrow(PyUnicodeDecodeError);

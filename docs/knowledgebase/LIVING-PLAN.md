@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 150 backslashreplace codec)
+
+### Landed
+
+- [REPO] Plan 150 — `errors='backslashreplace'` for `str.encode` (ascii/latin-1) and `bytes.decode` (utf-8/ascii); extended `str-encode.test.ts` and `bytes-decode.test.ts`.
+
+### Partial
+
+- None.
+
+### Next
+
+1. Further codec handlers (surrogateescape) or str API when prioritized.
+2. PEP 3118 buffer protocol remains out of scope until planned.
+
+---
+
 ## Delta update (2026-05-24, plan 149 merge PR #88)
 
 ### Landed

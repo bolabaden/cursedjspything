@@ -90,7 +90,7 @@ Emits JSON (`vitest_seconds`, pass gates, `test_count`); use median of several r
 | `test/cpython-derived/operator-numeric-conversion-evidence.test.ts` | toInt/toFloat/index/toComplex reject list |
 | `test/cpython-derived/operator-matmul-evidence.test.ts` | matmul @ rejects builtins without __matmul__ |
 | `test/cpython-derived/operator-format-evidence.test.ts` | format() __format__, empty-spec str fallback, TypeError |
-| `test/cpython-derived/str-encode.test.ts` | str.encode utf-8/ascii/latin-1 and errors modes |
+| `test/cpython-derived/str-encode.test.ts` | str.encode utf-8/ascii/latin-1 and errors modes including backslashreplace |
 | `test/cpython-derived/bytes-join.test.ts` | bytes.join separator concatenation |
 | `test/cpython-derived/bytes-split.test.ts` | bytes.split sep/maxsplit and whitespace |
 | `test/cpython-derived/bytes-rsplit.test.ts` | bytes.rsplit sep/maxsplit from the right |
@@ -115,7 +115,7 @@ Emits JSON (`vitest_seconds`, pass gates, `test_count`); use median of several r
 | `test/cpython-derived/bytes-predicates.test.ts` | bytes ASCII predicate methods |
 | `test/cpython-derived/bytes-translate.test.ts` | bytes.maketrans / bytes.translate |
 | `test/cpython-derived/bytes-isascii-contains.test.ts` | bytes.isascii / bytes.__contains__ |
-| `test/cpython-derived/bytes-decode.test.ts` | bytes.decode UTF-8/latin-1/ascii, errors strict/replace/ignore |
+| `test/cpython-derived/bytes-decode.test.ts` | bytes.decode UTF-8/latin-1/ascii, errors strict/replace/ignore/backslashreplace |
 | `test/cpython-derived/bytes-slice-index.test.ts` | bytes slice subscript returns bytes |
 | `test/cpython-derived/bytes-getitem-compare.test.ts` | bytes int index + lexicographic rich compare |
 | `test/cpython-derived/operator-bytes-conversion.test.ts` | bytes() on str vs int/float TypeError |

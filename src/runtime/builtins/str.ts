@@ -35,17 +35,41 @@ function encodeEncodingArg(encoding: unknown): string {
   );
 }
 
-function encodeErrorsArg(errors: unknown): "strict" | "replace" | "ignore" {
+type EncodeErrors = "strict" | "replace" | "ignore" | "backslashreplace";
+
+function encodeErrorsArg(errors: unknown): EncodeErrors {
   if (errors === undefined || errors === null) return "strict";
   if (errors instanceof PyObject && errors.type === strType) {
     const name = nativeVal<string>(errors);
-    if (name === "strict" || name === "replace" || name === "ignore") {
+    if (
+      name === "strict" ||
+      name === "replace" ||
+      name === "ignore" ||
+      name === "backslashreplace"
+    ) {
       return name;
     }
     throw new PyValueError(`unknown errors handler: '${name}'`);
   }
   const kind = errors instanceof PyObject ? errors.type.name : typeof errors;
   throw new PyTypeError(`encode() argument 'errors' must be str, not ${kind}`);
+}
+
+function appendBackslashReplaceBytes(out: number[], cp: number): void {
+  if (cp <= 0xff) {
+    const hex = cp.toString(16).padStart(2, "0");
+    out.push(0x5c, 0x78, hex.charCodeAt(0)!, hex.charCodeAt(1)!);
+    return;
+  }
+  if (cp <= 0xffff) {
+    const hex = cp.toString(16).padStart(4, "0");
+    out.push(0x5c, 0x75);
+    for (let i = 0; i < 4; i++) out.push(hex.charCodeAt(i)!);
+    return;
+  }
+  const hex = cp.toString(16).padStart(8, "0");
+  out.push(0x5c, 0x55);
+  for (let i = 0; i < 8; i++) out.push(hex.charCodeAt(i)!);
 }
 
 function formatEncodeChar(cp: number): string {
@@ -60,7 +84,7 @@ function encodeLimited(
   text: string,
   codec: string,
   max: number,
-  errors: "strict" | "replace" | "ignore",
+  errors: EncodeErrors,
 ): Uint8Array {
   const out: number[] = [];
   for (let i = 0; i < text.length; ) {
@@ -74,6 +98,8 @@ function encodeLimited(
       );
     } else if (errors === "replace") {
       out.push(0x3f);
+    } else if (errors === "backslashreplace") {
+      appendBackslashReplaceBytes(out, cp);
     }
     i += width;
   }
@@ -83,7 +109,7 @@ function encodeLimited(
 function encodeStrPayload(
   text: string,
   encoding: string,
-  errors: "strict" | "replace" | "ignore",
+  errors: EncodeErrors,
 ): Uint8Array {
   const enc = normalizeEncodingName(encoding);
   if (enc === "utf-8" || enc === "utf8") {
