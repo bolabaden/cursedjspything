@@ -9,6 +9,16 @@
 
 ---
 
+## Delta update (2026-05-24, plan 056 int bitwise float)
+
+### Landed
+
+- [REPO] Plan 056 — `operator-int-bitwise-float.test.ts`; COMPATIBILITY §8.15 evidence (225 Vitest).
+
+### Partial
+
+- [OPEN] PRs #28–#34 still open.
+
 ## Delta update (2026-05-24, plan 052 pow mod zero)
 
 ### Landed
@@ -58,7 +68,6 @@
 2. Optional: ce-optimize vitest round 2.
 
 ---
-
 ## Delta update (2026-05-24, plan 055 sequence cross-type)
 
 ### Landed
