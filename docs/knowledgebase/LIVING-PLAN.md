@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 131 merge PR #79)
+
+### Landed
+
+- [REPO] Plan 131 — PR #79 merged; plan 130 bytes ljust/rjust on `main` (433 Vitest, 71 files).
+
+### Partial
+
+- None.
+
+### Next
+
+1. Codec handlers or further bytes/str API when prioritized.
+2. PEP 3118 buffer protocol remains out of scope until planned.
+
+---
+
 ## Delta update (2026-05-24, plan 130 bytes ljust rjust)
 
 ### Landed
