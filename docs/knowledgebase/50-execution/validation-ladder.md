@@ -104,6 +104,7 @@ Emits JSON (`vitest_seconds`, pass gates, `test_count`); use median of several r
 | `test/cpython-derived/bytes-replace.test.ts` | bytes.replace count-limited substitution |
 | `test/cpython-derived/bytes-upper-lower.test.ts` | bytes.upper/lower ASCII case conversion |
 | `test/cpython-derived/bytes-capitalize.test.ts` | bytes.capitalize first upper rest lower |
+| `test/cpython-derived/bytes-swapcase.test.ts` | bytes.swapcase ASCII case inversion |
 | `test/cpython-derived/bytes-decode.test.ts` | bytes.decode UTF-8/latin-1, errors strict/replace/ignore |
 | `test/cpython-derived/bytes-slice-index.test.ts` | bytes slice subscript returns bytes |
 | `test/cpython-derived/bytes-getitem-compare.test.ts` | bytes int index + lexicographic rich compare |
