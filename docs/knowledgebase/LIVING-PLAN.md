@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 094 bytes decode)
+
+### Landed
+
+- [REPO] Plan 094 — `bytes.decode()` → `pyStr` (utf-8 default, latin-1); `PyUnicodeDecodeError` / `PyLookupError`; `bytes-decode.test.ts`.
+
+### Partial
+
+- None.
+
+### Next
+
+1. Further bytes API (encode errors modes, join, etc.) when prioritized.
+2. PEP 3118 buffer protocol remains out of scope until planned.
+
+---
+
 ## Delta update (2026-05-24, plan 093 merge PR #60)
 
 ### Landed

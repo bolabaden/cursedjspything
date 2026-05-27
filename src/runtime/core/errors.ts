@@ -50,3 +50,17 @@ export class PyValueError extends Error {
     this.name = "ValueError";
   }
 }
+
+export class PyLookupError extends Error {
+  constructor(msg: string) {
+    super(msg);
+    this.name = "LookupError";
+  }
+}
+
+export class PyUnicodeDecodeError extends Error {
+  constructor(msg: string) {
+    super(msg);
+    this.name = "UnicodeDecodeError";
+  }
+}
