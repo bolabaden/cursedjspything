@@ -497,6 +497,30 @@ function bytesEndsWithSlice(slice: Uint8Array, suffix: Uint8Array): boolean {
   return true;
 }
 
+function requireAffixBytes(affix: unknown): Uint8Array {
+  if (affix instanceof PyObject && affix.type === bytesType) {
+    return bytesData(affix);
+  }
+  const kind = affix instanceof PyObject ? affix.type.name : typeof affix;
+  throw new PyTypeError(`a bytes-like object is required, not '${kind}'`);
+}
+
+function removePrefixBytes(data: Uint8Array, prefix: unknown): PyObject {
+  const pre = requireAffixBytes(prefix);
+  if (bytesStartsWithSlice(data, pre)) {
+    return pyBytes(data.subarray(pre.length));
+  }
+  return pyBytes(data);
+}
+
+function removeSuffixBytes(data: Uint8Array, suffix: unknown): PyObject {
+  const suf = requireAffixBytes(suffix);
+  if (bytesEndsWithSlice(data, suf)) {
+    return pyBytes(data.subarray(0, data.length - suf.length));
+  }
+  return pyBytes(data);
+}
+
 function bytesStartswith(
   data: Uint8Array,
   prefix: unknown,
@@ -1103,6 +1127,12 @@ export const bytesType = makeClass({
     }],
     ["endswith", (self: PyObject, suffix: unknown, start?: unknown, end?: unknown) => {
       return bytesEndswith(bytesData(self), suffix, start, end);
+    }],
+    ["removeprefix", (self: PyObject, prefix: unknown) => {
+      return removePrefixBytes(bytesData(self), prefix);
+    }],
+    ["removesuffix", (self: PyObject, suffix: unknown) => {
+      return removeSuffixBytes(bytesData(self), suffix);
     }],
     ["partition", (self: PyObject, sep: unknown) => {
       return partitionBytes(bytesData(self), sep);
