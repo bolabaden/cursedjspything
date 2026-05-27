@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 130 bytes ljust rjust)
+
+### Landed
+
+- [REPO] Plan 130 — `bytes.ljust` / `rjust` with optional fill byte; `bytes-ljust-rjust.test.ts`.
+
+### Partial
+
+- None.
+
+### Next
+
+1. Merge plan 130 via PR; then codec handlers or further bytes/str API when prioritized.
+2. PEP 3118 buffer protocol remains out of scope until planned.
+
+---
+
 ## Delta update (2026-05-24, plan 129 merge PR #78)
 
 ### Landed
