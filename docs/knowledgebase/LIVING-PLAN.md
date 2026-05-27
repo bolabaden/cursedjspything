@@ -9,6 +9,16 @@
 
 ---
 
+## Delta update (2026-05-24, plan 061 rounding evidence)
+
+### Landed
+
+- [REPO] Plan 061 — `operator-rounding-evidence.test.ts`; COMPATIBILITY §8.15 evidence (224 Vitest).
+
+### Partial
+
+- [OPEN] PRs #28–#39 still open on other branches.
+
 ## Delta update (2026-05-24, plan 060 numeric conversion evidence)
 
 ### Landed
