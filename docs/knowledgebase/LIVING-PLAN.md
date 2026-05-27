@@ -9,6 +9,18 @@
 
 ---
 
+## Delta update (2026-05-24, plan 066 float-str divmod/pow)
+
+### Landed
+
+- [REPO] Plan 066 — `operator-float-str-divmod-pow.test.ts`; COMPATIBILITY §8.15 evidence (222 Vitest).
+
+### Partial
+
+- [OPEN] PRs #28–#44 still open on other branches.
+
+---
+
 ## Delta update (2026-05-24, plan 064 int-str divmod/pow)
 
 ### Landed
