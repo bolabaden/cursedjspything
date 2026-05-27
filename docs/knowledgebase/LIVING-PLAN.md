@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 120 bytes replace)
+
+### Landed
+
+- [REPO] Plan 120 — `bytes.replace` with optional count; `bytes-replace.test.ts`.
+
+### Partial
+
+- None.
+
+### Next
+
+1. Merge plan 120 via PR; then codec handlers or further bytes/str API when prioritized.
+2. PEP 3118 buffer protocol remains out of scope until planned.
+
+---
+
 ## Delta update (2026-05-24, plan 119 merge PR #73)
 
 ### Landed

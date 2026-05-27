@@ -646,6 +646,90 @@ function countBytes(
   return pyInt(countSubInRange(data, subData, a, b));
 }
 
+function requireReplaceBytes(value: unknown): Uint8Array {
+  if (value instanceof PyObject && value.type === bytesType) {
+    return bytesData(value);
+  }
+  const kind = value instanceof PyObject ? value.type.name : typeof value;
+  throw new PyTypeError(`a bytes-like object is required, not '${kind}'`);
+}
+
+function concatByteChunks(chunks: readonly Uint8Array[]): Uint8Array {
+  let total = 0;
+  for (const chunk of chunks) total += chunk.length;
+  const out = new Uint8Array(total);
+  let offset = 0;
+  for (const chunk of chunks) {
+    out.set(chunk, offset);
+    offset += chunk.length;
+  }
+  return out;
+}
+
+function replaceEmptyOld(
+  data: Uint8Array,
+  newBytes: Uint8Array,
+  limit: number,
+): Uint8Array {
+  if (limit === 0) return data;
+  const maxInserts = limit < 0 ? data.length + 1 : limit;
+  const chunks: Uint8Array[] = [];
+  let inserted = 0;
+  for (let i = 0; i < data.length; i++) {
+    if (inserted < maxInserts) {
+      chunks.push(newBytes);
+      inserted += 1;
+    }
+    chunks.push(data.subarray(i, i + 1));
+  }
+  if (inserted < maxInserts) {
+    chunks.push(newBytes);
+  }
+  return concatByteChunks(chunks);
+}
+
+function replaceNonEmptyOld(
+  data: Uint8Array,
+  old: Uint8Array,
+  newBytes: Uint8Array,
+  limit: number,
+): Uint8Array {
+  if (limit === 0) return data;
+  const maxReplacements = limit < 0 ? Number.POSITIVE_INFINITY : limit;
+  const chunks: Uint8Array[] = [];
+  let pos = 0;
+  let done = 0;
+  while (pos < data.length) {
+    const rel = findSepIndex(data.subarray(pos), old, false);
+    if (rel < 0 || done >= maxReplacements) {
+      chunks.push(data.subarray(pos));
+      break;
+    }
+    const idx = pos + rel;
+    chunks.push(data.subarray(pos, idx));
+    chunks.push(newBytes);
+    pos = idx + old.length;
+    done += 1;
+  }
+  return concatByteChunks(chunks);
+}
+
+function replaceBytes(
+  data: Uint8Array,
+  old: unknown,
+  newBytes: unknown,
+  count?: unknown,
+): PyObject {
+  const oldData = requireReplaceBytes(old);
+  const newData = requireReplaceBytes(newBytes);
+  const limit = splitMaxsplitArg(count);
+  const out =
+    oldData.length === 0
+      ? replaceEmptyOld(data, newData, limit)
+      : replaceNonEmptyOld(data, oldData, newData, limit);
+  return pyBytes(out);
+}
+
 function findSepIndex(
   data: Uint8Array,
   sep: Uint8Array,
@@ -910,6 +994,9 @@ export const bytesType = makeClass({
     }],
     ["count", (self: PyObject, sub: unknown, start?: unknown, end?: unknown) => {
       return countBytes(bytesData(self), sub, start, end);
+    }],
+    ["replace", (self: PyObject, old: unknown, newBytes: unknown, count?: unknown) => {
+      return replaceBytes(bytesData(self), old, newBytes, count);
     }],
   ]),
 });
