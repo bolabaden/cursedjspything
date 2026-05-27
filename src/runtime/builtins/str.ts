@@ -12,7 +12,7 @@ import {
 import { nativeVal, setNative } from "./native.js";
 import { sequenceRepeatCount, intType } from "./int.js";
 import { pyBytes } from "./bytes.js";
-import { pyFalse, pyTrue } from "./bool.js";
+import { pyFalse, pyTrue, boolType } from "./bool.js";
 import { pyList } from "./list.js";
 import { pyTuple } from "./tuple.js";
 
@@ -520,6 +520,65 @@ function rpartitionStr(text: string, sep: unknown): PyObject {
   ]);
 }
 
+function isStrLineBreakCodePoint(cp: number): boolean {
+  return (
+    cp === 0x0a ||
+    cp === 0x0b ||
+    cp === 0x0c ||
+    cp === 0x0d ||
+    cp === 0x85 ||
+    cp === 0x2028 ||
+    cp === 0x2029
+  );
+}
+
+function strLineBreakLength(text: string, i: number): number {
+  if (i >= text.length) return 0;
+  const cp = text.codePointAt(i)!;
+  if (cp === 0x0d) {
+    if (text.charCodeAt(i + 1) === 0x0a) return 2;
+    return 1;
+  }
+  if (isStrLineBreakCodePoint(cp)) {
+    return cp > 0xffff ? 2 : 1;
+  }
+  return 0;
+}
+
+function parseSplitlinesKeepends(keepends: unknown): boolean {
+  if (keepends === undefined || keepends === null) return false;
+  if (typeof keepends === "boolean") return keepends;
+  if (keepends instanceof PyObject && keepends.type === boolType) {
+    return nativeVal<boolean>(keepends);
+  }
+  const kind =
+    keepends instanceof PyObject ? keepends.type.name : typeof keepends;
+  throw new PyTypeError(`splitlines() argument must be bool, not ${kind}`);
+}
+
+function splitlinesStr(text: string, keepends: unknown): PyObject {
+  if (text.length === 0) return pyList([]);
+  const keep = parseSplitlinesKeepends(keepends);
+  const parts: string[] = [];
+  let start = 0;
+  let i = 0;
+  while (i < text.length) {
+    const lb = strLineBreakLength(text, i);
+    if (lb > 0) {
+      parts.push(text.slice(start, keep ? i + lb : i));
+      i += lb;
+      start = i;
+      continue;
+    }
+    const cp = text.codePointAt(i)!;
+    i += cp > 0xffff ? 2 : 1;
+  }
+  if (start < text.length) {
+    parts.push(text.slice(start));
+  }
+  return pyList(parts.map((chunk) => pyStr(chunk)));
+}
+
 // ── pyStr ─────────────────────────────────────────────────────────────
 
 export const strType = makeClass({
@@ -625,6 +684,8 @@ export const strType = makeClass({
       partitionStr(nativeVal<string>(self), sep)],
     ["rpartition", (self: PyObject, sep: unknown) =>
       rpartitionStr(nativeVal<string>(self), sep)],
+    ["splitlines", (self: PyObject, keepends?: unknown) =>
+      splitlinesStr(nativeVal<string>(self), keepends)],
   ]),
 });
 
