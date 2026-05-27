@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 151 merge PR #89)
+
+### Landed
+
+- [REPO] Plan 151 — PR #89 merged; plan 150 backslashreplace codec on `main` (463 Vitest, 79 files).
+
+### Partial
+
+- None.
+
+### Next
+
+1. Further codec handlers (surrogateescape) or str API when prioritized.
+2. PEP 3118 buffer protocol remains out of scope until planned.
+
+---
+
 ## Delta update (2026-05-24, plan 150 backslashreplace codec)
 
 ### Landed
