@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 110 bytes splitlines)
+
+### Landed
+
+- [REPO] Plan 110 — `bytes.splitlines(keepends=False)` → `pyList` of `pyBytes`; `bytes-splitlines.test.ts`.
+
+### Partial
+
+- None.
+
+### Next
+
+1. Codec handlers or further bytes/str API when prioritized.
+2. PEP 3118 buffer protocol remains out of scope until planned.
+
+---
+
 ## Delta update (2026-05-24, plan 109 merge PR #68)
 
 ### Landed
