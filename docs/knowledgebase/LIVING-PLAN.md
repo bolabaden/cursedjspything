@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 126 bytes swapcase)
+
+### Landed
+
+- [REPO] Plan 126 — `bytes.swapcase` ASCII case swap; `bytes-swapcase.test.ts`.
+
+### Partial
+
+- None.
+
+### Next
+
+1. Merge plan 126 via PR; then codec handlers or further bytes/str API when prioritized.
+2. PEP 3118 buffer protocol remains out of scope until planned.
+
+---
+
 ## Delta update (2026-05-24, plan 125 merge PR #76)
 
 ### Landed

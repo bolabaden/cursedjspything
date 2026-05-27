@@ -760,6 +760,17 @@ function bytesCapitalize(data: Uint8Array): PyObject {
   return pyBytes(out);
 }
 
+function bytesSwapcase(data: Uint8Array): PyObject {
+  const out = new Uint8Array(data.length);
+  for (let i = 0; i < data.length; i++) {
+    const b = data[i]!;
+    if (b >= 0x61 && b <= 0x7a) out[i] = b - 0x20;
+    else if (b >= 0x41 && b <= 0x5a) out[i] = b + 0x20;
+    else out[i] = b;
+  }
+  return pyBytes(out);
+}
+
 function findSepIndex(
   data: Uint8Array,
   sep: Uint8Array,
@@ -1036,6 +1047,9 @@ export const bytesType = makeClass({
     }],
     ["capitalize", (self: PyObject) => {
       return bytesCapitalize(bytesData(self));
+    }],
+    ["swapcase", (self: PyObject) => {
+      return bytesSwapcase(bytesData(self));
     }],
   ]),
 });
