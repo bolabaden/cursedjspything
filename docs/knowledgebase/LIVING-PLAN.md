@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 103 merge PR #65)
+
+### Landed
+
+- [REPO] Plan 103 — PR #65 merged; plan 102 bytes split on `main` (358 Vitest, 57 files).
+
+### Partial
+
+- None.
+
+### Next
+
+1. Further bytes methods (`rsplit`, `startswith`, codec handlers) when prioritized.
+2. PEP 3118 buffer protocol remains out of scope until planned.
+
+---
+
 ## Delta update (2026-05-24, plan 102 bytes split)
 
 ### Landed
