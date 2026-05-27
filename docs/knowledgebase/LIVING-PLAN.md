@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 162 str split)
+
+### Landed
+
+- [REPO] Plan 162 — `str.split`; `str-split.test.ts`.
+
+### Partial
+
+- None.
+
+### Next
+
+1. Further str/bytes API when prioritized.
+2. PEP 3118 buffer protocol remains out of scope until planned.
+
+---
+
 ## Delta update (2026-05-24, plan 161 merge PR #94)
 
 ### Landed
