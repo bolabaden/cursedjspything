@@ -1038,6 +1038,32 @@ function bytesHex(data: Uint8Array, sep?: unknown): PyObject {
   return pyStr(parts.join(sepChar));
 }
 
+function bytesMakeTrans(frm: unknown, to: unknown): PyObject {
+  const fromData = requireAffixBytes(frm);
+  const toData = requireAffixBytes(to);
+  if (fromData.length !== toData.length) {
+    throw new PyValueError("maketrans arguments must have same length");
+  }
+  const table = new Uint8Array(256);
+  for (let i = 0; i < 256; i++) table[i] = i;
+  for (let i = 0; i < fromData.length; i++) {
+    table[fromData[i]!] = toData[i]!;
+  }
+  return pyBytes(table);
+}
+
+function bytesTranslate(data: Uint8Array, table: unknown): PyObject {
+  const tab = requireAffixBytes(table);
+  if (tab.length !== 256) {
+    throw new PyValueError("translation table must be 256 characters long");
+  }
+  const out = new Uint8Array(data.length);
+  for (let i = 0; i < data.length; i++) {
+    out[i] = tab[data[i]!]!;
+  }
+  return pyBytes(out);
+}
+
 function parseExpandtabsTabsize(tabsize: unknown): number {
   if (tabsize === undefined || tabsize === null) return 8;
   return splitMaxsplitArg(tabsize);
@@ -1304,6 +1330,9 @@ export const bytesType = makeClass({
     ["fromhex", (_cls: unknown, string: unknown) => {
       return bytesFromhex(string);
     }],
+    ["maketrans", (_cls: unknown, frm: unknown, to: unknown) => {
+      return bytesMakeTrans(frm, to);
+    }],
     ["join", (self: PyObject, iterable: unknown) => {
       return joinBytes(bytesData(self), iterable);
     }],
@@ -1348,6 +1377,9 @@ export const bytesType = makeClass({
     }],
     ["hex", (self: PyObject, sep?: unknown) => {
       return bytesHex(bytesData(self), sep);
+    }],
+    ["translate", (self: PyObject, table: unknown) => {
+      return bytesTranslate(bytesData(self), table);
     }],
     ["find", (self: PyObject, sub: unknown, start?: unknown, end?: unknown) => {
       return findBytes(bytesData(self), sub, start, end);

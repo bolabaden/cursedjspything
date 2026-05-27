@@ -113,6 +113,7 @@ Emits JSON (`vitest_seconds`, pass gates, `test_count`); use median of several r
 | `test/cpython-derived/bytes-expandtabs.test.ts` | bytes.expandtabs tab expansion |
 | `test/cpython-derived/bytes-hex-fromhex.test.ts` | bytes.hex / bytes.fromhex |
 | `test/cpython-derived/bytes-predicates.test.ts` | bytes ASCII predicate methods |
+| `test/cpython-derived/bytes-translate.test.ts` | bytes.maketrans / bytes.translate |
 | `test/cpython-derived/bytes-decode.test.ts` | bytes.decode UTF-8/latin-1, errors strict/replace/ignore |
 | `test/cpython-derived/bytes-slice-index.test.ts` | bytes slice subscript returns bytes |
 | `test/cpython-derived/bytes-getitem-compare.test.ts` | bytes int index + lexicographic rich compare |
