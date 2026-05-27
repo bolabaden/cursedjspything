@@ -98,6 +98,7 @@ Emits JSON (`vitest_seconds`, pass gates, `test_count`); use median of several r
 | `test/cpython-derived/str-isascii.test.ts` | str.isascii predicate |
 | `test/cpython-derived/str-predicates.test.ts` | str isalpha/isdigit/isalnum/islower/isupper/istitle/isspace |
 | `test/cpython-derived/str-find.test.ts` | str.find / rfind bounds and Unicode |
+| `test/cpython-derived/str-index.test.ts` | str.index / rindex ValueError on miss |
 | `test/cpython-derived/str-strip.test.ts` | str.strip / lstrip / rstrip |
 | `test/cpython-derived/str-split.test.ts` | str.split sep/maxsplit and whitespace |
 | `test/cpython-derived/str-rsplit.test.ts` | str.rsplit sep/maxsplit and whitespace |
