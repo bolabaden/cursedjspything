@@ -28,6 +28,8 @@ import {
   PyZeroDivisionError,
   PyStopIteration,
   PyValueError,
+  PyLookupError,
+  PyUnicodeDecodeError,
 } from "./errors.js";
 
 export {
@@ -38,6 +40,8 @@ export {
   PyZeroDivisionError,
   PyStopIteration,
   PyValueError,
+  PyLookupError,
+  PyUnicodeDecodeError,
 } from "./errors.js";
 
 // ── helpers ───────────────────────────────────────────────────────────

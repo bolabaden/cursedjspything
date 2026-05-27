@@ -27,6 +27,8 @@ export {
   PyZeroDivisionError,
   PyStopIteration,
   PyValueError,
+  PyLookupError,
+  PyUnicodeDecodeError,
 } from "../runtime/core/lookup.js";
 
 export {
