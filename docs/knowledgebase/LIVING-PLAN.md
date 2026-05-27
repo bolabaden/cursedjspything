@@ -9,6 +9,18 @@
 
 ---
 
+## Delta update (2026-05-24, plan 058 format evidence)
+
+### Landed
+
+- [REPO] Plan 058 — `operator-format-evidence.test.ts`; COMPATIBILITY §8.15 evidence (225 Vitest).
+
+### Partial
+
+- [OPEN] PRs #28–#36 still open on other branches.
+
+---
+
 ## Delta update (2026-05-24, plan 057 bytes conversion)
 
 ### Landed
@@ -19,6 +31,8 @@
 
 - [OPEN] PRs #28–#35 still open on other branches; bytes **object** cross-type ops still partial.
 
+---
+
 ## Delta update (2026-05-24, plan 056 int bitwise float)
 
 ### Landed
@@ -28,6 +42,8 @@
 ### Partial
 
 - [OPEN] PRs #28–#34 still open.
+
+---
 
 ## Delta update (2026-05-24, plan 052 pow mod zero)
 
@@ -159,9 +175,6 @@
 
 ---
 
-2. bytes / sequence exotic §8.15 when prioritized.
-
----
 
 ## Delta update (2026-05-24, plan 076 bool-str remaining binary)
 
