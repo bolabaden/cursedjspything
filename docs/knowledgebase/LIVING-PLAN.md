@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 179 merge PR #103)
+
+### Landed
+
+- [REPO] Plan 179 — PR #103 merged; plan 178 str find/rfind on `main` (531 Vitest, 92 files).
+
+### Partial
+
+- None.
+
+### Next
+
+1. Further str/bytes API when prioritized (index, count, startswith).
+2. PEP 3118 buffer protocol remains out of scope until planned.
+
+---
+
 ## Delta update (2026-05-24, plan 178 str find)
 
 ### Landed
