@@ -9,6 +9,14 @@
 
 ---
 
+## Delta update (2026-05-24, plan 077 sequence cross-type add)
+
+### Landed
+
+- [REPO] Plan 077 — `operator-sequence-cross-type-add.test.ts`; COMPATIBILITY §8.15 evidence (225 Vitest).
+
+---
+
 ## Delta update (2026-05-24, plan 067 float-str floordiv/mod)
 
 ### Landed
@@ -261,6 +269,10 @@
 ### Next
 
 1. Merge stacked PRs.
+2. inplace / bytes §8.15 when prioritized.
+
+---
+
 2. bytes / sequence exotic §8.15 when prioritized.
 
 ---
