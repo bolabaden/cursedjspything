@@ -153,12 +153,35 @@ function endOfUtf8Sequence(data: Uint8Array, start: number): number {
   return -1;
 }
 
+function decodeAscii(
+  data: Uint8Array,
+  errors: "strict" | "replace" | "ignore",
+): string {
+  let out = "";
+  for (let i = 0; i < data.length; i++) {
+    const b = data[i]!;
+    if (b <= 0x7f) {
+      out += String.fromCharCode(b);
+    } else if (errors === "strict") {
+      throw new PyUnicodeDecodeError(
+        `'ascii' codec can't decode byte 0x${b.toString(16).padStart(2, "0")} in position ${i}: ordinal not in range(128)`,
+      );
+    } else if (errors === "replace") {
+      out += "\ufffd";
+    }
+  }
+  return out;
+}
+
 function decodeBytesPayload(
   data: Uint8Array,
   encoding: string,
   errors: "strict" | "replace" | "ignore",
 ): string {
   const enc = normalizeEncodingName(encoding);
+  if (enc === "ascii") {
+    return decodeAscii(data, errors);
+  }
   if (enc === "latin-1" || enc === "latin1" || enc === "iso-8859-1") {
     let out = "";
     for (const byte of data) out += String.fromCharCode(byte);
