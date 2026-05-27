@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 127 merge PR #77)
+
+### Landed
+
+- [REPO] Plan 127 — PR #77 merged; plan 126 bytes swapcase on `main` (426 Vitest, 69 files).
+
+### Partial
+
+- None.
+
+### Next
+
+1. Codec handlers or further bytes/str API when prioritized.
+2. PEP 3118 buffer protocol remains out of scope until planned.
+
+---
+
 ## Delta update (2026-05-24, plan 126 bytes swapcase)
 
 ### Landed
