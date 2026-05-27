@@ -35,7 +35,19 @@ function encodeEncodingArg(encoding: unknown): string {
   );
 }
 
-type EncodeErrors = "strict" | "replace" | "ignore" | "backslashreplace";
+type EncodeErrors = "strict" | "replace" | "ignore" | "backslashreplace" | "surrogateescape";
+
+const SURROGATE_ESCAPE_BASE = 0xdc00;
+const SURROGATE_ESCAPE_MIN = 0xdc80;
+const SURROGATE_ESCAPE_MAX = 0xdcff;
+
+function isSurrogateEscapeCodePoint(cp: number): boolean {
+  return cp >= SURROGATE_ESCAPE_MIN && cp <= SURROGATE_ESCAPE_MAX;
+}
+
+function isDisallowedSurrogate(cp: number): boolean {
+  return cp >= 0xd800 && cp <= 0xdfff && !isSurrogateEscapeCodePoint(cp);
+}
 
 function encodeErrorsArg(errors: unknown): EncodeErrors {
   if (errors === undefined || errors === null) return "strict";
@@ -45,7 +57,8 @@ function encodeErrorsArg(errors: unknown): EncodeErrors {
       name === "strict" ||
       name === "replace" ||
       name === "ignore" ||
-      name === "backslashreplace"
+      name === "backslashreplace" ||
+      name === "surrogateescape"
     ) {
       return name;
     }
@@ -80,6 +93,46 @@ function formatEncodeChar(cp: number): string {
   return `'\\u${hex}'`;
 }
 
+function appendUtf8CodePoint(out: number[], cp: number): void {
+  if (cp <= 0x7f) {
+    out.push(cp);
+  } else if (cp <= 0x7ff) {
+    out.push(0xc0 | (cp >> 6), 0x80 | (cp & 0x3f));
+  } else if (cp <= 0xffff) {
+    out.push(
+      0xe0 | (cp >> 12),
+      0x80 | ((cp >> 6) & 0x3f),
+      0x80 | (cp & 0x3f),
+    );
+  } else {
+    out.push(
+      0xf0 | (cp >> 18),
+      0x80 | ((cp >> 12) & 0x3f),
+      0x80 | ((cp >> 6) & 0x3f),
+      0x80 | (cp & 0x3f),
+    );
+  }
+}
+
+function encodeUtf8SurrogateEscape(text: string): Uint8Array {
+  const out: number[] = [];
+  for (let i = 0; i < text.length; ) {
+    const cp = text.codePointAt(i)!;
+    const width = cp > 0xffff ? 2 : 1;
+    if (isSurrogateEscapeCodePoint(cp)) {
+      out.push(cp - SURROGATE_ESCAPE_BASE);
+    } else if (isDisallowedSurrogate(cp)) {
+      throw new PyUnicodeEncodeError(
+        `'utf-8' codec can't encode character '\\u${cp.toString(16).padStart(4, "0")}' in position ${i}: surrogates not allowed`,
+      );
+    } else {
+      appendUtf8CodePoint(out, cp);
+    }
+    i += width;
+  }
+  return new Uint8Array(out);
+}
+
 function encodeLimited(
   text: string,
   codec: string,
@@ -90,7 +143,9 @@ function encodeLimited(
   for (let i = 0; i < text.length; ) {
     const cp = text.codePointAt(i)!;
     const width = cp > 0xffff ? 2 : 1;
-    if (cp <= max) {
+    if (isSurrogateEscapeCodePoint(cp)) {
+      out.push(cp - SURROGATE_ESCAPE_BASE);
+    } else if (cp <= max) {
       out.push(cp);
     } else if (errors === "strict") {
       throw new PyUnicodeEncodeError(
@@ -113,6 +168,9 @@ function encodeStrPayload(
 ): Uint8Array {
   const enc = normalizeEncodingName(encoding);
   if (enc === "utf-8" || enc === "utf8") {
+    if (errors === "surrogateescape") {
+      return encodeUtf8SurrogateEscape(text);
+    }
     return new TextEncoder().encode(text);
   }
   if (enc === "ascii") {

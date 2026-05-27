@@ -54,6 +54,32 @@ describe("cpython-derived bytes decode", () => {
     expect(unwrap<string>(s as ReturnType<typeof pyStr>)).toBe("\xff");
   });
 
+  it("decode surrogateescape maps invalid bytes to U+DC80–U+DCFF", () => {
+    expect(
+      unwrap<string>(
+        decoded(new Uint8Array([255]), pyStr("ascii"), pyStr("surrogateescape")) as ReturnType<
+          typeof pyStr
+        >,
+      ),
+    ).toBe("\udcff");
+    expect(
+      unwrap<string>(
+        decoded(new Uint8Array([255]), pyStr("utf-8"), pyStr("surrogateescape")) as ReturnType<
+          typeof pyStr
+        >,
+      ),
+    ).toBe("\udcff");
+    expect(
+      unwrap<string>(
+        decoded(
+          new Uint8Array([0xc0, 0x80]),
+          pyStr("utf-8"),
+          pyStr("surrogateescape"),
+        ) as ReturnType<typeof pyStr>,
+      ),
+    ).toBe("\udcc0\udc80");
+  });
+
   it("decode backslashreplace escapes invalid bytes", () => {
     expect(
       unwrap<string>(

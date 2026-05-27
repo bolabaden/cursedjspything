@@ -65,6 +65,27 @@ describe("cpython-derived str encode", () => {
     expect(Array.from(asBytes(out))).toEqual([97, 98]);
   });
 
+  it("surrogateescape round-trips U+DC80–U+DCFF", () => {
+    expect(Array.from(asBytes(encoded("\udc80", pyStr("ascii"), pyStr("surrogateescape"))))).toEqual(
+      [128],
+    );
+    expect(Array.from(asBytes(encoded("\udcff", pyStr("utf-8"), pyStr("surrogateescape"))))).toEqual(
+      [255],
+    );
+    expect(Array.from(asBytes(encoded("\udc80", pyStr("latin-1"), pyStr("surrogateescape"))))).toEqual(
+      [128],
+    );
+  });
+
+  it("surrogateescape encode rejects U+DC00 on utf-8", () => {
+    expect(() => encoded("\udc00", pyStr("utf-8"), pyStr("surrogateescape"))).toThrow(
+      PyUnicodeEncodeError,
+    );
+    expect(() => encoded("\udc00", pyStr("utf-8"), pyStr("surrogateescape"))).toThrow(
+      /surrogates not allowed/,
+    );
+  });
+
   it("backslashreplace escapes non-encodable code points", () => {
     expect(Array.from(asBytes(encoded("caf\u00e9", pyStr("ascii"), pyStr("backslashreplace"))))).toEqual(
       [99, 97, 102, 92, 120, 101, 57],
