@@ -730,6 +730,24 @@ function replaceBytes(
   return pyBytes(out);
 }
 
+function bytesUpper(data: Uint8Array): PyObject {
+  const out = new Uint8Array(data.length);
+  for (let i = 0; i < data.length; i++) {
+    const b = data[i]!;
+    out[i] = b >= 0x61 && b <= 0x7a ? b - 0x20 : b;
+  }
+  return pyBytes(out);
+}
+
+function bytesLower(data: Uint8Array): PyObject {
+  const out = new Uint8Array(data.length);
+  for (let i = 0; i < data.length; i++) {
+    const b = data[i]!;
+    out[i] = b >= 0x41 && b <= 0x5a ? b + 0x20 : b;
+  }
+  return pyBytes(out);
+}
+
 function findSepIndex(
   data: Uint8Array,
   sep: Uint8Array,
@@ -997,6 +1015,12 @@ export const bytesType = makeClass({
     }],
     ["replace", (self: PyObject, old: unknown, newBytes: unknown, count?: unknown) => {
       return replaceBytes(bytesData(self), old, newBytes, count);
+    }],
+    ["upper", (self: PyObject) => {
+      return bytesUpper(bytesData(self));
+    }],
+    ["lower", (self: PyObject) => {
+      return bytesLower(bytesData(self));
     }],
   ]),
 });

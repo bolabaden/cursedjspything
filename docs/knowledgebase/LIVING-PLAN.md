@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 122 bytes upper lower)
+
+### Landed
+
+- [REPO] Plan 122 — `bytes.upper` / `lower` ASCII case conversion; `bytes-upper-lower.test.ts`.
+
+### Partial
+
+- None.
+
+### Next
+
+1. Merge plan 122 via PR; then codec handlers or further bytes/str API when prioritized.
+2. PEP 3118 buffer protocol remains out of scope until planned.
+
+---
+
 ## Delta update (2026-05-24, plan 121 merge PR #74)
 
 ### Landed
