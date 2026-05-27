@@ -90,6 +90,7 @@ Emits JSON (`vitest_seconds`, pass gates, `test_count`); use median of several r
 | `test/cpython-derived/operator-numeric-conversion-evidence.test.ts` | toInt/toFloat/index/toComplex reject list |
 | `test/cpython-derived/operator-matmul-evidence.test.ts` | matmul @ rejects builtins without __matmul__ |
 | `test/cpython-derived/operator-format-evidence.test.ts` | format() __format__, empty-spec str fallback, TypeError |
+| `test/cpython-derived/str-encode.test.ts` | str.encode utf-8/ascii/latin-1 and errors modes |
 | `test/cpython-derived/bytes-join.test.ts` | bytes.join separator concatenation |
 | `test/cpython-derived/bytes-decode.test.ts` | bytes.decode UTF-8/latin-1, errors strict/replace/ignore |
 | `test/cpython-derived/bytes-slice-index.test.ts` | bytes slice subscript returns bytes |

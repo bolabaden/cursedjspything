@@ -64,3 +64,10 @@ export class PyUnicodeDecodeError extends Error {
     this.name = "UnicodeDecodeError";
   }
 }
+
+export class PyUnicodeEncodeError extends Error {
+  constructor(msg: string) {
+    super(msg);
+    this.name = "UnicodeEncodeError";
+  }
+}
