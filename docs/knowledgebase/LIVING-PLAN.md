@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 141 merge PR #84)
+
+### Landed
+
+- [REPO] Plan 141 — PR #84 merged; plan 140 bytes hex/fromhex on `main` (448 Vitest, 76 files).
+
+### Partial
+
+- None.
+
+### Next
+
+1. Codec handlers or further bytes/str API when prioritized.
+2. PEP 3118 buffer protocol remains out of scope until planned.
+
+---
+
 ## Delta update (2026-05-24, plan 140 bytes hex fromhex)
 
 ### Landed
