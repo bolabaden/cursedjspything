@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 111 merge PR #69)
+
+### Landed
+
+- [REPO] Plan 111 — PR #69 merged; plan 110 bytes splitlines on `main` (391 Vitest, 61 files).
+
+### Partial
+
+- None.
+
+### Next
+
+1. Codec handlers or further bytes/str API when prioritized.
+2. PEP 3118 buffer protocol remains out of scope until planned.
+
+---
+
 ## Delta update (2026-05-24, plan 110 bytes splitlines)
 
 ### Landed
