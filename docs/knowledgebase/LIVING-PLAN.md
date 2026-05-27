@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 104 bytes rsplit)
+
+### Landed
+
+- [REPO] Plan 104 — `bytes.rsplit(sep=None, maxsplit=-1)` → `pyList` of `pyBytes`; `bytes-rsplit.test.ts`.
+
+### Partial
+
+- None.
+
+### Next
+
+1. Further bytes methods (`startswith`, `partition`, codec handlers) when prioritized.
+2. PEP 3118 buffer protocol remains out of scope until planned.
+
+---
+
 ## Delta update (2026-05-24, plan 103 merge PR #65)
 
 ### Landed
