@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 171 merge PR #99)
+
+### Landed
+
+- [REPO] Plan 171 — PR #99 merged; plan 170 str partition on `main` (507 Vitest, 88 files).
+
+### Partial
+
+- None.
+
+### Next
+
+1. Further str/bytes API when prioritized.
+2. PEP 3118 buffer protocol remains out of scope until planned.
+
+---
+
 ## Delta update (2026-05-24, plan 170 str partition)
 
 ### Landed
