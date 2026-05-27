@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 142 bytes predicates)
+
+### Landed
+
+- [REPO] Plan 142 — `bytes.isalpha` / `isdigit` / `isalnum` / `islower` / `isupper` / `istitle` / `isspace`; `bytes-predicates.test.ts`.
+
+### Partial
+
+- None.
+
+### Next
+
+1. Codec handlers or further bytes/str API when prioritized.
+2. PEP 3118 buffer protocol remains out of scope until planned.
+
+---
+
 ## Delta update (2026-05-24, plan 141 merge PR #84)
 
 ### Landed

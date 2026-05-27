@@ -814,6 +814,85 @@ function bytesSwapcase(data: Uint8Array): PyObject {
   return pyBytes(out);
 }
 
+function bytesIsalpha(data: Uint8Array): PyObject {
+  if (data.length === 0) return pyFalse;
+  for (let i = 0; i < data.length; i++) {
+    const b = data[i]!;
+    if (b < 0x41 || (b > 0x5a && b < 0x61) || b > 0x7a) return pyFalse;
+  }
+  return pyTrue;
+}
+
+function bytesIsdigit(data: Uint8Array): PyObject {
+  if (data.length === 0) return pyFalse;
+  for (let i = 0; i < data.length; i++) {
+    const b = data[i]!;
+    if (b < 0x30 || b > 0x39) return pyFalse;
+  }
+  return pyTrue;
+}
+
+function bytesIsalnum(data: Uint8Array): PyObject {
+  if (data.length === 0) return pyFalse;
+  for (let i = 0; i < data.length; i++) {
+    const b = data[i]!;
+    const isAlpha =
+      (b >= 0x41 && b <= 0x5a) || (b >= 0x61 && b <= 0x7a);
+    const isDigit = b >= 0x30 && b <= 0x39;
+    if (!isAlpha && !isDigit) return pyFalse;
+  }
+  return pyTrue;
+}
+
+function bytesIslower(data: Uint8Array): PyObject {
+  if (data.length === 0) return pyFalse;
+  let cased = false;
+  for (let i = 0; i < data.length; i++) {
+    const b = data[i]!;
+    if (b >= 0x61 && b <= 0x7a) cased = true;
+    else if (b >= 0x41 && b <= 0x5a) return pyFalse;
+  }
+  return cased ? pyTrue : pyFalse;
+}
+
+function bytesIsupper(data: Uint8Array): PyObject {
+  if (data.length === 0) return pyFalse;
+  let cased = false;
+  for (let i = 0; i < data.length; i++) {
+    const b = data[i]!;
+    if (b >= 0x41 && b <= 0x5a) cased = true;
+    else if (b >= 0x61 && b <= 0x7a) return pyFalse;
+  }
+  return cased ? pyTrue : pyFalse;
+}
+
+function bytesIstitle(data: Uint8Array): PyObject {
+  if (data.length === 0) return pyFalse;
+  const titled = bytesData(bytesTitle(data));
+  for (let i = 0; i < data.length; i++) {
+    if (data[i] !== titled[i]) return pyFalse;
+  }
+  return pyTrue;
+}
+
+function bytesIsspace(data: Uint8Array): PyObject {
+  if (data.length === 0) return pyFalse;
+  for (let i = 0; i < data.length; i++) {
+    const b = data[i]!;
+    if (
+      b !== 0x20 &&
+      b !== 0x09 &&
+      b !== 0x0a &&
+      b !== 0x0b &&
+      b !== 0x0c &&
+      b !== 0x0d
+    ) {
+      return pyFalse;
+    }
+  }
+  return pyTrue;
+}
+
 function requirePadFill(method: string, fill: unknown): number {
   if (fill === undefined || fill === null) return 0x20;
   if (fill instanceof PyObject && fill.type === bytesType) {
@@ -1302,6 +1381,27 @@ export const bytesType = makeClass({
     }],
     ["swapcase", (self: PyObject) => {
       return bytesSwapcase(bytesData(self));
+    }],
+    ["isalpha", (self: PyObject) => {
+      return bytesIsalpha(bytesData(self));
+    }],
+    ["isdigit", (self: PyObject) => {
+      return bytesIsdigit(bytesData(self));
+    }],
+    ["isalnum", (self: PyObject) => {
+      return bytesIsalnum(bytesData(self));
+    }],
+    ["islower", (self: PyObject) => {
+      return bytesIslower(bytesData(self));
+    }],
+    ["isupper", (self: PyObject) => {
+      return bytesIsupper(bytesData(self));
+    }],
+    ["istitle", (self: PyObject) => {
+      return bytesIstitle(bytesData(self));
+    }],
+    ["isspace", (self: PyObject) => {
+      return bytesIsspace(bytesData(self));
     }],
     ["center", (self: PyObject, width: unknown, fill?: unknown) => {
       return centerBytes(bytesData(self), width, fill);
