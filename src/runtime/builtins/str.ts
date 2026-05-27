@@ -193,6 +193,16 @@ function encodeStr(
   return pyBytes(encodeStrPayload(text, enc, errMode));
 }
 
+function strCapitalize(text: string): string {
+  if (text.length === 0) return text;
+  const lower = text.toLowerCase();
+  const cp0 = lower.codePointAt(0)!;
+  const w0 = cp0 > 0xffff ? 2 : 1;
+  const up = String.fromCodePoint(cp0).toUpperCase();
+  const head = up.length > w0 ? up.slice(0, w0) : up;
+  return head + lower.slice(w0);
+}
+
 // ── pyStr ─────────────────────────────────────────────────────────────
 
 export const strType = makeClass({
@@ -280,6 +290,7 @@ export const strType = makeClass({
     }],
     ["upper", (self: PyObject) => pyStr(nativeVal<string>(self).toUpperCase())],
     ["lower", (self: PyObject) => pyStr(nativeVal<string>(self).toLowerCase())],
+    ["capitalize", (self: PyObject) => pyStr(strCapitalize(nativeVal<string>(self)))],
   ]),
 });
 
