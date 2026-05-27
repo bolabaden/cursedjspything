@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 089 merge PR #58)
+
+### Landed
+
+- [REPO] Plan 089 — PR #58 merged; plan 088 bytes PyObject + cross-type evidence on `main` (315 Vitest, 51 files).
+
+### Partial
+
+- None.
+
+### Next
+
+1. bytes API expansion (getitem, rich compare, decode) when prioritized.
+2. PEP 3118 buffer protocol remains out of scope until planned.
+
+---
+
 ## Delta update (2026-05-24, plan 088 bytes PyObject cross-type)
 
 ### Landed
