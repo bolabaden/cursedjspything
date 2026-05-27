@@ -96,6 +96,7 @@ Emits JSON (`vitest_seconds`, pass gates, `test_count`); use median of several r
 | `test/cpython-derived/str-isascii.test.ts` | str.isascii predicate |
 | `test/cpython-derived/str-strip.test.ts` | str.strip / lstrip / rstrip |
 | `test/cpython-derived/str-split.test.ts` | str.split sep/maxsplit and whitespace |
+| `test/cpython-derived/str-rsplit.test.ts` | str.rsplit sep/maxsplit and whitespace |
 | `test/cpython-derived/bytes-join.test.ts` | bytes.join separator concatenation |
 | `test/cpython-derived/bytes-split.test.ts` | bytes.split sep/maxsplit and whitespace |
 | `test/cpython-derived/bytes-rsplit.test.ts` | bytes.rsplit sep/maxsplit from the right |
