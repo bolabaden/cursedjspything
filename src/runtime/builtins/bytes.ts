@@ -354,6 +354,76 @@ function splitBytes(
   return pyList(chunks.map((chunk) => pyBytes(chunk)));
 }
 
+function rsplitWithSep(
+  data: Uint8Array,
+  sep: Uint8Array,
+  maxsplit: number,
+): Uint8Array[] {
+  if (sep.length === 0) {
+    throw new PyValueError("empty separator");
+  }
+  if (maxsplit === 0) return [data];
+  const parts: Uint8Array[] = [];
+  let end = data.length;
+  let splits = 0;
+  while (true) {
+    if (maxsplit >= 0 && splits >= maxsplit) break;
+    let found = -1;
+    for (let i = end - sep.length; i >= 0; i--) {
+      let match = true;
+      for (let j = 0; j < sep.length; j++) {
+        if (data[i + j] !== sep[j]!) {
+          match = false;
+          break;
+        }
+      }
+      if (match) {
+        found = i;
+        break;
+      }
+    }
+    if (found < 0) break;
+    parts.unshift(data.subarray(found + sep.length, end));
+    end = found;
+    splits += 1;
+  }
+  parts.unshift(data.subarray(0, end));
+  return parts;
+}
+
+function rsplitWhitespace(data: Uint8Array, maxsplit: number): Uint8Array[] {
+  if (maxsplit === 0) return [data];
+  const parts: Uint8Array[] = [];
+  let i = data.length;
+  while (i > 0) {
+    while (i > 0 && isAsciiWhitespace(data[i - 1]!)) i -= 1;
+    if (i === 0) break;
+    const end = i;
+    while (i > 0 && !isAsciiWhitespace(data[i - 1]!)) i -= 1;
+    parts.unshift(data.subarray(i, end));
+    if (maxsplit >= 0 && parts.length >= maxsplit) {
+      while (i > 0 && isAsciiWhitespace(data[i - 1]!)) i -= 1;
+      if (i > 0) parts.unshift(data.subarray(0, i));
+      return parts;
+    }
+  }
+  return parts;
+}
+
+function rsplitBytes(
+  data: Uint8Array,
+  sep: unknown,
+  maxsplit: unknown,
+): PyObject {
+  const limit = splitMaxsplitArg(maxsplit);
+  const sepData = splitSepArg(sep);
+  const chunks =
+    sepData === null
+      ? rsplitWhitespace(data, limit)
+      : rsplitWithSep(data, sepData, limit);
+  return pyList(chunks.map((chunk) => pyBytes(chunk)));
+}
+
 // ── pyBytes ───────────────────────────────────────────────────────────
 
 export const bytesType = makeClass({
@@ -437,6 +507,9 @@ export const bytesType = makeClass({
     }],
     ["split", (self: PyObject, sep?: unknown, maxsplit?: unknown) => {
       return splitBytes(bytesData(self), sep, maxsplit);
+    }],
+    ["rsplit", (self: PyObject, sep?: unknown, maxsplit?: unknown) => {
+      return rsplitBytes(bytesData(self), sep, maxsplit);
     }],
   ]),
 });
