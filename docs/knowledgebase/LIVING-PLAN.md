@@ -9,6 +9,16 @@
 
 ---
 
+## Delta update (2026-05-24, plan 060 numeric conversion evidence)
+
+### Landed
+
+- [REPO] Plan 060 — `operator-numeric-conversion-evidence.test.ts`; COMPATIBILITY §8.15 evidence (224 Vitest).
+
+### Partial
+
+- [OPEN] PRs #28–#38 still open on other branches.
+
 ## Delta update (2026-05-24, plan 059 matmul evidence)
 
 ### Landed
