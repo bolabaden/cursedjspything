@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 090 bytes getitem and rich compare)
+
+### Landed
+
+- [REPO] Plan 090 — bytes `__getitem__` (int → `pyInt`); rich compare slots; `bytes-getitem-compare.test.ts`.
+
+### Partial
+
+- None.
+
+### Next
+
+1. bytes slice indexing and decode when prioritized.
+2. PEP 3118 buffer protocol remains out of scope until planned.
+
+---
+
 ## Delta update (2026-05-24, plan 089 merge PR #58)
 
 ### Landed

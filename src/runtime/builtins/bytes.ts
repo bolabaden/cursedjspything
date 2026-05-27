@@ -1,8 +1,9 @@
 import { PyObject, NotImplemented } from "../core/object.js";
 import { Slot } from "../core/slots.js";
 import { makeClass } from "../class/class.js";
+import { PyIndexError, PyTypeError } from "../core/errors.js";
 import { nativeVal, setNative } from "./native.js";
-import { sequenceRepeatCount } from "./int.js";
+import { pyInt, sequenceRepeatCount } from "./int.js";
 
 function bytesData(self: PyObject): Uint8Array {
   return nativeVal<Uint8Array>(self);
@@ -36,6 +37,14 @@ function bytesRepr(data: Uint8Array): string {
   return `b'${inner}'`;
 }
 
+function compareBytes(a: Uint8Array, b: Uint8Array): number {
+  const len = Math.min(a.length, b.length);
+  for (let i = 0; i < len; i++) {
+    if (a[i] !== b[i]) return a[i]! - b[i]!;
+  }
+  return a.length - b.length;
+}
+
 // ── pyBytes ───────────────────────────────────────────────────────────
 
 export const bytesType = makeClass({
@@ -53,6 +62,37 @@ export const bytesType = makeClass({
         if (a[i] !== b[i]) return false;
       }
       return true;
+    }],
+    [Slot.ne, (self: PyObject, other: PyObject) => {
+      if (other.type !== bytesType) return NotImplemented;
+      return compareBytes(bytesData(self), bytesData(other)) !== 0;
+    }],
+    [Slot.lt, (self: PyObject, other: PyObject) => {
+      if (other.type !== bytesType) return NotImplemented;
+      return compareBytes(bytesData(self), bytesData(other)) < 0;
+    }],
+    [Slot.le, (self: PyObject, other: PyObject) => {
+      if (other.type !== bytesType) return NotImplemented;
+      return compareBytes(bytesData(self), bytesData(other)) <= 0;
+    }],
+    [Slot.gt, (self: PyObject, other: PyObject) => {
+      if (other.type !== bytesType) return NotImplemented;
+      return compareBytes(bytesData(self), bytesData(other)) > 0;
+    }],
+    [Slot.ge, (self: PyObject, other: PyObject) => {
+      if (other.type !== bytesType) return NotImplemented;
+      return compareBytes(bytesData(self), bytesData(other)) >= 0;
+    }],
+    [Slot.getitem, (self: PyObject, key: unknown) => {
+      const data = bytesData(self);
+      if (typeof key === "number") {
+        const idx = key < 0 ? data.length + key : key;
+        if (idx < 0 || idx >= data.length) {
+          throw new PyIndexError("index out of range");
+        }
+        return pyInt(data[idx]!);
+      }
+      throw new PyTypeError("byte indices must be integers or slices");
     }],
     [Slot.add, (self: PyObject, other: PyObject) => {
       if (other.type !== bytesType) return NotImplemented;
