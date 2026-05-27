@@ -9,6 +9,18 @@
 
 ---
 
+## Delta update (2026-05-24, plan 063 int-str binary)
+
+### Landed
+
+- [REPO] Plan 063 — `operator-int-str-binary.test.ts`; COMPATIBILITY §8.15 evidence (224 Vitest).
+
+### Partial
+
+- [OPEN] PRs #28–#41 still open on other branches.
+
+---
+
 ## Delta update (2026-05-24, plan 062 unary evidence)
 
 ### Landed
@@ -18,6 +30,8 @@
 ### Partial
 
 - [OPEN] PRs #28–#40 still open on other branches.
+
+---
 
 ## Delta update (2026-05-24, plan 061 rounding evidence)
 
@@ -29,6 +43,8 @@
 
 - [OPEN] PRs #28–#39 still open on other branches.
 
+---
+
 ## Delta update (2026-05-24, plan 060 numeric conversion evidence)
 
 ### Landed
@@ -39,6 +55,8 @@
 
 - [OPEN] PRs #28–#38 still open on other branches.
 
+---
+
 ## Delta update (2026-05-24, plan 059 matmul evidence)
 
 ### Landed
@@ -48,6 +66,8 @@
 ### Partial
 
 - [OPEN] PRs #28–#37 still open on other branches.
+
+---
 
 ## Delta update (2026-05-24, plan 058 format evidence)
 
