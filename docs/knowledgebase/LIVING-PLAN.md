@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 101 merge PR #64)
+
+### Landed
+
+- [REPO] Plan 101 — PR #64 merged; plan 100 str encode errors on `main` (349 Vitest, 56 files).
+
+### Partial
+
+- None.
+
+### Next
+
+1. Further bytes/str codec handlers or bytes API when prioritized.
+2. PEP 3118 buffer protocol remains out of scope until planned.
+
+---
+
 ## Delta update (2026-05-24, plan 100 str encode errors)
 
 ### Landed
