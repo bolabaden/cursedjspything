@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 083 merge PR #55)
+
+### Landed
+
+- [REPO] Plan 083 — PR #55 merged; plan 082 LIVING-PLAN prune on `main` (309 Vitest, 50 files; zero `[OPEN] PRs` partials).
+
+### Partial
+
+- None.
+
+### Next
+
+1. bytes / bool↔str / sequence exotic §8.15 when prioritized.
+2. Optional deeper LIVING-PLAN archive when doc maintenance is scheduled.
+
+---
+
 ## Delta update (2026-05-24, plan 082 LIVING-PLAN stale partial prune)
 
 ### Landed
