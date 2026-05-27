@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 093 merge PR #60)
+
+### Landed
+
+- [REPO] Plan 093 — PR #60 merged; plan 092 bytes slice indexing + `sliceIndices` reverse fix on `main` (324 Vitest, 53 files).
+
+### Partial
+
+- None.
+
+### Next
+
+1. bytes `decode()` when prioritized.
+2. PEP 3118 buffer protocol remains out of scope until planned.
+
+---
+
 ## Delta update (2026-05-24, plan 092 bytes slice indexing)
 
 ### Landed
