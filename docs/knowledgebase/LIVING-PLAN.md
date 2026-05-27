@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 140 bytes hex fromhex)
+
+### Landed
+
+- [REPO] Plan 140 — `bytes.hex` / `bytes.fromhex`; `bytes-hex-fromhex.test.ts`.
+
+### Partial
+
+- None.
+
+### Next
+
+1. Merge plan 140 via PR; then codec handlers or further bytes/str API when prioritized.
+2. PEP 3118 buffer protocol remains out of scope until planned.
+
+---
+
 ## Delta update (2026-05-24, plan 139 merge PR #83)
 
 ### Landed
