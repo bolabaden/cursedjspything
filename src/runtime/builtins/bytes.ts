@@ -771,6 +771,38 @@ function bytesSwapcase(data: Uint8Array): PyObject {
   return pyBytes(out);
 }
 
+function requireCenterFill(fill: unknown): number {
+  if (fill === undefined || fill === null) return 0x20;
+  if (fill instanceof PyObject && fill.type === bytesType) {
+    const data = bytesData(fill);
+    if (data.length !== 1) {
+      throw new PyTypeError(
+        `center(): argument 2 must be a byte string of length 1, not a bytes object of length ${data.length}`,
+      );
+    }
+    return data[0]!;
+  }
+  const kind = fill instanceof PyObject ? fill.type.name : typeof fill;
+  throw new PyTypeError(`a bytes-like object is required, not '${kind}'`);
+}
+
+function centerBytes(
+  data: Uint8Array,
+  width: unknown,
+  fill?: unknown,
+): PyObject {
+  const w = splitMaxsplitArg(width);
+  if (w <= data.length) return pyBytes(data);
+  const fillByte = requireCenterFill(fill);
+  const pad = w - data.length;
+  const left = Math.floor(pad / 2);
+  const out = new Uint8Array(w);
+  out.fill(fillByte, 0, left);
+  out.set(data, left);
+  out.fill(fillByte, left + data.length, w);
+  return pyBytes(out);
+}
+
 function findSepIndex(
   data: Uint8Array,
   sep: Uint8Array,
@@ -1050,6 +1082,9 @@ export const bytesType = makeClass({
     }],
     ["swapcase", (self: PyObject) => {
       return bytesSwapcase(bytesData(self));
+    }],
+    ["center", (self: PyObject, width: unknown, fill?: unknown) => {
+      return centerBytes(bytesData(self), width, fill);
     }],
   ]),
 });
