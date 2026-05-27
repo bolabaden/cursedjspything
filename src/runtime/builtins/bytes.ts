@@ -7,11 +7,13 @@ import {
   PyTypeError,
   PyUnicodeDecodeError,
   PyValueError,
+  PyStopIteration,
 } from "../core/errors.js";
 import { nativeVal, setNative } from "./native.js";
 import { pyInt, sequenceRepeatCount } from "./int.js";
 import { isSlice, sliceFields, sliceIndices } from "../collections/slice.js";
 import { pyStr, strType } from "./str.js";
+import { iter, next } from "../dispatch/protocols.js";
 
 function bytesData(self: PyObject): Uint8Array {
   return nativeVal<Uint8Array>(self);
@@ -202,6 +204,58 @@ function firstInvalidUtf8Index(data: Uint8Array): number {
   return -1;
 }
 
+function joinBytes(sep: Uint8Array, iterable: unknown): PyObject {
+  if (!(iterable instanceof PyObject)) {
+    throw new PyTypeError("can only join an iterable");
+  }
+  const parts: Uint8Array[] = [];
+  let total = 0;
+  let index = 0;
+  let it: PyObject;
+  try {
+    it = iter(iterable);
+  } catch (e) {
+    if (e instanceof PyTypeError) {
+      throw new PyTypeError("can only join an iterable");
+    }
+    throw e;
+  }
+  while (true) {
+    let item: unknown;
+    try {
+      item = next(it);
+    } catch (e) {
+      if (e instanceof PyStopIteration) break;
+      throw e;
+    }
+    if (!(item instanceof PyObject) || item.type !== bytesType) {
+      const kind =
+        item instanceof PyObject ? item.type.name : typeof item;
+      throw new PyTypeError(
+        `sequence item ${index}: expected a bytes-like object, ${kind} found`,
+      );
+    }
+    const part = bytesData(item);
+    parts.push(part);
+    total += part.length;
+    index += 1;
+  }
+  if (parts.length === 0) return pyBytes(new Uint8Array(0));
+  total += sep.length * (parts.length - 1);
+  const out = new Uint8Array(total);
+  let offset = 0;
+  for (let i = 0; i < parts.length; i++) {
+    if (i > 0) {
+      out.set(sep, offset);
+      offset += sep.length;
+    }
+    const part = parts[i]!;
+    out.set(part, offset);
+    offset += part.length;
+  }
+  return pyBytes(out);
+}
+
 // ── pyBytes ───────────────────────────────────────────────────────────
 
 export const bytesType = makeClass({
@@ -279,6 +333,9 @@ export const bytesType = makeClass({
       const errMode = decodeErrorsArg(errors);
       const text = decodeBytesPayload(bytesData(self), enc, errMode);
       return pyStr(text);
+    }],
+    ["join", (self: PyObject, iterable: unknown) => {
+      return joinBytes(bytesData(self), iterable);
     }],
   ]),
 });
