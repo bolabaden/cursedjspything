@@ -10,9 +10,10 @@ import {
   PyValueError,
 } from "../core/errors.js";
 import { nativeVal, setNative } from "./native.js";
-import { sequenceRepeatCount } from "./int.js";
+import { sequenceRepeatCount, intType } from "./int.js";
 import { pyBytes } from "./bytes.js";
 import { pyFalse, pyTrue } from "./bool.js";
+import { pyList } from "./list.js";
 
 function repeatStr(self: PyObject, other: PyObject) {
   const n = sequenceRepeatCount(other);
@@ -260,6 +261,113 @@ function stripStr(
   return String.fromCodePoint(...cps.slice(start, end));
 }
 
+function splitMaxsplitArg(maxsplit: unknown): number {
+  if (maxsplit === undefined || maxsplit === null) return -1;
+  if (typeof maxsplit === "number") return maxsplit;
+  if (maxsplit instanceof PyObject) {
+    if (maxsplit.type === intType) {
+      return nativeVal<number>(maxsplit);
+    }
+    const n = sequenceRepeatCount(maxsplit);
+    if (n !== null) return n;
+  }
+  const kind =
+    maxsplit instanceof PyObject ? maxsplit.type.name : typeof maxsplit;
+  throw new PyTypeError(`'${kind}' object cannot be interpreted as an integer`);
+}
+
+function splitStrSepArg(sep: unknown): string | null {
+  if (sep === undefined || sep === null) return null;
+  if (sep instanceof PyObject && sep.type === strType) {
+    return nativeVal<string>(sep);
+  }
+  const kind = sep instanceof PyObject ? sep.type.name : typeof sep;
+  throw new PyTypeError(`must be str or None, not ${kind}`);
+}
+
+function isStrWhitespaceCodePoint(cp: number): boolean {
+  return /^\s$/u.test(String.fromCodePoint(cp));
+}
+
+function strWhitespaceWidth(text: string, pos: number): number {
+  if (pos >= text.length) return 0;
+  const cp = text.codePointAt(pos)!;
+  if (!isStrWhitespaceCodePoint(cp)) return 0;
+  return cp > 0xffff ? 2 : 1;
+}
+
+function splitStrWithSep(text: string, sep: string, maxsplit: number): string[] {
+  if (sep.length === 0) {
+    throw new PyValueError("empty separator");
+  }
+  if (maxsplit === 0) return [text];
+  const parts: string[] = [];
+  let start = 0;
+  let splits = 0;
+  let i = 0;
+  while (i <= text.length - sep.length) {
+    if (text.startsWith(sep, i)) {
+      if (maxsplit >= 0 && splits >= maxsplit) break;
+      parts.push(text.slice(start, i));
+      start = i + sep.length;
+      i = start;
+      splits += 1;
+      continue;
+    }
+    i += 1;
+  }
+  parts.push(text.slice(start));
+  return parts;
+}
+
+function splitStrWhitespace(text: string, maxsplit: number): string[] {
+  if (maxsplit === 0) return [text];
+  const parts: string[] = [];
+  let i = 0;
+  const n = text.length;
+  while (i < n) {
+    let w = strWhitespaceWidth(text, i);
+    while (w > 0) {
+      i += w;
+      w = strWhitespaceWidth(text, i);
+    }
+    if (i >= n) break;
+    const start = i;
+    while (i < n) {
+      w = strWhitespaceWidth(text, i);
+      if (w > 0) break;
+      const cp = text.codePointAt(i)!;
+      i += cp > 0xffff ? 2 : 1;
+    }
+    parts.push(text.slice(start, i));
+    if (maxsplit >= 0 && parts.length >= maxsplit) {
+      while (i < n) {
+        w = strWhitespaceWidth(text, i);
+        if (w === 0) break;
+        i += w;
+      }
+      if (i < n) parts.push(text.slice(i));
+      return parts;
+    }
+    while (i < n) {
+      w = strWhitespaceWidth(text, i);
+      if (w === 0) break;
+      i += w;
+    }
+  }
+  return parts;
+}
+
+function splitStr(text: string, sep: unknown, maxsplit: unknown): PyObject {
+  const limit = splitMaxsplitArg(maxsplit);
+  const sepStr = splitStrSepArg(sep);
+  const chunks =
+    sepStr === null
+      ? splitStrWhitespace(text, limit)
+      : splitStrWithSep(text, sepStr, limit);
+  return pyList(chunks.map((chunk) => pyStr(chunk)));
+}
+
 // ── pyStr ─────────────────────────────────────────────────────────────
 
 export const strType = makeClass({
@@ -355,6 +463,8 @@ export const strType = makeClass({
       pyStr(stripStr(nativeVal<string>(self), chars, "left"))],
     ["rstrip", (self: PyObject, chars?: unknown) =>
       pyStr(stripStr(nativeVal<string>(self), chars, "right"))],
+    ["split", (self: PyObject, sep?: unknown, maxsplit?: unknown) =>
+      splitStr(nativeVal<string>(self), sep, maxsplit)],
   ]),
 });
 
