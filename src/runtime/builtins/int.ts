@@ -6,6 +6,12 @@ import { floatType, pyFloat } from "./float.js";
 import { pyTuple } from "./tuple.js";
 import { PyZeroDivisionError, PyValueError } from "../core/errors.js";
 
+function shiftCount(other: PyObject): number {
+  const n = nativeVal<number>(other);
+  if (n < 0) throw new PyValueError("negative shift count");
+  return n;
+}
+
 function isBoolOperand(other: PyObject): boolean {
   return other.type.name === "bool";
 }
@@ -148,11 +154,11 @@ export const intType = makeClass({
     [Slot.invert, (self: PyObject) => pyInt(~nativeVal<number>(self))],
     [Slot.lshift, (self: PyObject, other: PyObject) => {
       if (other.type !== intType) return NotImplemented;
-      return pyInt(nativeVal<number>(self) << nativeVal<number>(other));
+      return pyInt(nativeVal<number>(self) << shiftCount(other));
     }],
     [Slot.rshift, (self: PyObject, other: PyObject) => {
       if (other.type !== intType) return NotImplemented;
-      return pyInt(nativeVal<number>(self) >> nativeVal<number>(other));
+      return pyInt(nativeVal<number>(self) >> shiftCount(other));
     }],
     [Slot.and, (self: PyObject, other: PyObject) => {
       if (other.type !== intType) return NotImplemented;
