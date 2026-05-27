@@ -589,6 +589,32 @@ function rfindBytes(
   return pyInt(findSubInRange(data, subData, a, b, true));
 }
 
+function indexBytes(
+  data: Uint8Array,
+  sub: unknown,
+  start?: unknown,
+  end?: unknown,
+): PyObject {
+  const subData = requireFindSub(sub);
+  const [a, b] = bytesSliceBounds(data.length, start, end);
+  const idx = findSubInRange(data, subData, a, b, false);
+  if (idx < 0) throw new PyValueError("subsection not found");
+  return pyInt(idx);
+}
+
+function rindexBytes(
+  data: Uint8Array,
+  sub: unknown,
+  start?: unknown,
+  end?: unknown,
+): PyObject {
+  const subData = requireFindSub(sub);
+  const [a, b] = bytesSliceBounds(data.length, start, end);
+  const idx = findSubInRange(data, subData, a, b, true);
+  if (idx < 0) throw new PyValueError("subsection not found");
+  return pyInt(idx);
+}
+
 function findSepIndex(
   data: Uint8Array,
   sep: Uint8Array,
@@ -844,6 +870,12 @@ export const bytesType = makeClass({
     }],
     ["rfind", (self: PyObject, sub: unknown, start?: unknown, end?: unknown) => {
       return rfindBytes(bytesData(self), sub, start, end);
+    }],
+    ["index", (self: PyObject, sub: unknown, start?: unknown, end?: unknown) => {
+      return indexBytes(bytesData(self), sub, start, end);
+    }],
+    ["rindex", (self: PyObject, sub: unknown, start?: unknown, end?: unknown) => {
+      return rindexBytes(bytesData(self), sub, start, end);
     }],
   ]),
 });
