@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 144 bytes translate)
+
+### Landed
+
+- [REPO] Plan 144 — `bytes.maketrans` / `translate`; `bytes-translate.test.ts`.
+
+### Partial
+
+- None.
+
+### Next
+
+1. Codec handlers or further bytes/str API when prioritized.
+2. PEP 3118 buffer protocol remains out of scope until planned.
+
+---
+
 ## Delta update (2026-05-24, plan 143 merge PR #85)
 
 ### Landed
