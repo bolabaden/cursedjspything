@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 155 merge PR #91)
+
+### Landed
+
+- [REPO] Plan 155 — PR #91 merged; plan 154 str upper/lower on `main` (469 Vitest, 80 files).
+
+### Partial
+
+- None.
+
+### Next
+
+1. Further str/bytes API when prioritized.
+2. PEP 3118 buffer protocol remains out of scope until planned.
+
+---
+
 ## Delta update (2026-05-24, plan 154 str upper lower)
 
 ### Landed
