@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 106 bytes startswith endswith)
+
+### Landed
+
+- [REPO] Plan 106 — `bytes.startswith` / `bytes.endswith` with tuple affixes and slice bounds; `bytes-startswith-endswith.test.ts`.
+
+### Partial
+
+- None.
+
+### Next
+
+1. Further bytes methods (`partition`, codec handlers) when prioritized.
+2. PEP 3118 buffer protocol remains out of scope until planned.
+
+---
+
 ## Delta update (2026-05-24, plan 105 merge PR #66)
 
 ### Landed
