@@ -832,6 +832,27 @@ function rjustBytes(
   return pyBytes(out);
 }
 
+function zfillBytes(data: Uint8Array, width: unknown): PyObject {
+  const w = splitMaxsplitArg(width);
+  if (w <= data.length) return pyBytes(data);
+  const pad = w - data.length;
+  let signLen = 0;
+  if (data.length > 0) {
+    const b = data[0]!;
+    if (b === 0x2b || b === 0x2d) signLen = 1;
+  }
+  const out = new Uint8Array(w);
+  if (signLen === 1) {
+    out[0] = data[0]!;
+    out.fill(0x30, 1, 1 + pad);
+    out.set(data.subarray(1), 1 + pad);
+  } else {
+    out.fill(0x30, 0, pad);
+    out.set(data, pad);
+  }
+  return pyBytes(out);
+}
+
 function findSepIndex(
   data: Uint8Array,
   sep: Uint8Array,
@@ -1120,6 +1141,9 @@ export const bytesType = makeClass({
     }],
     ["rjust", (self: PyObject, width: unknown, fill?: unknown) => {
       return rjustBytes(bytesData(self), width, fill);
+    }],
+    ["zfill", (self: PyObject, width: unknown) => {
+      return zfillBytes(bytesData(self), width);
     }],
   ]),
 });
