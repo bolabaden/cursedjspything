@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 165 merge PR #96)
+
+### Landed
+
+- [REPO] Plan 165 — PR #96 merged; plan 164 str rsplit on `main` (494 Vitest, 85 files).
+
+### Partial
+
+- None.
+
+### Next
+
+1. Further str/bytes API when prioritized.
+2. PEP 3118 buffer protocol remains out of scope until planned.
+
+---
+
 ## Delta update (2026-05-24, plan 164 str rsplit)
 
 ### Landed
