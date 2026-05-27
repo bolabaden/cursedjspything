@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 097 merge PR #62)
+
+### Landed
+
+- [REPO] Plan 097 — PR #62 merged; plan 096 bytes decode errors on `main` (335 Vitest, 54 files).
+
+### Partial
+
+- None.
+
+### Next
+
+1. `bytes.join` or `str.encode(errors=...)` when prioritized.
+2. PEP 3118 buffer protocol remains out of scope until planned.
+
+---
+
 ## Delta update (2026-05-24, plan 096 bytes decode errors)
 
 ### Landed
