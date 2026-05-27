@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 128 bytes center)
+
+### Landed
+
+- [REPO] Plan 128 — `bytes.center` with optional fill byte; `bytes-center.test.ts`.
+
+### Partial
+
+- None.
+
+### Next
+
+1. Merge plan 128 via PR; then codec handlers or further bytes/str API when prioritized.
+2. PEP 3118 buffer protocol remains out of scope until planned.
+
+---
+
 ## Delta update (2026-05-24, plan 127 merge PR #77)
 
 ### Landed
