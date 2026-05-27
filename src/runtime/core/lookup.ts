@@ -30,6 +30,7 @@ import {
   PyValueError,
   PyLookupError,
   PyUnicodeDecodeError,
+  PyUnicodeEncodeError,
 } from "./errors.js";
 
 export {
@@ -42,6 +43,7 @@ export {
   PyValueError,
   PyLookupError,
   PyUnicodeDecodeError,
+  PyUnicodeEncodeError,
 } from "./errors.js";
 
 // ── helpers ───────────────────────────────────────────────────────────

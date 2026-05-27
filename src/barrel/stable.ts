@@ -29,6 +29,7 @@ export {
   PyValueError,
   PyLookupError,
   PyUnicodeDecodeError,
+  PyUnicodeEncodeError,
 } from "../runtime/core/lookup.js";
 
 export {

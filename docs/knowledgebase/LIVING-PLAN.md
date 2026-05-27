@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 100 str encode errors)
+
+### Landed
+
+- [REPO] Plan 100 — `str.encode(encoding, errors=)` → `pyBytes`; `PyUnicodeEncodeError`; `str-encode.test.ts`.
+
+### Partial
+
+- None.
+
+### Next
+
+1. Further bytes/str codec handlers or bytes API when prioritized.
+2. PEP 3118 buffer protocol remains out of scope until planned.
+
+---
+
 ## Delta update (2026-05-24, plan 099 merge PR #63)
 
 ### Landed

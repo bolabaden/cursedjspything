@@ -2,7 +2,13 @@ import { PyObject, NotImplemented } from "../core/object.js";
 import { Slot, Hook } from "../core/slots.js";
 import { makeClass } from "../class/class.js";
 import { PyStopIteration } from "../core/lookup.js";
-import { PyTypeError, PyIndexError } from "../core/errors.js";
+import {
+  PyIndexError,
+  PyLookupError,
+  PyTypeError,
+  PyUnicodeEncodeError,
+  PyValueError,
+} from "../core/errors.js";
 import { nativeVal, setNative } from "./native.js";
 import { sequenceRepeatCount } from "./int.js";
 import { pyBytes } from "./bytes.js";
@@ -11,6 +17,96 @@ function repeatStr(self: PyObject, other: PyObject) {
   const n = sequenceRepeatCount(other);
   if (n === null) return NotImplemented;
   return pyStr(nativeVal<string>(self).repeat(n));
+}
+
+function normalizeEncodingName(raw: string): string {
+  return raw.toLowerCase().replace(/_/g, "-");
+}
+
+function encodeEncodingArg(encoding: unknown): string {
+  if (encoding === undefined || encoding === null) return "utf-8";
+  if (encoding instanceof PyObject && encoding.type === strType) {
+    return nativeVal<string>(encoding);
+  }
+  const kind =
+    encoding instanceof PyObject ? encoding.type.name : typeof encoding;
+  throw new PyTypeError(
+    `encode() argument 'encoding' must be str, not ${kind}`,
+  );
+}
+
+function encodeErrorsArg(errors: unknown): "strict" | "replace" | "ignore" {
+  if (errors === undefined || errors === null) return "strict";
+  if (errors instanceof PyObject && errors.type === strType) {
+    const name = nativeVal<string>(errors);
+    if (name === "strict" || name === "replace" || name === "ignore") {
+      return name;
+    }
+    throw new PyValueError(`unknown errors handler: '${name}'`);
+  }
+  const kind = errors instanceof PyObject ? errors.type.name : typeof errors;
+  throw new PyTypeError(`encode() argument 'errors' must be str, not ${kind}`);
+}
+
+function formatEncodeChar(cp: number): string {
+  if (cp <= 0xff) {
+    return `'\\x${cp.toString(16).padStart(2, "0")}'`;
+  }
+  const hex = cp.toString(16).padStart(4, "0");
+  return `'\\u${hex}'`;
+}
+
+function encodeLimited(
+  text: string,
+  codec: string,
+  max: number,
+  errors: "strict" | "replace" | "ignore",
+): Uint8Array {
+  const out: number[] = [];
+  for (let i = 0; i < text.length; ) {
+    const cp = text.codePointAt(i)!;
+    const width = cp > 0xffff ? 2 : 1;
+    if (cp <= max) {
+      out.push(cp);
+    } else if (errors === "strict") {
+      throw new PyUnicodeEncodeError(
+        `'${codec}' codec can't encode character ${formatEncodeChar(cp)} in position ${i}: ordinal not in range(${max + 1})`,
+      );
+    } else if (errors === "replace") {
+      out.push(0x3f);
+    }
+    i += width;
+  }
+  return new Uint8Array(out);
+}
+
+function encodeStrPayload(
+  text: string,
+  encoding: string,
+  errors: "strict" | "replace" | "ignore",
+): Uint8Array {
+  const enc = normalizeEncodingName(encoding);
+  if (enc === "utf-8" || enc === "utf8") {
+    return new TextEncoder().encode(text);
+  }
+  if (enc === "ascii") {
+    return encodeLimited(text, "ascii", 0x7f, errors);
+  }
+  if (enc === "latin-1" || enc === "latin1" || enc === "iso-8859-1") {
+    return encodeLimited(text, "latin-1", 0xff, errors);
+  }
+  throw new PyLookupError(`unknown encoding: ${encoding}`);
+}
+
+function encodeStr(
+  self: PyObject,
+  encoding?: unknown,
+  errors?: unknown,
+): PyObject {
+  const text = nativeVal<string>(self);
+  const enc = encodeEncodingArg(encoding);
+  const errMode = encodeErrorsArg(errors);
+  return pyBytes(encodeStrPayload(text, enc, errMode));
 }
 
 // ── pyStr ─────────────────────────────────────────────────────────────
@@ -94,8 +190,9 @@ export const strType = makeClass({
       if (spec === "" || spec === "s") return nativeVal<string>(self);
       return nativeVal<string>(self);
     }],
-    [Hook.bytes, (self: PyObject) => {
-      return pyBytes(new TextEncoder().encode(nativeVal<string>(self)));
+    [Hook.bytes, (self: PyObject) => encodeStr(self)],
+    ["encode", (self: PyObject, encoding?: unknown, errors?: unknown) => {
+      return encodeStr(self, encoding, errors);
     }],
   ]),
 });
@@ -105,4 +202,3 @@ export function pyStr(v: string): PyObject {
   setNative(obj, v);
   return obj;
 }
-
