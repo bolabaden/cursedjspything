@@ -9,6 +9,18 @@
 
 ---
 
+## Delta update (2026-05-24, plan 067 float-str floordiv/mod)
+
+### Landed
+
+- [REPO] Plan 067 — `operator-float-str-floordiv-mod.test.ts`; COMPATIBILITY §8.15 evidence (222 Vitest).
+
+### Partial
+
+- [OPEN] PRs #28–#45 still open on other branches.
+
+---
+
 ## Delta update (2026-05-24, plan 066 float-str divmod/pow)
 
 ### Landed
