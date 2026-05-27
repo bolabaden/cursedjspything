@@ -748,6 +748,18 @@ function bytesLower(data: Uint8Array): PyObject {
   return pyBytes(out);
 }
 
+function bytesCapitalize(data: Uint8Array): PyObject {
+  if (data.length === 0) return pyBytes(data);
+  const out = new Uint8Array(data.length);
+  let b = data[0]!;
+  out[0] = b >= 0x61 && b <= 0x7a ? b - 0x20 : b;
+  for (let i = 1; i < data.length; i++) {
+    b = data[i]!;
+    out[i] = b >= 0x41 && b <= 0x5a ? b + 0x20 : b;
+  }
+  return pyBytes(out);
+}
+
 function findSepIndex(
   data: Uint8Array,
   sep: Uint8Array,
@@ -1021,6 +1033,9 @@ export const bytesType = makeClass({
     }],
     ["lower", (self: PyObject) => {
       return bytesLower(bytesData(self));
+    }],
+    ["capitalize", (self: PyObject) => {
+      return bytesCapitalize(bytesData(self));
     }],
   ]),
 });
