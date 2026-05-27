@@ -6,6 +6,7 @@ import { PyObject } from "../core/object.js";
 import { makeClass } from "../class/class.js";
 import { Slot } from "../core/slots.js";
 import { setNative, nativeVal } from "../builtins/native.js";
+import { PyValueError } from "../core/errors.js";
 
 export interface SliceFields {
   start: number | null;
@@ -50,7 +51,7 @@ export function sliceIndices(
   step: number | null,
 ): number[] {
   const s = step ?? 1;
-  if (s === 0) throw new RangeError("slice step cannot be zero");
+  if (s === 0) throw new PyValueError("slice step cannot be zero");
 
   let a = start ?? (s < 0 ? length - 1 : 0);
   let b = stop ?? (s < 0 ? -1 : length);

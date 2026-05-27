@@ -7,6 +7,7 @@
  */
 
 import { Slot, Hook, type dunderName } from "./slots.js";
+import { PyTypeError } from "./errors.js";
 
 // ── identity ──────────────────────────────────────────────────────────
 
@@ -123,7 +124,7 @@ function merge(sequences: PyType[][]): PyType[] {
       }
     }
     if (!next) {
-      throw new TypeError(
+      throw new PyTypeError(
         "Cannot create a consistent method resolution order (MRO)",
       );
     }
