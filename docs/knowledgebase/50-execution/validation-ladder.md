@@ -97,6 +97,7 @@ Emits JSON (`vitest_seconds`, pass gates, `test_count`); use median of several r
 | `test/cpython-derived/bytes-startswith-endswith.test.ts` | bytes.startswith/endswith affix and bounds |
 | `test/cpython-derived/bytes-partition.test.ts` | bytes.partition/rpartition triple split |
 | `test/cpython-derived/bytes-splitlines.test.ts` | bytes.splitlines keepends and line breaks |
+| `test/cpython-derived/bytes-strip.test.ts` | bytes.strip/lstrip/rstrip whitespace and chars |
 | `test/cpython-derived/bytes-decode.test.ts` | bytes.decode UTF-8/latin-1, errors strict/replace/ignore |
 | `test/cpython-derived/bytes-slice-index.test.ts` | bytes slice subscript returns bytes |
 | `test/cpython-derived/bytes-getitem-compare.test.ts` | bytes int index + lexicographic rich compare |
