@@ -99,6 +99,7 @@ Emits JSON (`vitest_seconds`, pass gates, `test_count`); use median of several r
 | `test/cpython-derived/bytes-splitlines.test.ts` | bytes.splitlines keepends and line breaks |
 | `test/cpython-derived/bytes-strip.test.ts` | bytes.strip/lstrip/rstrip whitespace and chars |
 | `test/cpython-derived/bytes-find.test.ts` | bytes.find/rfind subbytes search with bounds |
+| `test/cpython-derived/bytes-index.test.ts` | bytes.index/rindex subbytes search; ValueError on miss |
 | `test/cpython-derived/bytes-decode.test.ts` | bytes.decode UTF-8/latin-1, errors strict/replace/ignore |
 | `test/cpython-derived/bytes-slice-index.test.ts` | bytes slice subscript returns bytes |
 | `test/cpython-derived/bytes-getitem-compare.test.ts` | bytes int index + lexicographic rich compare |

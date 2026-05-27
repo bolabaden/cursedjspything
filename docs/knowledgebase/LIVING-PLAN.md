@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 116 bytes index)
+
+### Landed
+
+- [REPO] Plan 116 — `bytes.index` / `rindex` with optional start/end; `bytes-index.test.ts`.
+
+### Partial
+
+- None.
+
+### Next
+
+1. Merge plan 116 via PR; then codec handlers or further bytes/str API when prioritized.
+2. PEP 3118 buffer protocol remains out of scope until planned.
+
+---
+
 ## Delta update (2026-05-24, plan 115 merge PR #71)
 
 ### Landed
