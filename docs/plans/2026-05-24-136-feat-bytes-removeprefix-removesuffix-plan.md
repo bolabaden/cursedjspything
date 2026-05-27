@@ -1,7 +1,7 @@
 ---
 title: "feat: bytes removeprefix and removesuffix"
 type: feat
-status: active
+status: completed
 date: 2026-05-24
 origin: docs/knowledgebase/LIVING-PLAN.md plan 135 next steps
 ---

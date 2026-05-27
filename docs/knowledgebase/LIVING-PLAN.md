@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 137 merge PR #82)
+
+### Landed
+
+- [REPO] Plan 137 — PR #82 merged; plan 136 bytes removeprefix/removesuffix on `main` (442 Vitest, 74 files).
+
+### Partial
+
+- None.
+
+### Next
+
+1. Codec handlers or further bytes/str API when prioritized.
+2. PEP 3118 buffer protocol remains out of scope until planned.
+
+---
+
 ## Delta update (2026-05-24, plan 136 bytes removeprefix removesuffix)
 
 ### Landed
