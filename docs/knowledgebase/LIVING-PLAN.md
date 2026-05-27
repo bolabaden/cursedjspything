@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 107 merge PR #67)
+
+### Landed
+
+- [REPO] Plan 107 — PR #67 merged; plan 106 bytes startswith/endswith on `main` (374 Vitest, 59 files).
+
+### Partial
+
+- None.
+
+### Next
+
+1. Further bytes methods (`partition`, codec handlers) when prioritized.
+2. PEP 3118 buffer protocol remains out of scope until planned.
+
+---
+
 ## Delta update (2026-05-24, plan 106 bytes startswith endswith)
 
 ### Landed
