@@ -10,7 +10,7 @@ import {
   PyValueError,
 } from "../core/errors.js";
 import { nativeVal, setNative } from "./native.js";
-import { sequenceRepeatCount, intType } from "./int.js";
+import { sequenceRepeatCount, intType, pyInt } from "./int.js";
 import { pyBytes } from "./bytes.js";
 import { pyFalse, pyTrue, boolType } from "./bool.js";
 import { pyList } from "./list.js";
@@ -585,6 +585,81 @@ function findStrSepIndex(text: string, sep: string, fromRight: boolean): number 
   return -1;
 }
 
+function parseBoundIndex(value: unknown, length: number): number {
+  if (typeof value === "number") return value;
+  if (value instanceof PyObject) {
+    if (value.type === intType) {
+      return nativeVal<number>(value);
+    }
+    const n = sequenceRepeatCount(value);
+    if (n !== null) return n;
+  }
+  const kind = value instanceof PyObject ? value.type.name : typeof value;
+  throw new PyTypeError(`slice indices must be integers or None or have an __index__ method`);
+}
+
+function strSliceBounds(
+  length: number,
+  start: unknown,
+  end: unknown,
+): [number, number] {
+  let a =
+    start === undefined || start === null ? 0 : parseBoundIndex(start, length);
+  let b =
+    end === undefined || end === null ? length : parseBoundIndex(end, length);
+  if (a < 0) a += length;
+  if (b < 0) b += length;
+  a = Math.max(0, Math.min(a, length));
+  b = Math.max(0, Math.min(b, length));
+  return [a, b];
+}
+
+function requireFindStrSub(sub: unknown): string {
+  if (sub instanceof PyObject && sub.type === strType) {
+    return nativeVal<string>(sub);
+  }
+  const kind = sub instanceof PyObject ? sub.type.name : typeof sub;
+  throw new PyTypeError(`must be str, not ${kind}`);
+}
+
+function findSubInStrRange(
+  text: string,
+  sub: string,
+  start: number,
+  end: number,
+  fromRight: boolean,
+): number {
+  if (start > end) return -1;
+  if (sub.length === 0) {
+    return fromRight ? end : start;
+  }
+  const slice = text.slice(start, end);
+  const rel = findStrSepIndex(slice, sub, fromRight);
+  return rel < 0 ? -1 : rel + start;
+}
+
+function findStr(
+  text: string,
+  sub: unknown,
+  start?: unknown,
+  end?: unknown,
+): PyObject {
+  const subStr = requireFindStrSub(sub);
+  const [a, b] = strSliceBounds(text.length, start, end);
+  return pyInt(findSubInStrRange(text, subStr, a, b, false));
+}
+
+function rfindStr(
+  text: string,
+  sub: unknown,
+  start?: unknown,
+  end?: unknown,
+): PyObject {
+  const subStr = requireFindStrSub(sub);
+  const [a, b] = strSliceBounds(text.length, start, end);
+  return pyInt(findSubInStrRange(text, subStr, a, b, true));
+}
+
 function partitionStr(text: string, sep: unknown): PyObject {
   const sepStr = requirePartitionStrSep(sep);
   const idx = findStrSepIndex(text, sepStr, false);
@@ -784,6 +859,10 @@ export const strType = makeClass({
       rpartitionStr(nativeVal<string>(self), sep)],
     ["splitlines", (self: PyObject, keepends?: unknown) =>
       splitlinesStr(nativeVal<string>(self), keepends)],
+    ["find", (self: PyObject, sub: unknown, start?: unknown, end?: unknown) =>
+      findStr(nativeVal<string>(self), sub, start, end)],
+    ["rfind", (self: PyObject, sub: unknown, start?: unknown, end?: unknown) =>
+      rfindStr(nativeVal<string>(self), sub, start, end)],
   ]),
 });
 

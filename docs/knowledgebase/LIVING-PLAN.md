@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 178 str find)
+
+### Landed
+
+- [REPO] Plan 178 — `str.find` / `str.rfind`; `str-find.test.ts`.
+
+### Partial
+
+- None.
+
+### Next
+
+1. Further str/bytes API when prioritized (index, count, startswith).
+2. PEP 3118 buffer protocol remains out of scope until planned.
+
+---
+
 ## Delta update (2026-05-24, plan 177 merge PR #102)
 
 ### Landed
