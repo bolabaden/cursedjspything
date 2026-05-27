@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 129 merge PR #78)
+
+### Landed
+
+- [REPO] Plan 129 — PR #78 merged; plan 128 bytes center on `main` (430 Vitest, 70 files).
+
+### Partial
+
+- None.
+
+### Next
+
+1. Codec handlers or further bytes/str API when prioritized.
+2. PEP 3118 buffer protocol remains out of scope until planned.
+
+---
+
 ## Delta update (2026-05-24, plan 128 bytes center)
 
 ### Landed
