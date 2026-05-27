@@ -254,6 +254,97 @@ function strIsascii(text: string): PyObject {
   return pyTrue;
 }
 
+function strIsalpha(text: string): PyObject {
+  if (text.length === 0) return pyFalse;
+  for (let i = 0; i < text.length; ) {
+    const cp = text.codePointAt(i)!;
+    if (!/^\p{L}$/u.test(String.fromCodePoint(cp))) return pyFalse;
+    i += cp > 0xffff ? 2 : 1;
+  }
+  return pyTrue;
+}
+
+function strIsdigit(text: string): PyObject {
+  if (text.length === 0) return pyFalse;
+  for (let i = 0; i < text.length; ) {
+    const cp = text.codePointAt(i)!;
+    if (!/^\p{Nd}$/u.test(String.fromCodePoint(cp))) return pyFalse;
+    i += cp > 0xffff ? 2 : 1;
+  }
+  return pyTrue;
+}
+
+function strIsalnum(text: string): PyObject {
+  if (text.length === 0) return pyFalse;
+  for (let i = 0; i < text.length; ) {
+    const cp = text.codePointAt(i)!;
+    const ch = String.fromCodePoint(cp);
+    if (!/^\p{L}$/u.test(ch) && !/^\p{Nd}$/u.test(ch)) return pyFalse;
+    i += cp > 0xffff ? 2 : 1;
+  }
+  return pyTrue;
+}
+
+function strHasCasedCharacter(text: string): boolean {
+  for (let i = 0; i < text.length; ) {
+    const cp = text.codePointAt(i)!;
+    const ch = String.fromCodePoint(cp);
+    if (ch.toUpperCase() !== ch.toLowerCase()) return true;
+    i += cp > 0xffff ? 2 : 1;
+  }
+  return false;
+}
+
+function strIslower(text: string): PyObject {
+  if (text.length === 0) return pyFalse;
+  let cased = false;
+  for (let i = 0; i < text.length; ) {
+    const cp = text.codePointAt(i)!;
+    const ch = String.fromCodePoint(cp);
+    const upper = ch.toUpperCase();
+    const lower = ch.toLowerCase();
+    if (upper !== lower) {
+      cased = true;
+      if (ch !== lower) return pyFalse;
+    }
+    i += cp > 0xffff ? 2 : 1;
+  }
+  return cased ? pyTrue : pyFalse;
+}
+
+function strIsupper(text: string): PyObject {
+  if (text.length === 0) return pyFalse;
+  let cased = false;
+  for (let i = 0; i < text.length; ) {
+    const cp = text.codePointAt(i)!;
+    const ch = String.fromCodePoint(cp);
+    const upper = ch.toUpperCase();
+    const lower = ch.toLowerCase();
+    if (upper !== lower) {
+      cased = true;
+      if (ch !== upper) return pyFalse;
+    }
+    i += cp > 0xffff ? 2 : 1;
+  }
+  return cased ? pyTrue : pyFalse;
+}
+
+function strIstitle(text: string): PyObject {
+  if (text.length === 0) return pyFalse;
+  if (strTitle(text) !== text) return pyFalse;
+  return strHasCasedCharacter(text) ? pyTrue : pyFalse;
+}
+
+function strIsspace(text: string): PyObject {
+  if (text.length === 0) return pyFalse;
+  for (let i = 0; i < text.length; ) {
+    const cp = text.codePointAt(i)!;
+    if (!isStrWhitespaceCodePoint(cp)) return pyFalse;
+    i += cp > 0xffff ? 2 : 1;
+  }
+  return pyTrue;
+}
+
 function strStripPredicate(chars: unknown): (cp: number) => boolean {
   if (chars === undefined || chars === null) {
     return (cp) => /^\s$/u.test(String.fromCodePoint(cp));
@@ -670,6 +761,13 @@ export const strType = makeClass({
     ["title", (self: PyObject) => pyStr(strTitle(nativeVal<string>(self)))],
     ["swapcase", (self: PyObject) => pyStr(strSwapcase(nativeVal<string>(self)))],
     ["isascii", (self: PyObject) => strIsascii(nativeVal<string>(self))],
+    ["isalpha", (self: PyObject) => strIsalpha(nativeVal<string>(self))],
+    ["isdigit", (self: PyObject) => strIsdigit(nativeVal<string>(self))],
+    ["isalnum", (self: PyObject) => strIsalnum(nativeVal<string>(self))],
+    ["islower", (self: PyObject) => strIslower(nativeVal<string>(self))],
+    ["isupper", (self: PyObject) => strIsupper(nativeVal<string>(self))],
+    ["istitle", (self: PyObject) => strIstitle(nativeVal<string>(self))],
+    ["isspace", (self: PyObject) => strIsspace(nativeVal<string>(self))],
     ["strip", (self: PyObject, chars?: unknown) =>
       pyStr(stripStr(nativeVal<string>(self), chars, "both"))],
     ["lstrip", (self: PyObject, chars?: unknown) =>
