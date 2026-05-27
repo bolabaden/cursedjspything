@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 118 bytes count)
+
+### Landed
+
+- [REPO] Plan 118 — `bytes.count` with optional start/end; `bytes-count.test.ts`.
+
+### Partial
+
+- None.
+
+### Next
+
+1. Merge plan 118 via PR; then codec handlers or further bytes/str API when prioritized.
+2. PEP 3118 buffer protocol remains out of scope until planned.
+
+---
+
 ## Delta update (2026-05-24, plan 117 merge PR #72)
 
 ### Landed
