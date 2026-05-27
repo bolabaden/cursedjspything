@@ -660,6 +660,32 @@ function rfindStr(
   return pyInt(findSubInStrRange(text, subStr, a, b, true));
 }
 
+function indexStr(
+  text: string,
+  sub: unknown,
+  start?: unknown,
+  end?: unknown,
+): PyObject {
+  const subStr = requireFindStrSub(sub);
+  const [a, b] = strSliceBounds(text.length, start, end);
+  const idx = findSubInStrRange(text, subStr, a, b, false);
+  if (idx < 0) throw new PyValueError("substring not found");
+  return pyInt(idx);
+}
+
+function rindexStr(
+  text: string,
+  sub: unknown,
+  start?: unknown,
+  end?: unknown,
+): PyObject {
+  const subStr = requireFindStrSub(sub);
+  const [a, b] = strSliceBounds(text.length, start, end);
+  const idx = findSubInStrRange(text, subStr, a, b, true);
+  if (idx < 0) throw new PyValueError("substring not found");
+  return pyInt(idx);
+}
+
 function partitionStr(text: string, sep: unknown): PyObject {
   const sepStr = requirePartitionStrSep(sep);
   const idx = findStrSepIndex(text, sepStr, false);
@@ -863,6 +889,10 @@ export const strType = makeClass({
       findStr(nativeVal<string>(self), sub, start, end)],
     ["rfind", (self: PyObject, sub: unknown, start?: unknown, end?: unknown) =>
       rfindStr(nativeVal<string>(self), sub, start, end)],
+    ["index", (self: PyObject, sub: unknown, start?: unknown, end?: unknown) =>
+      indexStr(nativeVal<string>(self), sub, start, end)],
+    ["rindex", (self: PyObject, sub: unknown, start?: unknown, end?: unknown) =>
+      rindexStr(nativeVal<string>(self), sub, start, end)],
   ]),
 });
 
