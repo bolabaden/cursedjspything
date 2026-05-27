@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 125 merge PR #76)
+
+### Landed
+
+- [REPO] Plan 125 — PR #76 merged; plan 124 bytes capitalize on `main` (423 Vitest, 68 files).
+
+### Partial
+
+- None.
+
+### Next
+
+1. Codec handlers or further bytes/str API when prioritized.
+2. PEP 3118 buffer protocol remains out of scope until planned.
+
+---
+
 ## Delta update (2026-05-24, plan 124 bytes capitalize)
 
 ### Landed
