@@ -5,6 +5,7 @@ import { PyStopIteration } from "../core/lookup.js";
 import { PyTypeError, PyIndexError } from "../core/errors.js";
 import { nativeVal, setNative } from "./native.js";
 import { sequenceRepeatCount } from "./int.js";
+import { pyBytes } from "./bytes.js";
 
 function repeatStr(self: PyObject, other: PyObject) {
   const n = sequenceRepeatCount(other);
@@ -94,7 +95,7 @@ export const strType = makeClass({
       return nativeVal<string>(self);
     }],
     [Hook.bytes, (self: PyObject) => {
-      return new TextEncoder().encode(nativeVal<string>(self));
+      return pyBytes(new TextEncoder().encode(nativeVal<string>(self)));
     }],
   ]),
 });

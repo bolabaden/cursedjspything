@@ -157,5 +157,7 @@ export {
   dictType,
   pySet,
   setType,
+  pyBytes,
+  bytesType,
   unwrap,
 } from "../runtime/builtins/index.js";

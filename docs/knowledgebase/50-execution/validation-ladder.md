@@ -91,6 +91,7 @@ Emits JSON (`vitest_seconds`, pass gates, `test_count`); use median of several r
 | `test/cpython-derived/operator-matmul-evidence.test.ts` | matmul @ rejects builtins without __matmul__ |
 | `test/cpython-derived/operator-format-evidence.test.ts` | format() __format__, empty-spec str fallback, TypeError |
 | `test/cpython-derived/operator-bytes-conversion.test.ts` | bytes() on str vs int/float TypeError |
+| `test/cpython-derived/operator-bytes-cross-type.test.ts` | bytes add/mul cross-type TypeError; bytes+bytes and bytes*int |
 | `test/cpython-derived/operator-float-str-binary.test.ts` | float↔str add/sub/truediv TypeError |
 | `test/cpython-derived/operator-bool-str-binary.test.ts` | bool↔str add/sub/truediv TypeError ('bool' typename) |
 | `test/cpython-derived/operator-bool-str-remaining-binary.test.ts` | bool↔str floordiv/mod/divmod/pow TypeError |
