@@ -13,7 +13,7 @@ import { nativeVal, setNative } from "./native.js";
 import { pyInt, sequenceRepeatCount, intType } from "./int.js";
 import { pyList } from "./list.js";
 import { pyTrue, pyFalse } from "./bool.js";
-import { tupleType } from "./tuple.js";
+import { tupleType, pyTuple } from "./tuple.js";
 import { isSlice, sliceFields, sliceIndices } from "../collections/slice.js";
 import { pyStr, strType } from "./str.js";
 import { iter, next } from "../dispatch/protocols.js";
@@ -527,6 +527,85 @@ function bytesEndswith(
   return pyFalse;
 }
 
+const emptyBytes = new Uint8Array(0);
+
+function requirePartitionSep(sep: unknown): Uint8Array {
+  if (sep instanceof PyObject && sep.type === bytesType) {
+    const data = bytesData(sep);
+    if (data.length === 0) {
+      throw new PyValueError("empty separator");
+    }
+    return data;
+  }
+  const kind = sep instanceof PyObject ? sep.type.name : typeof sep;
+  throw new PyTypeError(`a bytes-like object is required, not '${kind}'`);
+}
+
+function findSepIndex(
+  data: Uint8Array,
+  sep: Uint8Array,
+  fromRight: boolean,
+): number {
+  if (fromRight) {
+    for (let i = data.length - sep.length; i >= 0; i--) {
+      let match = true;
+      for (let j = 0; j < sep.length; j++) {
+        if (data[i + j] !== sep[j]!) {
+          match = false;
+          break;
+        }
+      }
+      if (match) return i;
+    }
+    return -1;
+  }
+  for (let i = 0; i <= data.length - sep.length; i++) {
+    let match = true;
+    for (let j = 0; j < sep.length; j++) {
+      if (data[i + j] !== sep[j]!) {
+        match = false;
+        break;
+      }
+    }
+    if (match) return i;
+  }
+  return -1;
+}
+
+function partitionBytes(data: Uint8Array, sep: unknown): PyObject {
+  const sepData = requirePartitionSep(sep);
+  const idx = findSepIndex(data, sepData, false);
+  if (idx < 0) {
+    return pyTuple([
+      pyBytes(data),
+      pyBytes(emptyBytes),
+      pyBytes(emptyBytes),
+    ]);
+  }
+  return pyTuple([
+    pyBytes(data.subarray(0, idx)),
+    pyBytes(sepData),
+    pyBytes(data.subarray(idx + sepData.length)),
+  ]);
+}
+
+function rpartitionBytes(data: Uint8Array, sep: unknown): PyObject {
+  const sepData = requirePartitionSep(sep);
+  const idx = findSepIndex(data, sepData, true);
+  if (idx < 0) {
+    return pyTuple([
+      pyBytes(emptyBytes),
+      pyBytes(emptyBytes),
+      pyBytes(data),
+    ]);
+  }
+  return pyTuple([
+    pyBytes(data.subarray(0, idx)),
+    pyBytes(sepData),
+    pyBytes(data.subarray(idx + sepData.length)),
+  ]);
+}
+
 // ── pyBytes ───────────────────────────────────────────────────────────
 
 export const bytesType = makeClass({
@@ -619,6 +698,12 @@ export const bytesType = makeClass({
     }],
     ["endswith", (self: PyObject, suffix: unknown, start?: unknown, end?: unknown) => {
       return bytesEndswith(bytesData(self), suffix, start, end);
+    }],
+    ["partition", (self: PyObject, sep: unknown) => {
+      return partitionBytes(bytesData(self), sep);
+    }],
+    ["rpartition", (self: PyObject, sep: unknown) => {
+      return rpartitionBytes(bytesData(self), sep);
     }],
   ]),
 });
