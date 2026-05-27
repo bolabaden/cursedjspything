@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 147 merge PR #87)
+
+### Landed
+
+- [REPO] Plan 147 — PR #87 merged; plan 146 bytes isascii/contains on `main` (460 Vitest, 79 files).
+
+### Partial
+
+- None.
+
+### Next
+
+1. Codec handlers or further bytes/str API when prioritized.
+2. PEP 3118 buffer protocol remains out of scope until planned.
+
+---
+
 ## Delta update (2026-05-24, plan 146 bytes isascii contains)
 
 ### Landed
