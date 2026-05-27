@@ -326,7 +326,7 @@ This section lists **known** mismatches that are easy to mistake for “bugs” 
 
 ### 8.1 Class creation is not `type.__call__` / `type.__new__` faithful
 
-`makeClass` constructs `new PyType(...)` directly and runs a **subset** of the class creation pipeline (`resolveBases`, `calculateMetaclass`, `prepareNamespace` exists but is not always composed the way a Python `class` statement is, `__set_name__`, `__init_subclass__`).
+`makeClass` constructs `new PyType(...)` directly and runs a **subset** of the class creation pipeline (`resolveBases`, `calculateMetaclass`, `prepareNamespace` exists but is not always composed the way a Python `class` statement is, `__set_name__`, `__init_subclass__`). Inconsistent C3 MRO raises **`PyTypeError`** (`Cannot create a consistent method resolution order (MRO)`), matching CPython's exception type.
 
 CPython reference: **\[3\]**, implementation: [`Objects/typeobject.c`](https://github.com/python/cpython/blob/main/Objects/typeobject.c) (notably `type_new`, `type_call`, slot installation from `slotdefs[]`, and metaclass conflict resolution).
 
@@ -354,7 +354,7 @@ Python dict keys use **rich equality** + **consistent hashing** rules. `pyDict` 
 
 ### 8.7 Slicing
 
-`pySlice` and `sliceIndices` live in `src/runtime/collections/slice.ts`. `getItem` passes a slice object to `__getitem__` once. `pyList` / `pyTuple` implement `__getitem__(slice)` and return a new list/tuple; other types must implement slice subscripts themselves. Golden case `slice_list` compares against CPython.
+`pySlice` and `sliceIndices` live in `src/runtime/collections/slice.ts`. `getItem` passes a slice object to `__getitem__` once. `pyList` / `pyTuple` implement `__getitem__(slice)` and return a new list/tuple; other types must implement slice subscripts themselves. Zero step raises **`PyValueError`** (`slice step cannot be zero`), matching CPython. Golden case `slice_list` compares against CPython.
 
 ### 8.8 Rich compare / `NotImplemented`
 
@@ -394,6 +394,34 @@ For **str↔scalar** and other non-numeric builtin pairs (for example `str` with
 
 **Evidence:** `test/cpython-derived/operator-int-float.test.ts`, `operator-int-bool.test.ts`, `operator-bool-float.test.ts`, `operator-str-scalar.test.ts`, `operator-int-str-remaining-binary.test.ts`, `operator-float-str-binary.test.ts`, `operator-bool-str-remaining-binary.test.ts`, and `sequence-repeat-bool.test.ts` port thin matrices from CPython `Lib/test/test_operator.py` / rich-compare spirit. Golden keys: `int_float_*`, `bool_int_*`, `bool_float_*`. **Remaining gap:** cross-type ops involving `bytes`, float↔str beyond add/sub/truediv, and sequences vs unrelated scalars without matching special methods are not coerced the way CPython does.
 
+---
+
+**Evidence:** `test/cpython-derived/operator-int-float.test.ts`, `operator-int-bool.test.ts`, `operator-bool-float.test.ts`, `operator-str-scalar.test.ts`, `operator-str-float.test.ts`, and `sequence-repeat-bool.test.ts` port thin matrices from CPython `Lib/test/test_operator.py` / rich-compare spirit. Golden keys: `int_float_*`, `bool_int_*`, `bool_float_*`. **Remaining gap:** cross-type ops involving `bytes`, sequences vs unrelated scalars without matching special methods are not coerced the way CPython does.
+
+---
+
+**Evidence:** `test/cpython-derived/operator-int-float.test.ts`, `operator-int-bool.test.ts`, `operator-bool-float.test.ts`, `operator-str-scalar.test.ts`, `operator-sequence-cross-type-add.test.ts`, and `sequence-repeat-bool.test.ts` port thin matrices from CPython `Lib/test/test_operator.py` / rich-compare spirit. Golden keys: `int_float_*`, `bool_int_*`, `bool_float_*`. **Remaining gap:** cross-type ops involving `bytes` and other exotic pairs without matching special methods are not coerced the way CPython does.
+
+---
+
+**Evidence:** `test/cpython-derived/operator-int-float.test.ts`, `operator-int-bool.test.ts`, `operator-bool-float.test.ts`, `operator-str-scalar.test.ts`, `operator-float-str-binary.test.ts`, `operator-bool-str-binary.test.ts`, `operator-bool-str-remaining-binary.test.ts`, `operator-inplace-cross-type.test.ts`, and `sequence-repeat-bool.test.ts` port thin matrices from CPython `Lib/test/test_operator.py` / rich-compare spirit. Golden keys: `int_float_*`, `bool_int_*`, `bool_float_*`. **Remaining gap:** cross-type ops involving `bytes`, sequences vs unrelated scalars without matching special methods are not coerced the way CPython does.
+
+---
+
+**Evidence:** `test/cpython-derived/operator-int-float.test.ts`, `operator-int-bool.test.ts`, `operator-bool-float.test.ts`, `operator-str-scalar.test.ts`, `operator-float-str-floordiv-mod.test.ts`, and `sequence-repeat-bool.test.ts` port thin matrices from CPython `Lib/test/test_operator.py` / rich-compare spirit. Golden keys: `int_float_*`, `bool_int_*`, `bool_float_*`. **Remaining gap:** cross-type ops involving `bytes`, sequences vs unrelated scalars without matching special methods are not coerced the way CPython does.
+
+---
+
+**Evidence:** `test/cpython-derived/operator-int-float.test.ts`, `operator-int-bool.test.ts`, `operator-bool-float.test.ts`, `operator-str-scalar.test.ts`, `operator-float-str-divmod-pow.test.ts`, and `sequence-repeat-bool.test.ts` port thin matrices from CPython `Lib/test/test_operator.py` / rich-compare spirit. Golden keys: `int_float_*`, `bool_int_*`, `bool_float_*`. **Remaining gap:** cross-type ops involving `bytes`, sequences vs unrelated scalars without matching special methods are not coerced the way CPython does.
+
+---
+
+**Evidence:** `test/cpython-derived/operator-int-float.test.ts`, `operator-int-bool.test.ts`, `operator-bool-float.test.ts`, `operator-str-scalar.test.ts`, `operator-int-str-divmod-pow.test.ts`, and `sequence-repeat-bool.test.ts` port thin matrices from CPython `Lib/test/test_operator.py` / rich-compare spirit. Golden keys: `int_float_*`, `bool_int_*`, `bool_float_*`. **Remaining gap:** cross-type ops involving `bytes`, sequences vs unrelated scalars without matching special methods are not coerced the way CPython does.
+
+---
+
+**Evidence:** `test/cpython-derived/operator-int-float.test.ts`, `operator-int-bool.test.ts`, `operator-bool-float.test.ts`, `operator-str-scalar.test.ts`, `operator-int-str-binary.test.ts`, `operator-unary-evidence.test.ts`, `operator-rounding-evidence.test.ts`, `operator-numeric-conversion-evidence.test.ts`, `operator-matmul-evidence.test.ts`, `operator-format-evidence.test.ts`, `operator-bytes-conversion.test.ts`, `operator-float-str-binary.test.ts`, `operator-bool-str-binary.test.ts`, `operator-bool-str-remaining-binary.test.ts`, and `sequence-repeat-bool.test.ts` port thin matrices from CPython `Lib/test/test_operator.py` / rich-compare spirit. Golden keys: `int_float_*`, `bool_int_*`, `bool_float_*`. **Remaining gap:** cross-type ops involving `bytes` objects (not just `bytes()` conversion), sequences vs unrelated scalars without matching special methods are not coerced the way CPython does.
+
 ### 8.16 `types.MappingProxyType` and readonly dict views
 
 CPython exposes **readonly mapping views** on class and instance namespaces — notably `types.MappingProxyType` wrapping a dict (used for `type.__dict__`, `mappingproxy` objects in the descriptor tests, and similar). pyrt stores type and instance namespaces as mutable **`Map<string | symbol, unknown>`** on `PyType` and `PyObject`; there is no proxy object that blocks mutation while forwarding lookups.
@@ -409,9 +437,9 @@ CPython exposes **readonly mapping views** on class and instance namespaces — 
 - Non-integer keys → **`PyTypeError`** (`list indices must be integers`, `tuple indices must be integers`, `string indices must be integers`; str `__contains__` with non-str operand uses CPython-style `'in <string>' requires string as left operand, not int`).
 - Out-of-range integer keys → **`PyIndexError`** (`list index out of range`, `tuple index out of range`, `string index out of range`, etc.).
 
-Int and float `__truediv__`, `__floordiv__`, and `__mod__` (plus int `__motion__`/`divmod`) raise **`PyZeroDivisionError`** with CPython message text on zero divisors.
+Int and float `__truediv__`, `__floordiv__`, and `__mod__` (plus int `__divmod__`) raise **`PyZeroDivisionError`** with CPython message text on zero divisors. Int three-arg `pow` with `mod == 0` raises **`PyValueError`** (`pow() 3rd argument cannot be 0`). Int `__lshift__` / `__rshift__` with negative shift count raise **`PyValueError`** (`negative shift count`).
 
-**Evidence:** `test/cpython-derived/operator-str-scalar.test.ts`, `sequence-index-type.test.ts`, `operator-zerodivision.test.ts`. **Remaining gap:** other builtins and protocol fallbacks may still throw plain `Error` where CPython normalizes exception types.
+**Evidence:** `test/cpython-derived/operator-str-scalar.test.ts`, `sequence-index-type.test.ts`, `operator-zerodivision.test.ts`, `operator-pow-mod.test.ts`, `operator-int-shift.test.ts`. **Remaining gap:** other builtins and protocol fallbacks may still throw plain `Error` where CPython normalizes exception types.
 
 ---
 
