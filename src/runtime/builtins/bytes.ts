@@ -651,6 +651,35 @@ function splitlinesBytes(data: Uint8Array, keepends: unknown): PyObject {
   return pyList(parts.map((chunk) => pyBytes(chunk)));
 }
 
+function stripPredicate(chars: unknown): (byte: number) => boolean {
+  if (chars === undefined || chars === null) return isAsciiWhitespace;
+  if (chars instanceof PyObject && chars.type === bytesType) {
+    const data = bytesData(chars);
+    if (data.length === 0) return () => false;
+    const set = new Set<number>(data);
+    return (byte) => set.has(byte);
+  }
+  const kind = chars instanceof PyObject ? chars.type.name : typeof chars;
+  throw new PyTypeError(`a bytes-like object is required, not '${kind}'`);
+}
+
+function stripBytes(
+  data: Uint8Array,
+  chars: unknown,
+  side: "both" | "left" | "right",
+): PyObject {
+  const shouldStrip = stripPredicate(chars);
+  let start = 0;
+  let end = data.length;
+  if (side === "both" || side === "left") {
+    while (start < end && shouldStrip(data[start]!)) start += 1;
+  }
+  if (side === "both" || side === "right") {
+    while (end > start && shouldStrip(data[end - 1]!)) end -= 1;
+  }
+  return pyBytes(data.subarray(start, end));
+}
+
 // ── pyBytes ───────────────────────────────────────────────────────────
 
 export const bytesType = makeClass({
@@ -752,6 +781,15 @@ export const bytesType = makeClass({
     }],
     ["splitlines", (self: PyObject, keepends?: unknown) => {
       return splitlinesBytes(bytesData(self), keepends);
+    }],
+    ["strip", (self: PyObject, chars?: unknown) => {
+      return stripBytes(bytesData(self), chars, "both");
+    }],
+    ["lstrip", (self: PyObject, chars?: unknown) => {
+      return stripBytes(bytesData(self), chars, "left");
+    }],
+    ["rstrip", (self: PyObject, chars?: unknown) => {
+      return stripBytes(bytesData(self), chars, "right");
     }],
   ]),
 });

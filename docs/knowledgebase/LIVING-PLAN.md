@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 112 bytes strip)
+
+### Landed
+
+- [REPO] Plan 112 — `bytes.strip` / `lstrip` / `rstrip` with optional chars; `bytes-strip.test.ts`.
+
+### Partial
+
+- None.
+
+### Next
+
+1. Codec handlers or further bytes/str API when prioritized.
+2. PEP 3118 buffer protocol remains out of scope until planned.
+
+---
+
 ## Delta update (2026-05-24, plan 111 merge PR #69)
 
 ### Landed
