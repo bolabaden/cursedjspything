@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 113 merge PR #70)
+
+### Landed
+
+- [REPO] Plan 113 — PR #70 merged; plan 112 bytes strip on `main` (396 Vitest, 62 files).
+
+### Partial
+
+- None.
+
+### Next
+
+1. Codec handlers or further bytes/str API when prioritized.
+2. PEP 3118 buffer protocol remains out of scope until planned.
+
+---
+
 ## Delta update (2026-05-24, plan 112 bytes strip)
 
 ### Landed
