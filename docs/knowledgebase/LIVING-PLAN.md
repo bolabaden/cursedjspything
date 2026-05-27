@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 149 merge PR #88)
+
+### Landed
+
+- [REPO] Plan 149 — PR #88 merged; plan 148 bytes decode ascii on `main` (461 Vitest, 79 files).
+
+### Partial
+
+- None.
+
+### Next
+
+1. Further codec handlers (surrogateescape/backslashreplace) or str API when prioritized.
+2. PEP 3118 buffer protocol remains out of scope until planned.
+
+---
+
 ## Delta update (2026-05-24, plan 148 bytes decode ascii)
 
 ### Landed
