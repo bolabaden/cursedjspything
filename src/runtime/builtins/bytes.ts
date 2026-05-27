@@ -74,11 +74,18 @@ function decodeEncodingArg(encoding: unknown): string {
   );
 }
 
-function decodeErrorsArg(errors: unknown): "strict" | "replace" | "ignore" {
+type DecodeErrors = "strict" | "replace" | "ignore" | "backslashreplace";
+
+function decodeErrorsArg(errors: unknown): DecodeErrors {
   if (errors === undefined || errors === null) return "strict";
   if (errors instanceof PyObject && errors.type === strType) {
     const name = nativeVal<string>(errors);
-    if (name === "strict" || name === "replace" || name === "ignore") {
+    if (
+      name === "strict" ||
+      name === "replace" ||
+      name === "ignore" ||
+      name === "backslashreplace"
+    ) {
       return name;
     }
     throw new PyValueError(`unknown errors handler: '${name}'`);
@@ -87,7 +94,37 @@ function decodeErrorsArg(errors: unknown): "strict" | "replace" | "ignore" {
   throw new PyTypeError(`decode() argument 'errors' must be str, not ${kind}`);
 }
 
-function decodeUtf8(data: Uint8Array, errors: "strict" | "replace" | "ignore"): string {
+function decodeUtf8BackslashReplace(data: Uint8Array): string {
+  let out = "";
+  let i = 0;
+  while (i < data.length) {
+    const b = data[i]!;
+    if (b <= 0x7f) {
+      out += String.fromCharCode(b);
+      i += 1;
+      continue;
+    }
+    const end = endOfUtf8Sequence(data, i);
+    if (end < 0) {
+      out += `\\x${b.toString(16).padStart(2, "0")}`;
+      i += 1;
+      continue;
+    }
+    try {
+      out += new TextDecoder("utf-8", { fatal: true }).decode(data.subarray(i, end));
+      i = end;
+    } catch {
+      out += `\\x${b.toString(16).padStart(2, "0")}`;
+      i += 1;
+    }
+  }
+  return out;
+}
+
+function decodeUtf8(data: Uint8Array, errors: DecodeErrors): string {
+  if (errors === "backslashreplace") {
+    return decodeUtf8BackslashReplace(data);
+  }
   if (errors === "replace") {
     return new TextDecoder("utf-8", { fatal: false }).decode(data);
   }
@@ -153,10 +190,7 @@ function endOfUtf8Sequence(data: Uint8Array, start: number): number {
   return -1;
 }
 
-function decodeAscii(
-  data: Uint8Array,
-  errors: "strict" | "replace" | "ignore",
-): string {
+function decodeAscii(data: Uint8Array, errors: DecodeErrors): string {
   let out = "";
   for (let i = 0; i < data.length; i++) {
     const b = data[i]!;
@@ -168,6 +202,8 @@ function decodeAscii(
       );
     } else if (errors === "replace") {
       out += "\ufffd";
+    } else if (errors === "backslashreplace") {
+      out += `\\x${b.toString(16).padStart(2, "0")}`;
     }
   }
   return out;
@@ -176,7 +212,7 @@ function decodeAscii(
 function decodeBytesPayload(
   data: Uint8Array,
   encoding: string,
-  errors: "strict" | "replace" | "ignore",
+  errors: DecodeErrors,
 ): string {
   const enc = normalizeEncodingName(encoding);
   if (enc === "ascii") {

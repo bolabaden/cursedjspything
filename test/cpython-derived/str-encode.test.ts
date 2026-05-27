@@ -65,6 +65,15 @@ describe("cpython-derived str encode", () => {
     expect(Array.from(asBytes(out))).toEqual([97, 98]);
   });
 
+  it("backslashreplace escapes non-encodable code points", () => {
+    expect(Array.from(asBytes(encoded("caf\u00e9", pyStr("ascii"), pyStr("backslashreplace"))))).toEqual(
+      [99, 97, 102, 92, 120, 101, 57],
+    );
+    expect(
+      Array.from(asBytes(encoded("\u0100", pyStr("latin-1"), pyStr("backslashreplace")))),
+    ).toEqual([92, 117, 48, 49, 48, 48]);
+  });
+
   it("latin-1 strict rejects code points above 255", () => {
     expect(() => encoded("\u0100", pyStr("latin-1"))).toThrow(
       PyUnicodeEncodeError,
