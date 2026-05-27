@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 124 bytes capitalize)
+
+### Landed
+
+- [REPO] Plan 124 — `bytes.capitalize` ASCII case conversion; `bytes-capitalize.test.ts`.
+
+### Partial
+
+- None.
+
+### Next
+
+1. Merge plan 124 via PR; then codec handlers or further bytes/str API when prioritized.
+2. PEP 3118 buffer protocol remains out of scope until planned.
+
+---
+
 ## Delta update (2026-05-24, plan 123 merge PR #75)
 
 ### Landed
