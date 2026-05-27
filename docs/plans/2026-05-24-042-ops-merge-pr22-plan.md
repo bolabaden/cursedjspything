@@ -1,7 +1,7 @@
 ---
 title: "ops: merge PR #22 tuple golden keys"
 type: ops
-status: active
+status: completed
 date: 2026-05-24
 origin: docs/plans/2026-05-24-041-feat-golden-tuple-bool-repeat-plan.md
 ---

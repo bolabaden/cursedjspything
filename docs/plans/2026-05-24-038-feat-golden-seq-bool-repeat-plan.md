@@ -1,7 +1,7 @@
 ---
 title: "feat: golden keys for sequence bool repetition"
 type: feat
-status: active
+status: completed
 date: 2026-05-24
 origin: docs/plans/2026-05-24-037-feat-list-tuple-rmul-bool-plan.md
 ---

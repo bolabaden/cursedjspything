@@ -1,7 +1,7 @@
 ---
 title: "perf: spread-safe pre-sized list/tuple repeat"
 type: perf
-status: active
+status: completed
 date: 2026-05-24
 origin: docs/plans/2026-05-24-043-refactor-sequence-mul-dedupe-plan.md
 ---

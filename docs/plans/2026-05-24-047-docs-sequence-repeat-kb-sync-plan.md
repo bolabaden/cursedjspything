@@ -1,7 +1,7 @@
 ---
 title: "docs: KB sync for spread-safe sequence repeat"
 type: docs
-status: active
+status: completed
 date: 2026-05-24
 origin: docs/plans/2026-05-24-045-perf-sequence-repeat-plan.md
 ---
