@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 169 merge PR #98)
+
+### Landed
+
+- [REPO] Plan 169 — PR #98 merged; plan 168 str swapcase on `main` (500 Vitest, 87 files).
+
+### Partial
+
+- None.
+
+### Next
+
+1. Further str/bytes API when prioritized.
+2. PEP 3118 buffer protocol remains out of scope until planned.
+
+---
+
 ## Delta update (2026-05-24, plan 168 str swapcase)
 
 ### Landed
