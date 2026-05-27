@@ -62,9 +62,9 @@
 
 ## Verification gaps
 
-`[REPO]` **207** Vitest tests; many exported operators lack dedicated tests (`matmul`, `bytes`, `withObjectAsync`, etc.).
+`[REPO]` **223** Vitest tests; many exported operators lack dedicated tests (`matmul`, `bytes`, `withObjectAsync`, etc.).
 
-`[REPO]` Golden harness: **29** case keys per profile (`scripts/golden/expected/key-sets.json`); includes `bool_int_*`, `bool_float_*`, `seq_bool_*`, `str_bool_*`, `tuple_bool_*`; key parity in `test/golden/key-parity.test.ts`; offline gate semantics in `pyrt-cases-version-gates.test.ts`. Vitest: **207** tests (`npm test`).
+`[REPO]` Golden harness: **29** case keys per profile (`scripts/golden/expected/key-sets.json`); includes `bool_int_*`, `bool_float_*`, `seq_bool_*`, `str_bool_*`, `tuple_bool_*`; key parity in `test/golden/key-parity.test.ts`; offline gate semantics in `pyrt-cases-version-gates.test.ts`. Vitest: **223** tests (`npm test`).
 
 `[REPO]` CI golden matrix runs Python **3.10, 3.12, and 3.14** (one version per job). Local `npm run golden` may exercise all interpreters on PATH (3.9–3.14).
 

@@ -9,6 +9,245 @@
 
 ---
 
+## Delta update (2026-05-24, plan 067 float-str floordiv/mod)
+
+### Landed
+
+- [REPO] Plan 067 — `operator-float-str-floordiv-mod.test.ts`; COMPATIBILITY §8.15 evidence (222 Vitest).
+
+### Partial
+
+- [OPEN] PRs #28–#45 still open on other branches.
+
+---
+
+## Delta update (2026-05-24, plan 066 float-str divmod/pow)
+
+### Landed
+
+- [REPO] Plan 066 — `operator-float-str-divmod-pow.test.ts`; COMPATIBILITY §8.15 evidence (222 Vitest).
+
+### Partial
+
+- [OPEN] PRs #28–#44 still open on other branches.
+
+---
+
+## Delta update (2026-05-24, plan 064 int-str divmod/pow)
+
+### Landed
+
+- [REPO] Plan 064 — `operator-int-str-divmod-pow.test.ts`; COMPATIBILITY §8.15 evidence (222 Vitest).
+
+### Partial
+
+- [OPEN] PRs #28–#42 still open on other branches.
+
+---
+
+## Delta update (2026-05-24, plan 063 int-str binary)
+
+### Landed
+
+- [REPO] Plan 063 — `operator-int-str-binary.test.ts`; COMPATIBILITY §8.15 evidence (224 Vitest).
+
+### Partial
+
+- [OPEN] PRs #28–#41 still open on other branches.
+
+---
+
+## Delta update (2026-05-24, plan 062 unary evidence)
+
+### Landed
+
+- [REPO] Plan 062 — `operator-unary-evidence.test.ts`; COMPATIBILITY §8.15 evidence (224 Vitest).
+
+### Partial
+
+- [OPEN] PRs #28–#40 still open on other branches.
+
+---
+
+## Delta update (2026-05-24, plan 061 rounding evidence)
+
+### Landed
+
+- [REPO] Plan 061 — `operator-rounding-evidence.test.ts`; COMPATIBILITY §8.15 evidence (224 Vitest).
+
+### Partial
+
+- [OPEN] PRs #28–#39 still open on other branches.
+
+---
+
+## Delta update (2026-05-24, plan 060 numeric conversion evidence)
+
+### Landed
+
+- [REPO] Plan 060 — `operator-numeric-conversion-evidence.test.ts`; COMPATIBILITY §8.15 evidence (224 Vitest).
+
+### Partial
+
+- [OPEN] PRs #28–#38 still open on other branches.
+
+---
+
+## Delta update (2026-05-24, plan 059 matmul evidence)
+
+### Landed
+
+- [REPO] Plan 059 — `operator-matmul-evidence.test.ts`; COMPATIBILITY §8.15 evidence (223 Vitest).
+
+### Partial
+
+- [OPEN] PRs #28–#37 still open on other branches.
+
+---
+
+## Delta update (2026-05-24, plan 058 format evidence)
+
+### Landed
+
+- [REPO] Plan 058 — `operator-format-evidence.test.ts`; COMPATIBILITY §8.15 evidence (225 Vitest).
+
+### Partial
+
+- [OPEN] PRs #28–#36 still open on other branches.
+
+---
+
+## Delta update (2026-05-24, plan 057 bytes conversion)
+
+### Landed
+
+- [REPO] Plan 057 — `operator-bytes-conversion.test.ts`; COMPATIBILITY §8.15 evidence (223 Vitest on main baseline +3).
+
+### Partial
+
+- [OPEN] PRs #28–#35 still open on other branches; bytes **object** cross-type ops still partial.
+
+---
+
+## Delta update (2026-05-24, plan 056 int bitwise float)
+
+### Landed
+
+- [REPO] Plan 056 — `operator-int-bitwise-float.test.ts`; COMPATIBILITY §8.15 evidence (225 Vitest).
+
+### Partial
+
+- [OPEN] PRs #28–#34 still open.
+
+---
+
+## Delta update (2026-05-24, plan 052 pow mod zero)
+
+### Landed
+
+- [REPO] Plan 052 — int `pow(base, exp, 0)` raises `PyValueError`; `operator-pow-mod.test.ts`; COMPATIBILITY §8.17 updated.
+
+### Partial
+
+- [OPEN] PRs #28–#30 still open (slice ValueError, MRO PyTypeError, vitest singleFork).
+
+### Next
+
+1. Merge stacked open PRs when ready.
+2. Further COMPATIBILITY exception or operator cherry-picks.
+
+---
+
+## Delta update (2026-05-24, plan 050 MRO PyTypeError)
+
+### Landed
+
+- [REPO] Plan 050 — inconsistent C3 MRO raises `PyTypeError`; Vitest in `object-model.test.ts`; COMPATIBILITY §8.1 note.
+
+### Partial
+
+- [OPEN] Internal bootstrap errors (e.g. `methodType not initialized`) remain plain `Error`.
+
+### Next
+
+1. COMPATIBILITY cherry-picks for operator or exception gaps.
+
+---
+
+## Delta update (2026-05-24, plan 049 slice ValueError)
+
+### Landed
+
+- [REPO] Plan 049 — `sliceIndices` zero step raises `PyValueError`; list/tuple Vitest coverage; COMPATIBILITY §8.7 updated.
+
+### Partial
+
+- [OPEN] Other protocol fallbacks may still throw non-Python exception types (COMPATIBILITY §8.17 remaining gap).
+
+### Next
+
+1. COMPATIBILITY cherry-picks for next typed-exception or operator gaps.
+2. Optional: ce-optimize vitest round 2.
+
+---
+## Delta update (2026-05-24, plan 055 sequence cross-type)
+
+### Landed
+
+- [REPO] Plan 055 — `sequence-cross-type.test.ts`; COMPATIBILITY §8.15 evidence (224 Vitest).
+
+### Partial
+
+- [OPEN] PRs #28–#33 still open.
+
+---
+
+## Delta update (2026-05-24, plan 054 sequence repeat non-int)
+
+### Landed
+
+- [REPO] Plan 054 — `sequence-repeat-nonint.test.ts`; COMPATIBILITY §8.15 evidence; KB counts 223 tests / 28 files.
+
+### Partial
+
+- [OPEN] PRs #28–#32 still open.
+
+---
+
+## Delta update (2026-05-24, plan 053 int shift ValueError)
+
+### Landed
+
+- [REPO] Plan 053 — int `__lshift__`/`__rshift__` negative count raises `PyValueError`; `operator-int-shift.test.ts`; COMPATIBILITY §8.17 updated.
+
+### Partial
+
+- [OPEN] PRs #28–#31 still open (slice, MRO, vitest, pow mod).
+
+### Next
+
+1. Merge stacked open PRs.
+2. Further numeric/exception cherry-picks.
+
+---
+
+## Delta update (2026-05-24, plan 051 vitest round 2)
+
+### Landed
+
+- [REPO] Plan 051 — `poolOptions.forks.singleFork: true`; median `npm test` ~4.1s → ~2.1s (−49% vs round-2 baseline); vmForks reverted; validation-ladder updated.
+
+### Partial
+
+- [OPEN] PRs #28/#29 (slice ValueError, MRO PyTypeError) still open on GitHub.
+
+### Next
+
+1. Merge open exception-typing PRs.
+2. COMPATIBILITY cherry-picks or ce-optimize round 3 (maxWorkers).
+
+---
+
 ## Delta update (2026-05-24, plan 075 bool-str binary)
 
 ### Landed
@@ -39,9 +278,10 @@
 ### Next
 
 1. Merge stacked PRs.
-2. bytes / sequence exotic §8.15 when prioritized.
+2. Sequence exotic cross-type / remaining §8.15 when prioritized.
 
 ---
+
 
 ## Delta update (2026-05-24, plan 076 bool-str remaining binary)
 

@@ -22,7 +22,7 @@ npm test
 
 Vitest; unit tests mirror `src/runtime/` layout:
 
-`[REPO]` `vitest.config.ts` uses `isolate: false` for faster repeat runs. Tests must not depend on a fresh module graph per file or on `vi.mock` reset across files.
+`[REPO]` `vitest.config.ts` uses `isolate: false` and `poolOptions.forks.singleFork: true` for faster repeat runs. Tests must not depend on a fresh module graph per file or on `vi.mock` reset across files.
 
 Optional wall-clock measurement (ce-optimize / local tuning only, not CI):
 
@@ -53,12 +53,37 @@ Emits JSON (`vitest_seconds`, pass gates, `test_count`); use median of several r
 | `test/cpython-derived/sequence-repeat-bool.test.ts` | List/tuple bool/negative repeat; multi-element and spread-safe large repeat |
 | `test/cpython-derived/operator-str-scalar.test.ts` | CPython str↔scalar non-coercion; str bool/negative repeat |
 | `test/cpython-derived/operator-inplace-cross-type.test.ts` | In-place +=/-= cross-type TypeError (int/str/list/bool) |
+
+---
+
+| `test/cpython-derived/operator-float-str-floordiv-mod.test.ts` | float↔str floordiv/mod TypeError |
+
+---
+
+| `test/cpython-derived/operator-float-str-divmod-pow.test.ts` | float↔str divmod/pow TypeError |
+
+---
+
+| `test/cpython-derived/operator-int-str-divmod-pow.test.ts` | int↔str divmod/pow TypeError |
+
+---
+
+| `test/cpython-derived/operator-int-str-binary.test.ts` | int↔str sub/floordiv/mod/truediv TypeError |
+| `test/cpython-derived/operator-unary-evidence.test.ts` | neg/pos/invert/abs reject list without unary slots |
+| `test/cpython-derived/operator-rounding-evidence.test.ts` | round/trunc/floor/ceil reject list without hooks |
+| `test/cpython-derived/operator-numeric-conversion-evidence.test.ts` | toInt/toFloat/index/toComplex reject list |
+| `test/cpython-derived/operator-matmul-evidence.test.ts` | matmul @ rejects builtins without __matmul__ |
+| `test/cpython-derived/operator-format-evidence.test.ts` | format() __format__, empty-spec str fallback, TypeError |
+| `test/cpython-derived/operator-bytes-conversion.test.ts` | bytes() on str vs int/float TypeError |
 | `test/cpython-derived/operator-float-str-binary.test.ts` | float↔str add/sub/truediv TypeError |
 | `test/cpython-derived/operator-bool-str-binary.test.ts` | bool↔str add/sub/truediv TypeError ('bool' typename) |
 | `test/cpython-derived/operator-bool-str-remaining-binary.test.ts` | bool↔str floordiv/mod/divmod/pow TypeError |
 | `test/cpython-derived/sequence-index-type.test.ts` | List/tuple non-integer subscript raises TypeError |
 | `test/cpython-derived/contains-protocol.test.ts` | CPython `test_contains.py` membership protocol |
+| `test/cpython-derived/sequence-cross-type.test.ts` | List/str add and list mul reject incompatible types |
 | `test/cpython-derived/isinstance-protocol.test.ts` | CPython `test_isinstance.py` MRO / tuple checks |
+| `test/cpython-derived/sequence-repeat-nonint.test.ts` | List/tuple/str repeat rejects float repeat count |
+| `test/cpython-derived/operator-zerodivision.test.ts` | Int/float division by zero raises ZeroDivisionError |
 | `test/golden/key-parity.test.ts` | Golden case key snapshot parity |
 | `test/golden/pyrt-cases-version-gates.test.ts` | `buildPyrtCases` version-gate semantics (`match_args`, buffer, `annotate_x`) per profile 3.9–3.14 |
 
