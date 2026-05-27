@@ -278,6 +278,8 @@ export const strType = makeClass({
     ["encode", (self: PyObject, encoding?: unknown, errors?: unknown) => {
       return encodeStr(self, encoding, errors);
     }],
+    ["upper", (self: PyObject) => pyStr(nativeVal<string>(self).toUpperCase())],
+    ["lower", (self: PyObject) => pyStr(nativeVal<string>(self).toLowerCase())],
   ]),
 });
 
