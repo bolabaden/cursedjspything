@@ -10,7 +10,8 @@ import {
   PyStopIteration,
 } from "../core/errors.js";
 import { nativeVal, setNative } from "./native.js";
-import { pyInt, sequenceRepeatCount } from "./int.js";
+import { pyInt, sequenceRepeatCount, intType } from "./int.js";
+import { pyList } from "./list.js";
 import { isSlice, sliceFields, sliceIndices } from "../collections/slice.js";
 import { pyStr, strType } from "./str.js";
 import { iter, next } from "../dispatch/protocols.js";
@@ -256,6 +257,103 @@ function joinBytes(sep: Uint8Array, iterable: unknown): PyObject {
   return pyBytes(out);
 }
 
+function isAsciiWhitespace(byte: number): boolean {
+  return byte === 0x09 || byte === 0x0a || byte === 0x0b || byte === 0x0c || byte === 0x0d || byte === 0x20;
+}
+
+function splitMaxsplitArg(maxsplit: unknown): number {
+  if (maxsplit === undefined || maxsplit === null) return -1;
+  if (typeof maxsplit === "number") return maxsplit;
+  if (maxsplit instanceof PyObject) {
+    if (maxsplit.type === intType) {
+      return nativeVal<number>(maxsplit);
+    }
+    const n = sequenceRepeatCount(maxsplit);
+    if (n !== null) return n;
+  }
+  const kind =
+    maxsplit instanceof PyObject ? maxsplit.type.name : typeof maxsplit;
+  throw new PyTypeError(`'${kind}' object cannot be interpreted as an integer`);
+}
+
+function splitSepArg(sep: unknown): Uint8Array | null {
+  if (sep === undefined || sep === null) return null;
+  if (sep instanceof PyObject && sep.type === bytesType) {
+    return bytesData(sep);
+  }
+  const kind = sep instanceof PyObject ? sep.type.name : typeof sep;
+  throw new PyTypeError(`a bytes-like object is required, not '${kind}'`);
+}
+
+function splitWithSep(
+  data: Uint8Array,
+  sep: Uint8Array,
+  maxsplit: number,
+): Uint8Array[] {
+  if (sep.length === 0) {
+    throw new PyValueError("empty separator");
+  }
+  if (maxsplit === 0) return [data];
+  const parts: Uint8Array[] = [];
+  let start = 0;
+  let splits = 0;
+  let i = 0;
+  while (i <= data.length - sep.length) {
+    let match = true;
+    for (let j = 0; j < sep.length; j++) {
+      if (data[i + j] !== sep[j]!) {
+        match = false;
+        break;
+      }
+    }
+    if (match) {
+      if (maxsplit >= 0 && splits >= maxsplit) break;
+      parts.push(data.subarray(start, i));
+      start = i + sep.length;
+      i = start;
+      splits += 1;
+      continue;
+    }
+    i += 1;
+  }
+  parts.push(data.subarray(start));
+  return parts;
+}
+
+function splitWhitespace(data: Uint8Array, maxsplit: number): Uint8Array[] {
+  if (maxsplit === 0) return [data];
+  const parts: Uint8Array[] = [];
+  let i = 0;
+  const n = data.length;
+  while (i < n && isAsciiWhitespace(data[i]!)) i += 1;
+  while (i < n) {
+    const start = i;
+    while (i < n && !isAsciiWhitespace(data[i]!)) i += 1;
+    parts.push(data.subarray(start, i));
+    if (maxsplit >= 0 && parts.length >= maxsplit) {
+      while (i < n && isAsciiWhitespace(data[i]!)) i += 1;
+      if (i < n) parts.push(data.subarray(i));
+      return parts;
+    }
+    while (i < n && isAsciiWhitespace(data[i]!)) i += 1;
+  }
+  return parts;
+}
+
+function splitBytes(
+  data: Uint8Array,
+  sep: unknown,
+  maxsplit: unknown,
+): PyObject {
+  const limit = splitMaxsplitArg(maxsplit);
+  const sepData = splitSepArg(sep);
+  const chunks =
+    sepData === null
+      ? splitWhitespace(data, limit)
+      : splitWithSep(data, sepData, limit);
+  return pyList(chunks.map((chunk) => pyBytes(chunk)));
+}
+
 // ── pyBytes ───────────────────────────────────────────────────────────
 
 export const bytesType = makeClass({
@@ -336,6 +434,9 @@ export const bytesType = makeClass({
     }],
     ["join", (self: PyObject, iterable: unknown) => {
       return joinBytes(bytesData(self), iterable);
+    }],
+    ["split", (self: PyObject, sep?: unknown, maxsplit?: unknown) => {
+      return splitBytes(bytesData(self), sep, maxsplit);
     }],
   ]),
 });
