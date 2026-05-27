@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 132 bytes zfill)
+
+### Landed
+
+- [REPO] Plan 132 — `bytes.zfill` with sign-preserving zero padding; `bytes-zfill.test.ts`.
+
+### Partial
+
+- None.
+
+### Next
+
+1. Merge plan 132 via PR; then codec handlers or further bytes/str API when prioritized.
+2. PEP 3118 buffer protocol remains out of scope until planned.
+
+---
+
 ## Delta update (2026-05-24, plan 131 merge PR #79)
 
 ### Landed
