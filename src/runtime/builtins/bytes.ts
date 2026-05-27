@@ -12,7 +12,7 @@ import {
 import { nativeVal, setNative } from "./native.js";
 import { pyInt, sequenceRepeatCount, intType } from "./int.js";
 import { pyList } from "./list.js";
-import { pyTrue, pyFalse } from "./bool.js";
+import { pyTrue, pyFalse, boolType } from "./bool.js";
 import { tupleType, pyTuple } from "./tuple.js";
 import { isSlice, sliceFields, sliceIndices } from "../collections/slice.js";
 import { pyStr, strType } from "./str.js";
@@ -606,6 +606,51 @@ function rpartitionBytes(data: Uint8Array, sep: unknown): PyObject {
   ]);
 }
 
+function lineBreakLength(data: Uint8Array, i: number): number {
+  if (i >= data.length) return 0;
+  const b = data[i]!;
+  if (b === 0x0d) {
+    if (i + 1 < data.length && data[i + 1] === 0x0a) return 2;
+    return 1;
+  }
+  if (b === 0x0a) return 1;
+  return 0;
+}
+
+function parseSplitlinesKeepends(keepends: unknown): boolean {
+  if (keepends === undefined || keepends === null) return false;
+  if (typeof keepends === "boolean") return keepends;
+  if (keepends instanceof PyObject && keepends.type === boolType) {
+    return nativeVal<boolean>(keepends);
+  }
+  const kind =
+    keepends instanceof PyObject ? keepends.type.name : typeof keepends;
+  throw new PyTypeError(`splitlines() argument must be bool, not ${kind}`);
+}
+
+function splitlinesBytes(data: Uint8Array, keepends: unknown): PyObject {
+  if (data.length === 0) return pyList([]);
+  const keep = parseSplitlinesKeepends(keepends);
+  const parts: Uint8Array[] = [];
+  let start = 0;
+  let i = 0;
+  while (i < data.length) {
+    const lb = lineBreakLength(data, i);
+    if (lb > 0) {
+      const end = keep ? i + lb : i;
+      parts.push(data.subarray(start, end));
+      i += lb;
+      start = i;
+      continue;
+    }
+    i += 1;
+  }
+  if (start < data.length) {
+    parts.push(data.subarray(start));
+  }
+  return pyList(parts.map((chunk) => pyBytes(chunk)));
+}
+
 // ── pyBytes ───────────────────────────────────────────────────────────
 
 export const bytesType = makeClass({
@@ -704,6 +749,9 @@ export const bytesType = makeClass({
     }],
     ["rpartition", (self: PyObject, sep: unknown) => {
       return rpartitionBytes(bytesData(self), sep);
+    }],
+    ["splitlines", (self: PyObject, keepends?: unknown) => {
+      return splitlinesBytes(bytesData(self), keepends);
     }],
   ]),
 });
