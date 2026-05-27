@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 153 merge PR #90)
+
+### Landed
+
+- [REPO] Plan 153 — PR #90 merged; plan 152 surrogateescape codec on `main` (466 Vitest, 79 files).
+
+### Partial
+
+- None.
+
+### Next
+
+1. Further str/bytes API when prioritized.
+2. PEP 3118 buffer protocol remains out of scope until planned.
+
+---
+
 ## Delta update (2026-05-24, plan 152 surrogateescape codec)
 
 ### Landed
