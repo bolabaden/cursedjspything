@@ -205,6 +205,27 @@ function strCapitalize(text: string): string {
   return head + lower.slice(w0);
 }
 
+function strTitle(text: string): string {
+  const out: string[] = [];
+  let newWord = true;
+  for (let i = 0; i < text.length; ) {
+    const cp = text.codePointAt(i)!;
+    const w = cp > 0xffff ? 2 : 1;
+    const ch = String.fromCodePoint(cp);
+    const upper = ch.toUpperCase();
+    const lower = ch.toLowerCase();
+    if (upper !== lower) {
+      out.push(newWord ? upper : lower);
+      newWord = false;
+    } else {
+      out.push(ch);
+      newWord = true;
+    }
+    i += w;
+  }
+  return out.join("");
+}
+
 function strIsascii(text: string): PyObject {
   for (let i = 0; i < text.length; ) {
     const cp = text.codePointAt(i)!;
@@ -517,6 +538,7 @@ export const strType = makeClass({
     ["upper", (self: PyObject) => pyStr(nativeVal<string>(self).toUpperCase())],
     ["lower", (self: PyObject) => pyStr(nativeVal<string>(self).toLowerCase())],
     ["capitalize", (self: PyObject) => pyStr(strCapitalize(nativeVal<string>(self)))],
+    ["title", (self: PyObject) => pyStr(strTitle(nativeVal<string>(self)))],
     ["isascii", (self: PyObject) => strIsascii(nativeVal<string>(self))],
     ["strip", (self: PyObject, chars?: unknown) =>
       pyStr(stripStr(nativeVal<string>(self), chars, "both"))],
