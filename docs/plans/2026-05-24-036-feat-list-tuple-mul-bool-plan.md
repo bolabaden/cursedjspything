@@ -1,7 +1,7 @@
 ---
 title: "feat: list/tuple repetition accepts bool operands"
 type: feat
-status: active
+status: completed
 date: 2026-05-24
 origin: docs/plans/2026-05-24-035-feat-str-mul-bool-plan.md
 ---

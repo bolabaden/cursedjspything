@@ -1,7 +1,7 @@
 ---
 title: "feat: list/tuple __rmul__ accepts bool repeat counts"
 type: feat
-status: active
+status: completed
 date: 2026-05-24
 origin: docs/plans/2026-05-24-036-feat-list-tuple-mul-bool-plan.md
 ---

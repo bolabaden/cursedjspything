@@ -1,7 +1,7 @@
 ---
 title: "feat: golden keys for tuple bool repetition"
 type: feat
-status: active
+status: completed
 date: 2026-05-24
 origin: docs/knowledgebase/LIVING-PLAN.md
 ---

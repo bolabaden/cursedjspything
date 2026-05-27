@@ -1,7 +1,7 @@
 ---
 title: "ops: merge PR #24 sequence repeat perf"
 type: ops
-status: active
+status: completed
 date: 2026-05-24
 origin: docs/plans/2026-05-24-045-perf-sequence-repeat-plan.md
 ---

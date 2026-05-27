@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 082 LIVING-PLAN stale partial prune)
+
+### Landed
+
+- [REPO] Plan 082 — replaced 23 stale `[OPEN] PRs` partial bullets with plan 080 superseded notes; removed orphan duplicate next-step fragments; marked plans 036–047 `status: completed`.
+
+### Partial
+
+- None.
+
+### Next
+
+1. bytes / bool↔str / sequence exotic §8.15 when prioritized.
+2. Optional deeper LIVING-PLAN archive (collapse pre-080 historical deltas) when doc maintenance is scheduled.
+
+---
+
 ## Delta update (2026-05-24, plan 081 §8.15 evidence dedupe + queue closure)
 
 ### Landed
@@ -35,7 +52,7 @@
 
 ### Partial
 
-- [OPEN] PRs #28–#52 still open on other branches.
+- [SUPERSEDED] Open PR queue merged in plan 080.
 
 ---
 
@@ -47,16 +64,12 @@
 
 ### Partial
 
-- [OPEN] PRs #28–#53 still open on other branches.
+- [SUPERSEDED] Open PR queue merged in plan 080.
 
 ### Next
 
 1. Merge stacked PRs.
 2. bytes / bool↔str / sequence exotic §8.15 when prioritized.
-
----
-
-2. float↔str remaining / bytes / sequence exotic §8.15 when prioritized.
 
 ---
 
@@ -72,7 +85,7 @@
 
 ### Partial
 
-- [OPEN] PRs #28–#50 still open on other branches.
+- [SUPERSEDED] Open PR queue merged in plan 080.
 
 ---
 
@@ -92,7 +105,7 @@
 
 ### Partial
 
-- [OPEN] PRs #28–#45 still open on other branches.
+- [SUPERSEDED] Open PR queue merged in plan 080.
 
 ---
 
@@ -104,7 +117,7 @@
 
 ### Partial
 
-- [OPEN] PRs #28–#44 still open on other branches.
+- [SUPERSEDED] Open PR queue merged in plan 080.
 
 ---
 
@@ -116,7 +129,7 @@
 
 ### Partial
 
-- [OPEN] PRs #28–#42 still open on other branches.
+- [SUPERSEDED] Open PR queue merged in plan 080.
 
 ---
 
@@ -128,7 +141,7 @@
 
 ### Partial
 
-- [OPEN] PRs #28–#41 still open on other branches.
+- [SUPERSEDED] Open PR queue merged in plan 080.
 
 ---
 
@@ -140,7 +153,7 @@
 
 ### Partial
 
-- [OPEN] PRs #28–#40 still open on other branches.
+- [SUPERSEDED] Open PR queue merged in plan 080.
 
 ---
 
@@ -152,7 +165,7 @@
 
 ### Partial
 
-- [OPEN] PRs #28–#39 still open on other branches.
+- [SUPERSEDED] Open PR queue merged in plan 080.
 
 ---
 
@@ -164,7 +177,7 @@
 
 ### Partial
 
-- [OPEN] PRs #28–#38 still open on other branches.
+- [SUPERSEDED] Open PR queue merged in plan 080.
 
 ---
 
@@ -176,7 +189,7 @@
 
 ### Partial
 
-- [OPEN] PRs #28–#37 still open on other branches.
+- [SUPERSEDED] Open PR queue merged in plan 080.
 
 ---
 
@@ -188,7 +201,7 @@
 
 ### Partial
 
-- [OPEN] PRs #28–#36 still open on other branches.
+- [SUPERSEDED] Open PR queue merged in plan 080.
 
 ---
 
@@ -200,7 +213,7 @@
 
 ### Partial
 
-- [OPEN] PRs #28–#35 still open on other branches; bytes **object** cross-type ops still partial.
+- [SUPERSEDED] Open PR queue merged in plan 080.
 
 ---
 
@@ -212,7 +225,7 @@
 
 ### Partial
 
-- [OPEN] PRs #28–#34 still open.
+- [SUPERSEDED] Open PR queue merged in plan 080.
 
 ---
 
@@ -224,7 +237,7 @@
 
 ### Partial
 
-- [OPEN] PRs #28–#30 still open (slice ValueError, MRO PyTypeError, vitest singleFork).
+- [SUPERSEDED] Open PR queue merged in plan 080.
 
 ### Next
 
@@ -273,7 +286,7 @@
 
 ### Partial
 
-- [OPEN] PRs #28–#33 still open.
+- [SUPERSEDED] Open PR queue merged in plan 080.
 
 ---
 
@@ -285,7 +298,7 @@
 
 ### Partial
 
-- [OPEN] PRs #28–#32 still open.
+- [SUPERSEDED] Open PR queue merged in plan 080.
 
 ---
 
@@ -297,7 +310,7 @@
 
 ### Partial
 
-- [OPEN] PRs #28–#31 still open (slice, MRO, vitest, pow mod).
+- [SUPERSEDED] Open PR queue merged in plan 080.
 
 ### Next
 
@@ -314,7 +327,7 @@
 
 ### Partial
 
-- [OPEN] PRs #28/#29 (slice ValueError, MRO PyTypeError) still open on GitHub.
+- [SUPERSEDED] Open PR queue merged in plan 080.
 
 ### Next
 
@@ -331,16 +344,12 @@
 
 ### Partial
 
-- [OPEN] PRs #28–#53 still open on other branches.
+- [SUPERSEDED] Open PR queue merged in plan 080.
 
 ### Next
 
 1. Merge stacked PRs.
 2. bytes / remaining §8.15 exotic pairs when prioritized.
-
----
-
-2. inplace / bytes §8.15 when prioritized.
 
 ---
 
@@ -356,7 +365,7 @@
 
 ### Partial
 
-- [OPEN] PRs #28–#53 still open on other branches.
+- [SUPERSEDED] Open PR queue merged in plan 080.
 
 ### Next
 
@@ -374,7 +383,7 @@
 
 ### Partial
 
-- [OPEN] PRs #28–#53 still open on other branches.
+- [SUPERSEDED] Open PR queue merged in plan 080.
 
 ### Next
 
@@ -391,7 +400,7 @@
 
 ### Partial
 
-- [OPEN] PRs #28–#53 still open on other branches.
+- [SUPERSEDED] Open PR queue merged in plan 080.
 
 ### Next
 

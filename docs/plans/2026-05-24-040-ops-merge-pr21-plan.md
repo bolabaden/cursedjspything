@@ -1,7 +1,7 @@
 ---
 title: "ops: merge PR #21 integration branch"
 type: ops
-status: active
+status: completed
 date: 2026-05-24
 origin: docs/knowledgebase/LIVING-PLAN.md
 ---
