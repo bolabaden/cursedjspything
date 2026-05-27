@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 119 merge PR #73)
+
+### Landed
+
+- [REPO] Plan 119 — PR #73 merged; plan 118 bytes count on `main` (412 Vitest, 65 files).
+
+### Partial
+
+- None.
+
+### Next
+
+1. Codec handlers or further bytes/str API when prioritized.
+2. PEP 3118 buffer protocol remains out of scope until planned.
+
+---
+
 ## Delta update (2026-05-24, plan 118 bytes count)
 
 ### Landed
