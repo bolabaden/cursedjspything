@@ -507,6 +507,19 @@ function partitionStr(text: string, sep: unknown): PyObject {
   ]);
 }
 
+function rpartitionStr(text: string, sep: unknown): PyObject {
+  const sepStr = requirePartitionStrSep(sep);
+  const idx = findStrSepIndex(text, sepStr, true);
+  if (idx < 0) {
+    return pyTuple([pyStr(""), pyStr(""), pyStr(text)]);
+  }
+  return pyTuple([
+    pyStr(text.slice(0, idx)),
+    pyStr(sepStr),
+    pyStr(text.slice(idx + sepStr.length)),
+  ]);
+}
+
 // ── pyStr ─────────────────────────────────────────────────────────────
 
 export const strType = makeClass({
@@ -610,6 +623,8 @@ export const strType = makeClass({
       rsplitStr(nativeVal<string>(self), sep, maxsplit)],
     ["partition", (self: PyObject, sep: unknown) =>
       partitionStr(nativeVal<string>(self), sep)],
+    ["rpartition", (self: PyObject, sep: unknown) =>
+      rpartitionStr(nativeVal<string>(self), sep)],
   ]),
 });
 

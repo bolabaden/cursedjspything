@@ -100,6 +100,7 @@ Emits JSON (`vitest_seconds`, pass gates, `test_count`); use median of several r
 | `test/cpython-derived/str-split.test.ts` | str.split sep/maxsplit and whitespace |
 | `test/cpython-derived/str-rsplit.test.ts` | str.rsplit sep/maxsplit and whitespace |
 | `test/cpython-derived/str-partition.test.ts` | str.partition first-separator triple |
+| `test/cpython-derived/str-rpartition.test.ts` | str.rpartition last-separator triple |
 | `test/cpython-derived/bytes-join.test.ts` | bytes.join separator concatenation |
 | `test/cpython-derived/bytes-split.test.ts` | bytes.split sep/maxsplit and whitespace |
 | `test/cpython-derived/bytes-rsplit.test.ts` | bytes.rsplit sep/maxsplit from the right |
