@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 136 bytes removeprefix removesuffix)
+
+### Landed
+
+- [REPO] Plan 136 — `bytes.removeprefix` / `removesuffix`; `bytes-removeprefix-removesuffix.test.ts`.
+
+### Partial
+
+- None.
+
+### Next
+
+1. Merge plan 136 via PR; then codec handlers or further bytes/str API when prioritized.
+2. PEP 3118 buffer protocol remains out of scope until planned.
+
+---
+
 ## Delta update (2026-05-24, plan 135 merge PR #81)
 
 ### Landed
