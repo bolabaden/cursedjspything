@@ -12,6 +12,8 @@ import {
 import { nativeVal, setNative } from "./native.js";
 import { pyInt, sequenceRepeatCount, intType } from "./int.js";
 import { pyList } from "./list.js";
+import { pyTrue, pyFalse } from "./bool.js";
+import { tupleType } from "./tuple.js";
 import { isSlice, sliceFields, sliceIndices } from "../collections/slice.js";
 import { pyStr, strType } from "./str.js";
 import { iter, next } from "../dispatch/protocols.js";
@@ -424,6 +426,107 @@ function rsplitBytes(
   return pyList(chunks.map((chunk) => pyBytes(chunk)));
 }
 
+function parseBoundIndex(value: unknown, length: number): number {
+  if (typeof value === "number") return value;
+  if (value instanceof PyObject) {
+    if (value.type === intType) {
+      return nativeVal<number>(value);
+    }
+    const n = sequenceRepeatCount(value);
+    if (n !== null) return n;
+  }
+  const kind = value instanceof PyObject ? value.type.name : typeof value;
+  throw new PyTypeError(`slice indices must be integers or None or have an __index__ method`);
+}
+
+function bytesSliceBounds(
+  length: number,
+  start: unknown,
+  end: unknown,
+): [number, number] {
+  let a =
+    start === undefined || start === null ? 0 : parseBoundIndex(start, length);
+  let b =
+    end === undefined || end === null ? length : parseBoundIndex(end, length);
+  if (a < 0) a += length;
+  if (b < 0) b += length;
+  a = Math.max(0, Math.min(a, length));
+  b = Math.max(0, Math.min(b, length));
+  return [a, b];
+}
+
+function bytesAffixCandidates(
+  affix: unknown,
+  method: "startswith" | "endswith",
+): Uint8Array[] {
+  if (affix instanceof PyObject && affix.type === bytesType) {
+    return [bytesData(affix)];
+  }
+  if (affix instanceof PyObject && affix.type === tupleType) {
+    const items = nativeVal<readonly PyObject[]>(affix);
+    const out: Uint8Array[] = [];
+    for (const item of items) {
+      if (item.type !== bytesType) {
+        const kind = item.type.name;
+        throw new PyTypeError(`a bytes-like object is required, not '${kind}'`);
+      }
+      out.push(bytesData(item));
+    }
+    return out;
+  }
+  const kind = affix instanceof PyObject ? affix.type.name : typeof affix;
+  throw new PyTypeError(
+    `${method} first arg must be bytes or a tuple of bytes, not ${kind}`,
+  );
+}
+
+function bytesStartsWithSlice(slice: Uint8Array, prefix: Uint8Array): boolean {
+  if (prefix.length > slice.length) return false;
+  for (let i = 0; i < prefix.length; i++) {
+    if (slice[i] !== prefix[i]) return false;
+  }
+  return true;
+}
+
+function bytesEndsWithSlice(slice: Uint8Array, suffix: Uint8Array): boolean {
+  if (suffix.length > slice.length) return false;
+  const offset = slice.length - suffix.length;
+  for (let i = 0; i < suffix.length; i++) {
+    if (slice[offset + i] !== suffix[i]) return false;
+  }
+  return true;
+}
+
+function bytesStartswith(
+  data: Uint8Array,
+  prefix: unknown,
+  start?: unknown,
+  end?: unknown,
+): PyObject {
+  const [a, b] = bytesSliceBounds(data.length, start, end);
+  const slice = data.subarray(a, b);
+  const candidates = bytesAffixCandidates(prefix, "startswith");
+  for (const candidate of candidates) {
+    if (bytesStartsWithSlice(slice, candidate)) return pyTrue;
+  }
+  return pyFalse;
+}
+
+function bytesEndswith(
+  data: Uint8Array,
+  suffix: unknown,
+  start?: unknown,
+  end?: unknown,
+): PyObject {
+  const [a, b] = bytesSliceBounds(data.length, start, end);
+  const slice = data.subarray(a, b);
+  const candidates = bytesAffixCandidates(suffix, "endswith");
+  for (const candidate of candidates) {
+    if (bytesEndsWithSlice(slice, candidate)) return pyTrue;
+  }
+  return pyFalse;
+}
+
 // ── pyBytes ───────────────────────────────────────────────────────────
 
 export const bytesType = makeClass({
@@ -510,6 +613,12 @@ export const bytesType = makeClass({
     }],
     ["rsplit", (self: PyObject, sep?: unknown, maxsplit?: unknown) => {
       return rsplitBytes(bytesData(self), sep, maxsplit);
+    }],
+    ["startswith", (self: PyObject, prefix: unknown, start?: unknown, end?: unknown) => {
+      return bytesStartswith(bytesData(self), prefix, start, end);
+    }],
+    ["endswith", (self: PyObject, suffix: unknown, start?: unknown, end?: unknown) => {
+      return bytesEndswith(bytesData(self), suffix, start, end);
     }],
   ]),
 });
