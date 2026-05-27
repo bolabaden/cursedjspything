@@ -6,6 +6,7 @@ import {
   PyLookupError,
   PyTypeError,
   PyUnicodeDecodeError,
+  PyValueError,
 } from "../core/errors.js";
 import { nativeVal, setNative } from "./native.js";
 import { pyInt, sequenceRepeatCount } from "./int.js";
@@ -68,7 +69,90 @@ function decodeEncodingArg(encoding: unknown): string {
   );
 }
 
-function decodeBytesPayload(data: Uint8Array, encoding: string): string {
+function decodeErrorsArg(errors: unknown): "strict" | "replace" | "ignore" {
+  if (errors === undefined || errors === null) return "strict";
+  if (errors instanceof PyObject && errors.type === strType) {
+    const name = nativeVal<string>(errors);
+    if (name === "strict" || name === "replace" || name === "ignore") {
+      return name;
+    }
+    throw new PyValueError(`unknown errors handler: '${name}'`);
+  }
+  const kind = errors instanceof PyObject ? errors.type.name : typeof errors;
+  throw new PyTypeError(`decode() argument 'errors' must be str, not ${kind}`);
+}
+
+function decodeUtf8(data: Uint8Array, errors: "strict" | "replace" | "ignore"): string {
+  if (errors === "replace") {
+    return new TextDecoder("utf-8", { fatal: false }).decode(data);
+  }
+  if (errors === "ignore") {
+    let out = "";
+    let i = 0;
+    while (i < data.length) {
+      const b = data[i]!;
+      if (b <= 0x7f) {
+        out += String.fromCharCode(b);
+        i += 1;
+        continue;
+      }
+      const end = endOfUtf8Sequence(data, i);
+      if (end < 0) {
+        i += 1;
+        continue;
+      }
+      out += new TextDecoder("utf-8", { fatal: true }).decode(data.subarray(i, end));
+      i = end;
+    }
+    return out;
+  }
+  try {
+    return new TextDecoder("utf-8", { fatal: true }).decode(data);
+  } catch {
+    const pos = firstInvalidUtf8Index(data);
+    const byte = pos >= 0 ? data[pos]! : 0xff;
+    throw new PyUnicodeDecodeError(
+      `'utf-8' codec can't decode byte 0x${byte.toString(16).padStart(2, "0")} in position ${Math.max(pos, 0)}: invalid start byte`,
+    );
+  }
+}
+
+function endOfUtf8Sequence(data: Uint8Array, start: number): number {
+  const b = data[start]!;
+  if (b <= 0x7f) return start + 1;
+  if (b >= 0xc2 && b <= 0xdf) {
+    if (start + 1 >= data.length || (data[start + 1]! & 0xc0) !== 0x80) return -1;
+    return start + 2;
+  }
+  if (b >= 0xe0 && b <= 0xef) {
+    if (
+      start + 2 >= data.length ||
+      (data[start + 1]! & 0xc0) !== 0x80 ||
+      (data[start + 2]! & 0xc0) !== 0x80
+    ) {
+      return -1;
+    }
+    return start + 3;
+  }
+  if (b >= 0xf0 && b <= 0xf4) {
+    if (
+      start + 3 >= data.length ||
+      (data[start + 1]! & 0xc0) !== 0x80 ||
+      (data[start + 2]! & 0xc0) !== 0x80 ||
+      (data[start + 3]! & 0xc0) !== 0x80
+    ) {
+      return -1;
+    }
+    return start + 4;
+  }
+  return -1;
+}
+
+function decodeBytesPayload(
+  data: Uint8Array,
+  encoding: string,
+  errors: "strict" | "replace" | "ignore",
+): string {
   const enc = normalizeEncodingName(encoding);
   if (enc === "latin-1" || enc === "latin1" || enc === "iso-8859-1") {
     let out = "";
@@ -76,15 +160,7 @@ function decodeBytesPayload(data: Uint8Array, encoding: string): string {
     return out;
   }
   if (enc === "utf-8" || enc === "utf8") {
-    try {
-      return new TextDecoder("utf-8", { fatal: true }).decode(data);
-    } catch {
-      const pos = firstInvalidUtf8Index(data);
-      const byte = pos >= 0 ? data[pos]! : 0xff;
-      throw new PyUnicodeDecodeError(
-        `'utf-8' codec can't decode byte 0x${byte.toString(16).padStart(2, "0")} in position ${Math.max(pos, 0)}: invalid start byte`,
-      );
-    }
+    return decodeUtf8(data, errors);
   }
   throw new PyLookupError(`unknown encoding: ${encoding}`);
 }
@@ -198,9 +274,10 @@ export const bytesType = makeClass({
       if (n === null) return NotImplemented;
       return pyBytes(repeatBytes(bytesData(self), n));
     }],
-    ["decode", (self: PyObject, encoding?: unknown) => {
+    ["decode", (self: PyObject, encoding?: unknown, errors?: unknown) => {
       const enc = decodeEncodingArg(encoding);
-      const text = decodeBytesPayload(bytesData(self), enc);
+      const errMode = decodeErrorsArg(errors);
+      const text = decodeBytesPayload(bytesData(self), enc, errMode);
       return pyStr(text);
     }],
   ]),
