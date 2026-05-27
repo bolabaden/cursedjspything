@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 138 bytes expandtabs)
+
+### Landed
+
+- [REPO] Plan 138 — `bytes.expandtabs`; `bytes-expandtabs.test.ts`.
+
+### Partial
+
+- None.
+
+### Next
+
+1. Merge plan 138 via PR; then codec handlers or further bytes/str API when prioritized.
+2. PEP 3118 buffer protocol remains out of scope until planned.
+
+---
+
 ## Delta update (2026-05-24, plan 137 merge PR #82)
 
 ### Landed

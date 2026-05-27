@@ -875,6 +875,31 @@ function rjustBytes(
   return pyBytes(out);
 }
 
+function parseExpandtabsTabsize(tabsize: unknown): number {
+  if (tabsize === undefined || tabsize === null) return 8;
+  return splitMaxsplitArg(tabsize);
+}
+
+function expandTabsBytes(data: Uint8Array, tabsize?: unknown): PyObject {
+  const size = parseExpandtabsTabsize(tabsize);
+  const out: number[] = [];
+  let col = 0;
+  for (let i = 0; i < data.length; i++) {
+    const b = data[i]!;
+    if (b === 0x09) {
+      if (size > 0) {
+        const pad = col % size === 0 ? size : size - (col % size);
+        for (let j = 0; j < pad; j++) out.push(0x20);
+        col += pad;
+      }
+    } else {
+      out.push(b);
+      col++;
+    }
+  }
+  return pyBytes(new Uint8Array(out));
+}
+
 function zfillBytes(data: Uint8Array, width: unknown): PyObject {
   const w = splitMaxsplitArg(width);
   if (w <= data.length) return pyBytes(data);
@@ -1151,6 +1176,9 @@ export const bytesType = makeClass({
     }],
     ["rstrip", (self: PyObject, chars?: unknown) => {
       return stripBytes(bytesData(self), chars, "right");
+    }],
+    ["expandtabs", (self: PyObject, tabsize?: unknown) => {
+      return expandTabsBytes(bytesData(self), tabsize);
     }],
     ["find", (self: PyObject, sub: unknown, start?: unknown, end?: unknown) => {
       return findBytes(bytesData(self), sub, start, end);
