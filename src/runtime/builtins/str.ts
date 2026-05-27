@@ -213,6 +213,53 @@ function strIsascii(text: string): PyObject {
   return pyTrue;
 }
 
+function strStripPredicate(chars: unknown): (cp: number) => boolean {
+  if (chars === undefined || chars === null) {
+    return (cp) => /^\s$/u.test(String.fromCodePoint(cp));
+  }
+  if (chars instanceof PyObject && chars.type === strType) {
+    const data = nativeVal<string>(chars);
+    if (data.length === 0) return () => false;
+    const set = new Set<number>();
+    for (let i = 0; i < data.length; ) {
+      const cp = data.codePointAt(i)!;
+      set.add(cp);
+      i += cp > 0xffff ? 2 : 1;
+    }
+    return (cp) => set.has(cp);
+  }
+  throw new PyTypeError("strip arg must be None or str");
+}
+
+function stripStr(
+  text: string,
+  chars: unknown,
+  side: "both" | "left" | "right",
+): string {
+  if (chars === undefined || chars === null) {
+    if (side === "both") return text.trim();
+    if (side === "left") return text.trimStart();
+    return text.trimEnd();
+  }
+  const shouldStrip = strStripPredicate(chars);
+  const cps: number[] = [];
+  for (let i = 0; i < text.length; ) {
+    const cp = text.codePointAt(i)!;
+    cps.push(cp);
+    i += cp > 0xffff ? 2 : 1;
+  }
+  let start = 0;
+  let end = cps.length;
+  if (side === "both" || side === "left") {
+    while (start < end && shouldStrip(cps[start]!)) start += 1;
+  }
+  if (side === "both" || side === "right") {
+    while (end > start && shouldStrip(cps[end - 1]!)) end -= 1;
+  }
+  if (start >= end) return "";
+  return String.fromCodePoint(...cps.slice(start, end));
+}
+
 // ── pyStr ─────────────────────────────────────────────────────────────
 
 export const strType = makeClass({
@@ -302,6 +349,12 @@ export const strType = makeClass({
     ["lower", (self: PyObject) => pyStr(nativeVal<string>(self).toLowerCase())],
     ["capitalize", (self: PyObject) => pyStr(strCapitalize(nativeVal<string>(self)))],
     ["isascii", (self: PyObject) => strIsascii(nativeVal<string>(self))],
+    ["strip", (self: PyObject, chars?: unknown) =>
+      pyStr(stripStr(nativeVal<string>(self), chars, "both"))],
+    ["lstrip", (self: PyObject, chars?: unknown) =>
+      pyStr(stripStr(nativeVal<string>(self), chars, "left"))],
+    ["rstrip", (self: PyObject, chars?: unknown) =>
+      pyStr(stripStr(nativeVal<string>(self), chars, "right"))],
   ]),
 });
 
