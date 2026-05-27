@@ -52,6 +52,10 @@ Emits JSON (`vitest_seconds`, pass gates, `test_count`); use median of several r
 | `test/cpython-derived/operator-bool-float.test.ts` | CPython `test_operator.py` bool/float cross-type |
 | `test/cpython-derived/sequence-repeat-bool.test.ts` | List/tuple bool/negative repeat; multi-element and spread-safe large repeat |
 | `test/cpython-derived/operator-str-scalar.test.ts` | CPython str↔scalar non-coercion; str bool/negative repeat |
+| `test/cpython-derived/operator-int-str-divmod-pow.test.ts` | int↔str divmod/pow TypeError |
+
+---
+
 | `test/cpython-derived/operator-int-str-binary.test.ts` | int↔str sub/floordiv/mod/truediv TypeError |
 | `test/cpython-derived/operator-unary-evidence.test.ts` | neg/pos/invert/abs reject list without unary slots |
 | `test/cpython-derived/operator-rounding-evidence.test.ts` | round/trunc/floor/ceil reject list without hooks |

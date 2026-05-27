@@ -9,6 +9,18 @@
 
 ---
 
+## Delta update (2026-05-24, plan 064 int-str divmod/pow)
+
+### Landed
+
+- [REPO] Plan 064 — `operator-int-str-divmod-pow.test.ts`; COMPATIBILITY §8.15 evidence (222 Vitest).
+
+### Partial
+
+- [OPEN] PRs #28–#42 still open on other branches.
+
+---
+
 ## Delta update (2026-05-24, plan 063 int-str binary)
 
 ### Landed
