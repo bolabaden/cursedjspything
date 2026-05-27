@@ -94,6 +94,7 @@ Emits JSON (`vitest_seconds`, pass gates, `test_count`); use median of several r
 | `test/cpython-derived/str-upper-lower.test.ts` | str.upper / str.lower case conversion |
 | `test/cpython-derived/str-capitalize.test.ts` | str.capitalize case conversion |
 | `test/cpython-derived/str-title.test.ts` | str.title word boundaries and Unicode |
+| `test/cpython-derived/str-swapcase.test.ts` | str.swapcase case inversion |
 | `test/cpython-derived/str-isascii.test.ts` | str.isascii predicate |
 | `test/cpython-derived/str-strip.test.ts` | str.strip / lstrip / rstrip |
 | `test/cpython-derived/str-split.test.ts` | str.split sep/maxsplit and whitespace |
