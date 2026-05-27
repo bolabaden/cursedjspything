@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 123 merge PR #75)
+
+### Landed
+
+- [REPO] Plan 123 — PR #75 merged; plan 122 bytes upper/lower on `main` (420 Vitest, 67 files).
+
+### Partial
+
+- None.
+
+### Next
+
+1. Codec handlers or further bytes/str API when prioritized.
+2. PEP 3118 buffer protocol remains out of scope until planned.
+
+---
+
 ## Delta update (2026-05-24, plan 122 bytes upper lower)
 
 ### Landed
