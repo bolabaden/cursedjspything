@@ -74,7 +74,15 @@ function decodeEncodingArg(encoding: unknown): string {
   );
 }
 
-type DecodeErrors = "strict" | "replace" | "ignore" | "backslashreplace";
+type DecodeErrors = "strict" | "replace" | "ignore" | "backslashreplace" | "surrogateescape";
+
+const SURROGATE_ESCAPE_BASE = 0xdc00;
+const SURROGATE_ESCAPE_MIN = 0xdc80;
+const SURROGATE_ESCAPE_MAX = 0xdcff;
+
+function decodeSurrogateEscapeByte(b: number): string {
+  return String.fromCharCode(SURROGATE_ESCAPE_BASE + b);
+}
 
 function decodeErrorsArg(errors: unknown): DecodeErrors {
   if (errors === undefined || errors === null) return "strict";
@@ -84,7 +92,8 @@ function decodeErrorsArg(errors: unknown): DecodeErrors {
       name === "strict" ||
       name === "replace" ||
       name === "ignore" ||
-      name === "backslashreplace"
+      name === "backslashreplace" ||
+      name === "surrogateescape"
     ) {
       return name;
     }
@@ -92,6 +101,33 @@ function decodeErrorsArg(errors: unknown): DecodeErrors {
   }
   const kind = errors instanceof PyObject ? errors.type.name : typeof errors;
   throw new PyTypeError(`decode() argument 'errors' must be str, not ${kind}`);
+}
+
+function decodeUtf8SurrogateEscape(data: Uint8Array): string {
+  let out = "";
+  let i = 0;
+  while (i < data.length) {
+    const b = data[i]!;
+    if (b <= 0x7f) {
+      out += String.fromCharCode(b);
+      i += 1;
+      continue;
+    }
+    const end = endOfUtf8Sequence(data, i);
+    if (end < 0) {
+      out += decodeSurrogateEscapeByte(b);
+      i += 1;
+      continue;
+    }
+    try {
+      out += new TextDecoder("utf-8", { fatal: true }).decode(data.subarray(i, end));
+      i = end;
+    } catch {
+      out += decodeSurrogateEscapeByte(b);
+      i += 1;
+    }
+  }
+  return out;
 }
 
 function decodeUtf8BackslashReplace(data: Uint8Array): string {
@@ -124,6 +160,9 @@ function decodeUtf8BackslashReplace(data: Uint8Array): string {
 function decodeUtf8(data: Uint8Array, errors: DecodeErrors): string {
   if (errors === "backslashreplace") {
     return decodeUtf8BackslashReplace(data);
+  }
+  if (errors === "surrogateescape") {
+    return decodeUtf8SurrogateEscape(data);
   }
   if (errors === "replace") {
     return new TextDecoder("utf-8", { fatal: false }).decode(data);
@@ -204,6 +243,8 @@ function decodeAscii(data: Uint8Array, errors: DecodeErrors): string {
       out += "\ufffd";
     } else if (errors === "backslashreplace") {
       out += `\\x${b.toString(16).padStart(2, "0")}`;
+    } else if (errors === "surrogateescape") {
+      out += decodeSurrogateEscapeByte(b);
     }
   }
   return out;
