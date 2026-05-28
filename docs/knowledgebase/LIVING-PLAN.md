@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 345 merge PR #186)
+
+### Landed
+
+- [REPO] Plan 344 merged via PR #186 — `NoneType.__bool__` docs sync on `main` (734 Vitest / 132 files). All builtins with explicit `Slot.bool` hooks now have Vitest + §8.15 documentation except `slice`.
+
+### Partial
+
+- None.
+
+### Next
+
+1. Next prioritized §8.15 gap: `slice` explicit `__bool__` (runtime + Vitest + docs) or exception-type normalization §8.17.
+2. PEP 3118 buffer protocol remains out of scope.
+
+---
+
 ## Delta update (2026-05-24, plan 344 NoneType __bool__ docs)
 
 ### Landed
