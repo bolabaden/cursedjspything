@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 275 merge PR #151)
+
+### Landed
+
+- [REPO] Plan 274 merged via PR #151 — `set` / `frozenset` `issubset`, `issuperset`, `isdisjoint` on `main` (673 Vitest / 112 files).
+
+### Partial
+
+- COMPATIBILITY §8.15 / validation-ladder sync for set methods deferred to plan 276.
+
+### Next
+
+1. Docs sync COMPATIBILITY §8.15 + validation-ladder for `frozenset-set-methods.test.ts`.
+2. PEP 3118 buffer protocol remains out of scope until planned.
+
+---
+
 ## Delta update (2026-05-24, plan 274 set frozenset methods)
 
 ### Landed
