@@ -160,6 +160,8 @@ export {
   dictType,
   pySet,
   setType,
+  pyFrozenSet,
+  frozensetType,
   pyBytes,
   bytesType,
   unwrap,
