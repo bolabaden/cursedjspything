@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 292 bytes hash docs)
+
+### Landed
+
+- [REPO] COMPATIBILITY §8.15 + validation-ladder sync for `bytes.__hash__` / `bytes-hash.test.ts`.
+
+### Partial
+
+- None.
+
+### Next
+
+1. Ops merge PR for plan 292 docs sync (plan 293).
+2. Next prioritized §8.15 or builtin surface gap from COMPATIBILITY remaining-gap list.
+
+---
+
 ## Delta update (2026-05-24, plan 291 merge PR #159)
 
 ### Landed
