@@ -4,9 +4,9 @@
 
 import { PyObject } from "../core/object.js";
 import { makeClass } from "../class/class.js";
-import { Slot } from "../core/slots.js";
+import { Slot, Hook } from "../core/slots.js";
 import { setNative, nativeVal } from "../builtins/native.js";
-import { PyValueError } from "../core/errors.js";
+import { PyTypeError, PyValueError } from "../core/errors.js";
 
 export interface SliceFields {
   start: number | null;
@@ -14,14 +14,25 @@ export interface SliceFields {
   step: number | null;
 }
 
+function sliceFmt(v: number | null): string {
+  return v === null ? "None" : String(v);
+}
+
+function sliceRepr(self: PyObject): string {
+  const { start, stop, step } = nativeVal<SliceFields>(self);
+  return `slice(${sliceFmt(start)}, ${sliceFmt(stop)}, ${sliceFmt(step)})`;
+}
+
+function formatSliceSpec(self: PyObject, spec: string): string {
+  if (spec === "") return sliceRepr(self);
+  throw new PyTypeError("unsupported format string passed to slice.__format__");
+}
+
 export const sliceType = makeClass({
   name: "slice",
   dict: new Map<string | symbol, unknown>([
-    [Slot.repr, (self: PyObject) => {
-      const { start, stop, step } = nativeVal<SliceFields>(self);
-      const fmt = (v: number | null) => (v === null ? "None" : String(v));
-      return `slice(${fmt(start)}, ${fmt(stop)}, ${fmt(step)})`;
-    }],
+    [Slot.repr, (self: PyObject) => sliceRepr(self)],
+    [Hook.format, (self: PyObject, spec: string) => formatSliceSpec(self, spec)],
   ]),
 });
 

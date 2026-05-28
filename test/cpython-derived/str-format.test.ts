@@ -13,6 +13,7 @@ import {
   pyInt,
   pyList,
   pyTuple,
+  pySlice,
   pyStr,
   pyTrue,
   pyBytes,
@@ -240,6 +241,14 @@ describe("cpython-derived str format", () => {
     expect(() => format("{0:10}", pyDict([]))).toThrow(PyTypeError);
     expect(() => format("{0:10}", pyDict([]))).toThrow(
       /unsupported format string passed to dict\.__format__/,
+    );
+  });
+
+  it("formats slice fields via __format__", () => {
+    expect(asStr(format("{0}", pySlice(1, 2)))).toBe("slice(1, 2, None)");
+    expect(() => format("{0:10}", pySlice(1, 2))).toThrow(PyTypeError);
+    expect(() => format("{0:10}", pySlice(1, 2))).toThrow(
+      /unsupported format string passed to slice\.__format__/,
     );
   });
 
