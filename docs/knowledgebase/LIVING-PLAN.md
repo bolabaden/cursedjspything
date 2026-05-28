@@ -9,6 +9,24 @@
 
 ---
 
+## Delta update (2026-05-24, plan 334 str __bool__ evidence)
+
+### Landed
+
+- [REPO] `str-bool.test.ts` — Vitest coverage for existing `Slot.bool` on `strType`.
+
+### Partial
+
+- None.
+
+### Next
+
+1. Ops merge plan 334 PR when CI green (plan 335).
+2. Docs sync COMPATIBILITY §8.15 + validation-ladder for `str-bool.test.ts` (plan 336).
+3. PEP 3118 buffer protocol remains out of scope.
+
+---
+
 ## Delta update (2026-05-24, plan 333 merge PR #180)
 
 ### Landed
