@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 291 merge PR #159)
+
+### Landed
+
+- [REPO] Plan 290 merged via PR #159 — `bytes.__hash__` on `main` (690 Vitest / 116 files).
+
+### Partial
+
+- COMPATIBILITY §8.15 / validation-ladder sync for bytes hash deferred to plan 292.
+
+### Next
+
+1. Docs sync COMPATIBILITY §8.15 + validation-ladder for `bytes-hash.test.ts` (plan 292).
+2. Next prioritized §8.15 or builtin surface gap from COMPATIBILITY remaining-gap list.
+
+---
+
 ## Delta update (2026-05-24, plan 290 bytes hash)
 
 ### Landed
