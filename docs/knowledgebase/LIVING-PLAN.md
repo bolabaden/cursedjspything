@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 191 merge PR #109)
+
+### Landed
+
+- [REPO] Plan 191 — PR #109 merged; plan 190 str center on `main` (568 Vitest, 98 files).
+
+### Partial
+
+- None.
+
+### Next
+
+1. Further str/bytes API when prioritized (ljust, rjust, zfill).
+2. PEP 3118 buffer protocol remains out of scope until planned.
+
+---
+
 ## Delta update (2026-05-24, plan 190 str center)
 
 ### Landed
