@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 215 merge PR #121)
+
+### Landed
+
+- [REPO] Plan 214 merged via PR #121 — int format width padding on `main` (619 Vitest / 105 files).
+
+### Partial
+
+- No float-style `f` on int; sign/`+` fill variants deferred.
+
+### Next
+
+1. PEP 3118 buffer protocol remains out of scope until planned.
+2. Further format parity when prioritized.
+
+---
+
 ## Delta update (2026-05-24, plan 214 int format width)
 
 ### Landed
