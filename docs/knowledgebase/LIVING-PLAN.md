@@ -9,6 +9,24 @@
 
 ---
 
+## Delta update (2026-05-24, plan 346 slice __bool__ evidence)
+
+### Landed
+
+- [REPO] Explicit `Slot.bool` on `sliceType` (always truthy) + `slice-bool.test.ts`.
+
+### Partial
+
+- None.
+
+### Next
+
+1. Ops merge plan 346 PR when CI green (plan 347).
+2. Docs sync COMPATIBILITY §8.15 + validation-ladder for `slice-bool.test.ts` (plan 348).
+3. PEP 3118 buffer protocol remains out of scope.
+
+---
+
 ## Delta update (2026-05-24, plan 345 merge PR #186)
 
 ### Landed

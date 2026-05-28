@@ -32,6 +32,7 @@ export const sliceType = makeClass({
   name: "slice",
   dict: new Map<string | symbol, unknown>([
     [Slot.repr, (self: PyObject) => sliceRepr(self)],
+    [Slot.bool, (_self: PyObject) => true],
     [Hook.format, (self: PyObject, spec: string) => formatSliceSpec(self, spec)],
   ]),
 });
