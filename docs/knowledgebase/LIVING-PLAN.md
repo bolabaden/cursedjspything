@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 302 bytes __reversed__)
+
+### Landed
+
+- [REPO] Explicit `bytes.__reversed__` via `makeReversedIterator`; `bytes-reversed.test.ts`.
+
+### Partial
+
+- COMPATIBILITY §8.15 / validation-ladder sync deferred to plan 304.
+
+### Next
+
+1. Ops merge plan 302 PR (plan 303).
+2. Docs sync for `bytes-reversed.test.ts` (plan 304).
+
+---
+
 ## Delta update (2026-05-24, plan 301 merge PR #164)
 
 ### Landed
