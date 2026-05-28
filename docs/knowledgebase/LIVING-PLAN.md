@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 303 merge PR #165)
+
+### Landed
+
+- [REPO] Plan 302 merged via PR #165 — `bytes.__reversed__` on `main` (698 Vitest / 119 files).
+
+### Partial
+
+- COMPATIBILITY §8.15 / validation-ladder sync for bytes reversed deferred to plan 304.
+
+### Next
+
+1. Docs sync COMPATIBILITY §8.15 + validation-ladder for `bytes-reversed.test.ts` (plan 304).
+2. Next prioritized §8.15 or builtin surface gap from COMPATIBILITY remaining-gap list.
+
+---
+
 ## Delta update (2026-05-24, plan 302 bytes __reversed__)
 
 ### Landed
