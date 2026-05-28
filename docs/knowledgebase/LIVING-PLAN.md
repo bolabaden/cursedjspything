@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 279 merge PR #153)
+
+### Landed
+
+- [REPO] Plan 278 merged via PR #153 — set mutation methods + frozenset `copy` on `main` (679 Vitest / 113 files).
+
+### Partial
+
+- COMPATIBILITY §8.15 / validation-ladder sync for mutation methods deferred to plan 280.
+
+### Next
+
+1. Docs sync COMPATIBILITY §8.15 + validation-ladder for `set-mutation.test.ts`.
+2. Next prioritized §8.15 or builtin surface gap from COMPATIBILITY remaining-gap list.
+
+---
+
 ## Delta update (2026-05-24, plan 278 set mutation methods)
 
 ### Landed
