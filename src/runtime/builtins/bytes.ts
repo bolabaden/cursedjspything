@@ -1402,6 +1402,14 @@ export const bytesType = makeClass({
     [Hook.format, (self: PyObject, spec: string) =>
       formatBytesSpec(bytesData(self), spec)],
     [Slot.len, (self: PyObject) => bytesData(self).length],
+    [Slot.hash, (self: PyObject) => {
+      const data = bytesData(self);
+      let h = 0;
+      for (let i = 0; i < data.length; i++) {
+        h = (Math.imul(31, h) + data[i]!) | 0;
+      }
+      return h;
+    }],
     [Slot.eq, (self: PyObject, other: PyObject) => {
       if (other.type !== bytesType) return NotImplemented;
       const a = bytesData(self);
