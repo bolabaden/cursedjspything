@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 220 int format g/G/%)
+
+### Landed
+
+- [REPO] Plan 220 — int `__format__` general and percent codes (`g`, `G`, `%`).
+
+### Partial
+
+- PEP 3118 buffer protocol out of scope.
+
+### Next
+
+1. Further format parity only if new gaps are prioritized.
+2. PEP 3118 buffer protocol remains out of scope until planned.
+
+---
+
 ## Delta update (2026-05-24, plan 219 merge PR #123)
 
 ### Landed

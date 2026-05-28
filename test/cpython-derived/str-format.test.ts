@@ -172,6 +172,9 @@ describe("cpython-derived str format", () => {
     expect(asStr(format("{: d}", pyInt(1)))).toBe(" 1");
     expect(asStr(format("{:.2f}", pyInt(1)))).toBe("1.00");
     expect(asStr(format("{:10.2f}", pyInt(1)))).toBe("      1.00");
+    expect(asStr(format("{:.3g}", pyInt(999999)))).toBe("1e+06");
+    expect(asStr(format("{:.2%}", pyInt(255)))).toBe("25500.00%");
+    expect(asStr(format("{:12g}", pyInt(1000000)))).toBe("       1e+06");
   });
 
   it("raises ValueError for invalid int format specs in fields", () => {

@@ -156,7 +156,7 @@ function formatIntSpecBody(
   );
 }
 
-type FloatPresentationType = "f" | "F" | "e" | "E";
+type FloatPresentationType = "f" | "F" | "e" | "E" | "g" | "G" | "%";
 
 interface FloatPresentationSpec {
   readonly fill: string;
@@ -193,7 +193,17 @@ function parseFloatPresentationSpec(spec: string): FloatPresentationSpec | null 
 
   if (i >= spec.length) return null;
   const type = spec[i]!;
-  if (type !== "f" && type !== "F" && type !== "e" && type !== "E") return null;
+  if (
+    type !== "f" &&
+    type !== "F" &&
+    type !== "e" &&
+    type !== "E" &&
+    type !== "g" &&
+    type !== "G" &&
+    type !== "%"
+  ) {
+    return null;
+  }
   if (i !== spec.length - 1) return null;
 
   return { fill, width, precision, type };
@@ -201,6 +211,36 @@ function parseFloatPresentationSpec(spec: string): FloatPresentationSpec | null 
 
 function normalizeExponent(s: string): string {
   return s.replace(/e([+-])(\d)$/, "e$10$2").replace(/E([+-])(\d)$/, "E$10$2");
+}
+
+function stripGeneralMantissa(mantissa: string): string {
+  if (!mantissa.includes(".")) return mantissa;
+  return mantissa.replace(/\.?0+$/, "");
+}
+
+function formatIntGeneralBody(value: number, precision: number, upper: boolean): string {
+  if (value === 0) return "0";
+  const intStr = String(Math.trunc(value));
+  if (intStr.length <= precision) {
+    return intStr;
+  }
+
+  const raw = value.toPrecision(precision);
+  if (!/[eE]/.test(raw)) {
+    return stripGeneralMantissa(raw);
+  }
+
+  const match = raw.match(/^(.+)[eE]([+-]?\d+)$/);
+  if (match === null) {
+    return stripGeneralMantissa(raw);
+  }
+
+  const mantissa = stripGeneralMantissa(match[1]!);
+  const expNum = Number(match[2]!);
+  const expSign = expNum < 0 ? "-" : "+";
+  const expDigits = String(Math.abs(expNum)).padStart(2, "0");
+  const eChar = upper ? "E" : "e";
+  return `${mantissa}${eChar}${expSign}${expDigits}`;
 }
 
 function formatIntFloatBody(
@@ -211,6 +251,12 @@ function formatIntFloatBody(
   const value = Math.abs(n);
   if (type === "f" || type === "F") {
     return value.toFixed(precision);
+  }
+  if (type === "g" || type === "G") {
+    return formatIntGeneralBody(value, precision, type === "G");
+  }
+  if (type === "%") {
+    return `${(value * 100).toFixed(precision)}%`;
   }
   const raw = value.toExponential(precision);
   const normalized = normalizeExponent(raw);
@@ -229,7 +275,7 @@ function formatIntFloatPresentation(
     );
   }
 
-  const defaultPrecision = parsed.type === "f" || parsed.type === "F" ? 6 : 6;
+  const defaultPrecision = 6;
   const precision = parsed.precision ?? defaultPrecision;
   let body = formatIntFloatBody(n, parsed.type, precision);
 
