@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 361 merge PR #194)
+
+### Landed
+
+- [REPO] Plan 360 merged via PR #194 — str↔float remaining binary/ordering Vitest on `main` (756 Vitest / 134 files).
+
+### Partial
+
+- None.
+
+### Next
+
+1. Next COMPATIBILITY remaining-gap item (§8.15 bytes method surface).
+2. PEP 3118 buffer protocol remains out of scope.
+
+---
+
 ## Delta update (2026-05-24, plan 360 str/float remaining binary evidence)
 
 ### Landed
