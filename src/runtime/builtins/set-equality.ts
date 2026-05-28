@@ -1,9 +1,18 @@
 import { PyObject } from "../core/object.js";
+import { PyTypeError } from "../core/errors.js";
 import { eq } from "../dispatch/operators/compare.js";
 import { nativeVal } from "./native.js";
 
 export function isSetLikeTypeName(name: string): boolean {
   return name === "set" || name === "frozenset";
+}
+
+export function requireSetLikeOperand(other: PyObject, method: string): void {
+  if (!isSetLikeTypeName(other.type.name)) {
+    throw new PyTypeError(
+      `${method}() argument must be a set or frozenset, not '${other.type.name}'`,
+    );
+  }
 }
 
 export function setLikeContentsEqual(self: PyObject, other: PyObject): boolean {

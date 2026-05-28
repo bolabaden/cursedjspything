@@ -5,7 +5,7 @@ import { PyStopIteration } from "../core/lookup.js";
 import { PyTypeError } from "../core/errors.js";
 import { hash as objectHash } from "../dispatch/operators/compare.js";
 import { nativeVal, setNative } from "./native.js";
-import { isSetLikeTypeName, setLikeContentsEqual } from "./set-equality.js";
+import { isSetLikeTypeName, requireSetLikeOperand, setLikeContentsEqual } from "./set-equality.js";
 import {
   differenceItems,
   intersectionItems,
@@ -13,6 +13,7 @@ import {
   unionItems,
 } from "./set-algebra.js";
 import {
+  areDisjoint,
   isProperSubsetOf,
   isProperSupersetOf,
   isSubsetOf,
@@ -135,6 +136,27 @@ export const frozensetType = makeClass({
       const a = nativeVal<Set<unknown>>(self);
       const b = nativeVal<Set<unknown>>(other);
       return isProperSupersetOf(a, b);
+    }],
+    ["issubset", (self: PyObject, other: PyObject) => {
+      requireSetLikeOperand(other, "issubset");
+      return isSubsetOf(
+        nativeVal<Set<unknown>>(self),
+        nativeVal<Set<unknown>>(other),
+      );
+    }],
+    ["issuperset", (self: PyObject, other: PyObject) => {
+      requireSetLikeOperand(other, "issuperset");
+      return isSupersetOf(
+        nativeVal<Set<unknown>>(self),
+        nativeVal<Set<unknown>>(other),
+      );
+    }],
+    ["isdisjoint", (self: PyObject, other: PyObject) => {
+      requireSetLikeOperand(other, "isdisjoint");
+      return areDisjoint(
+        nativeVal<Set<unknown>>(self),
+        nativeVal<Set<unknown>>(other),
+      );
     }],
   ]),
 });
