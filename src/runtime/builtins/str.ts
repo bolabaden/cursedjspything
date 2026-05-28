@@ -780,6 +780,30 @@ function strEndswith(
   return pyFalse;
 }
 
+function requireAffixStr(affix: unknown): string {
+  if (affix instanceof PyObject && affix.type === strType) {
+    return nativeVal<string>(affix);
+  }
+  const kind = affix instanceof PyObject ? affix.type.name : typeof affix;
+  throw new PyTypeError(`must be str, not ${kind}`);
+}
+
+function removePrefixStr(text: string, prefix: unknown): PyObject {
+  const pre = requireAffixStr(prefix);
+  if (strStartsWithSlice(text, pre)) {
+    return pyStr(text.slice(pre.length));
+  }
+  return pyStr(text);
+}
+
+function removeSuffixStr(text: string, suffix: unknown): PyObject {
+  const suf = requireAffixStr(suffix);
+  if (strEndsWithSlice(text, suf)) {
+    return pyStr(text.slice(0, text.length - suf.length));
+  }
+  return pyStr(text);
+}
+
 function requireReplaceStr(value: unknown): string {
   if (value instanceof PyObject && value.type === strType) {
     return nativeVal<string>(value);
@@ -1063,6 +1087,10 @@ export const strType = makeClass({
       strEndswith(nativeVal<string>(self), suffix, start, end)],
     ["replace", (self: PyObject, old: unknown, newStr: unknown, count?: unknown) =>
       replaceStr(nativeVal<string>(self), old, newStr, count)],
+    ["removeprefix", (self: PyObject, prefix: unknown) =>
+      removePrefixStr(nativeVal<string>(self), prefix)],
+    ["removesuffix", (self: PyObject, suffix: unknown) =>
+      removeSuffixStr(nativeVal<string>(self), suffix)],
   ]),
 });
 
