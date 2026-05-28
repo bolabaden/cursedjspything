@@ -126,6 +126,24 @@ type FieldStep =
   | { readonly kind: "attr"; readonly name: string }
   | { readonly kind: "getitem"; readonly key: number | string };
 
+/** Trailing wrapper for **kwargs at the JS `str.format` call boundary. */
+export class FormatKeywordMapping {
+  readonly mapping: PyObject;
+
+  constructor(mapping: PyObject) {
+    if (!(mapping instanceof PyObject)) {
+      throw new PyTypeError(
+        "FormatKeywordMapping requires a PyObject mapping instance",
+      );
+    }
+    this.mapping = mapping;
+  }
+}
+
+export function isFormatKeywordMapping(v: unknown): v is FormatKeywordMapping {
+  return v instanceof FormatKeywordMapping;
+}
+
 function parseFieldName(name: string): FieldNameParts {
   if (name === "") return { root: "", steps: [] };
   if (name.startsWith(".") || name.startsWith("[")) {
@@ -300,6 +318,58 @@ function resolvePositional(
   return applyFormatSteps(value, steps, strType);
 }
 
+function resolvePositionalWithKwargs(
+  args: readonly PyObject[],
+  kwargs: PyObject,
+  field: FormatField,
+  strType: PyType,
+  autoIndex: { value: number },
+  manualSeen: { value: boolean },
+): PyObject {
+  const { root, steps } = parseFieldName(field.name);
+  if (root === "") {
+    if (manualSeen.value) {
+      throw new PyValueError(
+        "cannot switch from manual field specification to automatic field numbering",
+      );
+    }
+    const index = autoIndex.value;
+    autoIndex.value += 1;
+    const value = args[index];
+    if (value === undefined) {
+      throw new PyIndexError(
+        "Replacement index " +
+          index +
+          " out of range for positional args tuple",
+      );
+    }
+    return applyFormatSteps(value, steps, strType);
+  }
+  if (/^\d+$/.test(root)) {
+    if (autoIndex.value > 0) {
+      throw new PyValueError(
+        "cannot switch from automatic field numbering to manual field specification",
+      );
+    }
+    manualSeen.value = true;
+    const index = Number(root);
+    const value = args[index];
+    if (value === undefined) {
+      throw new PyIndexError(
+        "Replacement index " +
+          index +
+          " out of range for positional args tuple",
+      );
+    }
+    return applyFormatSteps(value, steps, strType);
+  }
+  if (isIdentifierField(root)) {
+    const value = lookupMappingValue(kwargs, root, strType);
+    return applyFormatSteps(value, steps, strType);
+  }
+  throw new PyValueError(`Invalid field name: ${JSON.stringify(field.name)}`);
+}
+
 function resolveMapping(
   mapping: PyObject,
   field: FormatField,
@@ -358,12 +428,23 @@ export function formatStr(
   template: string,
   strType: PyType,
   args: readonly PyObject[],
+  kwargs?: PyObject,
 ): string {
   const autoIndex = { value: 0 };
   const manualSeen = { value: false };
-  return buildFormattedString(template, strType, (field) =>
-    resolvePositional(args, field, strType, autoIndex, manualSeen),
-  );
+  const resolve = kwargs
+    ? (field: FormatField) =>
+        resolvePositionalWithKwargs(
+          args,
+          kwargs,
+          field,
+          strType,
+          autoIndex,
+          manualSeen,
+        )
+    : (field: FormatField) =>
+        resolvePositional(args, field, strType, autoIndex, manualSeen);
+  return buildFormattedString(template, strType, resolve);
 }
 
 export function formatMapStr(

@@ -3,6 +3,7 @@ export * from "./int.js";
 export * from "./bool.js";
 export * from "./float.js";
 export * from "./str.js";
+export { FormatKeywordMapping, isFormatKeywordMapping } from "./str-format.js";
 export * from "./list.js";
 export * from "./tuple.js";
 export * from "./dict.js";

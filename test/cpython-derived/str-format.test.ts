@@ -22,6 +22,7 @@ import {
   PyTypeError,
   PyValueError,
 } from "../../src/runtime/core/errors.js";
+import { FormatKeywordMapping } from "../../src/runtime/builtins/str-format.js";
 
 type FormatFn = (self: PyObject, ...args: unknown[]) => unknown;
 type FormatMapFn = (self: PyObject, mapping: unknown) => unknown;
@@ -68,6 +69,30 @@ describe("cpython-derived str format", () => {
     ]);
     expect(asStr(formatMap("{hello}", mapping))).toBe("world");
     expect(asStr(formatMap("{a} there", mapping))).toBe("hi there");
+  });
+
+  it("formats named fields via kwargs wrapper", () => {
+    const kwargs = new FormatKeywordMapping(
+      pyDict([[pyStr("name"), pyStr("Fred")]]),
+    );
+    expect(asStr(format("My name is {name}", kwargs))).toBe("My name is Fred");
+  });
+
+  it("formats mixed positional and kwargs fields", () => {
+    const kwargs = new FormatKeywordMapping(
+      pyDict([[pyStr("name"), pyStr("b")]]),
+    );
+    expect(asStr(format("{0} {name}", pyStr("a"), kwargs))).toBe("a b");
+    expect(asStr(format("{} {name}", pyStr("a"), kwargs))).toBe("a b");
+  });
+
+  it("raises KeyError for missing kwargs keys", () => {
+    const kwargs = new FormatKeywordMapping(pyDict([]));
+    expect(() => format("{missing}", kwargs)).toThrow(PyKeyError);
+  });
+
+  it("rejects non-mapping FormatKeywordMapping payload", () => {
+    expect(() => new FormatKeywordMapping({} as PyObject)).toThrow(PyTypeError);
   });
 
   it("resolves attribute chains on positional and mapping roots", () => {
