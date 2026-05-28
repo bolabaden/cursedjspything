@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 283 merge PR #155)
+
+### Landed
+
+- [REPO] Plan 282 merged via PR #155 — set/frozenset named algebra methods on `main` (683 Vitest / 114 files).
+
+### Partial
+
+- COMPATIBILITY §8.15 / validation-ladder sync for named algebra deferred to plan 284.
+
+### Next
+
+1. Docs sync COMPATIBILITY §8.15 + validation-ladder for `frozenset-set-named-algebra.test.ts`.
+2. Next prioritized §8.15 or builtin surface gap from COMPATIBILITY remaining-gap list.
+
+---
+
 ## Delta update (2026-05-24, plan 282 set named algebra methods)
 
 ### Landed
