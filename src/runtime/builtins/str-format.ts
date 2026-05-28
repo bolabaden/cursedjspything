@@ -179,12 +179,13 @@ function parseFieldName(name: string): FieldNameParts {
       }
       const indexStr = name.slice(start, i);
       i += 1;
+      if (indexStr === "") {
+        throw new PyValueError(`Invalid field name: ${JSON.stringify(name)}`);
+      }
       if (/^\d+$/.test(indexStr)) {
         steps.push({ kind: "getitem", key: Number(indexStr) });
-      } else if (isIdentifierField(indexStr)) {
-        steps.push({ kind: "getitem", key: indexStr });
       } else {
-        throw new PyValueError(`Invalid field name: ${JSON.stringify(name)}`);
+        steps.push({ kind: "getitem", key: indexStr });
       }
       continue;
     }
