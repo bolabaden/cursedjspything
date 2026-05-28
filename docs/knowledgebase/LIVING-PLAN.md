@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 308 str __reversed__ docs)
+
+### Landed
+
+- [REPO] COMPATIBILITY §8.15 + validation-ladder sync for `str.__reversed__` / `str-reversed.test.ts`.
+
+### Partial
+
+- None.
+
+### Next
+
+1. Ops merge PR for plan 308 docs sync (plan 309).
+2. Next prioritized §8.15 or builtin surface gap from COMPATIBILITY remaining-gap list.
+
+---
+
 ## Delta update (2026-05-24, plan 307 merge PR #167)
 
 ### Landed
