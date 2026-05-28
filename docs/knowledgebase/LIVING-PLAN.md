@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 239 merge PR #133)
+
+### Landed
+
+- [REPO] Plan 238 merged via PR #133 — `NoneType.__format__` on `main` (633 Vitest / 105 files).
+
+### Partial
+
+- PEP 3118 buffer protocol out of scope.
+
+### Next
+
+1. Further format parity only if new gaps are prioritized.
+2. PEP 3118 buffer protocol remains out of scope until planned.
+
+---
+
 ## Delta update (2026-05-24, plan 238 None format)
 
 ### Landed
