@@ -9,6 +9,24 @@
 
 ---
 
+## Delta update (2026-05-24, plan 360 str/float remaining binary evidence)
+
+### Landed
+
+- [REPO] `operator-str-float-remaining-binary.test.ts` — str↔float truediv/floordiv/mod/divmod/pow and ordering TypeError (756 Vitest / 134 files).
+
+### Partial
+
+- None.
+
+### Next
+
+1. Ops merge plan 360 PR when CI green (plan 361).
+2. Next COMPATIBILITY remaining-gap item (§8.15 bytes method surface).
+3. PEP 3118 buffer protocol remains out of scope.
+
+---
+
 ## Delta update (2026-05-24, plan 359 merge PR #193)
 
 ### Landed

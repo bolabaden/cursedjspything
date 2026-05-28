@@ -61,6 +61,7 @@ Emits JSON (`vitest_seconds`, pass gates, `test_count`); use median of several r
 ---
 
 | `test/cpython-derived/operator-str-float.test.ts` | str↔float eq/ne non-coercion; add/sub/mul TypeError |
+| `test/cpython-derived/operator-str-float-remaining-binary.test.ts` | str↔float truediv/floordiv/mod/divmod/pow/sub/mul TypeError; ordering lt/le/gt/ge TypeError |
 
 ---
 
