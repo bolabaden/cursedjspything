@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 294 bytes __bytes__)
+
+### Landed
+
+- [REPO] `bytes.__bytes__` returns self; `bytes-bytes.test.ts`.
+
+### Partial
+
+- COMPATIBILITY §8.15 / validation-ladder sync deferred to plan 296.
+
+### Next
+
+1. Ops merge plan 294 PR (plan 295).
+2. Docs sync for `bytes-bytes.test.ts` (plan 296).
+
+---
+
 ## Delta update (2026-05-24, plan 293 merge PR #160)
 
 ### Landed
