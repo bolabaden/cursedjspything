@@ -11,6 +11,7 @@ import {
   pyStr,
   pyTrue,
   pyBytes,
+  pyNone,
 } from "../../src/index.js";
 import { PyTypeError, PyValueError } from "../../src/runtime/core/errors.js";
 
@@ -111,6 +112,14 @@ describe("cpython-derived format on builtins with __format__", () => {
     );
     expect(() => format(pyBytes(new Uint8Array([104, 105])), "10")).toThrow(
       /unsupported format string passed to bytes\.__format__/,
+    );
+  });
+
+  it("formats None with empty spec only", () => {
+    expect(format(pyNone, "")).toBe("None");
+    expect(() => format(pyNone, "10")).toThrow(PyTypeError);
+    expect(() => format(pyNone, "10")).toThrow(
+      /unsupported format string passed to NoneType\.__format__/,
     );
   });
 

@@ -15,6 +15,7 @@ import {
   pyStr,
   pyTrue,
   pyBytes,
+  pyNone,
   strType,
   unwrap,
 } from "../../src/index.js";
@@ -206,6 +207,14 @@ describe("cpython-derived str format", () => {
     expect(() =>
       format("{0:10}", pyBytes(new Uint8Array([104, 105]))),
     ).toThrow(/unsupported format string passed to bytes\.__format__/);
+  });
+
+  it("formats None fields via __format__", () => {
+    expect(asStr(format("{0}", pyNone))).toBe("None");
+    expect(() => format("{0:10}", pyNone)).toThrow(PyTypeError);
+    expect(() => format("{0:10}", pyNone)).toThrow(
+      /unsupported format string passed to NoneType\.__format__/,
+    );
   });
 
   it("uses repr conversion and int format spec", () => {
