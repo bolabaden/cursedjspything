@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 365 merge PR #196)
+
+### Landed
+
+- [REPO] Plan 364 merged via PR #196 — str↔int remaining binary/ordering Vitest on `main` (779 Vitest / 136 files). §8.17 plain-`Error` gap narrowed to bootstrap paths.
+
+### Partial
+
+- None.
+
+### Next
+
+1. Next COMPATIBILITY remaining-gap item (niche bytes/str edge cases).
+2. PEP 3118 buffer protocol remains out of scope.
+
+---
+
 ## Delta update (2026-05-24, plan 364 str/int remaining binary evidence)
 
 ### Landed
