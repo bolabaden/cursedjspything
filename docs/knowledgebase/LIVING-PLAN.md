@@ -9,6 +9,24 @@
 
 ---
 
+## Delta update (2026-05-24, plan 324 tuple __bool__ docs)
+
+### Landed
+
+- [REPO] COMPATIBILITY §8.15 + validation-ladder sync for `tuple.__bool__` / `tuple-bool.test.ts`.
+
+### Partial
+
+- None.
+
+### Next
+
+1. Ops merge plan 324 PR when CI green (plan 325).
+2. Next prioritized §8.15 or builtin surface gap (e.g. dict/set `__bool__` evidence).
+3. PEP 3118 buffer protocol remains out of scope.
+
+---
+
 ## Delta update (2026-05-24, plan 323 merge PR #175)
 
 ### Landed
