@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 204 str format)
+
+### Landed
+
+- [REPO] Plan 204 — `str.format` / `str.format_map`; `str-format.test.ts`.
+
+### Partial
+
+- Named fields on `.format()` require `format_map` (no `**kwargs` at JS call boundary); no attribute/index field names.
+
+### Next
+
+1. Expand format field grammar (`{0.name}`) or `**kwargs` bridging when prioritized.
+2. PEP 3118 buffer protocol remains out of scope until planned.
+
+---
+
 ## Delta update (2026-05-24, plan 203 merge PR #115)
 
 ### Landed

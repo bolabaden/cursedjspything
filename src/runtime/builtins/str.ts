@@ -18,6 +18,22 @@ import { pyList } from "./list.js";
 import { pyTuple, tupleType } from "./tuple.js";
 import { dictType, pyDict } from "./dict.js";
 import { dictGet } from "../collections/dict-keys.js";
+import { formatStr, formatMapStr } from "./str-format.js";
+
+function requireFormatArgs(args: unknown[]): PyObject[] {
+  const out: PyObject[] = [];
+  for (let i = 0; i < args.length; i++) {
+    const a = args[i];
+    if (!(a instanceof PyObject)) {
+      const kind = typeof a;
+      throw new PyTypeError(
+        `format() argument ${i} must be PyObject instance, not ${kind}`,
+      );
+    }
+    out.push(a);
+  }
+  return out;
+}
 
 function repeatStr(self: PyObject, other: PyObject) {
   const n = sequenceRepeatCount(other);
@@ -1262,6 +1278,20 @@ export const strType = makeClass({
     }],
     ["join", (self: PyObject, iterable: unknown) =>
       joinStr(nativeVal<string>(self), iterable)],
+    ["format", (self: PyObject, ...args: unknown[]) =>
+      pyStr(formatStr(nativeVal<string>(self), strType, requireFormatArgs(args)))],
+    ["format_map", (self: PyObject, mapping?: unknown) => {
+      if (mapping === undefined) {
+        throw new PyTypeError("format_map() takes exactly one argument (0 given)");
+      }
+      if (!(mapping instanceof PyObject)) {
+        const kind = typeof mapping;
+        throw new PyTypeError(
+          `format_map() argument must be a mapping, not ${kind}`,
+        );
+      }
+      return pyStr(formatMapStr(nativeVal<string>(self), strType, mapping));
+    }],
     ["upper", (self: PyObject) => pyStr(nativeVal<string>(self).toUpperCase())],
     ["lower", (self: PyObject) => pyStr(nativeVal<string>(self).toLowerCase())],
     ["casefold", (self: PyObject) => pyStr(casefoldStr(nativeVal<string>(self)))],
