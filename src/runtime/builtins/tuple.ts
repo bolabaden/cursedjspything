@@ -1,7 +1,8 @@
 import { PyObject, NotImplemented } from "../core/object.js";
 import { Slot, Hook } from "../core/slots.js";
 import { makeClass } from "../class/class.js";
-import { PyStopIteration } from "../core/lookup.js";
+import { PyStopIteration, lookupSpecial } from "../core/lookup.js";
+import { makeReversedIterator } from "../iterators/reversed-iterator.js";
 import { PyTypeError, PyIndexError } from "../core/errors.js";
 import { nativeVal, setNative } from "./native.js";
 import { sequenceRepeatCount } from "./int.js";
@@ -102,6 +103,14 @@ export const tupleType = makeClass({
         ]),
       });
       return new PyObject(iterType);
+    }],
+    [Hook.reversed, (self: PyObject) => {
+      const lenFn = lookupSpecial(self, Slot.len);
+      const giFn = lookupSpecial(self, Slot.getitem);
+      if (!lenFn || !giFn) {
+        throw new PyTypeError("'tuple' object is not reversible");
+      }
+      return makeReversedIterator(self, lenFn, giFn);
     }],
     [Slot.eq, (self: PyObject, other: PyObject) => {
       if (other.type !== tupleType) return NotImplemented;
