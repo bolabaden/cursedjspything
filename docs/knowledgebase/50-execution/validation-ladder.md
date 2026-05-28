@@ -151,6 +151,7 @@ Emits JSON (`vitest_seconds`, pass gates, `test_count`); use median of several r
 | `test/cpython-derived/bytes-translate.test.ts` | bytes.maketrans / bytes.translate |
 | `test/cpython-derived/bytes-isascii-contains.test.ts` | bytes.isascii / bytes.__contains__ |
 | `test/cpython-derived/bytes-decode.test.ts` | bytes.decode UTF-8/latin-1/ascii errors strict/replace/ignore/backslashreplace/surrogateescape |
+| `test/cpython-derived/bytes-iter.test.ts` | bytes.__iter__ yields int 0–255; empty bytes StopIteration; iterator __iter__ returns self |
 | `test/cpython-derived/bytes-slice-index.test.ts` | bytes slice subscript returns bytes |
 | `test/cpython-derived/bytes-getitem-compare.test.ts` | bytes int index + lexicographic rich compare |
 | `test/cpython-derived/operator-bytes-conversion.test.ts` | bytes() on str vs int/float TypeError |
