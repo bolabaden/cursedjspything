@@ -9,6 +9,25 @@ import { buildRepeatedArray } from "./sequence-repeat.js";
 import { isSlice, sliceFields, sliceIndices } from "../collections/slice.js";
 import { eq } from "../dispatch/operators/compare.js";
 
+function listRepr(self: PyObject): string {
+  const items = nativeVal<PyObject[]>(self);
+  return (
+    "[" +
+    items
+      .map((o) => {
+        const reprFn = o.type.typeDict.get(Slot.repr);
+        return typeof reprFn === "function" ? (reprFn as Function)(o) : "<object>";
+      })
+      .join(", ") +
+    "]"
+  );
+}
+
+function formatListSpec(self: PyObject, spec: string): string {
+  if (spec === "") return listRepr(self);
+  throw new PyTypeError("unsupported format string passed to list.__format__");
+}
+
 function repeatList(self: PyObject, other: PyObject) {
   const n = sequenceRepeatCount(other);
   if (n === null) return NotImplemented;
@@ -23,13 +42,8 @@ function repeatList(self: PyObject, other: PyObject) {
 export const listType = makeClass({
   name: "list",
   dict: new Map<string | symbol, unknown>([
-    [Slot.repr, (self: PyObject) => {
-      const items = nativeVal<PyObject[]>(self);
-      return "[" + items.map((o) => {
-        const reprFn = o.type.typeDict.get(Slot.repr);
-        return typeof reprFn === "function" ? (reprFn as Function)(o) : "<object>";
-      }).join(", ") + "]";
-    }],
+    [Slot.repr, (self: PyObject) => listRepr(self)],
+    [Hook.format, (self: PyObject, spec: string) => formatListSpec(self, spec)],
     [Slot.len, (self: PyObject) => nativeVal<PyObject[]>(self).length],
     [Slot.bool, (self: PyObject) => nativeVal<PyObject[]>(self).length > 0],
     [Slot.getitem, (self: PyObject, key: unknown) => {

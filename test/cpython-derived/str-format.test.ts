@@ -217,6 +217,14 @@ describe("cpython-derived str format", () => {
     );
   });
 
+  it("formats list fields via __format__", () => {
+    expect(asStr(format("{0}", pyList([pyInt(1), pyInt(2)])))).toBe("[1, 2]");
+    expect(() => format("{0:10}", pyList([]))).toThrow(PyTypeError);
+    expect(() => format("{0:10}", pyList([]))).toThrow(
+      /unsupported format string passed to list\.__format__/,
+    );
+  });
+
   it("uses repr conversion and int format spec", () => {
     expect(asStr(format("{0!r}", pyList([])))).toBe("[]");
     expect(asStr(format("{0:x}", pyInt(255)))).toBe("ff");
