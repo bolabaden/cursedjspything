@@ -855,6 +855,17 @@ function rjustStr(text: string, width: unknown, fill?: unknown): PyObject {
   return pyStr(fillChar.repeat(w - n) + text);
 }
 
+function zfillStr(text: string, width: unknown): PyObject {
+  const w = splitMaxsplitArg(width);
+  const n = strCodePointLength(text);
+  if (w <= n) return pyStr(text);
+  const pad = w - n;
+  if (text.length > 0 && (text[0] === "+" || text[0] === "-")) {
+    return pyStr(text[0] + "0".repeat(pad) + text.slice(1));
+  }
+  return pyStr("0".repeat(pad) + text);
+}
+
 function requireReplaceStr(value: unknown): string {
   if (value instanceof PyObject && value.type === strType) {
     return nativeVal<string>(value);
@@ -1148,6 +1159,8 @@ export const strType = makeClass({
       ljustStr(nativeVal<string>(self), width, fill)],
     ["rjust", (self: PyObject, width: unknown, fill?: unknown) =>
       rjustStr(nativeVal<string>(self), width, fill)],
+    ["zfill", (self: PyObject, width: unknown) =>
+      zfillStr(nativeVal<string>(self), width)],
   ]),
 });
 
