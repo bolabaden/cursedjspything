@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 243 merge PR #135)
+
+### Landed
+
+- [REPO] Plan 242 merged via PR #135 — `tuple.__format__` on `main` (637 Vitest / 105 files).
+
+### Partial
+
+- PEP 3118 buffer protocol out of scope.
+
+### Next
+
+1. Further format parity only if new gaps are prioritized (e.g. dict).
+2. PEP 3118 buffer protocol remains out of scope until planned.
+
+---
+
 ## Delta update (2026-05-24, plan 242 tuple format)
 
 ### Landed
