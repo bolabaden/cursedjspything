@@ -409,7 +409,7 @@ CPython exposes **readonly mapping views** on class and instance namespaces — 
 `str`, `list`, and `tuple` `__getitem__` / list `__setitem__` / `__delitem__` raise typed runtime exceptions rather than generic `Error`:
 
 - Non-integer keys → **`PyTypeError`** (`list indices must be integers`, `tuple indices must be integers`, `string indices must be integers`; str `__contains__` with non-str operand uses CPython-style `'in <string>' requires string as left operand, not int`).
-- Out-of-range integer keys → **`PyIndexError`** (`list index out of range`, `tuple index out of range`, `string index out of range`, etc.).
+- Out-of-range integer keys → **`PyIndexError`** (`list index out of range`, `list assignment index out of range`, `list deletion index out of range` for `__delitem__`; `tuple index out of range`, `string index out of range`, etc.; plan 352 Vitest for list `delItem`).
 
 Int and float `__truediv__`, `__floordiv__`, and `__mod__` (plus int/float `__divmod__`) raise **`PyZeroDivisionError`** with CPython message text on zero divisors (float `divmod` uses `division by zero`; plan 350). Int three-arg `pow` with `mod == 0` raises **`PyValueError`** (`pow() 3rd argument cannot be 0`). Int `__lshift__` / `__rshift__` with negative shift count raise **`PyValueError`** (`negative shift count`).
 

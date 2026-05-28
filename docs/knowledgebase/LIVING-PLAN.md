@@ -9,6 +9,24 @@
 
 ---
 
+## Delta update (2026-05-24, plan 354 list delItem §8.17 docs)
+
+### Landed
+
+- [REPO] COMPATIBILITY §8.17 + validation-ladder sync for list `__delitem__` index messages (plan 352).
+
+### Partial
+
+- None.
+
+### Next
+
+1. Ops merge plan 354 PR when CI green (plan 355).
+2. Next COMPATIBILITY remaining-gap item or further §8.17 evidence (bytes subscript already in bytes-getitem-compare).
+3. PEP 3118 buffer protocol remains out of scope.
+
+---
+
 ## Delta update (2026-05-24, plan 353 merge PR #190)
 
 ### Landed

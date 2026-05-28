@@ -165,7 +165,7 @@ Emits JSON (`vitest_seconds`, pass gates, `test_count`); use median of several r
 | `test/cpython-derived/operator-float-str-binary.test.ts` | float↔str add/sub/truediv TypeError |
 | `test/cpython-derived/operator-bool-str-binary.test.ts` | bool↔str add/sub/truediv TypeError ('bool' typename) |
 | `test/cpython-derived/operator-bool-str-remaining-binary.test.ts` | bool↔str floordiv/mod/divmod/pow TypeError |
-| `test/cpython-derived/sequence-index-type.test.ts` | List/tuple non-integer subscript raises TypeError |
+| `test/cpython-derived/sequence-index-type.test.ts` | List/tuple get/set/del non-integer subscript TypeError; list index out of range and delItem |
 | `test/cpython-derived/contains-protocol.test.ts` | CPython `test_contains.py` membership protocol |
 | `test/cpython-derived/sequence-cross-type.test.ts` | List/str add and list mul reject incompatible types |
 | `test/cpython-derived/isinstance-protocol.test.ts` | CPython `test_isinstance.py` MRO / tuple checks |
