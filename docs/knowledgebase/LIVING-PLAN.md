@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 247 merge PR #137)
+
+### Landed
+
+- [REPO] Plan 246 merged via PR #137 — `slice.__format__` on `main` (641 Vitest / 105 files).
+
+### Partial
+
+- PEP 3118 buffer protocol out of scope.
+
+### Next
+
+1. Further format parity only if new gaps are prioritized (e.g. set).
+2. PEP 3118 buffer protocol remains out of scope until planned.
+
+---
+
 ## Delta update (2026-05-24, plan 246 slice format)
 
 ### Landed
