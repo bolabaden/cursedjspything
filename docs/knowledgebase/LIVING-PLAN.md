@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 271 merge PR #149)
+
+### Landed
+
+- [REPO] Plan 270 merged via PR #149 — set inplace ops with frozenset operands on `main` (670 Vitest / 111 files).
+
+### Partial
+
+- PEP 3118 out of scope; COMPATIBILITY docs sync for set inplace deferred.
+
+### Next
+
+1. Docs sync COMPATIBILITY §8.15 + validation-ladder for set inplace / frozenset stack completion.
+2. PEP 3118 buffer protocol remains out of scope until planned.
+
+---
+
 ## Delta update (2026-05-24, plan 270 set frozenset inplace)
 
 ### Landed
