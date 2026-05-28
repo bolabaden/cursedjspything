@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 331 merge PR #179)
+
+### Landed
+
+- [REPO] Plan 330 merged via PR #179 — `set-bool.test.ts` + `frozenset-bool.test.ts` on `main` (722 Vitest / 127 files).
+
+### Partial
+
+- None.
+
+### Next
+
+1. Docs sync COMPATIBILITY §8.15 + validation-ladder for set/frozenset bool tests (plan 332).
+2. PEP 3118 buffer protocol remains out of scope.
+
+---
+
 ## Delta update (2026-05-24, plan 330 set/frozenset __bool__ evidence)
 
 ### Landed
