@@ -9,6 +9,24 @@
 
 ---
 
+## Delta update (2026-05-24, plan 254 frozenset set eq)
+
+### Landed
+
+- [REPO] Plan 254 — frozenset ↔ set cross-type `__eq__` via shared set-contents helper.
+
+### Partial
+
+- frozenset hash / set algebra deferred; PEP 3118 out of scope.
+
+### Next
+
+1. frozenset `__hash__` or set algebra if prioritized.
+2. Sync COMPATIBILITY §8.15 format paragraph with frozenset (plan 250 gap).
+3. PEP 3118 buffer protocol remains out of scope until planned.
+
+---
+
 ## Delta update (2026-05-24, plan 253 merge PR #140)
 
 ### Landed
