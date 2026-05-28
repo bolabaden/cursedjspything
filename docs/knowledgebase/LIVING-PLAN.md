@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 327 merge PR #177)
+
+### Landed
+
+- [REPO] Plan 326 merged via PR #177 — `dict-bool.test.ts` on `main` (716 Vitest / 125 files).
+
+### Partial
+
+- None.
+
+### Next
+
+1. Docs sync COMPATIBILITY §8.15 + validation-ladder for `dict-bool.test.ts` (plan 328).
+2. PEP 3118 buffer protocol remains out of scope.
+
+---
+
 ## Delta update (2026-05-24, plan 326 dict __bool__ evidence)
 
 ### Landed
