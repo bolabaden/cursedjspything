@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 270 set frozenset inplace)
+
+### Landed
+
+- [REPO] Plan 270 — `set` inplace `|=`, `&=`, `-=`, `^=` mutate in place with cross-type frozenset operands.
+
+### Partial
+
+- PEP 3118 out of scope; COMPATIBILITY docs sync for inplace deferred.
+
+### Next
+
+1. Docs sync COMPATIBILITY §8.15 + validation-ladder for set inplace / frozenset stack completion.
+2. PEP 3118 buffer protocol remains out of scope until planned.
+
+---
+
 ## Delta update (2026-05-24, plan 269 merge PR #148)
 
 ### Landed
