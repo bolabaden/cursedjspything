@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 229 merge PR #128)
+
+### Landed
+
+- [REPO] Plan 228 merged via PR #128 — `!a` ascii conversion on `main` (627 Vitest / 105 files).
+
+### Partial
+
+- PEP 3118 buffer protocol out of scope.
+
+### Next
+
+1. Further format parity only if new gaps are prioritized (e.g. `bool.__format__`).
+2. PEP 3118 buffer protocol remains out of scope until planned.
+
+---
+
 ## Delta update (2026-05-24, plan 228 str format ascii conversion)
 
 ### Landed
