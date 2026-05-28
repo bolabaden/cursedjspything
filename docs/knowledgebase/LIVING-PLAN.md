@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 312 tuple __reversed__ docs)
+
+### Landed
+
+- [REPO] COMPATIBILITY §8.15 + validation-ladder sync for `tuple.__reversed__` / `tuple-reversed.test.ts`.
+
+### Partial
+
+- None.
+
+### Next
+
+1. Ops merge PR for plan 312 docs sync (plan 313).
+2. Next prioritized §8.15 or builtin surface gap from COMPATIBILITY remaining-gap list.
+
+---
+
 ## Delta update (2026-05-24, plan 311 merge PR #169)
 
 ### Landed
