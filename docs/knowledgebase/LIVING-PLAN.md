@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 207 merge PR #117)
+
+### Landed
+
+- [REPO] Plan 207 — PR #117 merged; plan 206 format attribute fields on `main` (609 Vitest, 105 files).
+
+### Partial
+
+- No bracket/index fields (`{0[name]}`); no `**kwargs` on `.format()`.
+
+### Next
+
+1. Bracket/index format fields or kwargs bridging when prioritized.
+2. PEP 3118 buffer protocol remains out of scope until planned.
+
+---
+
 ## Delta update (2026-05-24, plan 206 str format attributes)
 
 ### Landed
