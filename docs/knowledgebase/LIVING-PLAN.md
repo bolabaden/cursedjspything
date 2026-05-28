@@ -9,6 +9,24 @@
 
 ---
 
+## Delta update (2026-05-24, plan 362 bytes remaining cross-type evidence)
+
+### Landed
+
+- [REPO] `operator-bytes-remaining-cross-type.test.ts` — bytes↔scalar remaining binary/ordering TypeError; §8.15 bytes remaining-gap prose trimmed (771 Vitest / 135 files).
+
+### Partial
+
+- None.
+
+### Next
+
+1. Ops merge plan 362 PR when CI green (plan 363).
+2. Next COMPATIBILITY remaining-gap item (niche bytes/str edge cases or §8.17 protocol fallbacks).
+3. PEP 3118 buffer protocol remains out of scope.
+
+---
+
 ## Delta update (2026-05-24, plan 361 merge PR #194)
 
 ### Landed
