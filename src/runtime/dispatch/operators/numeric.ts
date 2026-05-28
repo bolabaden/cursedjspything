@@ -282,6 +282,32 @@ export function str(obj: PyObject): string {
   return repr(obj);
 }
 
+/** CPython ascii(): repr with non-ASCII code points escaped. */
+function escapeNonAsciiInRepr(text: string): string {
+  let out = "";
+  for (let i = 0; i < text.length; ) {
+    const cp = text.codePointAt(i)!;
+    if (cp < 0x80) {
+      out += text[i]!;
+      i += 1;
+      continue;
+    }
+    if (cp <= 0xff) {
+      out += `\\x${cp.toString(16).padStart(2, "0")}`;
+    } else if (cp <= 0xffff) {
+      out += `\\u${cp.toString(16).padStart(4, "0")}`;
+    } else {
+      out += `\\U${cp.toString(16).padStart(8, "0")}`;
+    }
+    i += cp > 0xffff ? 2 : 1;
+  }
+  return out;
+}
+
+export function ascii(obj: PyObject): string {
+  return escapeNonAsciiInRepr(repr(obj));
+}
+
 export function format(obj: PyObject, formatSpec: string = ""): string {
   const fn = lookupSpecial(obj, Hook.format);
   if (!fn) {

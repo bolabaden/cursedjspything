@@ -8,7 +8,7 @@ import {
   PyTypeError,
   PyValueError,
 } from "../core/errors.js";
-import { format, repr, str } from "../dispatch/operators/numeric.js";
+import { ascii, format, repr, str } from "../dispatch/operators/numeric.js";
 import { getItem } from "../dispatch/protocols.js";
 import { getAttr } from "../core/lookup.js";
 import { dictGet } from "../collections/dict-keys.js";
@@ -16,7 +16,7 @@ import { nativeVal, setNative } from "./native.js";
 import { dictType } from "./dict.js";
 import { pyInt } from "./int.js";
 
-type ConversionFlag = "" | "s" | "r";
+type ConversionFlag = "" | "s" | "r" | "a";
 
 interface FormatField {
   readonly name: string;
@@ -84,7 +84,7 @@ function parseField(
       throw new PyValueError("expected ':' after conversion specifier");
     }
     const flag = template[i]!;
-    if (flag === "s" || flag === "r") {
+    if (flag === "s" || flag === "r" || flag === "a") {
       conversion = flag;
       i += 1;
     } else {
@@ -271,6 +271,7 @@ function renderFieldValue(
 ): string {
   if (conversion === "r") return repr(obj);
   if (conversion === "s") return str(obj);
+  if (conversion === "a") return ascii(obj);
   if (formatSpec === "" && conversion === "") return str(obj);
   return format(obj, formatSpec);
 }
