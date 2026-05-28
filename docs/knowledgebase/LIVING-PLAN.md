@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 211 merge PR #119)
+
+### Landed
+
+- [REPO] Plan 210 merged via PR #119 — `str.format` kwargs bridging on `main` (614 Vitest / 105 files).
+
+### Partial
+
+- Bracket keys: integer literals and identifiers only; kwargs require explicit `FormatKeywordMapping` wrapper at JS boundary.
+
+### Next
+
+1. PEP 3118 buffer protocol remains out of scope until planned.
+2. Further format parity (quoted bracket keys, etc.) when prioritized.
+
+---
+
 ## Delta update (2026-05-24, plan 210 str format kwargs)
 
 ### Landed
