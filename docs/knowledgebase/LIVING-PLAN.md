@@ -9,6 +9,24 @@
 
 ---
 
+## Delta update (2026-05-24, plan 330 set/frozenset __bool__ evidence)
+
+### Landed
+
+- [REPO] `set-bool.test.ts` and `frozenset-bool.test.ts` — Vitest coverage for existing `Slot.bool` on `setType` / `frozensetType`.
+
+### Partial
+
+- None.
+
+### Next
+
+1. Ops merge plan 330 PR when CI green (plan 331).
+2. Docs sync COMPATIBILITY §8.15 + validation-ladder for set/frozenset bool tests (plan 332).
+3. PEP 3118 buffer protocol remains out of scope.
+
+---
+
 ## Delta update (2026-05-24, plan 329 merge PR #178)
 
 ### Landed
