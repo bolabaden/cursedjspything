@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 295 merge PR #161)
+
+### Landed
+
+- [REPO] Plan 294 merged via PR #161 — `bytes.__bytes__` on `main` (692 Vitest / 117 files).
+
+### Partial
+
+- COMPATIBILITY §8.15 / validation-ladder sync for bytes __bytes__ deferred to plan 296.
+
+### Next
+
+1. Docs sync COMPATIBILITY §8.15 + validation-ladder for `bytes-bytes.test.ts` (plan 296).
+2. Next prioritized §8.15 or builtin surface gap from COMPATIBILITY remaining-gap list.
+
+---
+
 ## Delta update (2026-05-24, plan 294 bytes __bytes__)
 
 ### Landed
