@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 261 merge PR #144)
+
+### Landed
+
+- [REPO] Plan 260 merged via PR #144 — frozenset set algebra on `main` (658 Vitest / 108 files).
+
+### Partial
+
+- frozenset ordering comparisons / inplace ops deferred; docs sync for hash/algebra evidence; PEP 3118 out of scope.
+
+### Next
+
+1. Docs sync COMPATIBILITY §8.15 + validation-ladder for frozenset hash/algebra.
+2. PEP 3118 buffer protocol remains out of scope until planned.
+
+---
+
 ## Delta update (2026-05-24, plan 260 frozenset set algebra)
 
 ### Landed
