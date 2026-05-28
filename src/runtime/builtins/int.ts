@@ -293,7 +293,7 @@ function formatIntFloatPresentation(
   return body;
 }
 
-function formatIntSpec(n: number, spec: string): string {
+export function formatIntSpec(n: number, spec: string): string {
   if (spec === "" || spec === "d") return String(n);
   const { sign, rest } = parseIntFormatSign(spec);
   if (parseFloatPresentationSpec(rest) !== null) {

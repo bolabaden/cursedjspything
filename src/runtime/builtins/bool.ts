@@ -1,9 +1,14 @@
 import { PyObject, NotImplemented } from "../core/object.js";
-import { Slot } from "../core/slots.js";
+import { Hook, Slot } from "../core/slots.js";
 import { makeClass } from "../class/class.js";
 import { nativeVal, setNative } from "./native.js";
-import { pyInt, intType } from "./int.js";
+import { formatIntSpec, intType, pyInt } from "./int.js";
 import { floatType } from "./float.js";
+
+function formatBoolSpec(value: boolean, spec: string): string {
+  if (spec === "") return value ? "True" : "False";
+  return formatIntSpec(value ? 1 : 0, spec);
+}
 
 function boolNumeric(self: PyObject): number {
   return nativeVal<boolean>(self) ? 1 : 0;
@@ -50,6 +55,8 @@ export const boolType = makeClass({
     [Slot.abs, (self: PyObject) => pyInt(nativeVal<boolean>(self) ? 1 : 0)],
     [Slot.invert, (self: PyObject) => pyInt(nativeVal<boolean>(self) ? -2 : -1)],
     [Slot.index, (self: PyObject) => nativeVal<boolean>(self) ? 1 : 0],
+    [Hook.format, (self: PyObject, spec: string) =>
+      formatBoolSpec(nativeVal<boolean>(self), spec)],
   ]),
 });
 
