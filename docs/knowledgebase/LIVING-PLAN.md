@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 298 bytes __bool__)
+
+### Landed
+
+- [REPO] Explicit `bytes.__bool__` (empty falsy); `bytes-bool.test.ts`.
+
+### Partial
+
+- COMPATIBILITY §8.15 / validation-ladder sync deferred to plan 300.
+
+### Next
+
+1. Ops merge plan 298 PR (plan 299).
+2. Docs sync for `bytes-bool.test.ts` (plan 300).
+
+---
+
 ## Delta update (2026-05-24, plan 297 merge PR #162)
 
 ### Landed
