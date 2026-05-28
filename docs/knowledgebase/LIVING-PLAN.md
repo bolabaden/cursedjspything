@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 258 frozenset hash)
+
+### Landed
+
+- [REPO] Plan 258 — `frozenset.__hash__` with order-independent XOR mixing; set remains unhashable.
+
+### Partial
+
+- frozenset set algebra deferred; PEP 3118 out of scope.
+
+### Next
+
+1. frozenset set algebra (|, &, -, ^) if prioritized.
+2. PEP 3118 buffer protocol remains out of scope until planned.
+
+---
+
 ## Delta update (2026-05-24, plan 257 merge PR #142)
 
 ### Landed

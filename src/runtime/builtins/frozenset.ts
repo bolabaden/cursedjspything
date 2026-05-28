@@ -2,6 +2,7 @@ import { PyObject, NotImplemented } from "../core/object.js";
 import { Slot, Hook } from "../core/slots.js";
 import { makeClass } from "../class/class.js";
 import { PyTypeError } from "../core/errors.js";
+import { hash as objectHash } from "../dispatch/operators/compare.js";
 import { nativeVal, setNative } from "./native.js";
 import { isSetLikeTypeName, setLikeContentsEqual } from "./set-equality.js";
 
@@ -25,6 +26,17 @@ function formatFrozenSetSpec(self: PyObject, spec: string): string {
   );
 }
 
+function frozensetHash(self: PyObject): number {
+  const items = nativeVal<Set<unknown>>(self);
+  let h = 1927868237;
+  for (const item of items) {
+    if (item instanceof PyObject) h ^= objectHash(item);
+  }
+  h ^= Math.imul(items.size, 976995447);
+  h = h | 0;
+  return h === -1 ? -2 : h;
+}
+
 export const frozensetType = makeClass({
   name: "frozenset",
   dict: new Map<string | symbol, unknown>([
@@ -33,6 +45,7 @@ export const frozensetType = makeClass({
       Hook.format,
       (self: PyObject, spec: string) => formatFrozenSetSpec(self, spec),
     ],
+    [Slot.hash, (self: PyObject) => frozensetHash(self)],
     [Slot.len, (self: PyObject) => nativeVal<Set<unknown>>(self).size],
     [Slot.bool, (self: PyObject) => nativeVal<Set<unknown>>(self).size > 0],
     [
