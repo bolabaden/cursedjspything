@@ -9,6 +9,24 @@
 
 ---
 
+## Delta update (2026-05-24, plan 339 merge PR #183)
+
+### Landed
+
+- [REPO] Plan 338 merged via PR #183 — `int-bool.test.ts`, `float-bool.test.ts`, `bool-bool.test.ts` on `main` (733 Vitest / 131 files).
+
+### Partial
+
+- None.
+
+### Next
+
+1. Docs sync COMPATIBILITY §8.15 + validation-ladder for numeric `__bool__` tests (plan 340).
+2. Next prioritized §8.15 or builtin surface gap from COMPATIBILITY remaining-gap list.
+3. PEP 3118 buffer protocol remains out of scope.
+
+---
+
 ## Delta update (2026-05-24, plan 338 numeric __bool__ evidence)
 
 ### Landed
