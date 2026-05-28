@@ -89,7 +89,7 @@ Emits JSON (`vitest_seconds`, pass gates, `test_count`); use median of several r
 | `test/cpython-derived/operator-rounding-evidence.test.ts` | round/trunc/floor/ceil reject list without hooks |
 | `test/cpython-derived/operator-numeric-conversion-evidence.test.ts` | toInt/toFloat/index/toComplex reject list |
 | `test/cpython-derived/operator-matmul-evidence.test.ts` | matmul @ rejects builtins without __matmul__ |
-| `test/cpython-derived/operator-format-evidence.test.ts` | format() __format__ on int/str/float/bool, empty-spec str fallback, TypeError |
+| `test/cpython-derived/operator-format-evidence.test.ts` | format() __format__ on int/str/float/bool/bytes, empty-spec str fallback, TypeError |
 | `test/cpython-derived/str-encode.test.ts` | str.encode utf-8/ascii/latin-1 errors including backslashreplace/surrogateescape |
 | `test/cpython-derived/str-upper-lower.test.ts` | str.upper / str.lower case conversion |
 | `test/cpython-derived/str-capitalize.test.ts` | str.capitalize case conversion |

@@ -10,6 +10,7 @@ import {
   pyList,
   pyStr,
   pyTrue,
+  pyBytes,
 } from "../../src/index.js";
 import { PyTypeError, PyValueError } from "../../src/runtime/core/errors.js";
 
@@ -84,10 +85,6 @@ describe("cpython-derived format on builtins with __format__", () => {
     );
   });
 
-  it("formats str with empty spec", () => {
-    expect(format(pyStr("ab"), "")).toBe("ab");
-  });
-
   it("formats bool with empty and int-delegated specs", () => {
     expect(format(pyTrue, "")).toBe("True");
     expect(format(pyFalse, "")).toBe("False");
@@ -100,6 +97,21 @@ describe("cpython-derived format on builtins with __format__", () => {
     expect(format(pyTrue, "g")).toBe("1");
     expect(() => format(pyTrue, "s")).toThrow(PyValueError);
     expect(() => format(pyTrue, ".2")).toThrow(PyValueError);
+  });
+
+  it("formats str with empty spec", () => {
+    expect(format(pyStr("ab"), "")).toBe("ab");
+  });
+
+  it("formats bytes with empty spec only", () => {
+    expect(format(pyBytes(new Uint8Array([104, 105])), "")).toBe("b'hi'");
+    expect(format(pyBytes(new Uint8Array([255])), "")).toBe("b'\\xff'");
+    expect(() => format(pyBytes(new Uint8Array([104, 105])), "10")).toThrow(
+      PyTypeError,
+    );
+    expect(() => format(pyBytes(new Uint8Array([104, 105])), "10")).toThrow(
+      /unsupported format string passed to bytes\.__format__/,
+    );
   });
 
   it("formats str with alignment, width, and precision specs", () => {

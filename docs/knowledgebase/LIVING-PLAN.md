@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 234 bytes format)
+
+### Landed
+
+- [REPO] Plan 234 — `bytes.__format__` (empty spec repr; non-empty TypeError).
+
+### Partial
+
+- PEP 3118 buffer protocol out of scope.
+
+### Next
+
+1. Further format parity only if new gaps are prioritized.
+2. PEP 3118 buffer protocol remains out of scope until planned.
+
+---
+
 ## Delta update (2026-05-24, plan 233 merge PR #130)
 
 ### Landed
