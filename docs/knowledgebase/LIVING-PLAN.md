@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 276 frozenset set methods docs)
+
+### Landed
+
+- [REPO] Plan 276 — COMPATIBILITY §8.15 + validation-ladder synced with `issubset` / `issuperset` / `isdisjoint` (plan 274); frozenset/set stack docs complete.
+
+### Partial
+
+- PEP 3118 out of scope.
+
+### Next
+
+1. Next prioritized §8.15 or builtin surface gap from COMPATIBILITY remaining-gap list.
+2. PEP 3118 buffer protocol remains out of scope until planned.
+
+---
+
 ## Delta update (2026-05-24, plan 275 merge PR #151)
 
 ### Landed
