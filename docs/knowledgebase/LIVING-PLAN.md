@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 325 merge PR #176)
+
+### Landed
+
+- [REPO] Plan 324 merged via PR #176 — tuple `__bool__` docs sync on `main` (713 Vitest / 124 files).
+
+### Partial
+
+- None.
+
+### Next
+
+1. Next prioritized §8.15 or builtin surface gap (e.g. dict/set `__bool__` evidence).
+2. PEP 3118 buffer protocol remains out of scope.
+
+---
+
 ## Delta update (2026-05-24, plan 324 tuple __bool__ docs)
 
 ### Landed
