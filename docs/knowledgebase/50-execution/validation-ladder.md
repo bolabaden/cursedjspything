@@ -181,6 +181,7 @@ Emits JSON (`vitest_seconds`, pass gates, `test_count`); use median of several r
 | `test/cpython-derived/float-bool.test.ts` | float.__bool__ 0.0 falsy; non-zero truthy |
 | `test/cpython-derived/bool-bool.test.ts` | bool.__bool__ False falsy; True truthy |
 | `test/cpython-derived/none-bool.test.ts` | NoneType.__bool__ None always falsy |
+| `test/cpython-derived/slice-bool.test.ts` | slice.__bool__ all slice objects truthy |
 | `test/cpython-derived/operator-zerodivision.test.ts` | Int/float division by zero raises ZeroDivisionError |
 | `test/golden/key-parity.test.ts` | Golden case key snapshot parity |
 | `test/golden/pyrt-cases-version-gates.test.ts` | `buildPyrtCases` version-gate semantics (`match_args`, buffer, `annotate_x`) per profile 3.9–3.14 |
