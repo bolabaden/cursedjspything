@@ -12,6 +12,7 @@ import {
   pyTrue,
   pyBytes,
   pyNone,
+  pyTuple,
 } from "../../src/index.js";
 import { PyTypeError, PyValueError } from "../../src/runtime/core/errors.js";
 
@@ -123,6 +124,15 @@ describe("cpython-derived format on builtins with __format__", () => {
     );
   });
 
+  it("formats list with empty spec only", () => {
+    expect(format(pyList([]), "")).toBe("[]");
+    expect(format(pyList([pyInt(1), pyInt(2)]), "")).toBe("[1, 2]");
+    expect(() => format(pyList([]), "s")).toThrow(PyTypeError);
+    expect(() => format(pyList([]), "s")).toThrow(
+      /unsupported format string passed to list\.__format__/,
+    );
+  });
+
   it("formats str with alignment, width, and precision specs", () => {
     expect(format(pyStr("hello"), "<10")).toBe("hello     ");
     expect(format(pyStr("hello"), ">10")).toBe("     hello");
@@ -157,13 +167,13 @@ describe("cpython-derived format on builtins with __format__", () => {
 
 describe("cpython-derived format fallback and errors", () => {
   it("empty spec on type without __format__ uses str()", () => {
-    expect(format(pyList([]), "")).toBe("[]");
+    expect(format(pyTuple([]), "")).toBe("()");
   });
 
-  it("non-empty spec on list raises TypeError", () => {
-    expect(() => format(pyList([]), "s")).toThrow(PyTypeError);
-    expect(() => format(pyList([]), "s")).toThrow(
-      /unsupported format string passed to list\.__format__/,
+  it("non-empty spec on type without __format__ raises TypeError", () => {
+    expect(() => format(pyTuple([]), "s")).toThrow(PyTypeError);
+    expect(() => format(pyTuple([]), "s")).toThrow(
+      /unsupported format string passed to tuple\.__format__/,
     );
   });
 

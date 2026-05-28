@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 240 list format)
+
+### Landed
+
+- [REPO] Plan 240 — `list.__format__` (empty spec repr; non-empty TypeError).
+
+### Partial
+
+- PEP 3118 buffer protocol out of scope.
+
+### Next
+
+1. Further format parity only if new gaps are prioritized (e.g. tuple).
+2. PEP 3118 buffer protocol remains out of scope until planned.
+
+---
+
 ## Delta update (2026-05-24, plan 239 merge PR #133)
 
 ### Landed
