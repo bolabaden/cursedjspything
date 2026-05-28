@@ -5,6 +5,12 @@ import { PyTypeError } from "../core/errors.js";
 import { hash as objectHash } from "../dispatch/operators/compare.js";
 import { nativeVal, setNative } from "./native.js";
 import { isSetLikeTypeName, setLikeContentsEqual } from "./set-equality.js";
+import {
+  differenceItems,
+  intersectionItems,
+  symmetricDifferenceItems,
+  unionItems,
+} from "./set-algebra.js";
 
 function frozensetRepr(self: PyObject): string {
   const s = nativeVal<Set<unknown>>(self);
@@ -60,6 +66,30 @@ export const frozensetType = makeClass({
         return setLikeContentsEqual(self, other);
       },
     ],
+    [Slot.and, (self: PyObject, other: PyObject) => {
+      if (!isSetLikeTypeName(other.type.name)) return NotImplemented;
+      const a = nativeVal<Set<unknown>>(self);
+      const b = nativeVal<Set<unknown>>(other);
+      return pyFrozenSet(intersectionItems(a, b));
+    }],
+    [Slot.or, (self: PyObject, other: PyObject) => {
+      if (!isSetLikeTypeName(other.type.name)) return NotImplemented;
+      const a = nativeVal<Set<unknown>>(self);
+      const b = nativeVal<Set<unknown>>(other);
+      return pyFrozenSet(unionItems(a, b));
+    }],
+    [Slot.sub, (self: PyObject, other: PyObject) => {
+      if (!isSetLikeTypeName(other.type.name)) return NotImplemented;
+      const a = nativeVal<Set<unknown>>(self);
+      const b = nativeVal<Set<unknown>>(other);
+      return pyFrozenSet(differenceItems(a, b));
+    }],
+    [Slot.xor, (self: PyObject, other: PyObject) => {
+      if (!isSetLikeTypeName(other.type.name)) return NotImplemented;
+      const a = nativeVal<Set<unknown>>(self);
+      const b = nativeVal<Set<unknown>>(other);
+      return pyFrozenSet(symmetricDifferenceItems(a, b));
+    }],
   ]),
 });
 

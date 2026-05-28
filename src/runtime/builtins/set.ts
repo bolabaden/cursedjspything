@@ -5,6 +5,12 @@ import { PyStopIteration } from "../core/lookup.js";
 import { PyTypeError } from "../core/errors.js";
 import { nativeVal, setNative } from "./native.js";
 import { isSetLikeTypeName, setLikeContentsEqual } from "./set-equality.js";
+import {
+  differenceItems,
+  intersectionItems,
+  symmetricDifferenceItems,
+  unionItems,
+} from "./set-algebra.js";
 
 function setRepr(self: PyObject): string {
   const s = nativeVal<Set<unknown>>(self);
@@ -52,28 +58,28 @@ export const setType = makeClass({
       return new PyObject(iterType);
     }],
     [Slot.and, (self: PyObject, other: PyObject) => {
-      if (other.type !== setType) return NotImplemented;
+      if (!isSetLikeTypeName(other.type.name)) return NotImplemented;
       const a = nativeVal<Set<unknown>>(self);
       const b = nativeVal<Set<unknown>>(other);
-      return pySet([...a].filter((x) => b.has(x)));
+      return pySet(intersectionItems(a, b));
     }],
     [Slot.or, (self: PyObject, other: PyObject) => {
-      if (other.type !== setType) return NotImplemented;
-      return pySet([...nativeVal<Set<unknown>>(self), ...nativeVal<Set<unknown>>(other)]);
-    }],
-    [Slot.sub, (self: PyObject, other: PyObject) => {
-      if (other.type !== setType) return NotImplemented;
-      const b = nativeVal<Set<unknown>>(other);
-      return pySet([...nativeVal<Set<unknown>>(self)].filter((x) => !b.has(x)));
-    }],
-    [Slot.xor, (self: PyObject, other: PyObject) => {
-      if (other.type !== setType) return NotImplemented;
+      if (!isSetLikeTypeName(other.type.name)) return NotImplemented;
       const a = nativeVal<Set<unknown>>(self);
       const b = nativeVal<Set<unknown>>(other);
-      return pySet([
-        ...[...a].filter((x) => !b.has(x)),
-        ...[...b].filter((x) => !a.has(x)),
-      ]);
+      return pySet(unionItems(a, b));
+    }],
+    [Slot.sub, (self: PyObject, other: PyObject) => {
+      if (!isSetLikeTypeName(other.type.name)) return NotImplemented;
+      const a = nativeVal<Set<unknown>>(self);
+      const b = nativeVal<Set<unknown>>(other);
+      return pySet(differenceItems(a, b));
+    }],
+    [Slot.xor, (self: PyObject, other: PyObject) => {
+      if (!isSetLikeTypeName(other.type.name)) return NotImplemented;
+      const a = nativeVal<Set<unknown>>(self);
+      const b = nativeVal<Set<unknown>>(other);
+      return pySet(symmetricDifferenceItems(a, b));
     }],
     [Slot.eq, (self: PyObject, other: PyObject) => {
       if (!isSetLikeTypeName(other.type.name)) return NotImplemented;

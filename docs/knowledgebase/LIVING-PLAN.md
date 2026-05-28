@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 260 frozenset set algebra)
+
+### Landed
+
+- [REPO] Plan 260 — frozenset `|&-^` ops + cross-type set↔frozenset algebra with shared `set-algebra.ts` helpers.
+
+### Partial
+
+- frozenset ordering comparisons / inplace ops deferred; PEP 3118 out of scope.
+
+### Next
+
+1. Docs sync for frozenset hash/algebra evidence if prioritized.
+2. PEP 3118 buffer protocol remains out of scope until planned.
+
+---
+
 ## Delta update (2026-05-24, plan 259 merge PR #143)
 
 ### Landed
