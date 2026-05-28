@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 287 merge PR #157)
+
+### Landed
+
+- [REPO] Plan 286 merged via PR #157 — `bytes.__iter__` on `main` (686 Vitest / 115 files).
+
+### Partial
+
+- COMPATIBILITY §8.15 / validation-ladder sync for bytes iter deferred to plan 288.
+
+### Next
+
+1. Docs sync COMPATIBILITY §8.15 + validation-ladder for `bytes-iter.test.ts`.
+2. Next prioritized §8.15 or builtin surface gap from COMPATIBILITY remaining-gap list.
+
+---
+
 ## Delta update (2026-05-24, plan 286 bytes iter)
 
 ### Landed
