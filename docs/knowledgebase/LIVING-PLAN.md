@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 237 merge PR #132)
+
+### Landed
+
+- [REPO] Plan 236 merged via PR #132 — str.format bool/bytes integration evidence on `main` (631 Vitest / 105 files).
+
+### Partial
+
+- PEP 3118 buffer protocol out of scope.
+
+### Next
+
+1. Further format parity only if new gaps are prioritized.
+2. PEP 3118 buffer protocol remains out of scope until planned.
+
+---
+
 ## Delta update (2026-05-24, plan 236 str format bool bytes evidence)
 
 ### Landed
