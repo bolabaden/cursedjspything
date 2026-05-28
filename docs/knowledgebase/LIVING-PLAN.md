@@ -9,6 +9,24 @@
 
 ---
 
+## Delta update (2026-05-24, plan 322 tuple __bool__ evidence)
+
+### Landed
+
+- [REPO] `tuple-bool.test.ts` — Vitest coverage for existing `Slot.bool` on `tupleType`.
+
+### Partial
+
+- None.
+
+### Next
+
+1. Ops merge plan 322 PR when CI green (plan 323).
+2. Docs sync COMPATIBILITY §8.15 + validation-ladder for `tuple-bool.test.ts` (plan 324).
+3. PEP 3118 buffer protocol remains out of scope.
+
+---
+
 ## Delta update (2026-05-24, plan 321 merge PR #174)
 
 ### Landed
