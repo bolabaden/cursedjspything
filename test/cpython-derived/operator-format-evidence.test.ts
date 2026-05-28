@@ -45,6 +45,22 @@ describe("cpython-derived format on builtins with __format__", () => {
     expect(() => format(pyInt(1), ".2")).toThrow(PyValueError);
   });
 
+  it("formats int with general and percent presentation specs", () => {
+    expect(format(pyInt(1), "g")).toBe("1");
+    expect(format(pyInt(255), "g")).toBe("255");
+    expect(format(pyInt(1000000), "g")).toBe("1e+06");
+    expect(format(pyInt(999999), ".3g")).toBe("1e+06");
+    expect(format(pyInt(1234567), ".6g")).toBe("1.23457e+06");
+    expect(format(pyInt(1000000), "G")).toBe("1E+06");
+    expect(format(pyInt(1), "%")).toBe("100.000000%");
+    expect(format(pyInt(255), ".2%")).toBe("25500.00%");
+    expect(format(pyInt(-1), ".2%")).toBe("-100.00%");
+    expect(format(pyInt(1), "+.2g")).toBe("+1");
+    expect(format(pyInt(-1), "+.2g")).toBe("-1");
+    expect(format(pyInt(1000000), "+.2g")).toBe("+1e+06");
+    expect(format(pyInt(1000000), "12g")).toBe("       1e+06");
+  });
+
   it("formats str with empty spec", () => {
     expect(format(pyStr("ab"), "")).toBe("ab");
   });
