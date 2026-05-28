@@ -187,6 +187,14 @@ describe("cpython-derived str format", () => {
     expect(() => format("{0!x}", pyStr("x"))).toThrow(PyValueError);
   });
 
+  it("applies format_spec after conversion flags", () => {
+    expect(asStr(format("{0!r:10}", pyList([])))).toBe("[]        ");
+    expect(asStr(format("{0!s:10}", pyStr("hi")))).toBe("hi        ");
+    expect(asStr(format("{0!a:10}", pyStr("caf\u00e9")))).toBe("'caf\\xe9' ");
+    expect(asStr(format("{0!r:>10}", pyList([])))).toBe("        []");
+    expect(asStr(format("{0!r:<10}", pyList([])))).toBe("[]        ");
+  });
+
   it("uses repr conversion and int format spec", () => {
     expect(asStr(format("{0!r}", pyList([])))).toBe("[]");
     expect(asStr(format("{0:x}", pyInt(255)))).toBe("ff");

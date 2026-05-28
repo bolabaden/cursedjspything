@@ -15,6 +15,7 @@ import { dictGet } from "../collections/dict-keys.js";
 import { nativeVal, setNative } from "./native.js";
 import { dictType } from "./dict.js";
 import { pyInt } from "./int.js";
+import { pyStr } from "./str.js";
 
 type ConversionFlag = "" | "s" | "r" | "a";
 
@@ -264,14 +265,25 @@ function applyFormatSteps(
   return current;
 }
 
+function formatConvertedString(converted: string, formatSpec: string): string {
+  if (formatSpec === "") return converted;
+  return format(pyStr(converted), formatSpec);
+}
+
 function renderFieldValue(
   obj: PyObject,
   conversion: ConversionFlag,
   formatSpec: string,
 ): string {
-  if (conversion === "r") return repr(obj);
-  if (conversion === "s") return str(obj);
-  if (conversion === "a") return ascii(obj);
+  if (conversion === "r") {
+    return formatConvertedString(repr(obj), formatSpec);
+  }
+  if (conversion === "s") {
+    return formatConvertedString(str(obj), formatSpec);
+  }
+  if (conversion === "a") {
+    return formatConvertedString(ascii(obj), formatSpec);
+  }
   if (formatSpec === "" && conversion === "") return str(obj);
   return format(obj, formatSpec);
 }

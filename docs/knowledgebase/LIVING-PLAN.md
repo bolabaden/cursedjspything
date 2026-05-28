@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 232 str format conversion spec)
+
+### Landed
+
+- [REPO] Plan 232 — `!r`/`!s`/`!a` with format_spec applies str alignment/width to converted text.
+
+### Partial
+
+- PEP 3118 buffer protocol out of scope.
+
+### Next
+
+1. Further format parity only if new gaps are prioritized.
+2. PEP 3118 buffer protocol remains out of scope until planned.
+
+---
+
 ## Delta update (2026-05-24, plan 231 merge PR #129)
 
 ### Landed
