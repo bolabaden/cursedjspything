@@ -9,6 +9,24 @@
 
 ---
 
+## Delta update (2026-05-24, plan 328 dict __bool__ docs)
+
+### Landed
+
+- [REPO] COMPATIBILITY §8.15 + validation-ladder sync for `dict.__bool__` / `dict-bool.test.ts`.
+
+### Partial
+
+- None.
+
+### Next
+
+1. Ops merge plan 328 PR when CI green (plan 329).
+2. Next prioritized §8.15 or builtin surface gap (e.g. set/frozenset `__bool__` evidence).
+3. PEP 3118 buffer protocol remains out of scope.
+
+---
+
 ## Delta update (2026-05-24, plan 327 merge PR #177)
 
 ### Landed
