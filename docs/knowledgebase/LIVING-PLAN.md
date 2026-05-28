@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 265 merge PR #146)
+
+### Landed
+
+- [REPO] Plan 264 merged via PR #146 — `frozenset.__iter__` on `main` (661 Vitest / 109 files).
+
+### Partial
+
+- frozenset ordering comparisons / inplace ops deferred; PEP 3118 out of scope.
+
+### Next
+
+1. frozenset ordering comparisons (`<=`, `<`, …) cross-type if prioritized.
+2. PEP 3118 buffer protocol remains out of scope until planned.
+
+---
+
 ## Delta update (2026-05-24, plan 264 frozenset iter)
 
 ### Landed
