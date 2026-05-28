@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 280 set mutation docs)
+
+### Landed
+
+- [REPO] Plan 280 — COMPATIBILITY §8.15 + validation-ladder synced with set mutation methods (plan 278); frozenset/set stack docs complete.
+
+### Partial
+
+- PEP 3118 out of scope.
+
+### Next
+
+1. Next prioritized §8.15 or builtin surface gap from COMPATIBILITY remaining-gap list.
+2. PEP 3118 buffer protocol remains out of scope until planned.
+
+---
+
 ## Delta update (2026-05-24, plan 279 merge PR #153)
 
 ### Landed
