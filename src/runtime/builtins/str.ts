@@ -804,6 +804,41 @@ function removeSuffixStr(text: string, suffix: unknown): PyObject {
   return pyStr(text);
 }
 
+function strCodePointLength(text: string): number {
+  let n = 0;
+  for (let i = 0; i < text.length; ) {
+    const cp = text.codePointAt(i)!;
+    n += 1;
+    i += cp > 0xffff ? 2 : 1;
+  }
+  return n;
+}
+
+function requireStrPadFill(fill: unknown): string {
+  if (fill === undefined || fill === null) return " ";
+  if (fill instanceof PyObject && fill.type === strType) {
+    const data = nativeVal<string>(fill);
+    if (strCodePointLength(data) !== 1) {
+      throw new PyTypeError(
+        "The fill character must be exactly one character long",
+      );
+    }
+    return data;
+  }
+  const kind = fill instanceof PyObject ? fill.type.name : typeof fill;
+  throw new PyTypeError(`must be str, not ${kind}`);
+}
+
+function centerStr(text: string, width: unknown, fill?: unknown): PyObject {
+  const w = splitMaxsplitArg(width);
+  const n = strCodePointLength(text);
+  if (w <= n) return pyStr(text);
+  const fillChar = requireStrPadFill(fill);
+  const pad = w - n;
+  const left = Math.floor(pad / 2);
+  return pyStr(fillChar.repeat(left) + text + fillChar.repeat(pad - left));
+}
+
 function requireReplaceStr(value: unknown): string {
   if (value instanceof PyObject && value.type === strType) {
     return nativeVal<string>(value);
@@ -1091,6 +1126,8 @@ export const strType = makeClass({
       removePrefixStr(nativeVal<string>(self), prefix)],
     ["removesuffix", (self: PyObject, suffix: unknown) =>
       removeSuffixStr(nativeVal<string>(self), suffix)],
+    ["center", (self: PyObject, width: unknown, fill?: unknown) =>
+      centerStr(nativeVal<string>(self), width, fill)],
   ]),
 });
 

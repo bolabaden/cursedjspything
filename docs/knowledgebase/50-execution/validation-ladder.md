@@ -103,6 +103,7 @@ Emits JSON (`vitest_seconds`, pass gates, `test_count`); use median of several r
 | `test/cpython-derived/str-startswith-endswith.test.ts` | str.startswith / endswith tuple and bounds |
 | `test/cpython-derived/str-replace.test.ts` | str.replace count and empty-old rules |
 | `test/cpython-derived/str-removeprefix-removesuffix.test.ts` | str.removeprefix / removesuffix affix stripping |
+| `test/cpython-derived/str-center.test.ts` | str.center width padding with fill character |
 | `test/cpython-derived/str-strip.test.ts` | str.strip / lstrip / rstrip |
 | `test/cpython-derived/str-split.test.ts` | str.split sep/maxsplit and whitespace |
 | `test/cpython-derived/str-rsplit.test.ts` | str.rsplit sep/maxsplit and whitespace |
