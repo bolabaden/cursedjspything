@@ -160,6 +160,30 @@ export const frozensetType = makeClass({
     }],
     ["copy", (self: PyObject) =>
       pyFrozenSet([...nativeVal<Set<unknown>>(self)])],
+    ["union", (self: PyObject, other: PyObject) => {
+      requireSetLikeOperand(other, "union");
+      const a = nativeVal<Set<unknown>>(self);
+      const b = nativeVal<Set<unknown>>(other);
+      return pyFrozenSet(unionItems(a, b));
+    }],
+    ["intersection", (self: PyObject, other: PyObject) => {
+      requireSetLikeOperand(other, "intersection");
+      const a = nativeVal<Set<unknown>>(self);
+      const b = nativeVal<Set<unknown>>(other);
+      return pyFrozenSet(intersectionItems(a, b));
+    }],
+    ["difference", (self: PyObject, other: PyObject) => {
+      requireSetLikeOperand(other, "difference");
+      const a = nativeVal<Set<unknown>>(self);
+      const b = nativeVal<Set<unknown>>(other);
+      return pyFrozenSet(differenceItems(a, b));
+    }],
+    ["symmetric_difference", (self: PyObject, other: PyObject) => {
+      requireSetLikeOperand(other, "symmetric_difference");
+      const a = nativeVal<Set<unknown>>(self);
+      const b = nativeVal<Set<unknown>>(other);
+      return pyFrozenSet(symmetricDifferenceItems(a, b));
+    }],
   ]),
 });
 

@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 282 set named algebra methods)
+
+### Landed
+
+- [REPO] Plan 282 — `set` / `frozenset` `union`, `intersection`, `difference`, `symmetric_difference` methods with cross-type operands.
+
+### Partial
+
+- COMPATIBILITY docs sync deferred; PEP 3118 out of scope.
+
+### Next
+
+1. Docs sync COMPATIBILITY §8.15 + validation-ladder for named algebra methods.
+2. Next prioritized §8.15 or builtin surface gap from COMPATIBILITY remaining-gap list.
+
+---
+
 ## Delta update (2026-05-24, plan 281 merge PR #154)
 
 ### Landed
