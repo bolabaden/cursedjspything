@@ -109,6 +109,7 @@ Emits JSON (`vitest_seconds`, pass gates, `test_count`); use median of several r
 | `test/cpython-derived/str-expandtabs.test.ts` | str.expandtabs tab expansion |
 | `test/cpython-derived/str-translate.test.ts` | str.maketrans / str.translate |
 | `test/cpython-derived/str-join.test.ts` | str.join |
+| `test/cpython-derived/str-casefold.test.ts` | str.casefold |
 | `test/cpython-derived/str-strip.test.ts` | str.strip / lstrip / rstrip |
 | `test/cpython-derived/str-split.test.ts` | str.split sep/maxsplit and whitespace |
 | `test/cpython-derived/str-rsplit.test.ts` | str.rsplit sep/maxsplit and whitespace |

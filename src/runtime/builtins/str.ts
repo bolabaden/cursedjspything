@@ -248,6 +248,32 @@ function strSwapcase(text: string): string {
   return out.join("");
 }
 
+/** Code points where Unicode case folding differs from simple toLowerCase. */
+const CASEFOLD_OVERRIDES = new Map<number, string>([
+  [0x00b5, "\u03bc"], // micro sign -> Greek mu
+  [0x00df, "ss"], // eszett
+  [0x0345, "\u03b9"], // combining Greek ypogegrammeni -> iota
+  [0x03c2, "\u03c3"], // final sigma -> sigma
+  [0xfb01, "fi"], // fi ligature
+]);
+
+function casefoldStr(text: string): string {
+  const nfd = text.normalize("NFD");
+  let out = "";
+  for (let i = 0; i < nfd.length; ) {
+    const cp = nfd.codePointAt(i)!;
+    const w = cp > 0xffff ? 2 : 1;
+    const mapped = CASEFOLD_OVERRIDES.get(cp);
+    if (mapped !== undefined) {
+      out += mapped;
+    } else {
+      out += String.fromCodePoint(cp).toLowerCase();
+    }
+    i += w;
+  }
+  return out.normalize("NFC");
+}
+
 function strIsascii(text: string): PyObject {
   for (let i = 0; i < text.length; ) {
     const cp = text.codePointAt(i)!;
@@ -1238,6 +1264,7 @@ export const strType = makeClass({
       joinStr(nativeVal<string>(self), iterable)],
     ["upper", (self: PyObject) => pyStr(nativeVal<string>(self).toUpperCase())],
     ["lower", (self: PyObject) => pyStr(nativeVal<string>(self).toLowerCase())],
+    ["casefold", (self: PyObject) => pyStr(casefoldStr(nativeVal<string>(self)))],
     ["capitalize", (self: PyObject) => pyStr(strCapitalize(nativeVal<string>(self)))],
     ["title", (self: PyObject) => pyStr(strTitle(nativeVal<string>(self)))],
     ["swapcase", (self: PyObject) => pyStr(strSwapcase(nativeVal<string>(self)))],
