@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 256 frozenset evidence docs sync)
+
+### Landed
+
+- [REPO] Plan 256 — COMPATIBILITY §8.15 + validation-ladder synced with frozenset format and frozenset↔set eq evidence (plans 252–254).
+
+### Partial
+
+- frozenset hash / set algebra deferred; PEP 3118 out of scope.
+
+### Next
+
+1. frozenset `__hash__` or set algebra if prioritized.
+2. PEP 3118 buffer protocol remains out of scope until planned.
+
+---
+
 ## Delta update (2026-05-24, plan 255 merge PR #141)
 
 ### Landed
