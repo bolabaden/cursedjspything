@@ -9,6 +9,24 @@
 
 ---
 
+## Delta update (2026-05-24, plan 342 NoneType __bool__ evidence)
+
+### Landed
+
+- [REPO] `none-bool.test.ts` — Vitest for existing `Slot.bool` on `noneType` (always falsy).
+
+### Partial
+
+- None.
+
+### Next
+
+1. Ops merge plan 342 PR when CI green (plan 343).
+2. Docs sync COMPATIBILITY §8.15 + validation-ladder for `none-bool.test.ts` (plan 344).
+3. PEP 3118 buffer protocol remains out of scope.
+
+---
+
 ## Delta update (2026-05-24, plan 341 merge PR #184)
 
 ### Landed
