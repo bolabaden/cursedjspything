@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 359 merge PR #193)
+
+### Landed
+
+- [REPO] Plan 358 merged via PR #193 — bytes `__getitem__` §8.17 docs on `main` (745 Vitest / 133 files).
+
+### Partial
+
+- None.
+
+### Next
+
+1. Next COMPATIBILITY remaining-gap item (§8.15 bytes method surface, float↔str coercion).
+2. PEP 3118 buffer protocol remains out of scope.
+
+---
+
 ## Delta update (2026-05-24, plan 358 bytes getitem §8.17 docs)
 
 ### Landed
