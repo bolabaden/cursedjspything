@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 199 merge PR #113)
+
+### Landed
+
+- [REPO] Plan 199 — PR #113 merged; plan 198 str maketrans/translate on `main` (586 Vitest, 102 files). Core str method parity with bytes complete.
+
+### Partial
+
+- None.
+
+### Next
+
+1. Further str/bytes API when prioritized.
+2. PEP 3118 buffer protocol remains out of scope until planned.
+
+---
+
 ## Delta update (2026-05-24, plan 198 str translate)
 
 ### Landed
