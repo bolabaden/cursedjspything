@@ -1403,6 +1403,7 @@ export const bytesType = makeClass({
       formatBytesSpec(bytesData(self), spec)],
     [Hook.bytes, (self: PyObject) => self],
     [Slot.len, (self: PyObject) => bytesData(self).length],
+    [Slot.bool, (self: PyObject) => bytesData(self).length > 0],
     [Slot.hash, (self: PyObject) => {
       const data = bytesData(self);
       let h = 0;
