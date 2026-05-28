@@ -4,10 +4,12 @@
 import { describe, it, expect } from "vitest";
 import {
   format,
+  pyFalse,
   pyFloat,
   pyInt,
   pyList,
   pyStr,
+  pyTrue,
 } from "../../src/index.js";
 import { PyTypeError, PyValueError } from "../../src/runtime/core/errors.js";
 
@@ -84,6 +86,20 @@ describe("cpython-derived format on builtins with __format__", () => {
 
   it("formats str with empty spec", () => {
     expect(format(pyStr("ab"), "")).toBe("ab");
+  });
+
+  it("formats bool with empty and int-delegated specs", () => {
+    expect(format(pyTrue, "")).toBe("True");
+    expect(format(pyFalse, "")).toBe("False");
+    expect(format(pyTrue, "d")).toBe("1");
+    expect(format(pyFalse, "d")).toBe("0");
+    expect(format(pyFalse, "+04d")).toBe("+000");
+    expect(format(pyTrue, "x")).toBe("1");
+    expect(format(pyTrue, ".2f")).toBe("1.00");
+    expect(format(pyFalse, ".2f")).toBe("0.00");
+    expect(format(pyTrue, "g")).toBe("1");
+    expect(() => format(pyTrue, "s")).toThrow(PyValueError);
+    expect(() => format(pyTrue, ".2")).toThrow(PyValueError);
   });
 
   it("formats str with alignment, width, and precision specs", () => {

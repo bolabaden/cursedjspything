@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 230 bool format)
+
+### Landed
+
+- [REPO] Plan 230 — `bool.__format__` (empty spec True/False; else int delegation).
+
+### Partial
+
+- PEP 3118 buffer protocol out of scope.
+
+### Next
+
+1. Further format parity only if new gaps are prioritized.
+2. PEP 3118 buffer protocol remains out of scope until planned.
+
+---
+
 ## Delta update (2026-05-24, plan 229 merge PR #128)
 
 ### Landed
