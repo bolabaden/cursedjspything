@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 221 merge PR #124)
+
+### Landed
+
+- [REPO] Plan 220 merged via PR #124 — int `g`/`G`/`%` format on `main` (622 Vitest / 105 files). Int format stack for deferred float-style codes complete.
+
+### Partial
+
+- PEP 3118 buffer protocol out of scope.
+
+### Next
+
+1. Further format parity only if new gaps are prioritized.
+2. PEP 3118 buffer protocol remains out of scope until planned.
+
+---
+
 ## Delta update (2026-05-24, plan 220 int format g/G/%)
 
 ### Landed
