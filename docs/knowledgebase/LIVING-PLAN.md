@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 233 merge PR #130)
+
+### Landed
+
+- [REPO] Plan 232 merged via PR #130 — conversion + format_spec on `main` (629 Vitest / 105 files).
+
+### Partial
+
+- PEP 3118 buffer protocol out of scope.
+
+### Next
+
+1. Further format parity only if new gaps are prioritized.
+2. PEP 3118 buffer protocol remains out of scope until planned.
+
+---
+
 ## Delta update (2026-05-24, plan 232 str format conversion spec)
 
 ### Landed
