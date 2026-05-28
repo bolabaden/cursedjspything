@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 189 merge PR #108)
+
+### Landed
+
+- [REPO] Plan 189 — PR #108 merged; plan 188 str removeprefix/removesuffix on `main` (562 Vitest, 97 files).
+
+### Partial
+
+- None.
+
+### Next
+
+1. Further str/bytes API when prioritized (center).
+2. PEP 3118 buffer protocol remains out of scope until planned.
+
+---
+
 ## Delta update (2026-05-24, plan 188 str removeprefix removesuffix)
 
 ### Landed
