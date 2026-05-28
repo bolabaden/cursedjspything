@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 200 str join)
+
+### Landed
+
+- [REPO] Plan 200 — `str.join`; `str-join.test.ts`.
+
+### Partial
+
+- None.
+
+### Next
+
+1. Further str/bytes API when prioritized (casefold, format).
+2. PEP 3118 buffer protocol remains out of scope until planned.
+
+---
+
 ## Delta update (2026-05-24, plan 199 merge PR #113)
 
 ### Landed

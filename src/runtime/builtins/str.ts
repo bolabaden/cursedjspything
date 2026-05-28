@@ -2,6 +2,7 @@ import { PyObject, NotImplemented } from "../core/object.js";
 import { Slot, Hook } from "../core/slots.js";
 import { makeClass } from "../class/class.js";
 import { PyStopIteration } from "../core/lookup.js";
+import { iter, next } from "../dispatch/protocols.js";
 import {
   PyIndexError,
   PyLookupError,
@@ -960,6 +961,41 @@ function strTranslate(text: string, table: unknown): PyObject {
   return pyStr(parts.join(""));
 }
 
+function joinStr(sep: string, iterable: unknown): PyObject {
+  if (!(iterable instanceof PyObject)) {
+    throw new PyTypeError("can only join an iterable");
+  }
+  const parts: string[] = [];
+  let index = 0;
+  let it: PyObject;
+  try {
+    it = iter(iterable);
+  } catch (e) {
+    if (e instanceof PyTypeError) {
+      throw new PyTypeError("can only join an iterable");
+    }
+    throw e;
+  }
+  while (true) {
+    let item: unknown;
+    try {
+      item = next(it);
+    } catch (e) {
+      if (e instanceof PyStopIteration) break;
+      throw e;
+    }
+    if (!(item instanceof PyObject) || item.type !== strType) {
+      const kind = item instanceof PyObject ? item.type.name : typeof item;
+      throw new PyTypeError(
+        `sequence item ${index}: expected str instance, ${kind} found`,
+      );
+    }
+    parts.push(nativeVal<string>(item));
+    index += 1;
+  }
+  return pyStr(parts.join(sep));
+}
+
 function requireReplaceStr(value: unknown): string {
   if (value instanceof PyObject && value.type === strType) {
     return nativeVal<string>(value);
@@ -1198,6 +1234,8 @@ export const strType = makeClass({
     ["encode", (self: PyObject, encoding?: unknown, errors?: unknown) => {
       return encodeStr(self, encoding, errors);
     }],
+    ["join", (self: PyObject, iterable: unknown) =>
+      joinStr(nativeVal<string>(self), iterable)],
     ["upper", (self: PyObject) => pyStr(nativeVal<string>(self).toUpperCase())],
     ["lower", (self: PyObject) => pyStr(nativeVal<string>(self).toLowerCase())],
     ["capitalize", (self: PyObject) => pyStr(strCapitalize(nativeVal<string>(self)))],
