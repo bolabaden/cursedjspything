@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 310 tuple __reversed__)
+
+### Landed
+
+- [REPO] Explicit `tuple.__reversed__` via `makeReversedIterator`; `tuple-reversed.test.ts`.
+
+### Partial
+
+- COMPATIBILITY §8.15 / validation-ladder sync deferred to plan 312.
+
+### Next
+
+1. Ops merge plan 310 PR (plan 311).
+2. Docs sync for `tuple-reversed.test.ts` (plan 312).
+
+---
+
 ## Delta update (2026-05-24, plan 309 merge PR #168)
 
 ### Landed
