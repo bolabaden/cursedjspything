@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 329 merge PR #178)
+
+### Landed
+
+- [REPO] Plan 328 merged via PR #178 — dict `__bool__` docs sync on `main` (716 Vitest / 125 files).
+
+### Partial
+
+- None.
+
+### Next
+
+1. Next prioritized §8.15 or builtin surface gap (e.g. set/frozenset `__bool__` evidence).
+2. PEP 3118 buffer protocol remains out of scope.
+
+---
+
 ## Delta update (2026-05-24, plan 328 dict __bool__ docs)
 
 ### Landed
