@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 251 merge PR #139)
+
+### Landed
+
+- [REPO] Plan 250 merged via PR #139 — format evidence docs sync on `main` (643 Vitest / 105 files).
+
+### Partial
+
+- PEP 3118 buffer protocol out of scope; frozenset not implemented.
+
+### Next
+
+1. Further format parity only if new gaps are prioritized (e.g. frozenset builtin + `__format__`).
+2. PEP 3118 buffer protocol remains out of scope until planned.
+
+---
+
 ## Delta update (2026-05-24, plan 250 format evidence docs sync)
 
 ### Landed
