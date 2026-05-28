@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 217 merge PR #122)
+
+### Landed
+
+- [REPO] Plan 216 merged via PR #122 — int format sign options on `main` (620 Vitest / 105 files).
+
+### Partial
+
+- No float-style `f` on int; PEP 3118 out of scope.
+
+### Next
+
+1. Further format parity when prioritized.
+2. PEP 3118 buffer protocol remains out of scope until planned.
+
+---
+
 ## Delta update (2026-05-24, plan 216 int format sign)
 
 ### Landed
