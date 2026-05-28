@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 210 str format kwargs)
+
+### Landed
+
+- [REPO] Plan 210 — `str.format` kwargs bridging via trailing `FormatKeywordMapping` wrapper.
+
+### Partial
+
+- Bracket keys: integer literals and identifiers only; kwargs require explicit wrapper at JS boundary.
+
+### Next
+
+1. PEP 3118 buffer protocol remains out of scope until planned.
+2. Further format parity (quoted bracket keys, etc.) when prioritized.
+
+---
+
 ## Delta update (2026-05-24, plan 209 merge PR #118)
 
 ### Landed

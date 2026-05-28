@@ -18,7 +18,7 @@ import { pyList } from "./list.js";
 import { pyTuple, tupleType } from "./tuple.js";
 import { dictType, pyDict } from "./dict.js";
 import { dictGet } from "../collections/dict-keys.js";
-import { formatStr, formatMapStr } from "./str-format.js";
+import { formatStr, formatMapStr, isFormatKeywordMapping } from "./str-format.js";
 
 function requireFormatArgs(args: unknown[]): PyObject[] {
   const out: PyObject[] = [];
@@ -33,6 +33,22 @@ function requireFormatArgs(args: unknown[]): PyObject[] {
     out.push(a);
   }
   return out;
+}
+
+function splitFormatCallArgs(args: unknown[]): {
+  positional: PyObject[];
+  kwargs?: PyObject;
+} {
+  if (args.length > 0) {
+    const last = args[args.length - 1];
+    if (isFormatKeywordMapping(last)) {
+      return {
+        positional: requireFormatArgs(args.slice(0, -1)),
+        kwargs: last.mapping,
+      };
+    }
+  }
+  return { positional: requireFormatArgs(args) };
 }
 
 function repeatStr(self: PyObject, other: PyObject) {
@@ -1278,8 +1294,12 @@ export const strType = makeClass({
     }],
     ["join", (self: PyObject, iterable: unknown) =>
       joinStr(nativeVal<string>(self), iterable)],
-    ["format", (self: PyObject, ...args: unknown[]) =>
-      pyStr(formatStr(nativeVal<string>(self), strType, requireFormatArgs(args)))],
+    ["format", (self: PyObject, ...args: unknown[]) => {
+      const { positional, kwargs } = splitFormatCallArgs(args);
+      return pyStr(
+        formatStr(nativeVal<string>(self), strType, positional, kwargs),
+      );
+    }],
     ["format_map", (self: PyObject, mapping?: unknown) => {
       if (mapping === undefined) {
         throw new PyTypeError("format_map() takes exactly one argument (0 given)");
