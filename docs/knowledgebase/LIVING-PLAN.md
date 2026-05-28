@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 219 merge PR #123)
+
+### Landed
+
+- [REPO] Plan 218 merged via PR #123 — int float presentation format on `main` (621 Vitest / 105 files).
+
+### Partial
+
+- `g`/`G`/`%` deferred; PEP 3118 out of scope.
+
+### Next
+
+1. Further format parity (`g`, `%`) when prioritized.
+2. PEP 3118 buffer protocol remains out of scope until planned.
+
+---
+
 ## Delta update (2026-05-24, plan 218 int format float presentation)
 
 ### Landed
