@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 192 str ljust rjust)
+
+### Landed
+
+- [REPO] Plan 192 — `str.ljust` / `str.rjust`; `str-ljust-rjust.test.ts`.
+
+### Partial
+
+- None.
+
+### Next
+
+1. Further str/bytes API when prioritized (zfill).
+2. PEP 3118 buffer protocol remains out of scope until planned.
+
+---
+
 ## Delta update (2026-05-24, plan 191 merge PR #109)
 
 ### Landed

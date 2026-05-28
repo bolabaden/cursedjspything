@@ -839,6 +839,22 @@ function centerStr(text: string, width: unknown, fill?: unknown): PyObject {
   return pyStr(fillChar.repeat(left) + text + fillChar.repeat(pad - left));
 }
 
+function ljustStr(text: string, width: unknown, fill?: unknown): PyObject {
+  const w = splitMaxsplitArg(width);
+  const n = strCodePointLength(text);
+  if (w <= n) return pyStr(text);
+  const fillChar = requireStrPadFill(fill);
+  return pyStr(text + fillChar.repeat(w - n));
+}
+
+function rjustStr(text: string, width: unknown, fill?: unknown): PyObject {
+  const w = splitMaxsplitArg(width);
+  const n = strCodePointLength(text);
+  if (w <= n) return pyStr(text);
+  const fillChar = requireStrPadFill(fill);
+  return pyStr(fillChar.repeat(w - n) + text);
+}
+
 function requireReplaceStr(value: unknown): string {
   if (value instanceof PyObject && value.type === strType) {
     return nativeVal<string>(value);
@@ -1128,6 +1144,10 @@ export const strType = makeClass({
       removeSuffixStr(nativeVal<string>(self), suffix)],
     ["center", (self: PyObject, width: unknown, fill?: unknown) =>
       centerStr(nativeVal<string>(self), width, fill)],
+    ["ljust", (self: PyObject, width: unknown, fill?: unknown) =>
+      ljustStr(nativeVal<string>(self), width, fill)],
+    ["rjust", (self: PyObject, width: unknown, fill?: unknown) =>
+      rjustStr(nativeVal<string>(self), width, fill)],
   ]),
 });
 
