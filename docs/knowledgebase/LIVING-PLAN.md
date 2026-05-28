@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 311 merge PR #169)
+
+### Landed
+
+- [REPO] Plan 310 merged via PR #169 — `tuple.__reversed__` on `main` (704 Vitest / 121 files).
+
+### Partial
+
+- COMPATIBILITY §8.15 / validation-ladder sync for tuple reversed deferred to plan 312.
+
+### Next
+
+1. Docs sync COMPATIBILITY §8.15 + validation-ladder for `tuple-reversed.test.ts` (plan 312).
+2. Next prioritized §8.15 or builtin surface gap from COMPATIBILITY remaining-gap list.
+
+---
+
 ## Delta update (2026-05-24, plan 310 tuple __reversed__)
 
 ### Landed
