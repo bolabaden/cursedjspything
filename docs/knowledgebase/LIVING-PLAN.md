@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 213 merge PR #120)
+
+### Landed
+
+- [REPO] Plan 212 merged via PR #120 — arbitrary format bracket keys on `main` (616 Vitest / 105 files).
+
+### Partial
+
+- Bracket keys: literal substring only (no quoted-string stripping); kwargs require `FormatKeywordMapping` wrapper.
+
+### Next
+
+1. PEP 3118 buffer protocol remains out of scope until planned.
+2. Further format parity when prioritized.
+
+---
+
 ## Delta update (2026-05-24, plan 212 str format bracket keys)
 
 ### Landed
