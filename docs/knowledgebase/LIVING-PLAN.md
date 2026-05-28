@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 289 merge PR #158)
+
+### Landed
+
+- [REPO] Plan 288 merged via PR #158 — bytes iter docs sync on `main` (686 Vitest / 115 files).
+
+### Partial
+
+- None.
+
+### Next
+
+1. Next prioritized §8.15 or builtin surface gap from COMPATIBILITY remaining-gap list.
+2. PEP 3118 buffer protocol remains out of scope.
+
+---
+
 ## Delta update (2026-05-24, plan 288 bytes iter docs)
 
 ### Landed
