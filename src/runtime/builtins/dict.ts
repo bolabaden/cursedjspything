@@ -2,6 +2,7 @@ import { PyObject, NotImplemented } from "../core/object.js";
 import { Slot, Hook } from "../core/slots.js";
 import { makeClass } from "../class/class.js";
 import { PyKeyError, PyStopIteration } from "../core/lookup.js";
+import { PyTypeError } from "../core/errors.js";
 import { eq } from "../dispatch/operators/index.js";
 import {
   dictDelete,
@@ -12,27 +13,39 @@ import {
 } from "../collections/dict-keys.js";
 import { nativeVal, setNative } from "./native.js";
 
+function dictRepr(self: PyObject): string {
+  const m = nativeVal<Map<unknown, PyObject>>(self);
+  const entries: string[] = [];
+  for (const [k, v] of m) {
+    const ks =
+      k instanceof PyObject
+        ? typeof k.type.typeDict.get(Slot.repr) === "function"
+          ? (k.type.typeDict.get(Slot.repr) as Function)(k)
+          : "<key>"
+        : String(k);
+    const vs =
+      v instanceof PyObject
+        ? typeof v.type.typeDict.get(Slot.repr) === "function"
+          ? (v.type.typeDict.get(Slot.repr) as Function)(v)
+          : "<val>"
+        : String(v);
+    entries.push(`${ks}: ${vs}`);
+  }
+  return "{" + entries.join(", ") + "}";
+}
+
+function formatDictSpec(self: PyObject, spec: string): string {
+  if (spec === "") return dictRepr(self);
+  throw new PyTypeError("unsupported format string passed to dict.__format__");
+}
+
 // ── pyDict ────────────────────────────────────────────────────────────
 
 export const dictType = makeClass({
   name: "dict",
   dict: new Map<string | symbol, unknown>([
-    [Slot.repr, (self: PyObject) => {
-      const m = nativeVal<Map<unknown, PyObject>>(self);
-      const entries: string[] = [];
-      for (const [k, v] of m) {
-        const ks = k instanceof PyObject
-          ? (typeof k.type.typeDict.get(Slot.repr) === "function"
-            ? (k.type.typeDict.get(Slot.repr) as Function)(k) : "<key>")
-          : String(k);
-        const vs = v instanceof PyObject
-          ? (typeof v.type.typeDict.get(Slot.repr) === "function"
-            ? (v.type.typeDict.get(Slot.repr) as Function)(v) : "<val>")
-          : String(v);
-        entries.push(`${ks}: ${vs}`);
-      }
-      return "{" + entries.join(", ") + "}";
-    }],
+    [Slot.repr, (self: PyObject) => dictRepr(self)],
+    [Hook.format, (self: PyObject, spec: string) => formatDictSpec(self, spec)],
     [Slot.len, (self: PyObject) => nativeVal<Map<unknown, PyObject>>(self).size],
     [Slot.bool, (self: PyObject) => nativeVal<Map<unknown, PyObject>>(self).size > 0],
     [Slot.getitem, (self: PyObject, key: unknown) => {

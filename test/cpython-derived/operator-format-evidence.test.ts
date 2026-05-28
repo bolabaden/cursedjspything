@@ -14,6 +14,7 @@ import {
   pyNone,
   pyTuple,
   pyDict,
+  pySlice,
 } from "../../src/index.js";
 import { PyTypeError, PyValueError } from "../../src/runtime/core/errors.js";
 
@@ -144,6 +145,15 @@ describe("cpython-derived format on builtins with __format__", () => {
     );
   });
 
+  it("formats dict with empty spec only", () => {
+    expect(format(pyDict([]), "")).toBe("{}");
+    expect(format(pyDict([[pyStr("a"), pyInt(1)]]), "")).toBe("{'a': 1}");
+    expect(() => format(pyDict([]), "s")).toThrow(PyTypeError);
+    expect(() => format(pyDict([]), "s")).toThrow(
+      /unsupported format string passed to dict\.__format__/,
+    );
+  });
+
   it("formats str with alignment, width, and precision specs", () => {
     expect(format(pyStr("hello"), "<10")).toBe("hello     ");
     expect(format(pyStr("hello"), ">10")).toBe("     hello");
@@ -178,13 +188,13 @@ describe("cpython-derived format on builtins with __format__", () => {
 
 describe("cpython-derived format fallback and errors", () => {
   it("empty spec on type without __format__ uses str()", () => {
-    expect(format(pyDict([]), "")).toBe("{}");
+    expect(format(pySlice(1, 2), "")).toBe("slice(1, 2, None)");
   });
 
   it("non-empty spec on type without __format__ raises TypeError", () => {
-    expect(() => format(pyDict([]), "s")).toThrow(PyTypeError);
-    expect(() => format(pyDict([]), "s")).toThrow(
-      /unsupported format string passed to dict\.__format__/,
+    expect(() => format(pySlice(1, 2), "s")).toThrow(PyTypeError);
+    expect(() => format(pySlice(1, 2), "s")).toThrow(
+      /unsupported format string passed to slice\.__format__/,
     );
   });
 
