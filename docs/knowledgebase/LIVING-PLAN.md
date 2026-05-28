@@ -9,6 +9,24 @@
 
 ---
 
+## Delta update (2026-05-24, plan 348 slice __bool__ docs)
+
+### Landed
+
+- [REPO] COMPATIBILITY §8.15 + validation-ladder sync for `slice.__bool__` / `slice-bool.test.ts`. All §8.15 `Hook.format` builtins now have documented explicit `__bool__` Vitest evidence.
+
+### Partial
+
+- None.
+
+### Next
+
+1. Ops merge plan 348 PR when CI green (plan 349).
+2. Next prioritized gap: exception-type normalization §8.17 or other COMPATIBILITY remaining-gap items.
+3. PEP 3118 buffer protocol remains out of scope.
+
+---
+
 ## Delta update (2026-05-24, plan 347 merge PR #187)
 
 ### Landed
