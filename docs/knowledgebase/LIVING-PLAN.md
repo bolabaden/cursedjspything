@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 197 merge PR #112)
+
+### Landed
+
+- [REPO] Plan 197 — PR #112 merged; plan 196 str expandtabs on `main` (581 Vitest, 101 files).
+
+### Partial
+
+- None.
+
+### Next
+
+1. Further str/bytes API when prioritized (translate/maketrans).
+2. PEP 3118 buffer protocol remains out of scope until planned.
+
+---
+
 ## Delta update (2026-05-24, plan 196 str expandtabs)
 
 ### Landed
