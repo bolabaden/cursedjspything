@@ -17,6 +17,7 @@ import { tupleType, pyTuple } from "./tuple.js";
 import { isSlice, sliceFields, sliceIndices } from "../collections/slice.js";
 import { pyStr, strType } from "./str.js";
 import { iter, next } from "../dispatch/protocols.js";
+import { makeSequenceIterator } from "../iterators/sequence-iterator.js";
 
 function bytesData(self: PyObject): Uint8Array {
   return nativeVal<Uint8Array>(self);
@@ -1451,6 +1452,7 @@ export const bytesType = makeClass({
       }
       throw new PyTypeError("byte indices must be integers or slices");
     }],
+    [Slot.iter, (self: PyObject) => makeSequenceIterator(self)],
     [Slot.contains, (self: PyObject, item: unknown) => {
       return bytesContains(bytesData(self), item);
     }],

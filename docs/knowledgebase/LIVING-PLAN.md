@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 286 bytes iter)
+
+### Landed
+
+- [REPO] Plan 286 — `bytes.__iter__` yielding int elements via `makeSequenceIterator`.
+
+### Partial
+
+- COMPATIBILITY docs sync deferred; PEP 3118 out of scope.
+
+### Next
+
+1. Docs sync COMPATIBILITY §8.15 + validation-ladder for `bytes-iter.test.ts`.
+2. Next prioritized §8.15 or builtin surface gap from COMPATIBILITY remaining-gap list.
+
+---
+
 ## Delta update (2026-05-24, plan 285 merge PR #156)
 
 ### Landed
