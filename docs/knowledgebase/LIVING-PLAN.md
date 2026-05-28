@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 185 merge PR #106)
+
+### Landed
+
+- [REPO] Plan 185 — PR #106 merged; plan 184 str startswith/endswith on `main` (552 Vitest, 95 files).
+
+### Partial
+
+- None.
+
+### Next
+
+1. Further str/bytes API when prioritized (replace, removeprefix).
+2. PEP 3118 buffer protocol remains out of scope until planned.
+
+---
+
 ## Delta update (2026-05-24, plan 184 str startswith endswith)
 
 ### Landed
