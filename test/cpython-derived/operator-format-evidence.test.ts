@@ -16,7 +16,10 @@ import {
   pyDict,
   pySlice,
   pySet,
+  makeClass,
+  instantiate,
 } from "../../src/index.js";
+import { Slot } from "../../src/runtime/core/slots.js";
 import { PyTypeError, PyValueError } from "../../src/runtime/core/errors.js";
 
 describe("cpython-derived format on builtins with __format__", () => {
@@ -164,6 +167,15 @@ describe("cpython-derived format on builtins with __format__", () => {
     );
   });
 
+  it("formats set with empty spec only", () => {
+    expect(format(pySet([]), "")).toBe("set()");
+    expect(format(pySet([pyInt(1), pyInt(2)]), "")).toBe("{1, 2}");
+    expect(() => format(pySet([]), "s")).toThrow(PyTypeError);
+    expect(() => format(pySet([]), "s")).toThrow(
+      /unsupported format string passed to set\.__format__/,
+    );
+  });
+
   it("formats str with alignment, width, and precision specs", () => {
     expect(format(pyStr("hello"), "<10")).toBe("hello     ");
     expect(format(pyStr("hello"), ">10")).toBe("     hello");
@@ -197,14 +209,19 @@ describe("cpython-derived format on builtins with __format__", () => {
 });
 
 describe("cpython-derived format fallback and errors", () => {
+  const reprOnlyType = makeClass({
+    name: "ReprOnly",
+    dict: new Map<string | symbol, unknown>([[Slot.repr, () => "ro"]]),
+  });
+
   it("empty spec on type without __format__ uses str()", () => {
-    expect(format(pySet([]), "")).toBe("set()");
+    expect(format(instantiate(reprOnlyType), "")).toBe("ro");
   });
 
   it("non-empty spec on type without __format__ raises TypeError", () => {
-    expect(() => format(pySet([]), "s")).toThrow(PyTypeError);
-    expect(() => format(pySet([]), "s")).toThrow(
-      /unsupported format string passed to set\.__format__/,
+    expect(() => format(instantiate(reprOnlyType), "s")).toThrow(PyTypeError);
+    expect(() => format(instantiate(reprOnlyType), "s")).toThrow(
+      /unsupported format string passed to ReprOnly\.__format__/,
     );
   });
 

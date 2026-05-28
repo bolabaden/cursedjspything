@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 248 set format)
+
+### Landed
+
+- [REPO] Plan 248 — `set.__format__` (empty spec repr; non-empty TypeError).
+
+### Partial
+
+- PEP 3118 buffer protocol out of scope.
+
+### Next
+
+1. Further format parity only if new gaps are prioritized (e.g. frozenset).
+2. PEP 3118 buffer protocol remains out of scope until planned.
+
+---
+
 ## Delta update (2026-05-24, plan 247 merge PR #137)
 
 ### Landed

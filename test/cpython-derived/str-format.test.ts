@@ -14,6 +14,7 @@ import {
   pyList,
   pyTuple,
   pySlice,
+  pySet,
   pyStr,
   pyTrue,
   pyBytes,
@@ -249,6 +250,14 @@ describe("cpython-derived str format", () => {
     expect(() => format("{0:10}", pySlice(1, 2))).toThrow(PyTypeError);
     expect(() => format("{0:10}", pySlice(1, 2))).toThrow(
       /unsupported format string passed to slice\.__format__/,
+    );
+  });
+
+  it("formats set fields via __format__", () => {
+    expect(asStr(format("{0}", pySet([pyInt(1), pyInt(2)])))).toBe("{1, 2}");
+    expect(() => format("{0:10}", pySet([]))).toThrow(PyTypeError);
+    expect(() => format("{0:10}", pySet([]))).toThrow(
+      /unsupported format string passed to set\.__format__/,
     );
   });
 
