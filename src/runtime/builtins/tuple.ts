@@ -1,5 +1,5 @@
 import { PyObject, NotImplemented } from "../core/object.js";
-import { Slot } from "../core/slots.js";
+import { Slot, Hook } from "../core/slots.js";
 import { makeClass } from "../class/class.js";
 import { PyStopIteration } from "../core/lookup.js";
 import { PyTypeError, PyIndexError } from "../core/errors.js";
@@ -8,6 +8,29 @@ import { sequenceRepeatCount } from "./int.js";
 import { buildRepeatedArray } from "./sequence-repeat.js";
 import { isSlice, sliceFields, sliceIndices } from "../collections/slice.js";
 import { eq } from "../dispatch/operators/compare.js";
+
+function tupleRepr(self: PyObject): string {
+  const items = nativeVal<readonly PyObject[]>(self);
+  if (items.length === 1) {
+    const r = items[0].type.typeDict.get(Slot.repr);
+    return "(" + (typeof r === "function" ? (r as Function)(items[0]) : "<object>") + ",)";
+  }
+  return (
+    "(" +
+    items
+      .map((o) => {
+        const r = o.type.typeDict.get(Slot.repr);
+        return typeof r === "function" ? (r as Function)(o) : "<object>";
+      })
+      .join(", ") +
+    ")"
+  );
+}
+
+function formatTupleSpec(self: PyObject, spec: string): string {
+  if (spec === "") return tupleRepr(self);
+  throw new PyTypeError("unsupported format string passed to tuple.__format__");
+}
 
 function repeatTuple(self: PyObject, other: PyObject) {
   const n = sequenceRepeatCount(other);
@@ -23,17 +46,8 @@ function repeatTuple(self: PyObject, other: PyObject) {
 export const tupleType = makeClass({
   name: "tuple",
   dict: new Map<string | symbol, unknown>([
-    [Slot.repr, (self: PyObject) => {
-      const items = nativeVal<readonly PyObject[]>(self);
-      if (items.length === 1) {
-        const r = items[0].type.typeDict.get(Slot.repr);
-        return "(" + (typeof r === "function" ? (r as Function)(items[0]) : "<object>") + ",)";
-      }
-      return "(" + items.map((o) => {
-        const r = o.type.typeDict.get(Slot.repr);
-        return typeof r === "function" ? (r as Function)(o) : "<object>";
-      }).join(", ") + ")";
-    }],
+    [Slot.repr, (self: PyObject) => tupleRepr(self)],
+    [Hook.format, (self: PyObject, spec: string) => formatTupleSpec(self, spec)],
     [Slot.len, (self: PyObject) => nativeVal<readonly PyObject[]>(self).length],
     [Slot.bool, (self: PyObject) => nativeVal<readonly PyObject[]>(self).length > 0],
     [Slot.hash, (self: PyObject) => {

@@ -13,6 +13,7 @@ import {
   pyBytes,
   pyNone,
   pyTuple,
+  pyDict,
 } from "../../src/index.js";
 import { PyTypeError, PyValueError } from "../../src/runtime/core/errors.js";
 
@@ -133,6 +134,16 @@ describe("cpython-derived format on builtins with __format__", () => {
     );
   });
 
+  it("formats tuple with empty spec only", () => {
+    expect(format(pyTuple([]), "")).toBe("()");
+    expect(format(pyTuple([pyInt(1)]), "")).toBe("(1,)");
+    expect(format(pyTuple([pyInt(1), pyInt(2)]), "")).toBe("(1, 2)");
+    expect(() => format(pyTuple([]), "s")).toThrow(PyTypeError);
+    expect(() => format(pyTuple([]), "s")).toThrow(
+      /unsupported format string passed to tuple\.__format__/,
+    );
+  });
+
   it("formats str with alignment, width, and precision specs", () => {
     expect(format(pyStr("hello"), "<10")).toBe("hello     ");
     expect(format(pyStr("hello"), ">10")).toBe("     hello");
@@ -167,13 +178,13 @@ describe("cpython-derived format on builtins with __format__", () => {
 
 describe("cpython-derived format fallback and errors", () => {
   it("empty spec on type without __format__ uses str()", () => {
-    expect(format(pyTuple([]), "")).toBe("()");
+    expect(format(pyDict([]), "")).toBe("{}");
   });
 
   it("non-empty spec on type without __format__ raises TypeError", () => {
-    expect(() => format(pyTuple([]), "s")).toThrow(PyTypeError);
-    expect(() => format(pyTuple([]), "s")).toThrow(
-      /unsupported format string passed to tuple\.__format__/,
+    expect(() => format(pyDict([]), "s")).toThrow(PyTypeError);
+    expect(() => format(pyDict([]), "s")).toThrow(
+      /unsupported format string passed to dict\.__format__/,
     );
   });
 

@@ -12,6 +12,7 @@ import {
   pyFloat,
   pyInt,
   pyList,
+  pyTuple,
   pyStr,
   pyTrue,
   pyBytes,
@@ -222,6 +223,15 @@ describe("cpython-derived str format", () => {
     expect(() => format("{0:10}", pyList([]))).toThrow(PyTypeError);
     expect(() => format("{0:10}", pyList([]))).toThrow(
       /unsupported format string passed to list\.__format__/,
+    );
+  });
+
+  it("formats tuple fields via __format__", () => {
+    expect(asStr(format("{0}", pyTuple([pyInt(1)])))).toBe("(1,)");
+    expect(asStr(format("{0}", pyTuple([pyInt(1), pyInt(2)])))).toBe("(1, 2)");
+    expect(() => format("{0:10}", pyTuple([]))).toThrow(PyTypeError);
+    expect(() => format("{0:10}", pyTuple([]))).toThrow(
+      /unsupported format string passed to tuple\.__format__/,
     );
   });
 
