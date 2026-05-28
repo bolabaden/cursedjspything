@@ -866,6 +866,32 @@ function zfillStr(text: string, width: unknown): PyObject {
   return pyStr("0".repeat(pad) + text);
 }
 
+function parseExpandtabsTabsize(tabsize: unknown): number {
+  if (tabsize === undefined || tabsize === null) return 8;
+  return splitMaxsplitArg(tabsize);
+}
+
+function expandTabsStr(text: string, tabsize?: unknown): PyObject {
+  const size = parseExpandtabsTabsize(tabsize);
+  const parts: string[] = [];
+  let col = 0;
+  for (let i = 0; i < text.length; ) {
+    const cp = text.codePointAt(i)!;
+    if (cp === 0x09) {
+      if (size > 0) {
+        const pad = col % size === 0 ? size : size - (col % size);
+        parts.push(" ".repeat(pad));
+        col += pad;
+      }
+    } else {
+      parts.push(String.fromCodePoint(cp));
+      col += 1;
+    }
+    i += cp > 0xffff ? 2 : 1;
+  }
+  return pyStr(parts.join(""));
+}
+
 function requireReplaceStr(value: unknown): string {
   if (value instanceof PyObject && value.type === strType) {
     return nativeVal<string>(value);
@@ -1161,6 +1187,8 @@ export const strType = makeClass({
       rjustStr(nativeVal<string>(self), width, fill)],
     ["zfill", (self: PyObject, width: unknown) =>
       zfillStr(nativeVal<string>(self), width)],
+    ["expandtabs", (self: PyObject, tabsize?: unknown) =>
+      expandTabsStr(nativeVal<string>(self), tabsize)],
   ]),
 });
 
