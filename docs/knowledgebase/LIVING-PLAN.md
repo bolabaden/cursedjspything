@@ -9,6 +9,24 @@
 
 ---
 
+## Delta update (2026-05-24, plan 343 merge PR #185)
+
+### Landed
+
+- [REPO] Plan 342 merged via PR #185 — `none-bool.test.ts` on `main` (734 Vitest / 132 files).
+
+### Partial
+
+- None.
+
+### Next
+
+1. Docs sync COMPATIBILITY §8.15 + validation-ladder for `none-bool.test.ts` (plan 344).
+2. Next prioritized §8.15 gap (`slice` explicit `__bool__` or exception-type normalization §8.17).
+3. PEP 3118 buffer protocol remains out of scope.
+
+---
+
 ## Delta update (2026-05-24, plan 342 NoneType __bool__ evidence)
 
 ### Landed
