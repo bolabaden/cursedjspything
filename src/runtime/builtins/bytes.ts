@@ -1,5 +1,5 @@
 import { PyObject, NotImplemented } from "../core/object.js";
-import { Slot } from "../core/slots.js";
+import { Hook, Slot } from "../core/slots.js";
 import { makeClass } from "../class/class.js";
 import {
   PyIndexError,
@@ -48,6 +48,11 @@ function bytesRepr(data: Uint8Array): string {
     }
   }
   return `b'${inner}'`;
+}
+
+function formatBytesSpec(data: Uint8Array, spec: string): string {
+  if (spec === "") return bytesRepr(data);
+  throw new PyTypeError("unsupported format string passed to bytes.__format__");
 }
 
 function compareBytes(a: Uint8Array, b: Uint8Array): number {
@@ -1393,6 +1398,8 @@ export const bytesType = makeClass({
   dict: new Map<string | symbol, unknown>([
     [Slot.repr, (self: PyObject) => bytesRepr(bytesData(self))],
     [Slot.str, (self: PyObject) => bytesRepr(bytesData(self))],
+    [Hook.format, (self: PyObject, spec: string) =>
+      formatBytesSpec(bytesData(self), spec)],
     [Slot.len, (self: PyObject) => bytesData(self).length],
     [Slot.eq, (self: PyObject, other: PyObject) => {
       if (other.type !== bytesType) return NotImplemented;
