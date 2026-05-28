@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 214 int format width)
+
+### Landed
+
+- [REPO] Plan 214 — int `__format__` width padding (`04`, `4`, `04x`) and ValueError on precision/unknown codes.
+
+### Partial
+
+- No float-style `f` on int; sign/`+` fill variants deferred.
+
+### Next
+
+1. PEP 3118 buffer protocol remains out of scope until planned.
+2. Further format parity when prioritized.
+
+---
+
 ## Delta update (2026-05-24, plan 213 merge PR #120)
 
 ### Landed

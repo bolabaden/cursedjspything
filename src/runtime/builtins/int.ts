@@ -41,6 +41,90 @@ export function sequenceRepeatCount(other: PyObject): number | null {
 
 export { isNumericOperand, numericOperand };
 
+type IntFormatType = "d" | "b" | "o" | "x" | "X";
+
+function intFormatBody(n: number, type: IntFormatType): string {
+  switch (type) {
+    case "d":
+      return String(n);
+    case "b":
+      return (n >>> 0).toString(2);
+    case "o":
+      return (n >>> 0).toString(8);
+    case "x":
+      return (n >>> 0).toString(16);
+    case "X":
+      return (n >>> 0).toString(16).toUpperCase();
+  }
+}
+
+function padIntFormat(
+  n: number,
+  width: number,
+  type: IntFormatType,
+  fill: string,
+): string {
+  if (type === "d") {
+    const body = String(n);
+    if (body.length >= width) return body;
+    return fill.repeat(width - body.length) + body;
+  }
+  const sign = n < 0 ? "-" : "";
+  const body = intFormatBody(Math.abs(n), type);
+  const total = sign.length + body.length;
+  if (total >= width) return sign + body;
+  return sign + fill.repeat(width - total) + body;
+}
+
+function formatIntSpec(n: number, spec: string): string {
+  if (spec === "" || spec === "d") return String(n);
+  if (spec.includes(".")) {
+    throw new PyValueError("Precision not allowed in integer format specifier");
+  }
+  if (spec.length === 1) {
+    if (spec === "b" || spec === "o" || spec === "x" || spec === "X") {
+      return intFormatBody(n, spec);
+    }
+    if (/^\d$/.test(spec)) {
+      return padIntFormat(n, Number(spec), "d", " ");
+    }
+    throw new PyValueError(
+      `Unknown format code '${spec}' for object of type 'int'`,
+    );
+  }
+
+  const zeroPadDecimal = /^0(\d+)$/.exec(spec);
+  if (zeroPadDecimal) {
+    return padIntFormat(n, Number(zeroPadDecimal[1]), "d", "0");
+  }
+  const spacePadDecimal = /^(\d+)$/.exec(spec);
+  if (spacePadDecimal) {
+    return padIntFormat(n, Number(spacePadDecimal[1]), "d", " ");
+  }
+  const zeroPadTyped = /^0(\d+)([bodxX])$/.exec(spec);
+  if (zeroPadTyped) {
+    return padIntFormat(
+      n,
+      Number(zeroPadTyped[1]),
+      zeroPadTyped[2] as IntFormatType,
+      "0",
+    );
+  }
+  const spacePadTyped = /^(\d+)([bodxX])$/.exec(spec);
+  if (spacePadTyped) {
+    return padIntFormat(
+      n,
+      Number(spacePadTyped[1]),
+      spacePadTyped[2] as IntFormatType,
+      " ",
+    );
+  }
+
+  throw new PyValueError(
+    `Invalid format specifier '${spec}' for object of type 'int'`,
+  );
+}
+
 // ── pyInt ─────────────────────────────────────────────────────────────
 
 export const intType = makeClass({
@@ -181,14 +265,8 @@ export const intType = makeClass({
       const r = ((n % d) + d) % d;
       return pyTuple([pyInt(q), pyInt(r)]);
     }],
-    [Hook.format, (self: PyObject, spec: string) => {
-      if (spec === "" || spec === "d") return String(nativeVal<number>(self));
-      if (spec === "b") return (nativeVal<number>(self) >>> 0).toString(2);
-      if (spec === "o") return (nativeVal<number>(self) >>> 0).toString(8);
-      if (spec === "x") return (nativeVal<number>(self) >>> 0).toString(16);
-      if (spec === "X") return (nativeVal<number>(self) >>> 0).toString(16).toUpperCase();
-      return String(nativeVal<number>(self));
-    }],
+    [Hook.format, (self: PyObject, spec: string) =>
+      formatIntSpec(nativeVal<number>(self), spec)],
     [Hook.round, (self: PyObject, ndigits?: PyObject) => {
       if (ndigits === undefined) return pyInt(Math.round(nativeVal<number>(self)));
       const nd = nativeVal<number>(ndigits);
