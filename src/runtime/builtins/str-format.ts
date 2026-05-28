@@ -98,7 +98,7 @@ function parseField(
   if (i < template.length && template[i] === ":") {
     i += 1;
     const specStart = i;
-    while (i < template.length && template[i] !== "}") i += 1;
+    i = parseFormatSpecEnd(template, specStart);
     formatSpec = template.slice(specStart, i);
   }
 
@@ -107,6 +107,37 @@ function parseField(
   }
 
   return { field: { name, conversion, formatSpec }, end: i };
+}
+
+function parseFormatSpecEnd(template: string, start: number): number {
+  let i = start;
+  let depth = 0;
+  while (i < template.length) {
+    const c = template[i]!;
+    if (c === "{") {
+      if (depth === 0 && template[i + 1] === "{") {
+        i += 2;
+        continue;
+      }
+      depth += 1;
+      i += 1;
+      continue;
+    }
+    if (c === "}") {
+      if (depth === 0 && template[i + 1] === "}") {
+        i += 2;
+        continue;
+      }
+      if (depth > 0) {
+        depth -= 1;
+        i += 1;
+        continue;
+      }
+      return i;
+    }
+    i += 1;
+  }
+  throw new PyValueError("expected '}' before end of string");
 }
 
 function isIdentifierField(name: string): boolean {
@@ -242,6 +273,29 @@ function renderFieldValue(
   if (conversion === "s") return str(obj);
   if (formatSpec === "" && conversion === "") return str(obj);
   return format(obj, formatSpec);
+}
+
+function substituteFormatSpec(
+  formatSpec: string,
+  resolve: (field: FormatField) => PyObject,
+): string {
+  if (!formatSpec.includes("{")) return formatSpec;
+  const parts = parseFormatString(formatSpec);
+  let out = "";
+  for (const part of parts) {
+    if (part.kind === "literal") {
+      out += part.text;
+      continue;
+    }
+    const { field } = part;
+    if (field.conversion !== "" || field.formatSpec !== "") {
+      throw new PyValueError(
+        "Invalid format specifier " + JSON.stringify(formatSpec),
+      );
+    }
+    out += str(resolve(field));
+  }
+  return out;
 }
 
 function mappingKeyForField(fieldName: string, strType: PyType): PyObject {
@@ -420,7 +474,8 @@ function buildFormattedString(
     }
     const { field } = part;
     const value = resolve(field);
-    out += renderFieldValue(value, field.conversion, field.formatSpec);
+    const expandedSpec = substituteFormatSpec(field.formatSpec, resolve);
+    out += renderFieldValue(value, field.conversion, expandedSpec);
   }
   return out;
 }

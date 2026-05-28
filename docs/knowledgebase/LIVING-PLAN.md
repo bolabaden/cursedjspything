@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 226 str format nested spec)
+
+### Landed
+
+- [REPO] Plan 226 — nested `format_spec` fields in `str.format` / `format_map`.
+
+### Partial
+
+- PEP 3118 buffer protocol out of scope.
+
+### Next
+
+1. Further format parity only if new gaps are prioritized.
+2. PEP 3118 buffer protocol remains out of scope until planned.
+
+---
+
 ## Delta update (2026-05-24, plan 225 merge PR #126)
 
 ### Landed

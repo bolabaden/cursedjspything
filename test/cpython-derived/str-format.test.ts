@@ -164,6 +164,20 @@ describe("cpython-derived str format", () => {
     expect(() => format("{.name}", pyInt(1))).toThrow(PyValueError);
   });
 
+  it("formats nested format_spec fields", () => {
+    expect(asStr(format("{0:{1}}", pyStr("hello"), pyInt(10)))).toBe(
+      "hello     ",
+    );
+    expect(asStr(format("{0:.{1}f}", pyFloat(1.5), pyInt(2)))).toBe("1.50");
+    expect(asStr(format("{:{}}", pyStr("x"), pyInt(3)))).toBe("x  ");
+
+    const mapping = pyDict([
+      [pyStr("name"), pyStr("hi")],
+      [pyStr("width"), pyInt(5)],
+    ]);
+    expect(asStr(formatMap("{name:{width}}", mapping))).toBe("hi   ");
+  });
+
   it("uses repr conversion and int format spec", () => {
     expect(asStr(format("{0!r}", pyList([])))).toBe("[]");
     expect(asStr(format("{0:x}", pyInt(255)))).toBe("ff");
