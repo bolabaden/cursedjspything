@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 224 float format presentation)
+
+### Landed
+
+- [REPO] Plan 224 — `float.__format__` presentation codes (`f`, `e`, `g`, `G`, `%`).
+
+### Partial
+
+- PEP 3118 buffer protocol out of scope.
+
+### Next
+
+1. Further format parity only if new gaps are prioritized.
+2. PEP 3118 buffer protocol remains out of scope until planned.
+
+---
+
 ## Delta update (2026-05-24, plan 223 merge PR #125)
 
 ### Landed

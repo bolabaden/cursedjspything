@@ -9,6 +9,7 @@ import {
   makeClass,
   objectType,
   pyDict,
+  pyFloat,
   pyInt,
   pyList,
   pyStr,
@@ -178,6 +179,7 @@ describe("cpython-derived str format", () => {
     expect(asStr(format("{:<10}", pyStr("hello")))).toBe("hello     ");
     expect(asStr(format("{:*^10}", pyStr("hello")))).toBe("**hello***");
     expect(asStr(format("{:.3}", pyStr("hello")))).toBe("hel");
+    expect(asStr(format("{:.2f}", pyFloat(1.5)))).toBe("1.50");
   });
 
   it("raises ValueError for invalid int format specs in fields", () => {

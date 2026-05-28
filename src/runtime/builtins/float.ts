@@ -4,7 +4,201 @@ import { makeClass } from "../class/class.js";
 import { nativeVal, setNative } from "./native.js";
 import { intType, isNumericOperand, numericOperand } from "./int.js";
 import { pyInt } from "./int.js";
-import { PyZeroDivisionError } from "../core/errors.js";
+import { PyZeroDivisionError, PyValueError } from "../core/errors.js";
+
+type FloatFormatSign = "" | "+" | "-" | " ";
+type FloatPresentationType = "f" | "F" | "e" | "E" | "g" | "G" | "%";
+
+interface FloatPresentationSpec {
+  readonly fill: string;
+  readonly width: number | null;
+  readonly precision: number | null;
+  readonly type: FloatPresentationType;
+}
+
+function parseFloatFormatSign(spec: string): {
+  sign: FloatFormatSign;
+  rest: string;
+} {
+  if (spec.startsWith("+") || spec.startsWith("-") || spec.startsWith(" ")) {
+    return { sign: spec[0] as FloatFormatSign, rest: spec.slice(1) };
+  }
+  return { sign: "", rest: spec };
+}
+
+function parseFloatPresentationSpec(spec: string): FloatPresentationSpec | null {
+  let i = 0;
+  let fill = " ";
+  if (spec[i] === "0" && i + 1 < spec.length && /\d/.test(spec[i + 1]!)) {
+    fill = "0";
+    i += 1;
+  }
+
+  let widthStr = "";
+  while (i < spec.length && /\d/.test(spec[i]!)) {
+    widthStr += spec[i]!;
+    i += 1;
+  }
+  const width = widthStr === "" ? null : Number(widthStr);
+
+  let precision: number | null = null;
+  if (i < spec.length && spec[i] === ".") {
+    i += 1;
+    let precStr = "";
+    while (i < spec.length && /\d/.test(spec[i]!)) {
+      precStr += spec[i]!;
+      i += 1;
+    }
+    precision = precStr === "" ? 0 : Number(precStr);
+  }
+
+  if (i >= spec.length) return null;
+  const type = spec[i]!;
+  if (
+    type !== "f" &&
+    type !== "F" &&
+    type !== "e" &&
+    type !== "E" &&
+    type !== "g" &&
+    type !== "G" &&
+    type !== "%"
+  ) {
+    return null;
+  }
+  if (i !== spec.length - 1) return null;
+
+  return { fill, width, precision, type };
+}
+
+function normalizeExponent(s: string): string {
+  return s.replace(/e([+-])(\d)$/, "e$10$2").replace(/E([+-])(\d)$/, "E$10$2");
+}
+
+function stripGeneralMantissa(mantissa: string): string {
+  if (!mantissa.includes(".")) return mantissa;
+  return mantissa.replace(/\.?0+$/, "");
+}
+
+function formatFloatStrValue(n: number): string {
+  const s = String(n);
+  return s.includes(".") || s.includes("e") || s.includes("E") ? s : s + ".0";
+}
+
+function formatFloatSpecialBody(n: number): string | null {
+  if (Number.isNaN(n)) return "nan";
+  if (n === Infinity) return "inf";
+  if (n === -Infinity) return "-inf";
+  return null;
+}
+
+function isNegativeFloat(n: number): boolean {
+  return n < 0 || Object.is(n, -0);
+}
+
+function formatFloatGeneralBody(
+  value: number,
+  precision: number,
+  upper: boolean,
+): string {
+  if (value === 0) return "0";
+  const raw = value.toPrecision(precision);
+  if (!/[eE]/.test(raw)) {
+    return stripGeneralMantissa(raw);
+  }
+
+  const match = raw.match(/^(.+)[eE]([+-]?\d+)$/);
+  if (match === null) {
+    return stripGeneralMantissa(raw);
+  }
+
+  const mantissa = stripGeneralMantissa(match[1]!);
+  const expNum = Number(match[2]!);
+  const expSign = expNum < 0 ? "-" : "+";
+  const expDigits = String(Math.abs(expNum)).padStart(2, "0");
+  const eChar = upper ? "E" : "e";
+  return `${mantissa}${eChar}${expSign}${expDigits}`;
+}
+
+function formatFloatPresentationBody(
+  n: number,
+  type: FloatPresentationType,
+  precision: number,
+): string {
+  const special = formatFloatSpecialBody(n);
+  if (special !== null) return special;
+
+  const value = Math.abs(n);
+  if (type === "f" || type === "F") {
+    return value.toFixed(precision);
+  }
+  if (type === "g" || type === "G") {
+    return formatFloatGeneralBody(value, precision, type === "G");
+  }
+  if (type === "%") {
+    return `${(value * 100).toFixed(precision)}%`;
+  }
+  const raw = value.toExponential(precision);
+  const normalized = normalizeExponent(raw);
+  return type === "E" ? normalized.toUpperCase() : normalized;
+}
+
+function formatFloatPresentation(
+  n: number,
+  spec: string,
+  sign: FloatFormatSign,
+): string {
+  const parsed = parseFloatPresentationSpec(spec);
+  if (parsed === null) {
+    throw new PyValueError(
+      `Invalid format specifier '${spec}' for object of type 'float'`,
+    );
+  }
+
+  const defaultPrecision = 6;
+  const precision = parsed.precision ?? defaultPrecision;
+  let body = formatFloatPresentationBody(n, parsed.type, precision);
+
+  const special = formatFloatSpecialBody(n);
+  if (special !== null) {
+    if (special.startsWith("-")) {
+      body = special;
+    } else if (isNegativeFloat(n)) {
+      body = "-" + body;
+    } else if (sign === "+") {
+      body = "+" + body;
+    } else if (sign === " ") {
+      body = " " + body;
+    }
+  } else if (isNegativeFloat(n)) {
+    body = "-" + body;
+  } else if (sign === "+") {
+    body = "+" + body;
+  } else if (sign === " ") {
+    body = " " + body;
+  }
+
+  if (parsed.width !== null && body.length < parsed.width) {
+    return parsed.fill.repeat(parsed.width - body.length) + body;
+  }
+  return body;
+}
+
+function formatFloatSpec(n: number, spec: string): string {
+  if (spec === "") return formatFloatStrValue(n);
+
+  const { sign, rest } = parseFloatFormatSign(spec);
+  if (parseFloatPresentationSpec(rest) !== null) {
+    return formatFloatPresentation(n, rest, sign);
+  }
+  if (rest.length === 1 && /[a-zA-Z]/.test(rest)) {
+    throw new PyValueError(
+      `Unknown format code '${rest}' for object of type 'float'`,
+    );
+  }
+  throw new PyValueError(
+    `Invalid format specifier '${spec}' for object of type 'float'`,
+  );
+}
 
 // ── pyFloat ───────────────────────────────────────────────────────────
 
@@ -108,6 +302,8 @@ export const floatType = makeClass({
     [Hook.trunc, (self: PyObject) => pyInt(Math.trunc(nativeVal<number>(self)))],
     [Hook.floor, (self: PyObject) => pyInt(Math.floor(nativeVal<number>(self)))],
     [Hook.ceil, (self: PyObject) => pyInt(Math.ceil(nativeVal<number>(self)))],
+    [Hook.format, (self: PyObject, spec: string) =>
+      formatFloatSpec(nativeVal<number>(self), spec)],
   ]),
 });
 

@@ -61,6 +61,27 @@ describe("cpython-derived format on builtins with __format__", () => {
     expect(format(pyInt(1000000), "12g")).toBe("       1e+06");
   });
 
+  it("formats float with presentation specs", () => {
+    expect(format(pyFloat(1.5), "")).toBe("1.5");
+    expect(format(pyFloat(1.5), ".2f")).toBe("1.50");
+    expect(format(pyFloat(1.5), "10.2f")).toBe("      1.50");
+    expect(format(pyFloat(1.5), ".2e")).toBe("1.50e+00");
+    expect(format(pyFloat(1.5), "g")).toBe("1.5");
+    expect(format(pyFloat(1.5), ".2%")).toBe("150.00%");
+    expect(format(pyFloat(-1.5), "+.2f")).toBe("-1.50");
+    expect(format(pyFloat(-0), ".2f")).toBe("-0.00");
+    expect(format(pyFloat(Number.POSITIVE_INFINITY), ".2f")).toBe("inf");
+    expect(format(pyFloat(Number.POSITIVE_INFINITY), "+.2f")).toBe("+inf");
+    expect(format(pyFloat(Number.NaN), "g")).toBe("nan");
+  });
+
+  it("rejects invalid float format specs", () => {
+    expect(() => format(pyFloat(1.5), "d")).toThrow(PyValueError);
+    expect(() => format(pyFloat(1.5), "d")).toThrow(
+      /Unknown format code 'd' for object of type 'float'/,
+    );
+  });
+
   it("formats str with empty spec", () => {
     expect(format(pyStr("ab"), "")).toBe("ab");
   });
@@ -106,13 +127,6 @@ describe("cpython-derived format fallback and errors", () => {
     expect(() => format(pyList([]), "s")).toThrow(PyTypeError);
     expect(() => format(pyList([]), "s")).toThrow(
       /unsupported format string passed to list\.__format__/,
-    );
-  });
-
-  it("non-empty spec on float raises TypeError", () => {
-    expect(() => format(pyFloat(1.0), ".2f")).toThrow(PyTypeError);
-    expect(() => format(pyFloat(1.0), ".2f")).toThrow(
-      /unsupported format string passed to float\.__format__/,
     );
   });
 
