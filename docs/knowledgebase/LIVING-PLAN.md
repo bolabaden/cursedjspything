@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 290 bytes hash)
+
+### Landed
+
+- [REPO] `bytes.__hash__` via 31-polynomial rolling hash on byte values; `bytes-hash.test.ts`.
+
+### Partial
+
+- COMPATIBILITY §8.15 / validation-ladder sync deferred to plan 292.
+
+### Next
+
+1. Docs sync COMPATIBILITY §8.15 + validation-ladder for `bytes-hash.test.ts` (plan 292).
+2. Ops merge plan 290 PR (plan 291).
+
+---
+
 ## Delta update (2026-05-24, plan 289 merge PR #158)
 
 ### Landed
