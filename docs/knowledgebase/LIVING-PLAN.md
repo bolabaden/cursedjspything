@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 317 merge PR #172)
+
+### Landed
+
+- [REPO] Plan 316 merged via PR #172 — list `__reversed__` docs sync on `main` (707 Vitest / 122 files). Built-in sequence reversible coverage (bytes, str, tuple, list) now documented and tested.
+
+### Partial
+
+- None.
+
+### Next
+
+1. Next prioritized §8.15 or builtin surface gap from COMPATIBILITY remaining-gap list.
+2. PEP 3118 buffer protocol remains out of scope.
+
+---
+
 ## Delta update (2026-05-24, plan 316 list __reversed__ docs)
 
 ### Landed
