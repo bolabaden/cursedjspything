@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 288 bytes iter docs)
+
+### Landed
+
+- [REPO] COMPATIBILITY §8.15 + validation-ladder sync for `bytes.__iter__` / `bytes-iter.test.ts`.
+
+### Partial
+
+- None.
+
+### Next
+
+1. Ops merge PR for plan 288 docs sync (plan 289).
+2. Next prioritized §8.15 or builtin surface gap from COMPATIBILITY remaining-gap list.
+
+---
+
 ## Delta update (2026-05-24, plan 287 merge PR #157)
 
 ### Landed
