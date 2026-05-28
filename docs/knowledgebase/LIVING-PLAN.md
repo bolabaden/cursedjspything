@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 307 merge PR #167)
+
+### Landed
+
+- [REPO] Plan 306 merged via PR #167 — `str.__reversed__` on `main` (701 Vitest / 120 files).
+
+### Partial
+
+- COMPATIBILITY §8.15 / validation-ladder sync for str reversed deferred to plan 308.
+
+### Next
+
+1. Docs sync COMPATIBILITY §8.15 + validation-ladder for `str-reversed.test.ts` (plan 308).
+2. Next prioritized §8.15 or builtin surface gap from COMPATIBILITY remaining-gap list.
+
+---
+
 ## Delta update (2026-05-24, plan 306 str __reversed__)
 
 ### Landed
