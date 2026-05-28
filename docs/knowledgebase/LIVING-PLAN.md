@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 351 merge PR #189)
+
+### Landed
+
+- [REPO] Plan 350 merged via PR #189 — float `__divmod__` + `PyZeroDivisionError` on zero on `main` (740 Vitest / 133 files).
+
+### Partial
+
+- None.
+
+### Next
+
+1. §8.17 evidence: list `delItem` index type/range tests (plan 352) or next COMPATIBILITY remaining-gap item.
+2. PEP 3118 buffer protocol remains out of scope.
+
+---
+
 ## Delta update (2026-05-24, plan 350 float divmod §8.17)
 
 ### Landed
