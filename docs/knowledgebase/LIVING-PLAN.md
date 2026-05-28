@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 357 merge PR #192)
+
+### Landed
+
+- [REPO] Plan 356 merged via PR #192 — list `setItem` out-of-range Vitest on `main` (745 Vitest / 133 files). List get/set/del §8.17 index errors fully evidenced.
+
+### Partial
+
+- None.
+
+### Next
+
+1. Next COMPATIBILITY remaining-gap item (§8.15 bytes surface, float↔str coercion, §8.17 bytes subscript prose).
+2. PEP 3118 buffer protocol remains out of scope.
+
+---
+
 ## Delta update (2026-05-24, plan 356 list setItem index evidence)
 
 ### Landed
