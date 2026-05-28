@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 202 str casefold)
+
+### Landed
+
+- [REPO] Plan 202 — `str.casefold`; `str-casefold.test.ts`.
+
+### Partial
+
+- Casefold uses targeted Unicode overrides, not full CaseFolding.txt table.
+
+### Next
+
+1. Further str/bytes API when prioritized (`format`, expand casefold table).
+2. PEP 3118 buffer protocol remains out of scope until planned.
+
+---
+
 ## Delta update (2026-05-24, plan 201 merge PR #114)
 
 ### Landed
