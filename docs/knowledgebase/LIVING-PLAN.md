@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 319 merge PR #173)
+
+### Landed
+
+- [REPO] Plan 318 merged via PR #173 — `list-bool.test.ts` on `main` (710 Vitest / 123 files).
+
+### Partial
+
+- None.
+
+### Next
+
+1. Docs sync COMPATIBILITY §8.15 + validation-ladder for `list-bool.test.ts` (plan 320).
+2. PEP 3118 buffer protocol remains out of scope.
+
+---
+
 ## Delta update (2026-05-24, plan 318 list __bool__ evidence)
 
 ### Landed
