@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 195 merge PR #111)
+
+### Landed
+
+- [REPO] Plan 195 — PR #111 merged; plan 194 str zfill on `main` (577 Vitest, 100 files). Str padding parity complete (`center`, `ljust`, `rjust`, `zfill`).
+
+### Partial
+
+- None.
+
+### Next
+
+1. Further str/bytes API when prioritized.
+2. PEP 3118 buffer protocol remains out of scope until planned.
+
+---
+
 ## Delta update (2026-05-24, plan 194 str zfill)
 
 ### Landed
