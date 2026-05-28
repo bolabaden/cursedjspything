@@ -9,11 +9,17 @@ import {
   pyList,
   pyStr,
 } from "../../src/index.js";
-import { PyTypeError } from "../../src/runtime/core/errors.js";
+import { PyTypeError, PyValueError } from "../../src/runtime/core/errors.js";
 
 describe("cpython-derived format on builtins with __format__", () => {
   it("formats int with hex spec", () => {
     expect(format(pyInt(255), "x")).toBe("ff");
+  });
+
+  it("formats int with zero-padded decimal and hex width", () => {
+    expect(format(pyInt(1), "04")).toBe("0001");
+    expect(format(pyInt(1), "4")).toBe("   1");
+    expect(format(pyInt(255), "04x")).toBe("00ff");
   });
 
   it("formats str with empty spec", () => {
@@ -37,6 +43,17 @@ describe("cpython-derived format fallback and errors", () => {
     expect(() => format(pyFloat(1.0), ".2f")).toThrow(PyTypeError);
     expect(() => format(pyFloat(1.0), ".2f")).toThrow(
       /unsupported format string passed to float\.__format__/,
+    );
+  });
+
+  it("invalid int format specs raise ValueError", () => {
+    expect(() => format(pyInt(1), ".2")).toThrow(PyValueError);
+    expect(() => format(pyInt(1), ".2")).toThrow(
+      /Precision not allowed in integer format specifier/,
+    );
+    expect(() => format(pyInt(1), "s")).toThrow(PyValueError);
+    expect(() => format(pyInt(1), "s")).toThrow(
+      /Unknown format code 's' for object of type 'int'/,
     );
   });
 });

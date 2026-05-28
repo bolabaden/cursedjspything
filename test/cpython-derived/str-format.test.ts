@@ -166,6 +166,13 @@ describe("cpython-derived str format", () => {
   it("uses repr conversion and int format spec", () => {
     expect(asStr(format("{0!r}", pyList([])))).toBe("[]");
     expect(asStr(format("{0:x}", pyInt(255)))).toBe("ff");
+    expect(asStr(format("{:04d}", pyInt(1)))).toBe("0001");
+    expect(asStr(format("{0:04x}", pyInt(255)))).toBe("00ff");
+  });
+
+  it("raises ValueError for invalid int format specs in fields", () => {
+    expect(() => format("{:.2}", pyInt(1))).toThrow(PyValueError);
+    expect(() => format("{0:s}", pyInt(1))).toThrow(PyValueError);
   });
 
   it("raises on malformed format strings", () => {
