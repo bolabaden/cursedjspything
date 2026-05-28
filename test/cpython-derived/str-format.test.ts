@@ -170,6 +170,8 @@ describe("cpython-derived str format", () => {
     expect(asStr(format("{0:04x}", pyInt(255)))).toBe("00ff");
     expect(asStr(format("{:+04d}", pyInt(1)))).toBe("+001");
     expect(asStr(format("{: d}", pyInt(1)))).toBe(" 1");
+    expect(asStr(format("{:.2f}", pyInt(1)))).toBe("1.00");
+    expect(asStr(format("{:10.2f}", pyInt(1)))).toBe("      1.00");
   });
 
   it("raises ValueError for invalid int format specs in fields", () => {

@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 218 int format float presentation)
+
+### Landed
+
+- [REPO] Plan 218 — int `__format__` float presentation codes (`f`, `.2f`, `10f`, `.2e`).
+
+### Partial
+
+- `g`/`G`/`%` deferred; PEP 3118 out of scope.
+
+### Next
+
+1. Further format parity (`g`, `%`) when prioritized.
+2. PEP 3118 buffer protocol remains out of scope until planned.
+
+---
+
 ## Delta update (2026-05-24, plan 217 merge PR #122)
 
 ### Landed
