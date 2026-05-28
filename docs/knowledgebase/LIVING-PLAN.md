@@ -9,6 +9,24 @@
 
 ---
 
+## Delta update (2026-05-24, plan 353 merge PR #190)
+
+### Landed
+
+- [REPO] Plan 352 merged via PR #190 — list `delItem` §8.17 Vitest on `main` (743 Vitest / 133 files).
+
+### Partial
+
+- None.
+
+### Next
+
+1. Docs sync COMPATIBILITY §8.17 list `delItem` messages (plan 354).
+2. Next COMPATIBILITY remaining-gap item or further §8.17 evidence.
+3. PEP 3118 buffer protocol remains out of scope.
+
+---
+
 ## Delta update (2026-05-24, plan 352 list delItem §8.17 evidence)
 
 ### Landed
