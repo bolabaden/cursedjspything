@@ -3,6 +3,7 @@ import { Slot, Hook } from "../core/slots.js";
 import { makeClass } from "../class/class.js";
 import { PyTypeError } from "../core/errors.js";
 import { nativeVal, setNative } from "./native.js";
+import { isSetLikeTypeName, setLikeContentsEqual } from "./set-equality.js";
 
 function frozensetRepr(self: PyObject): string {
   const s = nativeVal<Set<unknown>>(self);
@@ -42,12 +43,8 @@ export const frozensetType = makeClass({
     [
       Slot.eq,
       (self: PyObject, other: PyObject) => {
-        if (other.type !== frozensetType) return NotImplemented;
-        const a = nativeVal<Set<unknown>>(self);
-        const b = nativeVal<Set<unknown>>(other);
-        if (a.size !== b.size) return false;
-        for (const item of a) if (!b.has(item)) return false;
-        return true;
+        if (!isSetLikeTypeName(other.type.name)) return NotImplemented;
+        return setLikeContentsEqual(self, other);
       },
     ],
   ]),
