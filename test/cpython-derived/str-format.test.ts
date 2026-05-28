@@ -178,6 +178,15 @@ describe("cpython-derived str format", () => {
     expect(asStr(formatMap("{name:{width}}", mapping))).toBe("hi   ");
   });
 
+  it("uses ascii conversion on non-ASCII str", () => {
+    expect(asStr(format("{0!a}", pyStr("hello")))).toBe("'hello'");
+    expect(asStr(format("{0!a}", pyStr("caf\u00e9")))).toBe("'caf\\xe9'");
+    expect(asStr(format("{0!a}", pyStr("\u1234")))).toBe("'\\u1234'");
+    expect(asStr(format("{0!a}", pyInt(42)))).toBe("42");
+    expect(asStr(format("{0!a}", pyList([])))).toBe("[]");
+    expect(() => format("{0!x}", pyStr("x"))).toThrow(PyValueError);
+  });
+
   it("uses repr conversion and int format spec", () => {
     expect(asStr(format("{0!r}", pyList([])))).toBe("[]");
     expect(asStr(format("{0:x}", pyInt(255)))).toBe("ff");
