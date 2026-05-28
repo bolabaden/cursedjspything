@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 299 merge PR #163)
+
+### Landed
+
+- [REPO] Plan 298 merged via PR #163 — `bytes.__bool__` on `main` (695 Vitest / 118 files).
+
+### Partial
+
+- COMPATIBILITY §8.15 / validation-ladder sync for bytes __bool__ deferred to plan 300.
+
+### Next
+
+1. Docs sync COMPATIBILITY §8.15 + validation-ladder for `bytes-bool.test.ts` (plan 300).
+2. Next prioritized §8.15 or builtin surface gap from COMPATIBILITY remaining-gap list.
+
+---
+
 ## Delta update (2026-05-24, plan 298 bytes __bool__)
 
 ### Landed
