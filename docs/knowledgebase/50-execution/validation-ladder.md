@@ -93,6 +93,8 @@ Emits JSON (`vitest_seconds`, pass gates, `test_count`); use median of several r
 | `test/cpython-derived/frozenset-set-eq.test.ts` | frozenset ↔ set cross-type __eq__ with element-wise eq() |
 | `test/cpython-derived/frozenset-hash.test.ts` | frozenset __hash__ order-independent; set unhashable |
 | `test/cpython-derived/frozenset-set-algebra.test.ts` | frozenset |&-^ and cross-type set↔frozenset result-type rules |
+| `test/cpython-derived/frozenset-iter.test.ts` | frozenset __iter__ / frozenset_iterator; StopIteration on empty |
+| `test/cpython-derived/frozenset-set-ordering.test.ts` | frozenset ↔ set subset/superset ordering (<=, <, >=, >) cross-type |
 | `test/cpython-derived/str-encode.test.ts` | str.encode utf-8/ascii/latin-1 errors including backslashreplace/surrogateescape |
 | `test/cpython-derived/str-upper-lower.test.ts` | str.upper / str.lower case conversion |
 | `test/cpython-derived/str-capitalize.test.ts` | str.capitalize case conversion |
