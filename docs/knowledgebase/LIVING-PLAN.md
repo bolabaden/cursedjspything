@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 363 merge PR #195)
+
+### Landed
+
+- [REPO] Plan 362 merged via PR #195 — bytes↔scalar remaining cross-type Vitest on `main` (771 Vitest / 135 files). §8.15 bytes method-surface gap prose trimmed.
+
+### Partial
+
+- None.
+
+### Next
+
+1. Next COMPATIBILITY remaining-gap item (niche bytes/str edge cases or §8.17 protocol fallbacks).
+2. PEP 3118 buffer protocol remains out of scope.
+
+---
+
 ## Delta update (2026-05-24, plan 362 bytes remaining cross-type evidence)
 
 ### Landed
