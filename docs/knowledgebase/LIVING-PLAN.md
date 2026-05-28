@@ -9,6 +9,24 @@
 
 ---
 
+## Delta update (2026-05-24, plan 332 set/frozenset __bool__ docs)
+
+### Landed
+
+- [REPO] COMPATIBILITY §8.15 + validation-ladder sync for `set.__bool__` / `frozenset.__bool__` and bool test files.
+
+### Partial
+
+- None.
+
+### Next
+
+1. Ops merge plan 332 PR when CI green (plan 333).
+2. Next prioritized §8.15 or builtin surface gap from COMPATIBILITY remaining-gap list.
+3. PEP 3118 buffer protocol remains out of scope.
+
+---
+
 ## Delta update (2026-05-24, plan 331 merge PR #179)
 
 ### Landed
