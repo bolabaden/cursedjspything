@@ -9,6 +9,24 @@
 
 ---
 
+## Delta update (2026-05-24, plan 350 float divmod §8.17)
+
+### Landed
+
+- [REPO] `float.__divmod__` / `__rdivmod__` with `PyZeroDivisionError` on zero divisor; `operator-zerodivision.test.ts` extended.
+
+### Partial
+
+- None.
+
+### Next
+
+1. Ops merge plan 350 PR when CI green (plan 351).
+2. Extend §8.17 evidence (list delItem, bytes index parity) or next COMPATIBILITY remaining-gap item.
+3. PEP 3118 buffer protocol remains out of scope.
+
+---
+
 ## Delta update (2026-05-24, plan 349 merge PR #188)
 
 ### Landed

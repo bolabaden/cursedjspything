@@ -4,7 +4,15 @@ import { makeClass } from "../class/class.js";
 import { nativeVal, setNative } from "./native.js";
 import { intType, isNumericOperand, numericOperand } from "./int.js";
 import { pyInt } from "./int.js";
+import { pyTuple } from "./tuple.js";
 import { PyZeroDivisionError, PyValueError } from "../core/errors.js";
+
+function floatDivmodPair(n: number, d: number): PyObject {
+  if (d === 0) throw new PyZeroDivisionError("division by zero");
+  const q = Math.floor(n / d);
+  const r = ((n % d) + d) % d;
+  return pyTuple([pyFloat(q), pyFloat(r)]);
+}
 
 type FloatFormatSign = "" | "+" | "-" | " ";
 type FloatPresentationType = "f" | "F" | "e" | "E" | "g" | "G" | "%";
@@ -284,6 +292,14 @@ export const floatType = makeClass({
       if (d === 0) throw new PyZeroDivisionError("float modulo");
       const n = nativeVal<number>(self);
       return pyFloat(((n % d) + d) % d);
+    }],
+    [Slot.divmod, (self: PyObject, other: PyObject) => {
+      if (!isNumericOperand(other)) return NotImplemented;
+      return floatDivmodPair(nativeVal<number>(self), numericOperand(other));
+    }],
+    [Slot.rdivmod, (self: PyObject, other: PyObject) => {
+      if (!isNumericOperand(other)) return NotImplemented;
+      return floatDivmodPair(numericOperand(other), nativeVal<number>(self));
     }],
     [Slot.pow, (self: PyObject, other: PyObject) => {
       if (!isNumericOperand(other)) return NotImplemented;
