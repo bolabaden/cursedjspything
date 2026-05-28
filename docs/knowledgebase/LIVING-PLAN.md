@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 341 merge PR #184)
+
+### Landed
+
+- [REPO] Plan 340 merged via PR #184 — int/float/bool `__bool__` docs sync on `main` (733 Vitest / 131 files). Built-in explicit `__bool__` coverage (numeric + containers + str/bytes) now documented and tested.
+
+### Partial
+
+- None.
+
+### Next
+
+1. Next prioritized §8.15 or builtin surface gap (e.g. `NoneType`/`slice` explicit `__bool__` Vitest, exception-type normalization in §8.17).
+2. PEP 3118 buffer protocol remains out of scope.
+
+---
+
 ## Delta update (2026-05-24, plan 340 numeric __bool__ docs)
 
 ### Landed
