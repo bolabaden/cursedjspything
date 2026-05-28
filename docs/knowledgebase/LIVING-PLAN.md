@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 293 merge PR #160)
+
+### Landed
+
+- [REPO] Plan 292 merged via PR #160 — bytes hash docs sync on `main` (690 Vitest / 116 files).
+
+### Partial
+
+- None.
+
+### Next
+
+1. Next prioritized §8.15 or builtin surface gap from COMPATIBILITY remaining-gap list.
+2. PEP 3118 buffer protocol remains out of scope.
+
+---
+
 ## Delta update (2026-05-24, plan 292 bytes hash docs)
 
 ### Landed
