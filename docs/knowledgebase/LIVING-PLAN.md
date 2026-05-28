@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 216 int format sign)
+
+### Landed
+
+- [REPO] Plan 216 — int `__format__` sign options (`+04d`, ` d`, `-04d`, `+04x`).
+
+### Partial
+
+- No float-style `f` on int; PEP 3118 out of scope.
+
+### Next
+
+1. Further format parity when prioritized.
+2. PEP 3118 buffer protocol remains out of scope until planned.
+
+---
+
 ## Delta update (2026-05-24, plan 215 merge PR #121)
 
 ### Landed
