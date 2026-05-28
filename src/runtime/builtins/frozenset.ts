@@ -1,6 +1,7 @@
 import { PyObject, NotImplemented } from "../core/object.js";
 import { Slot, Hook } from "../core/slots.js";
 import { makeClass } from "../class/class.js";
+import { PyStopIteration } from "../core/lookup.js";
 import { PyTypeError } from "../core/errors.js";
 import { hash as objectHash } from "../dispatch/operators/compare.js";
 import { nativeVal, setNative } from "./native.js";
@@ -59,6 +60,21 @@ export const frozensetType = makeClass({
       (self: PyObject, value: unknown) =>
         nativeVal<Set<unknown>>(self).has(value),
     ],
+    [Slot.iter, (self: PyObject) => {
+      const vals = [...nativeVal<Set<unknown>>(self)];
+      let i = 0;
+      const iterType = makeClass({
+        name: "frozenset_iterator",
+        dict: new Map<string | symbol, unknown>([
+          [Slot.iter, (it: PyObject) => it],
+          [Slot.next, (_it: PyObject) => {
+            if (i >= vals.length) throw new PyStopIteration();
+            return vals[i++];
+          }],
+        ]),
+      });
+      return new PyObject(iterType);
+    }],
     [
       Slot.eq,
       (self: PyObject, other: PyObject) => {
