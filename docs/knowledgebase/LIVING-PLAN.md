@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 203 merge PR #115)
+
+### Landed
+
+- [REPO] Plan 203 — PR #115 merged; plan 202 str casefold on `main` (598 Vitest, 104 files).
+
+### Partial
+
+- Casefold still uses targeted Unicode overrides, not full CaseFolding.txt table.
+
+### Next
+
+1. Further str/bytes API when prioritized (`format`, expand casefold table).
+2. PEP 3118 buffer protocol remains out of scope until planned.
+
+---
+
 ## Delta update (2026-05-24, plan 202 str casefold)
 
 ### Landed
