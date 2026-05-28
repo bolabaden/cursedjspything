@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 208 str format brackets)
+
+### Landed
+
+- [REPO] Plan 208 — bracket/index format fields (`{0[name]}`, `{0[0]}`, nested subscripts).
+
+### Partial
+
+- Bracket keys: integer literals and identifiers only; no `**kwargs` on `.format()`.
+
+### Next
+
+1. kwargs bridging for `.format()` when prioritized.
+2. PEP 3118 buffer protocol remains out of scope until planned.
+
+---
+
 ## Delta update (2026-05-24, plan 207 merge PR #117)
 
 ### Landed

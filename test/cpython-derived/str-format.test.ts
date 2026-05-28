@@ -106,6 +106,17 @@ describe("cpython-derived str format", () => {
     expect(asStr(formatMap("{foo._x}", mapping))).toBe("20");
   });
 
+  it("resolves bracket subscript chains", () => {
+    const mapping = pyDict([[pyStr("name"), pyStr("Fred")]]);
+    expect(asStr(format("My name is {0[name]}", mapping))).toBe("My name is Fred");
+
+    const items = pyList([pyStr("abc"), pyStr("def")]);
+    expect(asStr(format("{0[0]}", items))).toBe("abc");
+
+    const nested = pyList([pyStr("abc"), pyList([pyStr("def")])]);
+    expect(asStr(format("{0[1][0]}", nested))).toBe("def");
+  });
+
   it("raises ValueError for invalid dotted field names", () => {
     expect(() => format("{0.}", pyInt(1))).toThrow(PyValueError);
     expect(() => format("{.name}", pyInt(1))).toThrow(PyValueError);

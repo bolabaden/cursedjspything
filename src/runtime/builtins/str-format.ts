@@ -119,38 +119,97 @@ function isPositionalField(name: string): boolean {
 
 interface FieldNameParts {
   readonly root: string;
-  readonly attrs: readonly string[];
+  readonly steps: readonly FieldStep[];
 }
 
+type FieldStep =
+  | { readonly kind: "attr"; readonly name: string }
+  | { readonly kind: "getitem"; readonly key: number | string };
+
 function parseFieldName(name: string): FieldNameParts {
-  if (name === "") return { root: "", attrs: [] };
-  if (name.startsWith(".")) {
+  if (name === "") return { root: "", steps: [] };
+  if (name.startsWith(".") || name.startsWith("[")) {
     throw new PyValueError(`Invalid field name: ${JSON.stringify(name)}`);
   }
-  const segments = name.split(".");
-  const root = segments[0]!;
+
+  let i = 0;
+  while (i < name.length && name[i] !== "." && name[i] !== "[") i += 1;
+  const root = name.slice(0, i);
   if (root !== "" && !/^\d+$/.test(root) && !isIdentifierField(root)) {
     throw new PyValueError(`Invalid field name: ${JSON.stringify(name)}`);
   }
-  for (let i = 1; i < segments.length; i++) {
-    const seg = segments[i]!;
-    if (seg === "" || !isIdentifierField(seg)) {
-      throw new PyValueError(`Invalid field name: ${JSON.stringify(name)}`);
+
+  const steps: FieldStep[] = [];
+  while (i < name.length) {
+    if (name[i] === ".") {
+      i += 1;
+      const start = i;
+      while (i < name.length && name[i] !== "." && name[i] !== "[") i += 1;
+      const attr = name.slice(start, i);
+      if (attr === "" || !isIdentifierField(attr)) {
+        throw new PyValueError(`Invalid field name: ${JSON.stringify(name)}`);
+      }
+      steps.push({ kind: "attr", name: attr });
+      continue;
     }
+    if (name[i] === "[") {
+      i += 1;
+      const start = i;
+      while (i < name.length && name[i] !== "]") i += 1;
+      if (i >= name.length || name[i] !== "]") {
+        throw new PyValueError(`Invalid field name: ${JSON.stringify(name)}`);
+      }
+      const indexStr = name.slice(start, i);
+      i += 1;
+      if (/^\d+$/.test(indexStr)) {
+        steps.push({ kind: "getitem", key: Number(indexStr) });
+      } else if (isIdentifierField(indexStr)) {
+        steps.push({ kind: "getitem", key: indexStr });
+      } else {
+        throw new PyValueError(`Invalid field name: ${JSON.stringify(name)}`);
+      }
+      continue;
+    }
+    throw new PyValueError(`Invalid field name: ${JSON.stringify(name)}`);
   }
-  return { root, attrs: segments.slice(1) };
+
+  return { root, steps };
 }
 
-function applyFormatAttributes(obj: PyObject, attrs: readonly string[]): PyObject {
+function subscriptKeyForGetItem(key: number | string, strType: PyType): unknown {
+  if (typeof key === "number") return key;
+  const obj = new PyObject(strType);
+  setNative(obj, key);
+  return obj;
+}
+
+function applyFormatSteps(
+  obj: PyObject,
+  steps: readonly FieldStep[],
+  strType: PyType,
+): PyObject {
   let current = obj;
-  for (const attr of attrs) {
-    const next = getAttr(current, attr);
-    if (!(next instanceof PyObject)) {
-      throw new PyTypeError(
-        `format attribute ${JSON.stringify(attr)} did not resolve to a PyObject`,
-      );
+  for (const step of steps) {
+    if (step.kind === "attr") {
+      const next = getAttr(current, step.name);
+      if (!(next instanceof PyObject)) {
+        throw new PyTypeError(
+          `format attribute ${JSON.stringify(step.name)} did not resolve to a PyObject`,
+        );
+      }
+      current = next;
+      continue;
     }
-    current = next;
+    try {
+      const next = getItem(current, subscriptKeyForGetItem(step.key, strType));
+      if (!(next instanceof PyObject)) {
+        throw new PyTypeError("format subscript did not resolve to a PyObject");
+      }
+      current = next;
+    } catch (e) {
+      if (e instanceof PyKeyError || e instanceof PyIndexError) throw e;
+      throw e;
+    }
   }
   return current;
 }
@@ -206,10 +265,11 @@ function lookupMappingValue(
 function resolvePositional(
   args: readonly PyObject[],
   field: FormatField,
+  strType: PyType,
   autoIndex: { value: number },
   manualSeen: { value: boolean },
 ): PyObject {
-  const { root, attrs } = parseFieldName(field.name);
+  const { root, steps } = parseFieldName(field.name);
   if (!isPositionalField(root)) {
     throw new PyKeyError(field.name);
   }
@@ -237,7 +297,7 @@ function resolvePositional(
       "Replacement index " + index + " out of range for positional args tuple",
     );
   }
-  return applyFormatAttributes(value, attrs);
+  return applyFormatSteps(value, steps, strType);
 }
 
 function resolveMapping(
@@ -247,7 +307,7 @@ function resolveMapping(
   autoIndex: { value: number },
   manualSeen: { value: boolean },
 ): PyObject {
-  const { root, attrs } = parseFieldName(field.name);
+  const { root, steps } = parseFieldName(field.name);
   if (root === "") {
     if (manualSeen.value) {
       throw new PyValueError(
@@ -272,7 +332,7 @@ function resolveMapping(
   } else {
     throw new PyValueError(`Invalid field name: ${JSON.stringify(field.name)}`);
   }
-  return applyFormatAttributes(value, attrs);
+  return applyFormatSteps(value, steps, strType);
 }
 
 function buildFormattedString(
@@ -302,7 +362,7 @@ export function formatStr(
   const autoIndex = { value: 0 };
   const manualSeen = { value: false };
   return buildFormattedString(template, strType, (field) =>
-    resolvePositional(args, field, autoIndex, manualSeen),
+    resolvePositional(args, field, strType, autoIndex, manualSeen),
   );
 }
 
