@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 306 str __reversed__)
+
+### Landed
+
+- [REPO] Explicit `str.__reversed__` via `makeReversedIterator`; `str-reversed.test.ts`.
+
+### Partial
+
+- COMPATIBILITY §8.15 / validation-ladder sync deferred to plan 308.
+
+### Next
+
+1. Ops merge plan 306 PR (plan 307).
+2. Docs sync for `str-reversed.test.ts` (plan 308).
+
+---
+
 ## Delta update (2026-05-24, plan 305 merge PR #166)
 
 ### Landed
