@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 264 frozenset iter)
+
+### Landed
+
+- [REPO] Plan 264 — `frozenset.__iter__` with frozenset_iterator (mirrors set).
+
+### Partial
+
+- frozenset ordering comparisons / inplace ops deferred; PEP 3118 out of scope.
+
+### Next
+
+1. frozenset ordering comparisons (`<=`, `<`, …) cross-type if prioritized.
+2. PEP 3118 buffer protocol remains out of scope until planned.
+
+---
+
 ## Delta update (2026-05-24, plan 263 merge PR #145)
 
 ### Landed
