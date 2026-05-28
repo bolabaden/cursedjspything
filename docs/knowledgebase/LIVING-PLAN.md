@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 278 set mutation methods)
+
+### Landed
+
+- [REPO] Plan 278 — `set` `add`, `remove`, `discard`, `pop`, `clear`, `copy`, `update`; `frozenset.copy()`.
+
+### Partial
+
+- COMPATIBILITY docs sync for mutation methods deferred; PEP 3118 out of scope.
+
+### Next
+
+1. Docs sync COMPATIBILITY §8.15 + validation-ladder for set mutation methods.
+2. Next prioritized §8.15 or builtin surface gap from COMPATIBILITY remaining-gap list.
+
+---
+
 ## Delta update (2026-05-24, plan 277 merge PR #152)
 
 ### Landed

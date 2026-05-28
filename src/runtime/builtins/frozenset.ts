@@ -158,6 +158,8 @@ export const frozensetType = makeClass({
         nativeVal<Set<unknown>>(other),
       );
     }],
+    ["copy", (self: PyObject) =>
+      pyFrozenSet([...nativeVal<Set<unknown>>(self)])],
   ]),
 });
 
