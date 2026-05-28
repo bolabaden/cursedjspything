@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 198 str translate)
+
+### Landed
+
+- [REPO] Plan 198 — `str.maketrans` / `str.translate`; `str-translate.test.ts`.
+
+### Partial
+
+- None.
+
+### Next
+
+1. Further str/bytes API when prioritized.
+2. PEP 3118 buffer protocol remains out of scope until planned.
+
+---
+
 ## Delta update (2026-05-24, plan 197 merge PR #112)
 
 ### Landed
