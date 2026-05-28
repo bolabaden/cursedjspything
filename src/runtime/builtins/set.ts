@@ -11,6 +11,12 @@ import {
   symmetricDifferenceItems,
   unionItems,
 } from "./set-algebra.js";
+import {
+  isProperSubsetOf,
+  isProperSupersetOf,
+  isSubsetOf,
+  isSupersetOf,
+} from "./set-ordering.js";
 
 function setRepr(self: PyObject): string {
   const s = nativeVal<Set<unknown>>(self);
@@ -86,34 +92,28 @@ export const setType = makeClass({
       return setLikeContentsEqual(self, other);
     }],
     [Slot.le, (self: PyObject, other: PyObject) => {
-      if (other.type !== setType) return NotImplemented;
+      if (!isSetLikeTypeName(other.type.name)) return NotImplemented;
       const a = nativeVal<Set<unknown>>(self);
       const b = nativeVal<Set<unknown>>(other);
-      for (const item of a) if (!b.has(item)) return false;
-      return true;
+      return isSubsetOf(a, b);
     }],
     [Slot.lt, (self: PyObject, other: PyObject) => {
-      if (other.type !== setType) return NotImplemented;
+      if (!isSetLikeTypeName(other.type.name)) return NotImplemented;
       const a = nativeVal<Set<unknown>>(self);
       const b = nativeVal<Set<unknown>>(other);
-      if (a.size >= b.size) return false;
-      for (const item of a) if (!b.has(item)) return false;
-      return true;
+      return isProperSubsetOf(a, b);
     }],
     [Slot.ge, (self: PyObject, other: PyObject) => {
-      if (other.type !== setType) return NotImplemented;
+      if (!isSetLikeTypeName(other.type.name)) return NotImplemented;
       const a = nativeVal<Set<unknown>>(self);
       const b = nativeVal<Set<unknown>>(other);
-      for (const item of b) if (!a.has(item)) return false;
-      return true;
+      return isSupersetOf(a, b);
     }],
     [Slot.gt, (self: PyObject, other: PyObject) => {
-      if (other.type !== setType) return NotImplemented;
+      if (!isSetLikeTypeName(other.type.name)) return NotImplemented;
       const a = nativeVal<Set<unknown>>(self);
       const b = nativeVal<Set<unknown>>(other);
-      if (a.size <= b.size) return false;
-      for (const item of b) if (!a.has(item)) return false;
-      return true;
+      return isProperSupersetOf(a, b);
     }],
   ]),
 });
