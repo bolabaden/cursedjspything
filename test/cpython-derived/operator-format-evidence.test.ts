@@ -16,6 +16,7 @@ import {
   pyDict,
   pySlice,
   pySet,
+  pyFrozenSet,
   makeClass,
   instantiate,
 } from "../../src/index.js";
@@ -173,6 +174,17 @@ describe("cpython-derived format on builtins with __format__", () => {
     expect(() => format(pySet([]), "s")).toThrow(PyTypeError);
     expect(() => format(pySet([]), "s")).toThrow(
       /unsupported format string passed to set\.__format__/,
+    );
+  });
+
+  it("formats frozenset with empty spec only", () => {
+    expect(format(pyFrozenSet([]), "")).toBe("frozenset()");
+    expect(format(pyFrozenSet([pyInt(1), pyInt(2)]), "")).toBe(
+      "frozenset({1, 2})",
+    );
+    expect(() => format(pyFrozenSet([]), "s")).toThrow(PyTypeError);
+    expect(() => format(pyFrozenSet([]), "s")).toThrow(
+      /unsupported format string passed to frozenset\.__format__/,
     );
   });
 

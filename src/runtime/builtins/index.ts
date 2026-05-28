@@ -8,5 +8,6 @@ export * from "./list.js";
 export * from "./tuple.js";
 export * from "./dict.js";
 export * from "./set.js";
+export * from "./frozenset.js";
 export * from "./bytes.js";
 export { unwrap } from "./native.js";

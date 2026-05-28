@@ -15,6 +15,7 @@ import {
   pyTuple,
   pySlice,
   pySet,
+  pyFrozenSet,
   pyStr,
   pyTrue,
   pyBytes,
@@ -258,6 +259,16 @@ describe("cpython-derived str format", () => {
     expect(() => format("{0:10}", pySet([]))).toThrow(PyTypeError);
     expect(() => format("{0:10}", pySet([]))).toThrow(
       /unsupported format string passed to set\.__format__/,
+    );
+  });
+
+  it("formats frozenset fields via __format__", () => {
+    expect(asStr(format("{0}", pyFrozenSet([pyInt(1), pyInt(2)])))).toBe(
+      "frozenset({1, 2})",
+    );
+    expect(() => format("{0:10}", pyFrozenSet([]))).toThrow(PyTypeError);
+    expect(() => format("{0:10}", pyFrozenSet([]))).toThrow(
+      /unsupported format string passed to frozenset\.__format__/,
     );
   });
 

@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 252 frozenset format)
+
+### Landed
+
+- [REPO] Plan 252 — minimal `frozenset` builtin + `frozenset.__format__` (empty spec repr; non-empty TypeError).
+
+### Partial
+
+- frozenset set algebra / hash / set↔frozenset ops deferred; PEP 3118 out of scope.
+
+### Next
+
+1. Extend frozenset surface (hash, comparisons with set) if prioritized.
+2. PEP 3118 buffer protocol remains out of scope until planned.
+
+---
+
 ## Delta update (2026-05-24, plan 251 merge PR #139)
 
 ### Landed
