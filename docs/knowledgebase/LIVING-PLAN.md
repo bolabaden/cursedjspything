@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 186 str replace)
+
+### Landed
+
+- [REPO] Plan 186 — `str.replace`; `str-replace.test.ts`.
+
+### Partial
+
+- None.
+
+### Next
+
+1. Further str/bytes API when prioritized (removeprefix, center).
+2. PEP 3118 buffer protocol remains out of scope until planned.
+
+---
+
 ## Delta update (2026-05-24, plan 185 merge PR #106)
 
 ### Landed

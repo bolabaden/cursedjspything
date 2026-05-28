@@ -780,6 +780,74 @@ function strEndswith(
   return pyFalse;
 }
 
+function requireReplaceStr(value: unknown): string {
+  if (value instanceof PyObject && value.type === strType) {
+    return nativeVal<string>(value);
+  }
+  const kind = value instanceof PyObject ? value.type.name : typeof value;
+  throw new PyTypeError(`must be str, not ${kind}`);
+}
+
+function replaceEmptyOldStr(text: string, newStr: string, limit: number): string {
+  if (limit === 0) return text;
+  const maxInserts = limit < 0 ? text.length + 1 : limit;
+  const parts: string[] = [];
+  let inserted = 0;
+  for (let i = 0; i < text.length; i++) {
+    if (inserted < maxInserts) {
+      parts.push(newStr);
+      inserted += 1;
+    }
+    parts.push(text[i]!);
+  }
+  if (inserted < maxInserts) {
+    parts.push(newStr);
+  }
+  return parts.join("");
+}
+
+function replaceNonEmptyOldStr(
+  text: string,
+  old: string,
+  newStr: string,
+  limit: number,
+): string {
+  if (limit === 0) return text;
+  const maxReplacements = limit < 0 ? Number.POSITIVE_INFINITY : limit;
+  const parts: string[] = [];
+  let pos = 0;
+  let done = 0;
+  while (pos < text.length) {
+    const rel = findStrSepIndex(text.slice(pos), old, false);
+    if (rel < 0 || done >= maxReplacements) {
+      parts.push(text.slice(pos));
+      break;
+    }
+    const idx = pos + rel;
+    parts.push(text.slice(pos, idx));
+    parts.push(newStr);
+    pos = idx + old.length;
+    done += 1;
+  }
+  return parts.join("");
+}
+
+function replaceStr(
+  text: string,
+  old: unknown,
+  newStr: unknown,
+  count?: unknown,
+): PyObject {
+  const oldStr = requireReplaceStr(old);
+  const newS = requireReplaceStr(newStr);
+  const limit = splitMaxsplitArg(count);
+  const out =
+    oldStr.length === 0
+      ? replaceEmptyOldStr(text, newS, limit)
+      : replaceNonEmptyOldStr(text, oldStr, newS, limit);
+  return pyStr(out);
+}
+
 function partitionStr(text: string, sep: unknown): PyObject {
   const sepStr = requirePartitionStrSep(sep);
   const idx = findStrSepIndex(text, sepStr, false);
@@ -993,6 +1061,8 @@ export const strType = makeClass({
       strStartswith(nativeVal<string>(self), prefix, start, end)],
     ["endswith", (self: PyObject, suffix: unknown, start?: unknown, end?: unknown) =>
       strEndswith(nativeVal<string>(self), suffix, start, end)],
+    ["replace", (self: PyObject, old: unknown, newStr: unknown, count?: unknown) =>
+      replaceStr(nativeVal<string>(self), old, newStr, count)],
   ]),
 });
 
