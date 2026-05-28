@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 250 format evidence docs sync)
+
+### Landed
+
+- [REPO] Plan 250 — COMPATIBILITY §8.15 + validation-ladder synced with format stack (plans 228–248): None/list/tuple/dict/slice/set `__format__` and `str-format.test.ts` evidence.
+
+### Partial
+
+- PEP 3118 buffer protocol out of scope; frozenset not implemented.
+
+### Next
+
+1. Further format parity only if new gaps are prioritized (e.g. frozenset builtin + `__format__`).
+2. PEP 3118 buffer protocol remains out of scope until planned.
+
+---
+
 ## Delta update (2026-05-24, plan 249 merge PR #138)
 
 ### Landed
