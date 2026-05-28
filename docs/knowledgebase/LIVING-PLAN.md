@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 309 merge PR #168)
+
+### Landed
+
+- [REPO] Plan 308 merged via PR #168 — str `__reversed__` docs sync on `main` (701 Vitest / 120 files).
+
+### Partial
+
+- None.
+
+### Next
+
+1. Next prioritized §8.15 or builtin surface gap from COMPATIBILITY remaining-gap list.
+2. PEP 3118 buffer protocol remains out of scope.
+
+---
+
 ## Delta update (2026-05-24, plan 308 str __reversed__ docs)
 
 ### Landed
