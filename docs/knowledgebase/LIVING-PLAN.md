@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 194 str zfill)
+
+### Landed
+
+- [REPO] Plan 194 — `str.zfill`; `str-zfill.test.ts`.
+
+### Partial
+
+- None.
+
+### Next
+
+1. Further str/bytes API when prioritized.
+2. PEP 3118 buffer protocol remains out of scope until planned.
+
+---
+
 ## Delta update (2026-05-24, plan 193 merge PR #110)
 
 ### Landed
