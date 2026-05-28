@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 201 merge PR #114)
+
+### Landed
+
+- [REPO] Plan 201 — PR #114 merged; plan 200 str join on `main` (593 Vitest, 103 files).
+
+### Partial
+
+- None.
+
+### Next
+
+1. Further str/bytes API when prioritized (casefold, format).
+2. PEP 3118 buffer protocol remains out of scope until planned.
+
+---
+
 ## Delta update (2026-05-24, plan 200 str join)
 
 ### Landed
