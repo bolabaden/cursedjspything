@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 333 merge PR #180)
+
+### Landed
+
+- [REPO] Plan 332 merged via PR #180 — set/frozenset `__bool__` docs sync on `main` (722 Vitest / 127 files). Built-in container `__bool__` coverage (bytes, list, tuple, dict, set, frozenset) now documented and tested.
+
+### Partial
+
+- None.
+
+### Next
+
+1. Next prioritized §8.15 or builtin surface gap from COMPATIBILITY remaining-gap list.
+2. PEP 3118 buffer protocol remains out of scope.
+
+---
+
 ## Delta update (2026-05-24, plan 332 set/frozenset __bool__ docs)
 
 ### Landed
