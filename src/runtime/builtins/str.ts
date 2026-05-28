@@ -1,8 +1,9 @@
 import { PyObject, NotImplemented } from "../core/object.js";
 import { Slot, Hook } from "../core/slots.js";
 import { makeClass } from "../class/class.js";
-import { PyStopIteration } from "../core/lookup.js";
+import { PyStopIteration, lookupSpecial } from "../core/lookup.js";
 import { iter, next } from "../dispatch/protocols.js";
+import { makeReversedIterator } from "../iterators/reversed-iterator.js";
 import {
   PyIndexError,
   PyLookupError,
@@ -1418,6 +1419,14 @@ export const strType = makeClass({
         ]),
       });
       return new PyObject(iterType);
+    }],
+    [Hook.reversed, (self: PyObject) => {
+      const lenFn = lookupSpecial(self, Slot.len);
+      const giFn = lookupSpecial(self, Slot.getitem);
+      if (!lenFn || !giFn) {
+        throw new PyTypeError("'str' object is not reversible");
+      }
+      return makeReversedIterator(self, lenFn, giFn);
     }],
     [Hook.format, (self: PyObject, spec: string) => {
       return formatStrSpec(nativeVal<string>(self), spec);
