@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 274 set frozenset methods)
+
+### Landed
+
+- [REPO] Plan 274 — `set` / `frozenset` `issubset`, `issuperset`, `isdisjoint` with cross-type operands.
+
+### Partial
+
+- PEP 3118 out of scope; COMPATIBILITY docs sync for methods deferred.
+
+### Next
+
+1. Docs sync COMPATIBILITY §8.15 + validation-ladder for set/frozenset methods.
+2. PEP 3118 buffer protocol remains out of scope until planned.
+
+---
+
 ## Delta update (2026-05-24, plan 273 merge PR #150)
 
 ### Landed
