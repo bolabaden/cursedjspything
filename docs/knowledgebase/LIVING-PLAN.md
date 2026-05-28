@@ -9,6 +9,24 @@
 
 ---
 
+## Delta update (2026-05-24, plan 338 numeric __bool__ evidence)
+
+### Landed
+
+- [REPO] `int-bool.test.ts`, `float-bool.test.ts`, `bool-bool.test.ts` — Vitest for existing `Slot.bool` on int/float/bool types.
+
+### Partial
+
+- None.
+
+### Next
+
+1. Ops merge plan 338 PR when CI green (plan 339).
+2. Docs sync COMPATIBILITY §8.15 + validation-ladder for numeric `__bool__` tests (plan 340).
+3. PEP 3118 buffer protocol remains out of scope.
+
+---
+
 ## Delta update (2026-05-24, plan 337 merge PR #182)
 
 ### Landed
