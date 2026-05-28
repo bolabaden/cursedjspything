@@ -14,7 +14,7 @@ import { sequenceRepeatCount, intType, pyInt } from "./int.js";
 import { pyBytes } from "./bytes.js";
 import { pyFalse, pyTrue, boolType } from "./bool.js";
 import { pyList } from "./list.js";
-import { pyTuple } from "./tuple.js";
+import { pyTuple, tupleType } from "./tuple.js";
 
 function repeatStr(self: PyObject, other: PyObject) {
   const n = sequenceRepeatCount(other);
@@ -717,6 +717,69 @@ function countStr(
   return pyInt(countSubInStrRange(text, subStr, a, b));
 }
 
+function strAffixCandidates(
+  affix: unknown,
+  method: "startswith" | "endswith",
+): string[] {
+  if (affix instanceof PyObject && affix.type === strType) {
+    return [nativeVal<string>(affix)];
+  }
+  if (affix instanceof PyObject && affix.type === tupleType) {
+    const items = nativeVal<readonly PyObject[]>(affix);
+    const out: string[] = [];
+    for (const item of items) {
+      if (item.type !== strType) {
+        const kind = item.type.name;
+        throw new PyTypeError(`must be str, not ${kind}`);
+      }
+      out.push(nativeVal<string>(item));
+    }
+    return out;
+  }
+  const kind = affix instanceof PyObject ? affix.type.name : typeof affix;
+  throw new PyTypeError(
+    `${method} first arg must be str or a tuple of str, not ${kind}`,
+  );
+}
+
+function strStartsWithSlice(slice: string, prefix: string): boolean {
+  return slice.startsWith(prefix);
+}
+
+function strEndsWithSlice(slice: string, suffix: string): boolean {
+  return slice.endsWith(suffix);
+}
+
+function strStartswith(
+  text: string,
+  prefix: unknown,
+  start?: unknown,
+  end?: unknown,
+): PyObject {
+  const [a, b] = strSliceBounds(text.length, start, end);
+  const slice = text.slice(a, b);
+  const candidates = strAffixCandidates(prefix, "startswith");
+  for (const candidate of candidates) {
+    if (strStartsWithSlice(slice, candidate)) return pyTrue;
+  }
+  return pyFalse;
+}
+
+function strEndswith(
+  text: string,
+  suffix: unknown,
+  start?: unknown,
+  end?: unknown,
+): PyObject {
+  const [a, b] = strSliceBounds(text.length, start, end);
+  const slice = text.slice(a, b);
+  const candidates = strAffixCandidates(suffix, "endswith");
+  for (const candidate of candidates) {
+    if (strEndsWithSlice(slice, candidate)) return pyTrue;
+  }
+  return pyFalse;
+}
+
 function partitionStr(text: string, sep: unknown): PyObject {
   const sepStr = requirePartitionStrSep(sep);
   const idx = findStrSepIndex(text, sepStr, false);
@@ -926,6 +989,10 @@ export const strType = makeClass({
       rindexStr(nativeVal<string>(self), sub, start, end)],
     ["count", (self: PyObject, sub: unknown, start?: unknown, end?: unknown) =>
       countStr(nativeVal<string>(self), sub, start, end)],
+    ["startswith", (self: PyObject, prefix: unknown, start?: unknown, end?: unknown) =>
+      strStartswith(nativeVal<string>(self), prefix, start, end)],
+    ["endswith", (self: PyObject, suffix: unknown, start?: unknown, end?: unknown) =>
+      strEndswith(nativeVal<string>(self), suffix, start, end)],
   ]),
 });
 
