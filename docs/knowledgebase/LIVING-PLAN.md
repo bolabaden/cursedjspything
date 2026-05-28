@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 273 merge PR #150)
+
+### Landed
+
+- [REPO] Plan 272 merged via PR #150 — frozenset/set stack docs sync on `main` (670 Vitest / 111 files).
+
+### Partial
+
+- PEP 3118 out of scope.
+
+### Next
+
+1. Next prioritized §8.15 or builtin surface gap from COMPATIBILITY remaining-gap list.
+2. PEP 3118 buffer protocol remains out of scope until planned.
+
+---
+
 ## Delta update (2026-05-24, plan 272 set inplace frozenset stack docs)
 
 ### Landed
