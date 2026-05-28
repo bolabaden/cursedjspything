@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 227 merge PR #127)
+
+### Landed
+
+- [REPO] Plan 226 merged via PR #127 — nested format_spec on `main` (626 Vitest / 105 files).
+
+### Partial
+
+- PEP 3118 buffer protocol out of scope.
+
+### Next
+
+1. Further format parity only if new gaps are prioritized.
+2. PEP 3118 buffer protocol remains out of scope until planned.
+
+---
+
 ## Delta update (2026-05-24, plan 226 str format nested spec)
 
 ### Landed
