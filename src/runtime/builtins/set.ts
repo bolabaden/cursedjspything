@@ -1,8 +1,9 @@
 import { PyObject, NotImplemented } from "../core/object.js";
 import { Slot, Hook } from "../core/slots.js";
 import { makeClass } from "../class/class.js";
+import { PyTypeError, PyKeyError } from "../core/errors.js";
+import { iter, next } from "../dispatch/protocols.js";
 import { PyStopIteration } from "../core/lookup.js";
-import { PyTypeError } from "../core/errors.js";
 import { nativeVal, setNative } from "./native.js";
 import { isSetLikeTypeName, requireSetLikeOperand, setLikeContentsEqual } from "./set-equality.js";
 import {
@@ -35,6 +36,33 @@ function setRepr(self: PyObject): string {
 function formatSetSpec(self: PyObject, spec: string): string {
   if (spec === "") return setRepr(self);
   throw new PyTypeError("unsupported format string passed to set.__format__");
+}
+
+function updateSetFrom(other: unknown, target: Set<unknown>): void {
+  if (other instanceof PyObject && isSetLikeTypeName(other.type.name)) {
+    for (const item of nativeVal<Set<unknown>>(other)) target.add(item);
+    return;
+  }
+  if (!(other instanceof PyObject)) {
+    throw new PyTypeError("'update' requires a set-like or iterable operand");
+  }
+  let it: PyObject;
+  try {
+    it = iter(other);
+  } catch (e) {
+    if (e instanceof PyTypeError) {
+      throw new PyTypeError("'update' requires a set-like or iterable operand");
+    }
+    throw e;
+  }
+  while (true) {
+    try {
+      target.add(next(it));
+    } catch (e) {
+      if (e instanceof PyStopIteration) break;
+      throw e;
+    }
+  }
 }
 
 // ── pySet ─────────────────────────────────────────────────────────────
@@ -167,6 +195,36 @@ export const setType = makeClass({
         nativeVal<Set<unknown>>(self),
         nativeVal<Set<unknown>>(other),
       );
+    }],
+    ["add", (self: PyObject, item: unknown) => {
+      nativeVal<Set<unknown>>(self).add(item);
+      return undefined;
+    }],
+    ["remove", (self: PyObject, item: unknown) => {
+      const s = nativeVal<Set<unknown>>(self);
+      if (!s.has(item)) throw new PyKeyError(String(item));
+      s.delete(item);
+      return undefined;
+    }],
+    ["discard", (self: PyObject, item: unknown) => {
+      nativeVal<Set<unknown>>(self).delete(item);
+      return undefined;
+    }],
+    ["pop", (self: PyObject) => {
+      const s = nativeVal<Set<unknown>>(self);
+      if (s.size === 0) throw new PyKeyError("pop from an empty set");
+      const item = s.values().next().value;
+      s.delete(item);
+      return item;
+    }],
+    ["clear", (self: PyObject) => {
+      nativeVal<Set<unknown>>(self).clear();
+      return undefined;
+    }],
+    ["copy", (self: PyObject) => pySet([...nativeVal<Set<unknown>>(self)])],
+    ["update", (self: PyObject, other: unknown) => {
+      updateSetFrom(other, nativeVal<Set<unknown>>(self));
+      return undefined;
     }],
   ]),
 });
