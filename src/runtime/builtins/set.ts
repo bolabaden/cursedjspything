@@ -115,6 +115,37 @@ export const setType = makeClass({
       const b = nativeVal<Set<unknown>>(other);
       return isProperSupersetOf(a, b);
     }],
+    [Slot.ior, (self: PyObject, other: PyObject) => {
+      if (!isSetLikeTypeName(other.type.name)) return NotImplemented;
+      const a = nativeVal<Set<unknown>>(self);
+      const b = nativeVal<Set<unknown>>(other);
+      for (const item of b) a.add(item);
+      return self;
+    }],
+    [Slot.iand, (self: PyObject, other: PyObject) => {
+      if (!isSetLikeTypeName(other.type.name)) return NotImplemented;
+      const a = nativeVal<Set<unknown>>(self);
+      const b = nativeVal<Set<unknown>>(other);
+      for (const item of [...a]) if (!b.has(item)) a.delete(item);
+      return self;
+    }],
+    [Slot.isub, (self: PyObject, other: PyObject) => {
+      if (!isSetLikeTypeName(other.type.name)) return NotImplemented;
+      const a = nativeVal<Set<unknown>>(self);
+      const b = nativeVal<Set<unknown>>(other);
+      for (const item of b) a.delete(item);
+      return self;
+    }],
+    [Slot.ixor, (self: PyObject, other: PyObject) => {
+      if (!isSetLikeTypeName(other.type.name)) return NotImplemented;
+      const a = nativeVal<Set<unknown>>(self);
+      const b = nativeVal<Set<unknown>>(other);
+      for (const item of b) {
+        if (a.has(item)) a.delete(item);
+        else a.add(item);
+      }
+      return self;
+    }],
   ]),
 });
 
