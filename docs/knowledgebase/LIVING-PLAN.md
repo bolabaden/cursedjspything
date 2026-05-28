@@ -9,6 +9,24 @@
 
 ---
 
+## Delta update (2026-05-24, plan 340 numeric __bool__ docs)
+
+### Landed
+
+- [REPO] COMPATIBILITY §8.15 + validation-ladder sync for `int`/`float`/`bool` `__bool__` / `int-bool.test.ts`, `float-bool.test.ts`, `bool-bool.test.ts`.
+
+### Partial
+
+- None.
+
+### Next
+
+1. Ops merge plan 340 PR when CI green (plan 341).
+2. Next prioritized §8.15 or builtin surface gap from COMPATIBILITY remaining-gap list.
+3. PEP 3118 buffer protocol remains out of scope.
+
+---
+
 ## Delta update (2026-05-24, plan 339 merge PR #183)
 
 ### Landed
