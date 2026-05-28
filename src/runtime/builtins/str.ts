@@ -15,6 +15,8 @@ import { pyBytes } from "./bytes.js";
 import { pyFalse, pyTrue, boolType } from "./bool.js";
 import { pyList } from "./list.js";
 import { pyTuple, tupleType } from "./tuple.js";
+import { dictType, pyDict } from "./dict.js";
+import { dictGet } from "../collections/dict-keys.js";
 
 function repeatStr(self: PyObject, other: PyObject) {
   const n = sequenceRepeatCount(other);
@@ -892,6 +894,72 @@ function expandTabsStr(text: string, tabsize?: unknown): PyObject {
   return pyStr(parts.join(""));
 }
 
+function strToCodePoints(text: string): number[] {
+  const cps: number[] = [];
+  for (let i = 0; i < text.length; ) {
+    const cp = text.codePointAt(i)!;
+    cps.push(cp);
+    i += cp > 0xffff ? 2 : 1;
+  }
+  return cps;
+}
+
+function requireMaketransStr(value: unknown): string {
+  if (value instanceof PyObject && value.type === strType) {
+    return nativeVal<string>(value);
+  }
+  const kind = value instanceof PyObject ? value.type.name : typeof value;
+  throw new PyTypeError(`must be str, not ${kind}`);
+}
+
+function strMakeTrans(frm: unknown, to: unknown): PyObject {
+  const fromStr = requireMaketransStr(frm);
+  const toStr = requireMaketransStr(to);
+  const fromCps = strToCodePoints(fromStr);
+  const toCps = strToCodePoints(toStr);
+  if (fromCps.length !== toCps.length) {
+    throw new PyValueError(
+      "the first two maketrans arguments must have equal length",
+    );
+  }
+  const entries: [unknown, PyObject][] = [];
+  for (let i = 0; i < fromCps.length; i++) {
+    entries.push([pyInt(fromCps[i]!), pyInt(toCps[i]!)]);
+  }
+  return pyDict(entries);
+}
+
+function requireTranslateTable(table: unknown): Map<unknown, PyObject> {
+  if (table instanceof PyObject && table.type === dictType) {
+    return nativeVal<Map<unknown, PyObject>>(table);
+  }
+  const kind = table instanceof PyObject ? table.type.name : typeof table;
+  throw new PyTypeError(`must be dict, not ${kind}`);
+}
+
+function strTranslate(text: string, table: unknown): PyObject {
+  const mapping = requireTranslateTable(table);
+  const parts: string[] = [];
+  for (let i = 0; i < text.length; ) {
+    const cp = text.codePointAt(i)!;
+    const mapped = dictGet(mapping, pyInt(cp));
+    if (mapped === undefined) {
+      parts.push(String.fromCodePoint(cp));
+    } else {
+      const val = mapped as PyObject;
+      if (val.type === intType) {
+        parts.push(String.fromCodePoint(nativeVal<number>(val)));
+      } else if (val.type === strType) {
+        parts.push(nativeVal<string>(val));
+      } else {
+        parts.push(String.fromCodePoint(cp));
+      }
+    }
+    i += cp > 0xffff ? 2 : 1;
+  }
+  return pyStr(parts.join(""));
+}
+
 function requireReplaceStr(value: unknown): string {
   if (value instanceof PyObject && value.type === strType) {
     return nativeVal<string>(value);
@@ -1189,6 +1257,10 @@ export const strType = makeClass({
       zfillStr(nativeVal<string>(self), width)],
     ["expandtabs", (self: PyObject, tabsize?: unknown) =>
       expandTabsStr(nativeVal<string>(self), tabsize)],
+    ["maketrans", (_cls: unknown, frm: unknown, to: unknown) =>
+      strMakeTrans(frm, to)],
+    ["translate", (self: PyObject, table: unknown) =>
+      strTranslate(nativeVal<string>(self), table)],
   ]),
 });
 
