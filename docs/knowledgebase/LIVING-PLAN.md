@@ -9,6 +9,24 @@
 
 ---
 
+## Delta update (2026-05-24, plan 326 dict __bool__ evidence)
+
+### Landed
+
+- [REPO] `dict-bool.test.ts` — Vitest coverage for existing `Slot.bool` on `dictType`.
+
+### Partial
+
+- None.
+
+### Next
+
+1. Ops merge plan 326 PR when CI green (plan 327).
+2. Docs sync COMPATIBILITY §8.15 + validation-ladder for `dict-bool.test.ts` (plan 328).
+3. PEP 3118 buffer protocol remains out of scope.
+
+---
+
 ## Delta update (2026-05-24, plan 325 merge PR #176)
 
 ### Landed
