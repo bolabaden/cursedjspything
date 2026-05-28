@@ -9,6 +9,24 @@
 
 ---
 
+## Delta update (2026-05-24, plan 347 merge PR #187)
+
+### Landed
+
+- [REPO] Plan 346 merged via PR #187 — explicit `slice.__bool__` + `slice-bool.test.ts` on `main` (738 Vitest / 133 files). All §8.15 `Hook.format` builtins now have explicit `Slot.bool` hooks in runtime.
+
+### Partial
+
+- None.
+
+### Next
+
+1. Docs sync COMPATIBILITY §8.15 + validation-ladder for `slice-bool.test.ts` (plan 348).
+2. Next prioritized gap: exception-type normalization §8.17 or other COMPATIBILITY remaining-gap items.
+3. PEP 3118 buffer protocol remains out of scope.
+
+---
+
 ## Delta update (2026-05-24, plan 346 slice __bool__ evidence)
 
 ### Landed
