@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 205 merge PR #116)
+
+### Landed
+
+- [REPO] Plan 205 — PR #116 merged; plan 204 str format on `main` (607 Vitest, 105 files).
+
+### Partial
+
+- Named fields on `.format()` require `format_map`; no attribute/index field names.
+
+### Next
+
+1. Expand format field grammar (`{0.name}`) or `**kwargs` bridging when prioritized.
+2. PEP 3118 buffer protocol remains out of scope until planned.
+
+---
+
 ## Delta update (2026-05-24, plan 204 str format)
 
 ### Landed
