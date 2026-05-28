@@ -9,6 +9,24 @@
 
 ---
 
+## Delta update (2026-05-24, plan 318 list __bool__ evidence)
+
+### Landed
+
+- [REPO] `list-bool.test.ts` — Vitest coverage for existing `Slot.bool` on `listType`.
+
+### Partial
+
+- None.
+
+### Next
+
+1. Ops merge plan 318 PR when CI green (plan 319).
+2. Docs sync COMPATIBILITY §8.15 + validation-ladder for `list-bool.test.ts` (plan 320).
+3. PEP 3118 buffer protocol remains out of scope.
+
+---
+
 ## Delta update (2026-05-24, plan 317 merge PR #172)
 
 ### Landed
