@@ -9,6 +9,24 @@
 
 ---
 
+## Delta update (2026-05-24, plan 255 merge PR #141)
+
+### Landed
+
+- [REPO] Plan 254 merged via PR #141 — frozenset ↔ set cross-type `__eq__` on `main` (649 Vitest / 106 files).
+
+### Partial
+
+- frozenset hash / set algebra deferred; COMPATIBILITY §8.15 frozenset format gap; PEP 3118 out of scope.
+
+### Next
+
+1. Sync COMPATIBILITY §8.15 + validation-ladder with frozenset format evidence.
+2. frozenset `__hash__` or set algebra if prioritized.
+3. PEP 3118 buffer protocol remains out of scope until planned.
+
+---
+
 ## Delta update (2026-05-24, plan 254 frozenset set eq)
 
 ### Landed
