@@ -9,6 +9,24 @@
 
 ---
 
+## Delta update (2026-05-24, plan 352 list delItem §8.17 evidence)
+
+### Landed
+
+- [REPO] `sequence-index-type.test.ts` extended with list `delItem` type/range/happy-path cases.
+
+### Partial
+
+- None.
+
+### Next
+
+1. Ops merge plan 352 PR when CI green (plan 353).
+2. Update COMPATIBILITY §8.17 prose to cite list `delItem` messages (plan 354) or next remaining-gap item.
+3. PEP 3118 buffer protocol remains out of scope.
+
+---
+
 ## Delta update (2026-05-24, plan 351 merge PR #189)
 
 ### Landed
