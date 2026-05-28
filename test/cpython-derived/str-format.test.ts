@@ -142,6 +142,22 @@ describe("cpython-derived str format", () => {
     expect(asStr(format("{0[1][0]}", nested))).toBe("def");
   });
 
+  it("resolves arbitrary string bracket keys", () => {
+    const mapping = pyDict([
+      [pyStr("a-b"), pyStr("hyphen")],
+      [pyStr("space test"), pyStr("spaced")],
+      [pyStr("-1"), pyStr("neg")],
+    ]);
+    expect(asStr(format("{0[a-b]}", mapping))).toBe("hyphen");
+    expect(asStr(format("{0[space test]}", mapping))).toBe("spaced");
+    expect(asStr(format("{0[-1]}", mapping))).toBe("neg");
+  });
+
+  it("rejects empty bracket keys and string keys on lists", () => {
+    expect(() => format("{0[]}", pyDict([]))).toThrow(PyValueError);
+    expect(() => format("{0[-1]}", pyList([pyInt(1)]))).toThrow(PyTypeError);
+  });
+
   it("raises ValueError for invalid dotted field names", () => {
     expect(() => format("{0.}", pyInt(1))).toThrow(PyValueError);
     expect(() => format("{.name}", pyInt(1))).toThrow(PyValueError);

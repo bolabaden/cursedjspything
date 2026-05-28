@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 212 str format bracket keys)
+
+### Landed
+
+- [REPO] Plan 212 — arbitrary string bracket keys in format fields (`{0[a-b]}`, `{0[space test]}`).
+
+### Partial
+
+- Bracket keys: literal substring only (no quoted-string stripping); kwargs require `FormatKeywordMapping` wrapper.
+
+### Next
+
+1. PEP 3118 buffer protocol remains out of scope until planned.
+2. Further format parity when prioritized.
+
+---
+
 ## Delta update (2026-05-24, plan 211 merge PR #119)
 
 ### Landed
