@@ -34,6 +34,17 @@ describe("cpython-derived format on builtins with __format__", () => {
     expect(format(pyInt(-1), "+04x")).toBe("-001");
   });
 
+  it("formats int with float presentation specs", () => {
+    expect(format(pyInt(1), "f")).toBe("1.000000");
+    expect(format(pyInt(-1), "f")).toBe("-1.000000");
+    expect(format(pyInt(1), ".2f")).toBe("1.00");
+    expect(format(pyInt(1), "10f")).toBe("  1.000000");
+    expect(format(pyInt(255), ".2e")).toBe("2.55e+02");
+    expect(format(pyInt(1), "+.2f")).toBe("+1.00");
+    expect(format(pyInt(-1), "+.2f")).toBe("-1.00");
+    expect(() => format(pyInt(1), ".2")).toThrow(PyValueError);
+  });
+
   it("formats str with empty spec", () => {
     expect(format(pyStr("ab"), "")).toBe("ab");
   });

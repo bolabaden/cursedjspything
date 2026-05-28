@@ -156,12 +156,106 @@ function formatIntSpecBody(
   );
 }
 
+type FloatPresentationType = "f" | "F" | "e" | "E";
+
+interface FloatPresentationSpec {
+  readonly fill: string;
+  readonly width: number | null;
+  readonly precision: number | null;
+  readonly type: FloatPresentationType;
+}
+
+function parseFloatPresentationSpec(spec: string): FloatPresentationSpec | null {
+  let i = 0;
+  let fill = " ";
+  if (spec[i] === "0" && i + 1 < spec.length && /\d/.test(spec[i + 1]!)) {
+    fill = "0";
+    i += 1;
+  }
+
+  let widthStr = "";
+  while (i < spec.length && /\d/.test(spec[i]!)) {
+    widthStr += spec[i]!;
+    i += 1;
+  }
+  const width = widthStr === "" ? null : Number(widthStr);
+
+  let precision: number | null = null;
+  if (i < spec.length && spec[i] === ".") {
+    i += 1;
+    let precStr = "";
+    while (i < spec.length && /\d/.test(spec[i]!)) {
+      precStr += spec[i]!;
+      i += 1;
+    }
+    precision = precStr === "" ? 0 : Number(precStr);
+  }
+
+  if (i >= spec.length) return null;
+  const type = spec[i]!;
+  if (type !== "f" && type !== "F" && type !== "e" && type !== "E") return null;
+  if (i !== spec.length - 1) return null;
+
+  return { fill, width, precision, type };
+}
+
+function normalizeExponent(s: string): string {
+  return s.replace(/e([+-])(\d)$/, "e$10$2").replace(/E([+-])(\d)$/, "E$10$2");
+}
+
+function formatIntFloatBody(
+  n: number,
+  type: FloatPresentationType,
+  precision: number,
+): string {
+  const value = Math.abs(n);
+  if (type === "f" || type === "F") {
+    return value.toFixed(precision);
+  }
+  const raw = value.toExponential(precision);
+  const normalized = normalizeExponent(raw);
+  return type === "E" ? normalized.toUpperCase() : normalized;
+}
+
+function formatIntFloatPresentation(
+  n: number,
+  spec: string,
+  sign: IntFormatSign,
+): string {
+  const parsed = parseFloatPresentationSpec(spec);
+  if (parsed === null) {
+    throw new PyValueError(
+      `Invalid format specifier '${spec}' for object of type 'int'`,
+    );
+  }
+
+  const defaultPrecision = parsed.type === "f" || parsed.type === "F" ? 6 : 6;
+  const precision = parsed.precision ?? defaultPrecision;
+  let body = formatIntFloatBody(n, parsed.type, precision);
+
+  if (n < 0) {
+    body = "-" + body;
+  } else if (sign === "+") {
+    body = "+" + body;
+  } else if (sign === " ") {
+    body = " " + body;
+  }
+
+  if (parsed.width !== null && body.length < parsed.width) {
+    return parsed.fill.repeat(parsed.width - body.length) + body;
+  }
+  return body;
+}
+
 function formatIntSpec(n: number, spec: string): string {
   if (spec === "" || spec === "d") return String(n);
-  if (spec.includes(".")) {
+  const { sign, rest } = parseIntFormatSign(spec);
+  if (parseFloatPresentationSpec(rest) !== null) {
+    return formatIntFloatPresentation(n, rest, sign);
+  }
+  if (rest.includes(".")) {
     throw new PyValueError("Precision not allowed in integer format specifier");
   }
-  const { sign, rest } = parseIntFormatSign(spec);
   return formatIntSpecBody(n, rest, sign);
 }
 
