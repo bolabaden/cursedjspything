@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 184 str startswith endswith)
+
+### Landed
+
+- [REPO] Plan 184 — `str.startswith` / `str.endswith`; `str-startswith-endswith.test.ts`.
+
+### Partial
+
+- None.
+
+### Next
+
+1. Further str/bytes API when prioritized (replace, removeprefix).
+2. PEP 3118 buffer protocol remains out of scope until planned.
+
+---
+
 ## Delta update (2026-05-24, plan 183 merge PR #105)
 
 ### Landed
