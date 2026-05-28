@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 355 merge PR #191)
+
+### Landed
+
+- [REPO] Plan 354 merged via PR #191 — list `delItem` §8.17 docs on `main` (743 Vitest / 133 files). Plans 352–355 vertical slice complete.
+
+### Partial
+
+- None.
+
+### Next
+
+1. Next COMPATIBILITY remaining-gap item (§8.15 bytes surface, float↔str coercion, or §8.17 protocol fallbacks).
+2. PEP 3118 buffer protocol remains out of scope.
+
+---
+
 ## Delta update (2026-05-24, plan 354 list delItem §8.17 docs)
 
 ### Landed
