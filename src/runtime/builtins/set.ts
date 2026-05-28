@@ -1,25 +1,35 @@
 import { PyObject, NotImplemented } from "../core/object.js";
-import { Slot } from "../core/slots.js";
+import { Slot, Hook } from "../core/slots.js";
 import { makeClass } from "../class/class.js";
 import { PyStopIteration } from "../core/lookup.js";
+import { PyTypeError } from "../core/errors.js";
 import { nativeVal, setNative } from "./native.js";
+
+function setRepr(self: PyObject): string {
+  const s = nativeVal<Set<unknown>>(self);
+  if (s.size === 0) return "set()";
+  const items = [...s].map((v) =>
+    v instanceof PyObject
+      ? typeof v.type.typeDict.get(Slot.repr) === "function"
+        ? (v.type.typeDict.get(Slot.repr) as Function)(v)
+        : "<item>"
+      : String(v),
+  );
+  return "{" + items.join(", ") + "}";
+}
+
+function formatSetSpec(self: PyObject, spec: string): string {
+  if (spec === "") return setRepr(self);
+  throw new PyTypeError("unsupported format string passed to set.__format__");
+}
 
 // ── pySet ─────────────────────────────────────────────────────────────
 
 export const setType = makeClass({
   name: "set",
   dict: new Map<string | symbol, unknown>([
-    [Slot.repr, (self: PyObject) => {
-      const s = nativeVal<Set<unknown>>(self);
-      if (s.size === 0) return "set()";
-      const items = [...s].map((v) =>
-        v instanceof PyObject
-          ? (typeof v.type.typeDict.get(Slot.repr) === "function"
-            ? (v.type.typeDict.get(Slot.repr) as Function)(v) : "<item>")
-          : String(v),
-      );
-      return "{" + items.join(", ") + "}";
-    }],
+    [Slot.repr, (self: PyObject) => setRepr(self)],
+    [Hook.format, (self: PyObject, spec: string) => formatSetSpec(self, spec)],
     [Slot.len, (self: PyObject) => nativeVal<Set<unknown>>(self).size],
     [Slot.bool, (self: PyObject) => nativeVal<Set<unknown>>(self).size > 0],
     [Slot.contains, (self: PyObject, value: unknown) => {
