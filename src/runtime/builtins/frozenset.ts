@@ -12,6 +12,12 @@ import {
   symmetricDifferenceItems,
   unionItems,
 } from "./set-algebra.js";
+import {
+  isProperSubsetOf,
+  isProperSupersetOf,
+  isSubsetOf,
+  isSupersetOf,
+} from "./set-ordering.js";
 
 function frozensetRepr(self: PyObject): string {
   const s = nativeVal<Set<unknown>>(self);
@@ -105,6 +111,30 @@ export const frozensetType = makeClass({
       const a = nativeVal<Set<unknown>>(self);
       const b = nativeVal<Set<unknown>>(other);
       return pyFrozenSet(symmetricDifferenceItems(a, b));
+    }],
+    [Slot.le, (self: PyObject, other: PyObject) => {
+      if (!isSetLikeTypeName(other.type.name)) return NotImplemented;
+      const a = nativeVal<Set<unknown>>(self);
+      const b = nativeVal<Set<unknown>>(other);
+      return isSubsetOf(a, b);
+    }],
+    [Slot.lt, (self: PyObject, other: PyObject) => {
+      if (!isSetLikeTypeName(other.type.name)) return NotImplemented;
+      const a = nativeVal<Set<unknown>>(self);
+      const b = nativeVal<Set<unknown>>(other);
+      return isProperSubsetOf(a, b);
+    }],
+    [Slot.ge, (self: PyObject, other: PyObject) => {
+      if (!isSetLikeTypeName(other.type.name)) return NotImplemented;
+      const a = nativeVal<Set<unknown>>(self);
+      const b = nativeVal<Set<unknown>>(other);
+      return isSupersetOf(a, b);
+    }],
+    [Slot.gt, (self: PyObject, other: PyObject) => {
+      if (!isSetLikeTypeName(other.type.name)) return NotImplemented;
+      const a = nativeVal<Set<unknown>>(self);
+      const b = nativeVal<Set<unknown>>(other);
+      return isProperSupersetOf(a, b);
     }],
   ]),
 });

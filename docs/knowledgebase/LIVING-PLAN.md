@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 266 frozenset ordering)
+
+### Landed
+
+- [REPO] Plan 266 — `frozenset` ordering comparisons (`<=`, `<`, `>=`, `>`) with cross-type set operands; shared `set-ordering.ts`.
+
+### Partial
+
+- frozenset inplace ops deferred; PEP 3118 out of scope; COMPATIBILITY docs sync for ordering deferred.
+
+### Next
+
+1. Docs sync COMPATIBILITY §8.15 + validation-ladder for frozenset ordering/iter evidence.
+2. PEP 3118 buffer protocol remains out of scope until planned.
+
+---
+
 ## Delta update (2026-05-24, plan 265 merge PR #146)
 
 ### Landed
