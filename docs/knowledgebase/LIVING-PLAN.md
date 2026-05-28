@@ -9,6 +9,24 @@
 
 ---
 
+## Delta update (2026-05-24, plan 364 str/int remaining binary evidence)
+
+### Landed
+
+- [REPO] `operator-str-int-remaining-binary.test.ts` — str↔int str-forward sub/div/mod and ordering TypeError (779 Vitest / 136 files). §8.17 remaining-gap note narrowed to bootstrap plain `Error`.
+
+### Partial
+
+- None.
+
+### Next
+
+1. Ops merge plan 364 PR when CI green (plan 365).
+2. Next COMPATIBILITY remaining-gap item (niche bytes/str edge cases).
+3. PEP 3118 buffer protocol remains out of scope.
+
+---
+
 ## Delta update (2026-05-24, plan 363 merge PR #195)
 
 ### Landed
