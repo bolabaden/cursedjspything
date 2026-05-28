@@ -13,6 +13,8 @@ import {
   pyInt,
   pyList,
   pyStr,
+  pyTrue,
+  pyBytes,
   strType,
   unwrap,
 } from "../../src/index.js";
@@ -193,6 +195,17 @@ describe("cpython-derived str format", () => {
     expect(asStr(format("{0!a:10}", pyStr("caf\u00e9")))).toBe("'caf\\xe9' ");
     expect(asStr(format("{0!r:>10}", pyList([])))).toBe("        []");
     expect(asStr(format("{0!r:<10}", pyList([])))).toBe("[]        ");
+  });
+
+  it("formats bool and bytes fields via __format__", () => {
+    expect(asStr(format("{0:10}", pyTrue))).toBe("         1");
+    expect(asStr(format("{0}", pyBytes(new Uint8Array([104, 105]))))).toBe("b'hi'");
+    expect(() =>
+      format("{0:10}", pyBytes(new Uint8Array([104, 105]))),
+    ).toThrow(PyTypeError);
+    expect(() =>
+      format("{0:10}", pyBytes(new Uint8Array([104, 105]))),
+    ).toThrow(/unsupported format string passed to bytes\.__format__/);
   });
 
   it("uses repr conversion and int format spec", () => {
