@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 301 merge PR #164)
+
+### Landed
+
+- [REPO] Plan 300 merged via PR #164 — bytes __bool__ docs sync on `main` (695 Vitest / 118 files).
+
+### Partial
+
+- None.
+
+### Next
+
+1. Next prioritized §8.15 or builtin surface gap from COMPATIBILITY remaining-gap list.
+2. PEP 3118 buffer protocol remains out of scope.
+
+---
+
 ## Delta update (2026-05-24, plan 300 bytes __bool__ docs)
 
 ### Landed
