@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 323 merge PR #175)
+
+### Landed
+
+- [REPO] Plan 322 merged via PR #175 — `tuple-bool.test.ts` on `main` (713 Vitest / 124 files).
+
+### Partial
+
+- None.
+
+### Next
+
+1. Docs sync COMPATIBILITY §8.15 + validation-ladder for `tuple-bool.test.ts` (plan 324).
+2. PEP 3118 buffer protocol remains out of scope.
+
+---
+
 ## Delta update (2026-05-24, plan 322 tuple __bool__ evidence)
 
 ### Landed
