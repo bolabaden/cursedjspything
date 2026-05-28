@@ -53,6 +53,20 @@ describe("cpython-derived sequence index out of range", () => {
     expect(() => getItem(pyList([]), 0)).toThrow(/list index out of range/);
   });
 
+  it("list setItem out of range raises IndexError", () => {
+    expect(() => setItem(pyList([pyInt(1)]), 5, pyInt(9))).toThrow(PyIndexError);
+    expect(() => setItem(pyList([pyInt(1)]), 5, pyInt(9))).toThrow(
+      /list assignment index out of range/,
+    );
+  });
+
+  it("list setItem on empty list raises IndexError", () => {
+    expect(() => setItem(pyList([]), 0, pyInt(1))).toThrow(PyIndexError);
+    expect(() => setItem(pyList([]), 0, pyInt(1))).toThrow(
+      /list assignment index out of range/,
+    );
+  });
+
   it("list delItem out of range raises IndexError", () => {
     expect(() => delItem(pyList([pyInt(1)]), 5)).toThrow(PyIndexError);
     expect(() => delItem(pyList([pyInt(1)]), 5)).toThrow(/list deletion index out of range/);

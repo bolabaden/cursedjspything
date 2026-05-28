@@ -9,6 +9,24 @@
 
 ---
 
+## Delta update (2026-05-24, plan 356 list setItem index evidence)
+
+### Landed
+
+- [REPO] `sequence-index-type.test.ts` — list `setItem` out-of-range `PyIndexError` cases.
+
+### Partial
+
+- None.
+
+### Next
+
+1. Ops merge plan 356 PR when CI green (plan 357).
+2. Next COMPATIBILITY remaining-gap item.
+3. PEP 3118 buffer protocol remains out of scope.
+
+---
+
 ## Delta update (2026-05-24, plan 355 merge PR #191)
 
 ### Landed
