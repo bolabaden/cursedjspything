@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 259 merge PR #143)
+
+### Landed
+
+- [REPO] Plan 258 merged via PR #143 — `frozenset.__hash__` on `main` (653 Vitest / 107 files).
+
+### Partial
+
+- frozenset set algebra deferred; PEP 3118 out of scope.
+
+### Next
+
+1. frozenset set algebra (|, &, -, ^) if prioritized.
+2. PEP 3118 buffer protocol remains out of scope until planned.
+
+---
+
 ## Delta update (2026-05-24, plan 258 frozenset hash)
 
 ### Landed
