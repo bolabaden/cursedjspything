@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 285 merge PR #156)
+
+### Landed
+
+- [REPO] Plan 284 merged via PR #156 — set named algebra docs sync on `main` (683 Vitest / 114 files).
+
+### Partial
+
+- PEP 3118 out of scope.
+
+### Next
+
+1. Next prioritized §8.15 or builtin surface gap from COMPATIBILITY remaining-gap list.
+2. PEP 3118 buffer protocol remains out of scope until planned.
+
+---
+
 ## Delta update (2026-05-24, plan 284 set named algebra docs)
 
 ### Landed
