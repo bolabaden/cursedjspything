@@ -64,6 +64,37 @@ describe("cpython-derived format on builtins with __format__", () => {
   it("formats str with empty spec", () => {
     expect(format(pyStr("ab"), "")).toBe("ab");
   });
+
+  it("formats str with alignment, width, and precision specs", () => {
+    expect(format(pyStr("hello"), "<10")).toBe("hello     ");
+    expect(format(pyStr("hello"), ">10")).toBe("     hello");
+    expect(format(pyStr("hello"), "^10")).toBe("  hello   ");
+    expect(format(pyStr("hello"), "*^10")).toBe("**hello***");
+    expect(format(pyStr("hello"), ".3")).toBe("hel");
+    expect(format(pyStr("hello"), "10.3")).toBe("hel       ");
+    expect(format(pyStr("hi"), "010")).toBe("hi00000000");
+    expect(format(pyStr("hello"), "10s")).toBe("hello     ");
+  });
+
+  it("rejects invalid str format specs", () => {
+    expect(() => format(pyStr("hello"), "+10")).toThrow(PyValueError);
+    expect(() => format(pyStr("hello"), "+10")).toThrow(
+      /Sign not allowed in string format specifier/,
+    );
+    expect(() => format(pyStr("hello"), "#10")).toThrow(PyValueError);
+    expect(() => format(pyStr("hello"), "#10")).toThrow(
+      /Alternate form \(#\) not allowed in string format specifier/,
+    );
+    expect(() => format(pyStr("hello"), "=10")).toThrow(PyValueError);
+    expect(() => format(pyStr("hello"), "=10")).toThrow(
+      /'=' alignment not allowed in string format specifier/,
+    );
+    expect(() => format(pyStr("hello"), "x")).toThrow(PyValueError);
+    expect(() => format(pyStr("hello"), "x")).toThrow(
+      /Unknown format code 'x' for object of type 'str'/,
+    );
+    expect(() => format(pyStr("hello"), "^")).toThrow(PyValueError);
+  });
 });
 
 describe("cpython-derived format fallback and errors", () => {

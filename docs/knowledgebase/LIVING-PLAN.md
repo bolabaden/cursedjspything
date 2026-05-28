@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 222 str format alignment)
+
+### Landed
+
+- [REPO] Plan 222 — `str.__format__` alignment, width, precision, and fill.
+
+### Partial
+
+- PEP 3118 buffer protocol out of scope.
+
+### Next
+
+1. Further format parity only if new gaps are prioritized.
+2. PEP 3118 buffer protocol remains out of scope until planned.
+
+---
+
 ## Delta update (2026-05-24, plan 221 merge PR #124)
 
 ### Landed

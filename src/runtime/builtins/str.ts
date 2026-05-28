@@ -1207,6 +1207,141 @@ function splitlinesStr(text: string, keepends: unknown): PyObject {
   return pyList(parts.map((chunk) => pyStr(chunk)));
 }
 
+type StrAlign = "<" | ">" | "^";
+
+interface StrFormatSpec {
+  readonly fill: string;
+  readonly align: StrAlign;
+  readonly width: number | null;
+  readonly precision: number | null;
+}
+
+function strFormatInvalid(spec: string): never {
+  throw new PyValueError(
+    `Invalid format specifier ${JSON.stringify(spec)} for object of type 'str'`,
+  );
+}
+
+function parseStrFormatSpec(spec: string): StrFormatSpec {
+  let i = 0;
+  let fill = " ";
+  let align: StrAlign = "<";
+  let explicitAlign = false;
+  let explicitFill = false;
+
+  if (i < spec.length) {
+    const c0 = spec[i]!;
+    const c1 = spec[i + 1];
+    if (c1 !== undefined && "<>^".includes(c1)) {
+      fill = c0;
+      align = c1 as StrAlign;
+      explicitAlign = true;
+      explicitFill = fill !== " ";
+      i += 2;
+    } else if ("<>^".includes(c0)) {
+      align = c0 as StrAlign;
+      explicitAlign = true;
+      i += 1;
+    } else if (c0 === "=") {
+      throw new PyValueError("'=' alignment not allowed in string format specifier");
+    } else if (c0 === "0" && c1 !== undefined && /\d/.test(c1)) {
+      fill = "0";
+      explicitFill = true;
+      i += 1;
+    }
+  }
+
+  if (i < spec.length && (spec[i] === "+" || spec[i] === "-")) {
+    throw new PyValueError("Sign not allowed in string format specifier");
+  }
+  if (i < spec.length && spec[i] === "#") {
+    throw new PyValueError("Alternate form (#) not allowed in string format specifier");
+  }
+
+  let widthStr = "";
+  while (i < spec.length && /\d/.test(spec[i]!)) {
+    widthStr += spec[i]!;
+    i += 1;
+  }
+  const width = widthStr === "" ? null : Number(widthStr);
+
+  let precision: number | null = null;
+  if (i < spec.length && spec[i] === ".") {
+    i += 1;
+    if (i >= spec.length || !/\d/.test(spec[i]!)) {
+      throw new PyValueError("Format specifier missing precision");
+    }
+    let precStr = "";
+    while (i < spec.length && /\d/.test(spec[i]!)) {
+      precStr += spec[i]!;
+      i += 1;
+    }
+    precision = Number(precStr);
+  }
+
+  if (i < spec.length) {
+    const type = spec[i]!;
+    if (type !== "s" || i !== spec.length - 1) {
+      throw new PyValueError(
+        `Unknown format code '${type}' for object of type 'str'`,
+      );
+    }
+    i += 1;
+  }
+
+  if (i !== spec.length) {
+    strFormatInvalid(spec);
+  }
+
+  if (width === null && precision === null && (explicitAlign || explicitFill)) {
+    strFormatInvalid(spec);
+  }
+
+  return { fill, align, width, precision };
+}
+
+function truncateStrByPrecision(value: string, precision: number): string {
+  const chars = [...value];
+  if (chars.length <= precision) return value;
+  return chars.slice(0, precision).join("");
+}
+
+function padStrField(
+  body: string,
+  width: number,
+  fill: string,
+  align: StrAlign,
+): string {
+  if (body.length >= width) return body;
+  const padLen = width - body.length;
+  const fillChar = fill.length > 0 ? fill[0]! : " ";
+  switch (align) {
+    case "<":
+      return body + fillChar.repeat(padLen);
+    case ">":
+      return fillChar.repeat(padLen) + body;
+    case "^": {
+      const left = Math.floor(padLen / 2);
+      const right = padLen - left;
+      return fillChar.repeat(left) + body + fillChar.repeat(right);
+    }
+  }
+}
+
+function formatStrSpec(value: string, spec: string): string {
+  if (spec === "" || spec === "s") return value;
+
+  const parsed = parseStrFormatSpec(spec);
+  let body = value;
+  if (parsed.precision !== null) {
+    body = truncateStrByPrecision(body, parsed.precision);
+  }
+  if (parsed.width !== null) {
+    body = padStrField(body, parsed.width, parsed.fill, parsed.align);
+  }
+  return body;
+}
+
 // ── pyStr ─────────────────────────────────────────────────────────────
 
 export const strType = makeClass({
@@ -1285,8 +1420,7 @@ export const strType = makeClass({
       return new PyObject(iterType);
     }],
     [Hook.format, (self: PyObject, spec: string) => {
-      if (spec === "" || spec === "s") return nativeVal<string>(self);
-      return nativeVal<string>(self);
+      return formatStrSpec(nativeVal<string>(self), spec);
     }],
     [Hook.bytes, (self: PyObject) => encodeStr(self)],
     ["encode", (self: PyObject, encoding?: unknown, errors?: unknown) => {
