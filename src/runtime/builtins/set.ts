@@ -226,6 +226,30 @@ export const setType = makeClass({
       updateSetFrom(other, nativeVal<Set<unknown>>(self));
       return undefined;
     }],
+    ["union", (self: PyObject, other: PyObject) => {
+      requireSetLikeOperand(other, "union");
+      const a = nativeVal<Set<unknown>>(self);
+      const b = nativeVal<Set<unknown>>(other);
+      return pySet(unionItems(a, b));
+    }],
+    ["intersection", (self: PyObject, other: PyObject) => {
+      requireSetLikeOperand(other, "intersection");
+      const a = nativeVal<Set<unknown>>(self);
+      const b = nativeVal<Set<unknown>>(other);
+      return pySet(intersectionItems(a, b));
+    }],
+    ["difference", (self: PyObject, other: PyObject) => {
+      requireSetLikeOperand(other, "difference");
+      const a = nativeVal<Set<unknown>>(self);
+      const b = nativeVal<Set<unknown>>(other);
+      return pySet(differenceItems(a, b));
+    }],
+    ["symmetric_difference", (self: PyObject, other: PyObject) => {
+      requireSetLikeOperand(other, "symmetric_difference");
+      const a = nativeVal<Set<unknown>>(self);
+      const b = nativeVal<Set<unknown>>(other);
+      return pySet(symmetricDifferenceItems(a, b));
+    }],
   ]),
 });
 
