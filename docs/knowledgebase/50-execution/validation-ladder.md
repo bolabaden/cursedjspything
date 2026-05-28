@@ -121,6 +121,7 @@ Emits JSON (`vitest_seconds`, pass gates, `test_count`); use median of several r
 | `test/cpython-derived/str-casefold.test.ts` | str.casefold |
 | `test/cpython-derived/str-format.test.ts` | str.format / format_map including bool/bytes/None/list/tuple/dict/slice/set/frozenset empty-spec fields and conversions with format_spec |
 | `test/cpython-derived/str-reversed.test.ts` | str.__reversed__ yields one-char strings last-to-first; empty StopIteration; iterator __iter__ returns self |
+| `test/cpython-derived/str-bool.test.ts` | str.__bool__ empty falsy; non-empty truthy |
 | `test/cpython-derived/str-strip.test.ts` | str.strip / lstrip / rstrip |
 | `test/cpython-derived/str-split.test.ts` | str.split sep/maxsplit and whitespace |
 | `test/cpython-derived/str-rsplit.test.ts` | str.rsplit sep/maxsplit and whitespace |
