@@ -22,6 +22,18 @@ describe("cpython-derived format on builtins with __format__", () => {
     expect(format(pyInt(255), "04x")).toBe("00ff");
   });
 
+  it("formats int with sign options", () => {
+    expect(format(pyInt(1), "+04d")).toBe("+001");
+    expect(format(pyInt(-1), "+04d")).toBe("-001");
+    expect(format(pyInt(1), "+4d")).toBe("  +1");
+    expect(format(pyInt(-1), "+4d")).toBe("  -1");
+    expect(format(pyInt(1), " d")).toBe(" 1");
+    expect(format(pyInt(-1), " d")).toBe("-1");
+    expect(format(pyInt(1), "-04d")).toBe("0001");
+    expect(format(pyInt(1), "+04x")).toBe("+001");
+    expect(format(pyInt(-1), "+04x")).toBe("-001");
+  });
+
   it("formats str with empty spec", () => {
     expect(format(pyStr("ab"), "")).toBe("ab");
   });

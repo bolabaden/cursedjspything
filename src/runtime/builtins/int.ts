@@ -42,6 +42,7 @@ export function sequenceRepeatCount(other: PyObject): number | null {
 export { isNumericOperand, numericOperand };
 
 type IntFormatType = "d" | "b" | "o" | "x" | "X";
+type IntFormatSign = "" | "+" | "-" | " ";
 
 function intFormatBody(n: number, type: IntFormatType): string {
   switch (type) {
@@ -58,35 +59,63 @@ function intFormatBody(n: number, type: IntFormatType): string {
   }
 }
 
+function parseIntFormatSign(spec: string): { sign: IntFormatSign; rest: string } {
+  if (spec.startsWith("+") || spec.startsWith("-")) {
+    return { sign: spec[0] as "+" | "-", rest: spec.slice(1) };
+  }
+  if (spec.startsWith(" ") && spec.length > 1) {
+    const next = spec[1]!;
+    if (next === "d" || next === "0" || /\d/.test(next)) {
+      return { sign: " ", rest: spec.slice(1) };
+    }
+  }
+  return { sign: "", rest: spec };
+}
+
+function signedPrefix(n: number, sign: IntFormatSign): string {
+  if (n < 0) return "-";
+  if (sign === "+") return "+";
+  if (sign === " ") return " ";
+  return "";
+}
+
+function formatSignedDecimal(n: number, sign: IntFormatSign): string {
+  const prefix = signedPrefix(n, sign);
+  return prefix + String(Math.abs(n));
+}
+
 function padIntFormat(
   n: number,
   width: number,
   type: IntFormatType,
   fill: string,
+  sign: IntFormatSign = "",
 ): string {
-  if (type === "d") {
-    const body = String(n);
-    if (body.length >= width) return body;
-    return fill.repeat(width - body.length) + body;
+  const prefix = signedPrefix(n, sign);
+  const magnitude =
+    type === "d" ? String(Math.abs(n)) : intFormatBody(Math.abs(n), type);
+  const core = prefix + magnitude;
+  if (core.length >= width) return core;
+  const padCount = width - core.length;
+  if (fill === "0" && prefix !== "") {
+    return prefix + fill.repeat(padCount) + magnitude;
   }
-  const sign = n < 0 ? "-" : "";
-  const body = intFormatBody(Math.abs(n), type);
-  const total = sign.length + body.length;
-  if (total >= width) return sign + body;
-  return sign + fill.repeat(width - total) + body;
+  return fill.repeat(padCount) + core;
 }
 
-function formatIntSpec(n: number, spec: string): string {
-  if (spec === "" || spec === "d") return String(n);
-  if (spec.includes(".")) {
-    throw new PyValueError("Precision not allowed in integer format specifier");
-  }
+function formatIntSpecBody(
+  n: number,
+  spec: string,
+  sign: IntFormatSign,
+): string {
+  if (spec === "d") return formatSignedDecimal(n, sign);
   if (spec.length === 1) {
     if (spec === "b" || spec === "o" || spec === "x" || spec === "X") {
-      return intFormatBody(n, spec);
+      const prefix = signedPrefix(n, sign);
+      return prefix + intFormatBody(Math.abs(n), spec);
     }
     if (/^\d$/.test(spec)) {
-      return padIntFormat(n, Number(spec), "d", " ");
+      return padIntFormat(n, Number(spec), "d", " ", sign);
     }
     throw new PyValueError(
       `Unknown format code '${spec}' for object of type 'int'`,
@@ -95,11 +124,11 @@ function formatIntSpec(n: number, spec: string): string {
 
   const zeroPadDecimal = /^0(\d+)$/.exec(spec);
   if (zeroPadDecimal) {
-    return padIntFormat(n, Number(zeroPadDecimal[1]), "d", "0");
+    return padIntFormat(n, Number(zeroPadDecimal[1]), "d", "0", sign);
   }
   const spacePadDecimal = /^(\d+)$/.exec(spec);
   if (spacePadDecimal) {
-    return padIntFormat(n, Number(spacePadDecimal[1]), "d", " ");
+    return padIntFormat(n, Number(spacePadDecimal[1]), "d", " ", sign);
   }
   const zeroPadTyped = /^0(\d+)([bodxX])$/.exec(spec);
   if (zeroPadTyped) {
@@ -108,6 +137,7 @@ function formatIntSpec(n: number, spec: string): string {
       Number(zeroPadTyped[1]),
       zeroPadTyped[2] as IntFormatType,
       "0",
+      sign,
     );
   }
   const spacePadTyped = /^(\d+)([bodxX])$/.exec(spec);
@@ -117,12 +147,22 @@ function formatIntSpec(n: number, spec: string): string {
       Number(spacePadTyped[1]),
       spacePadTyped[2] as IntFormatType,
       " ",
+      sign,
     );
   }
 
   throw new PyValueError(
     `Invalid format specifier '${spec}' for object of type 'int'`,
   );
+}
+
+function formatIntSpec(n: number, spec: string): string {
+  if (spec === "" || spec === "d") return String(n);
+  if (spec.includes(".")) {
+    throw new PyValueError("Precision not allowed in integer format specifier");
+  }
+  const { sign, rest } = parseIntFormatSign(spec);
+  return formatIntSpecBody(n, rest, sign);
 }
 
 // ── pyInt ─────────────────────────────────────────────────────────────
