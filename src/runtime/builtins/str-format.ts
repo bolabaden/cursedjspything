@@ -10,6 +10,7 @@ import {
 } from "../core/errors.js";
 import { format, repr, str } from "../dispatch/operators/numeric.js";
 import { getItem } from "../dispatch/protocols.js";
+import { getAttr } from "../core/lookup.js";
 import { dictGet } from "../collections/dict-keys.js";
 import { nativeVal, setNative } from "./native.js";
 import { dictType } from "./dict.js";
@@ -116,6 +117,44 @@ function isPositionalField(name: string): boolean {
   return name === "" || /^\d+$/.test(name);
 }
 
+interface FieldNameParts {
+  readonly root: string;
+  readonly attrs: readonly string[];
+}
+
+function parseFieldName(name: string): FieldNameParts {
+  if (name === "") return { root: "", attrs: [] };
+  if (name.startsWith(".")) {
+    throw new PyValueError(`Invalid field name: ${JSON.stringify(name)}`);
+  }
+  const segments = name.split(".");
+  const root = segments[0]!;
+  if (root !== "" && !/^\d+$/.test(root) && !isIdentifierField(root)) {
+    throw new PyValueError(`Invalid field name: ${JSON.stringify(name)}`);
+  }
+  for (let i = 1; i < segments.length; i++) {
+    const seg = segments[i]!;
+    if (seg === "" || !isIdentifierField(seg)) {
+      throw new PyValueError(`Invalid field name: ${JSON.stringify(name)}`);
+    }
+  }
+  return { root, attrs: segments.slice(1) };
+}
+
+function applyFormatAttributes(obj: PyObject, attrs: readonly string[]): PyObject {
+  let current = obj;
+  for (const attr of attrs) {
+    const next = getAttr(current, attr);
+    if (!(next instanceof PyObject)) {
+      throw new PyTypeError(
+        `format attribute ${JSON.stringify(attr)} did not resolve to a PyObject`,
+      );
+    }
+    current = next;
+  }
+  return current;
+}
+
 function renderFieldValue(
   obj: PyObject,
   conversion: ConversionFlag,
@@ -170,11 +209,12 @@ function resolvePositional(
   autoIndex: { value: number },
   manualSeen: { value: boolean },
 ): PyObject {
-  if (!isPositionalField(field.name)) {
+  const { root, attrs } = parseFieldName(field.name);
+  if (!isPositionalField(root)) {
     throw new PyKeyError(field.name);
   }
   let index: number;
-  if (field.name === "") {
+  if (root === "") {
     if (manualSeen.value) {
       throw new PyValueError(
         "cannot switch from manual field specification to automatic field numbering",
@@ -189,13 +229,15 @@ function resolvePositional(
       );
     }
     manualSeen.value = true;
-    index = Number(field.name);
+    index = Number(root);
   }
   const value = args[index];
   if (value === undefined) {
-    throw new PyIndexError("Replacement index " + index + " out of range for positional args tuple");
+    throw new PyIndexError(
+      "Replacement index " + index + " out of range for positional args tuple",
+    );
   }
-  return value;
+  return applyFormatAttributes(value, attrs);
 }
 
 function resolveMapping(
@@ -205,7 +247,8 @@ function resolveMapping(
   autoIndex: { value: number },
   manualSeen: { value: boolean },
 ): PyObject {
-  if (field.name === "") {
+  const { root, attrs } = parseFieldName(field.name);
+  if (root === "") {
     if (manualSeen.value) {
       throw new PyValueError(
         "cannot switch from manual field specification to automatic field numbering",
@@ -215,19 +258,21 @@ function resolveMapping(
       "cannot switch from manual field specification to automatic field numbering",
     );
   }
-  if (/^\d+$/.test(field.name)) {
+  let value: PyObject;
+  if (/^\d+$/.test(root)) {
     if (autoIndex.value > 0) {
       throw new PyValueError(
         "cannot switch from automatic field numbering to manual field specification",
       );
     }
     manualSeen.value = true;
-    return lookupMappingValue(mapping, field.name, strType);
+    value = lookupMappingValue(mapping, root, strType);
+  } else if (isIdentifierField(root)) {
+    value = lookupMappingValue(mapping, root, strType);
+  } else {
+    throw new PyValueError(`Invalid field name: ${JSON.stringify(field.name)}`);
   }
-  if (isIdentifierField(field.name)) {
-    return lookupMappingValue(mapping, field.name, strType);
-  }
-  throw new PyValueError(`Invalid field name: ${JSON.stringify(field.name)}`);
+  return applyFormatAttributes(value, attrs);
 }
 
 function buildFormattedString(

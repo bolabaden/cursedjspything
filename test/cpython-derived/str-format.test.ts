@@ -5,6 +5,9 @@ import { describe, it, expect } from "vitest";
 import {
   PyObject,
   getAttr,
+  instantiate,
+  makeClass,
+  objectType,
   pyDict,
   pyInt,
   pyList,
@@ -12,6 +15,7 @@ import {
   strType,
   unwrap,
 } from "../../src/index.js";
+import { Slot } from "../../src/runtime/core/slots.js";
 import {
   PyIndexError,
   PyKeyError,
@@ -64,6 +68,47 @@ describe("cpython-derived str format", () => {
     ]);
     expect(asStr(formatMap("{hello}", mapping))).toBe("world");
     expect(asStr(formatMap("{a} there", mapping))).toBe("hi there");
+  });
+
+  it("resolves attribute chains on positional and mapping roots", () => {
+    const AttrBox = makeClass({
+      name: "FormatAttrBox",
+      bases: [objectType],
+      dict: new Map<string | symbol, unknown>([
+        [
+          Slot.init,
+          (self: PyObject, year: PyObject, label: PyObject) => {
+            self.dict.set("year", year);
+            self.dict.set("label", label);
+          },
+        ],
+      ]),
+    });
+    const box = instantiate(AttrBox, pyInt(2007), pyStr("pyrt"));
+
+    expect(asStr(format("The year is {0.year}", box))).toBe("The year is 2007");
+    expect(asStr(format("{0.label}", box))).toBe("pyrt");
+
+    const Wrapper = makeClass({
+      name: "FormatAttrWrapper",
+      bases: [objectType],
+      dict: new Map<string | symbol, unknown>([
+        [
+          Slot.init,
+          (self: PyObject, inner: PyObject) => {
+            self.dict.set("_x", inner);
+          },
+        ],
+      ]),
+    });
+    const wrapped = instantiate(Wrapper, pyInt(20));
+    const mapping = pyDict([[pyStr("foo"), wrapped]]);
+    expect(asStr(formatMap("{foo._x}", mapping))).toBe("20");
+  });
+
+  it("raises ValueError for invalid dotted field names", () => {
+    expect(() => format("{0.}", pyInt(1))).toThrow(PyValueError);
+    expect(() => format("{.name}", pyInt(1))).toThrow(PyValueError);
   });
 
   it("uses repr conversion and int format spec", () => {

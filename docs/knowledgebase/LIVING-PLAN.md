@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 206 str format attributes)
+
+### Landed
+
+- [REPO] Plan 206 — dot-attribute format fields (`{0.year}`, `{foo._x}`).
+
+### Partial
+
+- No bracket/index fields (`{0[name]}`); no `**kwargs` on `.format()`.
+
+### Next
+
+1. Bracket/index format fields or kwargs bridging when prioritized.
+2. PEP 3118 buffer protocol remains out of scope until planned.
+
+---
+
 ## Delta update (2026-05-24, plan 205 merge PR #116)
 
 ### Landed
