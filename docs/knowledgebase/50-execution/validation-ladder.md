@@ -159,7 +159,7 @@ Emits JSON (`vitest_seconds`, pass gates, `test_count`); use median of several r
 | `test/cpython-derived/bytes-bool.test.ts` | bytes.__bool__ empty falsy; non-empty including b'\\x00' truthy |
 | `test/cpython-derived/bytes-reversed.test.ts` | bytes.__reversed__ yields int 0–255 last-to-first; empty StopIteration; iterator __iter__ returns self |
 | `test/cpython-derived/bytes-slice-index.test.ts` | bytes slice subscript returns bytes |
-| `test/cpython-derived/bytes-getitem-compare.test.ts` | bytes int index + lexicographic rich compare |
+| `test/cpython-derived/bytes-getitem-compare.test.ts` | bytes int index; non-integer subscript TypeError; out-of-range IndexError; lexicographic rich compare |
 | `test/cpython-derived/operator-bytes-conversion.test.ts` | bytes() on str vs int/float TypeError |
 | `test/cpython-derived/operator-bytes-cross-type.test.ts` | bytes add/mul cross-type TypeError; bytes+bytes and bytes*int |
 | `test/cpython-derived/operator-float-str-binary.test.ts` | float↔str add/sub/truediv TypeError |

@@ -9,6 +9,24 @@
 
 ---
 
+## Delta update (2026-05-24, plan 358 bytes getitem §8.17 docs)
+
+### Landed
+
+- [REPO] COMPATIBILITY §8.17 + validation-ladder sync for bytes `__getitem__` index messages (`bytes-getitem-compare.test.ts`).
+
+### Partial
+
+- None.
+
+### Next
+
+1. Ops merge plan 358 PR when CI green (plan 359).
+2. Next COMPATIBILITY remaining-gap item (§8.15 bytes method surface, float↔str coercion).
+3. PEP 3118 buffer protocol remains out of scope.
+
+---
+
 ## Delta update (2026-05-24, plan 357 merge PR #192)
 
 ### Landed
