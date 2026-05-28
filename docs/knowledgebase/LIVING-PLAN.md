@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 349 merge PR #188)
+
+### Landed
+
+- [REPO] Plan 348 merged via PR #188 — `slice.__bool__` docs sync on `main` (738 Vitest / 133 files). §8.15 explicit `__bool__` Vitest + documentation arc complete for all `Hook.format` builtins.
+
+### Partial
+
+- None.
+
+### Next
+
+1. Next prioritized gap: exception-type normalization §8.17 or other COMPATIBILITY remaining-gap items (bytes method surface, float↔str coercion, etc.).
+2. PEP 3118 buffer protocol remains out of scope.
+
+---
+
 ## Delta update (2026-05-24, plan 348 slice __bool__ docs)
 
 ### Landed
