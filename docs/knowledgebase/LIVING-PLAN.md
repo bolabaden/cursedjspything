@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 183 merge PR #105)
+
+### Landed
+
+- [REPO] Plan 183 — PR #105 merged; plan 182 str count on `main` (544 Vitest, 94 files).
+
+### Partial
+
+- None.
+
+### Next
+
+1. Further str/bytes API when prioritized (startswith, replace).
+2. PEP 3118 buffer protocol remains out of scope until planned.
+
+---
+
 ## Delta update (2026-05-24, plan 182 str count)
 
 ### Landed
