@@ -10,6 +10,7 @@ import {
   pyInt,
   pyList,
   pySet,
+  pyStr,
 } from "../../src/index.js";
 import { PyKeyError, PyTypeError } from "../../src/runtime/core/errors.js";
 
@@ -44,6 +45,9 @@ describe("set mutation methods", () => {
     const one = pyInt(1);
     const s = pySet([one]);
     expect(() => call(s, "remove", pyInt(2))).toThrow(PyKeyError);
+    expect(() => call(s, "remove", pyInt(2))).toThrow(/^2$/);
+    expect(() => call(s, "remove", pyStr("missing"))).toThrow(PyKeyError);
+    expect(() => call(s, "remove", pyStr("missing"))).toThrow(/'missing'/);
     expect(() => call(pySet([]), "pop")).toThrow(PyKeyError);
     expect(() => call(pySet([]), "pop")).toThrow(/empty set/);
   });

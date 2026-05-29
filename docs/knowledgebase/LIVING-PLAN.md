@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 370 set remove KeyError repr fix)
+
+### Landed
+
+- [REPO] `set.ts` `remove` missing-element `PyKeyError` uses item `repr`; `set-mutation.test.ts` message assertions (805 Vitest / 138 files).
+
+### Partial
+
+- None.
+
+### Next
+
+1. Ops merge plan 370 PR when CI green (plan 371).
+2. Further niche §8.15/§8.17 edge cases if discovered; PEP 3118 remains out of scope.
+
+---
+
 ## Delta update (2026-05-24, plan 369 merge PR #198)
 
 ### Landed

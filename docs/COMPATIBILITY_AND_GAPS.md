@@ -411,6 +411,7 @@ CPython exposes **readonly mapping views** on class and instance namespaces — 
 - Non-integer keys → **`PyTypeError`** (`list indices must be integers`, `tuple indices must be integers`, `string indices must be integers`, `byte indices must be integers or slices`; str `__contains__` with non-str operand uses CPython-style `'in <string>' requires string as left operand, not int`).
 - Out-of-range integer keys → **`PyIndexError`** (`list index out of range`, `list assignment index out of range`, `list deletion index out of range` for `__delitem__`; `tuple index out of range`, `string index out of range`, bytes `index out of range`, etc.; plan 352 Vitest for list `delItem`; plan 358 docs for bytes `getitem`).
 - Missing **`dict`** keys → **`PyKeyError`** with repr-shaped key text (`'missing'` for str keys, `2` for int keys; plan 368).
+- Missing **`set.remove`** element → **`PyKeyError`** with repr-shaped item text (plan 370).
 
 Int and float `__truediv__`, `__floordiv__`, and `__mod__` (plus int/float `__divmod__`) raise **`PyZeroDivisionError`** with CPython message text on zero divisors (float `divmod` uses `division by zero`; plan 350). Int three-arg `pow` with `mod == 0` raises **`PyValueError`** (`pow() 3rd argument cannot be 0`). Int `__lshift__` / `__rshift__` with negative shift count raise **`PyValueError`** (`negative shift count`).
 
