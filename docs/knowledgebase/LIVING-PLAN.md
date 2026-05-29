@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 371 merge PR #199)
+
+### Landed
+
+- [REPO] Plan 370 merged via PR #199 — set.remove KeyError repr fix on `main` (805 Vitest / 138 files).
+
+### Partial
+
+- None.
+
+### Next
+
+1. Further niche §8.15/§8.17 edge cases if discovered (e.g. shared `keyErrorArg` dedupe across dict/set).
+2. PEP 3118 buffer protocol remains out of scope.
+
+---
+
 ## Delta update (2026-05-24, plan 370 set remove KeyError repr fix)
 
 ### Landed
