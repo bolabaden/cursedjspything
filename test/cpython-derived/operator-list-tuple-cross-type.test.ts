@@ -149,4 +149,11 @@ describe("cpython-derived list/tuple in-place ops", () => {
       /unsupported operand type\(s\) for \*=: 'list' and 'list'/,
     );
   });
+
+  it("imul rejects list and tuple", () => {
+    expect(() => imul(pyList([pyInt(1)]), pyTuple([pyInt(2)]))).toThrow(PyTypeError);
+    expect(() => imul(pyList([pyInt(1)]), pyTuple([pyInt(2)]))).toThrow(
+      /unsupported operand type\(s\) for \*=: 'list' and 'tuple'/,
+    );
+  });
 });

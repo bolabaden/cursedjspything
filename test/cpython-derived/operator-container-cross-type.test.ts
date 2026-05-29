@@ -1,5 +1,5 @@
 /**
- * CPython: dict/list/tuple/slice cross-type binary and ordering rejects.
+ * CPython: dict/list/tuple/slice/set cross-type binary, ordering, and inplace rejects.
  */
 import { describe, it, expect } from "vitest";
 import {
@@ -8,7 +8,6 @@ import {
   ge,
   gt,
   iadd,
-  imul,
   le,
   lt,
   mul,
@@ -128,6 +127,10 @@ describe("cpython-derived dict/set cross-type", () => {
       expect(() => op(d(), s())).toThrow(
         new RegExp(`'${name}' not supported between instances of 'dict' and 'set'`),
       );
+      expect(() => op(s(), d())).toThrow(PyTypeError);
+      expect(() => op(s(), d())).toThrow(
+        new RegExp(`'${name}' not supported between instances of 'set' and 'dict'`),
+      );
     });
   }
 });
@@ -162,13 +165,6 @@ describe("cpython-derived container in-place rejects", () => {
     expect(() => iadd(pyDict([]), pyList([pyInt(1)]))).toThrow(PyTypeError);
     expect(() => iadd(pyDict([]), pyList([pyInt(1)]))).toThrow(
       /unsupported operand type\(s\) for \+=: 'dict' and 'list'/,
-    );
-  });
-
-  it("imul rejects list and tuple", () => {
-    expect(() => imul(pyList([pyInt(1)]), pyTuple([pyInt(2)]))).toThrow(PyTypeError);
-    expect(() => imul(pyList([pyInt(1)]), pyTuple([pyInt(2)]))).toThrow(
-      /unsupported operand type\(s\) for \*=: 'list' and 'tuple'/,
     );
   });
 });
