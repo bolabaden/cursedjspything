@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 374 list/tuple cross-type evidence)
+
+### Landed
+
+- [REPO] `list.__iadd__` accepts tuple extend; `operator-list-tuple-cross-type.test.ts` locks list↔tuple equality, ordering, binary, and in-place rejects.
+
+### Partial
+
+- None.
+
+### Next
+
+1. Ops merge plan 374 PR when CI green (plan 375).
+2. Further niche §8.15/§8.17 edge cases if discovered; PEP 3118 remains out of scope.
+
+---
+
 ## Delta update (2026-05-24, plan 373 merge PR #200)
 
 ### Landed
