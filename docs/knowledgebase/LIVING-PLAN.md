@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 378 container remaining cross-type evidence)
+
+### Landed
+
+- [REPO] Extended `operator-container-cross-type.test.ts` — dict↔set, dict↔slice/bytes, tuple↔dict ordering, slice↔tuple, inplace rejects.
+
+### Partial
+
+- None.
+
+### Next
+
+1. Ops merge plan 378 PR when CI green (plan 379).
+2. Further niche §8.15/§8.17 edge cases if discovered; PEP 3118 remains out of scope.
+
+---
+
 ## Delta update (2026-05-24, plan 377 merge PR #202)
 
 ### Landed
