@@ -9,6 +9,22 @@
 
 ---
 
+## Delta update (2026-05-24, plan 377 merge PR #202)
+
+### Landed
+
+- [REPO] Plan 376 merged via PR #202 — dict/list/tuple/slice container cross-type Vitest on `main` (833 Vitest / 140 files).
+
+### Partial
+
+- None.
+
+### Next
+
+1. Further niche §8.15/§8.17 edge cases if discovered; PEP 3118 remains out of scope.
+
+---
+
 ## Delta update (2026-05-24, plan 376 container cross-type evidence)
 
 ### Landed
