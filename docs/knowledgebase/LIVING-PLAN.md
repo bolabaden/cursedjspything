@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 373 merge PR #200)
+
+### Landed
+
+- [REPO] Plan 372 merged via PR #200 — shared `keyErrorArg` helper in `key-error-arg.ts` used by `dict.ts` and `set.ts` on `main` (805 Vitest / 138 files; no behavior change).
+
+### Partial
+
+- None.
+
+### Next
+
+1. Further niche §8.15/§8.17 edge cases if discovered (tuple/list cross-type ops, remaining ordering gaps).
+2. PEP 3118 remains out of scope.
+
+---
+
 ## Delta update (2026-05-24, plan 372 shared keyErrorArg refactor)
 
 ### Landed
