@@ -3,9 +3,9 @@ import { Slot, Hook } from "../core/slots.js";
 import { makeClass } from "../class/class.js";
 import { PyTypeError, PyKeyError } from "../core/errors.js";
 import { iter, next } from "../dispatch/protocols.js";
-import { repr } from "../dispatch/operators/index.js";
 import { PyStopIteration } from "../core/lookup.js";
 import { nativeVal, setNative } from "./native.js";
+import { keyErrorArg } from "./key-error-arg.js";
 import { isSetLikeTypeName, requireSetLikeOperand, setLikeContentsEqual } from "./set-equality.js";
 import {
   differenceItems,
@@ -20,11 +20,6 @@ import {
   isSubsetOf,
   isSupersetOf,
 } from "./set-ordering.js";
-
-function keyErrorArg(key: unknown): string {
-  if (key instanceof PyObject) return repr(key);
-  return String(key);
-}
 
 function setRepr(self: PyObject): string {
   const s = nativeVal<Set<unknown>>(self);

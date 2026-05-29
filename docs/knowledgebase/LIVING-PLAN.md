@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 372 shared keyErrorArg refactor)
+
+### Landed
+
+- [REPO] `key-error-arg.ts` shared by `dict.ts` and `set.ts`; no behavior change (805 Vitest / 138 files).
+
+### Partial
+
+- None.
+
+### Next
+
+1. Ops merge plan 372 PR when CI green (plan 373).
+2. Further niche §8.15/§8.17 edge cases if discovered; PEP 3118 remains out of scope.
+
+---
+
 ## Delta update (2026-05-24, plan 371 merge PR #199)
 
 ### Landed
