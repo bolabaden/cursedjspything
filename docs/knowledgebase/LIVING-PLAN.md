@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 376 container cross-type evidence)
+
+### Landed
+
+- [REPO] `operator-container-cross-type.test.ts` — dict/list/tuple/slice cross-type `add`, `eq`, ordering TypeErrors.
+
+### Partial
+
+- None.
+
+### Next
+
+1. Ops merge plan 376 PR when CI green (plan 377).
+2. Further niche §8.15/§8.17 edge cases if discovered; PEP 3118 remains out of scope.
+
+---
+
 ## Delta update (2026-05-24, plan 375 merge PR #201)
 
 ### Landed
