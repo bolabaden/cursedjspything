@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 369 merge PR #198)
+
+### Landed
+
+- [REPO] Plan 368 merged via PR #198 — dict KeyError repr fix on `main` (805 Vitest / 138 files).
+
+### Partial
+
+- None.
+
+### Next
+
+1. Further niche §8.15/§8.17 edge cases if discovered.
+2. PEP 3118 buffer protocol remains out of scope.
+
+---
+
 ## Delta update (2026-05-24, plan 368 dict KeyError repr fix)
 
 ### Landed
