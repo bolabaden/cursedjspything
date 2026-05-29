@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 367 merge PR #197)
+
+### Landed
+
+- [REPO] Plan 366 merged via PR #197 — str↔bytes and bytes↔float cross-type Vitest on `main` (802 Vitest / 137 files).
+
+### Partial
+
+- None.
+
+### Next
+
+1. Further niche §8.15/§8.17 API edge cases if discovered.
+2. PEP 3118 buffer protocol remains out of scope.
+
+---
+
 ## Delta update (2026-05-24, plan 366 str/bytes cross-type evidence)
 
 ### Landed
