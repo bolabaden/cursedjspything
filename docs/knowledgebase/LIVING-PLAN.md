@@ -9,6 +9,22 @@
 
 ---
 
+## Delta update (2026-05-24, plan 375 merge PR #201)
+
+### Landed
+
+- [REPO] Plan 374 merged via PR #201 — `list += tuple` extend + list↔tuple cross-type Vitest on `main` (820 Vitest / 139 files).
+
+### Partial
+
+- None.
+
+### Next
+
+1. Further niche §8.15/§8.17 edge cases if discovered; PEP 3118 remains out of scope.
+
+---
+
 ## Delta update (2026-05-24, plan 374 list/tuple cross-type evidence)
 
 ### Landed
