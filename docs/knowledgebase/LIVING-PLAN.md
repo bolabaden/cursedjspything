@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 379 merge PR #203)
+
+### Landed
+
+- [REPO] Plan 378 merged via PR #203 — extended container cross-type Vitest (dict↔set, dict↔slice/bytes, tuple↔dict ordering, slice↔tuple, review autofixes) on `main` (849 Vitest / 140 files).
+
+### Partial
+
+- None.
+
+### Next
+
+1. Further niche §8.15/§8.17 edge cases if discovered (set↔slice, dict↔frozenset ordering, remaining inplace rejects).
+2. PEP 3118 remains out of scope.
+
+---
+
 ## Delta update (2026-05-24, plan 378 container remaining cross-type evidence)
 
 ### Landed
