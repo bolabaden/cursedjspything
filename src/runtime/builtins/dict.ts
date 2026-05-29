@@ -3,7 +3,7 @@ import { Slot, Hook } from "../core/slots.js";
 import { makeClass } from "../class/class.js";
 import { PyKeyError, PyStopIteration } from "../core/lookup.js";
 import { PyTypeError } from "../core/errors.js";
-import { eq, repr } from "../dispatch/operators/index.js";
+import { eq } from "../dispatch/operators/index.js";
 import {
   dictDelete,
   dictFindKey,
@@ -12,6 +12,7 @@ import {
   dictSet,
 } from "../collections/dict-keys.js";
 import { nativeVal, setNative } from "./native.js";
+import { keyErrorArg } from "./key-error-arg.js";
 
 function dictRepr(self: PyObject): string {
   const m = nativeVal<Map<unknown, PyObject>>(self);
@@ -32,11 +33,6 @@ function dictRepr(self: PyObject): string {
     entries.push(`${ks}: ${vs}`);
   }
   return "{" + entries.join(", ") + "}";
-}
-
-function keyErrorArg(key: unknown): string {
-  if (key instanceof PyObject) return repr(key);
-  return String(key);
 }
 
 function formatDictSpec(self: PyObject, spec: string): string {
