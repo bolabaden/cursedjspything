@@ -88,9 +88,15 @@ export const listType = makeClass({
       return pyList([...nativeVal<PyObject[]>(self), ...nativeVal<PyObject[]>(other)]);
     }],
     [Slot.iadd, (self: PyObject, other: PyObject) => {
-      if (other.type !== listType) return NotImplemented;
-      nativeVal<PyObject[]>(self).push(...nativeVal<PyObject[]>(other));
-      return self;
+      if (other.type === listType) {
+        nativeVal<PyObject[]>(self).push(...nativeVal<PyObject[]>(other));
+        return self;
+      }
+      if (other.type.name === "tuple") {
+        nativeVal<PyObject[]>(self).push(...nativeVal<readonly PyObject[]>(other));
+        return self;
+      }
+      return NotImplemented;
     }],
     [Slot.mul, repeatList],
     [Slot.rmul, repeatList],
