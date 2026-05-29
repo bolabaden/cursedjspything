@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 366 str/bytes cross-type evidence)
+
+### Landed
+
+- [REPO] `operator-str-bytes-cross-type.test.ts` + bytes↔float cases in `operator-bytes-remaining-cross-type.test.ts` (802 Vitest / 137 files).
+
+### Partial
+
+- None.
+
+### Next
+
+1. Ops merge plan 366 PR when CI green (plan 367).
+2. Further niche API edge cases if discovered; PEP 3118 remains out of scope.
+
+---
+
 ## Delta update (2026-05-24, plan 365 merge PR #196)
 
 ### Landed
