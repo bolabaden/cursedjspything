@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 368 dict KeyError repr fix)
+
+### Landed
+
+- [REPO] `dict.ts` missing-key `PyKeyError` uses key `repr`; `dict-keyerror.test.ts` (805 Vitest / 138 files).
+
+### Partial
+
+- None.
+
+### Next
+
+1. Ops merge plan 368 PR when CI green (plan 369).
+2. Further niche §8.15/§8.17 edge cases if discovered; PEP 3118 remains out of scope.
+
+---
+
 ## Delta update (2026-05-24, plan 367 merge PR #197)
 
 ### Landed

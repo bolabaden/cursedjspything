@@ -3,7 +3,7 @@ import { Slot, Hook } from "../core/slots.js";
 import { makeClass } from "../class/class.js";
 import { PyKeyError, PyStopIteration } from "../core/lookup.js";
 import { PyTypeError } from "../core/errors.js";
-import { eq } from "../dispatch/operators/index.js";
+import { eq, repr } from "../dispatch/operators/index.js";
 import {
   dictDelete,
   dictFindKey,
@@ -34,6 +34,11 @@ function dictRepr(self: PyObject): string {
   return "{" + entries.join(", ") + "}";
 }
 
+function keyErrorArg(key: unknown): string {
+  if (key instanceof PyObject) return repr(key);
+  return String(key);
+}
+
 function formatDictSpec(self: PyObject, spec: string): string {
   if (spec === "") return dictRepr(self);
   throw new PyTypeError("unsupported format string passed to dict.__format__");
@@ -51,7 +56,7 @@ export const dictType = makeClass({
     [Slot.getitem, (self: PyObject, key: unknown) => {
       const m = nativeVal<Map<unknown, PyObject>>(self);
       const found = dictGet(m, key);
-      if (found === undefined) throw new PyKeyError(String(key));
+      if (found === undefined) throw new PyKeyError(keyErrorArg(key));
       return found;
     }],
     [Slot.setitem, (self: PyObject, key: unknown, value: unknown) => {
@@ -59,7 +64,7 @@ export const dictType = makeClass({
     }],
     [Slot.delitem, (self: PyObject, key: unknown) => {
       const m = nativeVal<Map<unknown, PyObject>>(self);
-      if (!dictDelete(m, key)) throw new PyKeyError(String(key));
+      if (!dictDelete(m, key)) throw new PyKeyError(keyErrorArg(key));
     }],
     [Slot.contains, (self: PyObject, key: unknown) => {
       return dictHas(nativeVal<Map<unknown, PyObject>>(self), key);
@@ -95,7 +100,7 @@ export const dictType = makeClass({
       return true;
     }],
     [Hook.missing, (self: PyObject, key: unknown) => {
-      throw new PyKeyError(String(key));
+      throw new PyKeyError(keyErrorArg(key));
     }],
   ]),
 });
