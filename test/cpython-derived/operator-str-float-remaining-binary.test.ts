@@ -23,24 +23,36 @@ describe("cpython-derived str/float remaining binary ops", () => {
   const s = () => pyStr("a");
   const f = () => pyFloat(1.0);
 
-  it("truediv rejects str and float", () => {
+  it("truediv rejects str and float in both orders", () => {
     expect(() => truediv(s(), f())).toThrow(PyTypeError);
     expect(() => truediv(s(), f())).toThrow(
       /unsupported operand type\(s\) for \/: 'str' and 'float'/,
     );
+    expect(() => truediv(f(), s())).toThrow(PyTypeError);
+    expect(() => truediv(f(), s())).toThrow(
+      /unsupported operand type\(s\) for \/: 'float' and 'str'/,
+    );
   });
 
-  it("floordiv rejects str and float", () => {
+  it("floordiv rejects str and float in both orders", () => {
     expect(() => floordiv(s(), f())).toThrow(PyTypeError);
     expect(() => floordiv(s(), f())).toThrow(
       /unsupported operand type\(s\) for \/\/: 'str' and 'float'/,
     );
+    expect(() => floordiv(f(), s())).toThrow(PyTypeError);
+    expect(() => floordiv(f(), s())).toThrow(
+      /unsupported operand type\(s\) for \/\/: 'float' and 'str'/,
+    );
   });
 
-  it("mod rejects str and float", () => {
+  it("mod rejects str and float in both orders", () => {
     expect(() => mod(s(), f())).toThrow(PyTypeError);
     expect(() => mod(s(), f())).toThrow(
       /unsupported operand type\(s\) for %: 'str' and 'float'/,
+    );
+    expect(() => mod(f(), s())).toThrow(PyTypeError);
+    expect(() => mod(f(), s())).toThrow(
+      /unsupported operand type\(s\) for %: 'float' and 'str'/,
     );
   });
 
@@ -66,14 +78,22 @@ describe("cpython-derived str/float remaining binary ops", () => {
     );
   });
 
-  it("sub rejects float and str", () => {
+  it("sub rejects str and float in both orders", () => {
+    expect(() => sub(s(), f())).toThrow(PyTypeError);
+    expect(() => sub(s(), f())).toThrow(
+      /unsupported operand type\(s\) for -: 'str' and 'float'/,
+    );
     expect(() => sub(f(), s())).toThrow(PyTypeError);
     expect(() => sub(f(), s())).toThrow(
       /unsupported operand type\(s\) for -: 'float' and 'str'/,
     );
   });
 
-  it("mul rejects float and str", () => {
+  it("mul rejects str and float in both orders", () => {
+    expect(() => mul(s(), f())).toThrow(PyTypeError);
+    expect(() => mul(s(), f())).toThrow(
+      /unsupported operand type\(s\) for \*: 'str' and 'float'/,
+    );
     expect(() => mul(f(), s())).toThrow(PyTypeError);
     expect(() => mul(f(), s())).toThrow(
       /unsupported operand type\(s\) for \*: 'float' and 'str'/,
