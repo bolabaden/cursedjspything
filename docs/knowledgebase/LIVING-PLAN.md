@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 389 merge PR #208)
+
+### Landed
+
+- [REPO] Plan 388 merged via PR #208 — float↔str bidirectional truediv/floordiv/mod (and str-float sub/mul) on `main` (882 Vitest / 140 files). int/str/float scalar §8.15 binary matrices symmetric (plans 384–388).
+
+### Partial
+
+- None.
+
+### Next
+
+1. bytes↔scalar bidirectional truediv/floordiv/mod/add in `operator-bytes-remaining-cross-type.test.ts` (plan 390).
+2. PEP 3118 out of scope.
+
+---
+
 ## Delta update (2026-05-24, plan 388 float↔str bidirectional binary evidence)
 
 ### Landed
