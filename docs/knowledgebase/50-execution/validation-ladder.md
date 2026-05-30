@@ -164,7 +164,7 @@ Emits JSON (`vitest_seconds`, pass gates, `test_count`); use median of several r
 | `test/cpython-derived/bytes-getitem-compare.test.ts` | bytes int index; non-integer subscript TypeError; out-of-range IndexError; lexicographic rich compare |
 | `test/cpython-derived/operator-bytes-conversion.test.ts` | bytes() on str vs int/float TypeError |
 | `test/cpython-derived/operator-bytes-cross-type.test.ts` | bytes add/mul cross-type TypeError; bytes+bytes and bytes*int |
-| `test/cpython-derived/operator-bytes-remaining-cross-type.test.ts` | bytes↔int/float/str sub/truediv/floordiv/mod/divmod/pow/add TypeError; ordering lt/le/gt/ge TypeError |
+| `test/cpython-derived/operator-bytes-remaining-cross-type.test.ts` | bytes↔int/float/str add/sub/truediv/floordiv/mod/divmod/pow TypeError both orders; ordering lt/le/gt/ge (plan 390) |
 | `test/cpython-derived/operator-str-bytes-cross-type.test.ts` | str↔bytes eq/ne non-coercion; binary and ordering TypeError |
 | `test/cpython-derived/operator-float-str-binary.test.ts` | float↔str add/sub/truediv TypeError |
 | `test/cpython-derived/operator-bool-str-binary.test.ts` | bool↔str add/sub/truediv TypeError ('bool' typename) |
