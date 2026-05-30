@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 384 int↔str bidirectional binary evidence)
+
+### Landed
+
+- [REPO] `operator-int-str-remaining-binary.test.ts` — sub/truediv/floordiv/mod bidirectional TypeError parity with divmod/pow; validation-ladder + §8.15 sync.
+
+### Partial
+
+- None.
+
+### Next
+
+1. Ops merge plan 384 PR when CI green (plan 385).
+2. Optional: str-int file truediv/floordiv/mod both orders for symmetry; PEP 3118 out of scope.
+
+---
+
 ## Delta update (2026-05-24, plan 383 merge PR #205)
 
 ### Landed
