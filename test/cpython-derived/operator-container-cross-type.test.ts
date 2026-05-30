@@ -1,5 +1,5 @@
 /**
- * CPython: dict/list/tuple/slice/set cross-type binary, ordering, and inplace rejects.
+ * CPython: dict/list/tuple/slice/set/frozenset cross-type binary, ordering, and inplace rejects.
  */
 import { describe, it, expect } from "vitest";
 import {
@@ -14,6 +14,7 @@ import {
   ne,
   pyBytes,
   pyDict,
+  pyFrozenSet,
   pyInt,
   pyList,
   pySet,
@@ -54,6 +55,10 @@ describe("cpython-derived dict/list cross-type", () => {
       expect(() => op(d(), l())).toThrow(
         new RegExp(`'${name}' not supported between instances of 'dict' and 'list'`),
       );
+      expect(() => op(l(), d())).toThrow(PyTypeError);
+      expect(() => op(l(), d())).toThrow(
+        new RegExp(`'${name}' not supported between instances of 'list' and 'dict'`),
+      );
     });
   }
 });
@@ -75,6 +80,7 @@ describe("cpython-derived dict/tuple cross-type", () => {
 
   it("eq is false for dict and tuple", () => {
     expect(eq(d(), t())).toBe(false);
+    expect(ne(d(), t())).toBe(true);
   });
 
   for (const [name, op] of [
@@ -91,6 +97,84 @@ describe("cpython-derived dict/tuple cross-type", () => {
       expect(() => op(t(), d())).toThrow(PyTypeError);
       expect(() => op(t(), d())).toThrow(
         new RegExp(`'${name}' not supported between instances of 'tuple' and 'dict'`),
+      );
+    });
+  }
+});
+
+describe("cpython-derived dict/frozenset cross-type", () => {
+  const d = () => pyDict([[pyStr("a"), pyInt(1)]]);
+  const f = () => pyFrozenSet([pyInt(1)]);
+
+  it("add rejects dict and frozenset in both orders", () => {
+    expect(() => add(d(), f())).toThrow(PyTypeError);
+    expect(() => add(d(), f())).toThrow(
+      /unsupported operand type\(s\) for \+: 'dict' and 'frozenset'/,
+    );
+    expect(() => add(f(), d())).toThrow(PyTypeError);
+    expect(() => add(f(), d())).toThrow(
+      /unsupported operand type\(s\) for \+: 'frozenset' and 'dict'/,
+    );
+  });
+
+  it("eq is false for dict and frozenset", () => {
+    expect(eq(d(), f())).toBe(false);
+    expect(ne(d(), f())).toBe(true);
+  });
+
+  for (const [name, op] of [
+    ["lt", lt],
+    ["le", le],
+    ["gt", gt],
+    ["ge", ge],
+  ] as const) {
+    it(`${name} raises TypeError for dict and frozenset`, () => {
+      expect(() => op(d(), f())).toThrow(PyTypeError);
+      expect(() => op(d(), f())).toThrow(
+        new RegExp(`'${name}' not supported between instances of 'dict' and 'frozenset'`),
+      );
+      expect(() => op(f(), d())).toThrow(PyTypeError);
+      expect(() => op(f(), d())).toThrow(
+        new RegExp(`'${name}' not supported between instances of 'frozenset' and 'dict'`),
+      );
+    });
+  }
+});
+
+describe("cpython-derived set/slice cross-type", () => {
+  const s = () => pySet([pyInt(1)]);
+  const sl = () => pySlice(0, 1, 1);
+
+  it("add rejects set and slice in both orders", () => {
+    expect(() => add(s(), sl())).toThrow(PyTypeError);
+    expect(() => add(s(), sl())).toThrow(
+      /unsupported operand type\(s\) for \+: 'set' and 'slice'/,
+    );
+    expect(() => add(sl(), s())).toThrow(PyTypeError);
+    expect(() => add(sl(), s())).toThrow(
+      /unsupported operand type\(s\) for \+: 'slice' and 'set'/,
+    );
+  });
+
+  it("eq is false for set and slice", () => {
+    expect(eq(s(), sl())).toBe(false);
+    expect(ne(s(), sl())).toBe(true);
+  });
+
+  for (const [name, op] of [
+    ["lt", lt],
+    ["le", le],
+    ["gt", gt],
+    ["ge", ge],
+  ] as const) {
+    it(`${name} raises TypeError for set and slice`, () => {
+      expect(() => op(s(), sl())).toThrow(PyTypeError);
+      expect(() => op(s(), sl())).toThrow(
+        new RegExp(`'${name}' not supported between instances of 'set' and 'slice'`),
+      );
+      expect(() => op(sl(), s())).toThrow(PyTypeError);
+      expect(() => op(sl(), s())).toThrow(
+        new RegExp(`'${name}' not supported between instances of 'slice' and 'set'`),
       );
     });
   }
@@ -150,12 +234,20 @@ describe("cpython-derived dict/scalar container cross-type", () => {
     expect(() => add(d(), pySlice(0, 1, 1))).toThrow(
       /unsupported operand type\(s\) for \+: 'dict' and 'slice'/,
     );
+    expect(() => add(pySlice(0, 1, 1), d())).toThrow(PyTypeError);
+    expect(() => add(pySlice(0, 1, 1), d())).toThrow(
+      /unsupported operand type\(s\) for \+: 'slice' and 'dict'/,
+    );
   });
 
   it("add rejects dict and bytes", () => {
     expect(() => add(d(), pyBytes([1]))).toThrow(PyTypeError);
     expect(() => add(d(), pyBytes([1]))).toThrow(
       /unsupported operand type\(s\) for \+: 'dict' and 'bytes'/,
+    );
+    expect(() => add(pyBytes([1]), d())).toThrow(PyTypeError);
+    expect(() => add(pyBytes([1]), d())).toThrow(
+      /unsupported operand type\(s\) for \+: 'bytes' and 'dict'/,
     );
   });
 });
@@ -165,6 +257,34 @@ describe("cpython-derived container in-place rejects", () => {
     expect(() => iadd(pyDict([]), pyList([pyInt(1)]))).toThrow(PyTypeError);
     expect(() => iadd(pyDict([]), pyList([pyInt(1)]))).toThrow(
       /unsupported operand type\(s\) for \+=: 'dict' and 'list'/,
+    );
+  });
+
+  it("iadd rejects dict and tuple", () => {
+    expect(() => iadd(pyDict([]), pyTuple([pyInt(1)]))).toThrow(PyTypeError);
+    expect(() => iadd(pyDict([]), pyTuple([pyInt(1)]))).toThrow(
+      /unsupported operand type\(s\) for \+=: 'dict' and 'tuple'/,
+    );
+  });
+
+  it("iadd rejects list and dict", () => {
+    expect(() => iadd(pyList([pyInt(1)]), pyDict([]))).toThrow(PyTypeError);
+    expect(() => iadd(pyList([pyInt(1)]), pyDict([]))).toThrow(
+      /unsupported operand type\(s\) for \+=: 'list' and 'dict'/,
+    );
+  });
+
+  it("iadd rejects set and dict", () => {
+    expect(() => iadd(pySet([pyInt(1)]), pyDict([]))).toThrow(PyTypeError);
+    expect(() => iadd(pySet([pyInt(1)]), pyDict([]))).toThrow(
+      /unsupported operand type\(s\) for \+=: 'set' and 'dict'/,
+    );
+  });
+
+  it("iadd rejects dict and set", () => {
+    expect(() => iadd(pyDict([]), pySet([pyInt(1)]))).toThrow(PyTypeError);
+    expect(() => iadd(pyDict([]), pySet([pyInt(1)]))).toThrow(
+      /unsupported operand type\(s\) for \+=: 'dict' and 'set'/,
     );
   });
 });
@@ -214,6 +334,31 @@ describe("cpython-derived slice cross-type", () => {
       /unsupported operand type\(s\) for \+: 'tuple' and 'slice'/,
     );
   });
+
+  it("eq is false for slice and tuple", () => {
+    const t = () => pyTuple([pyInt(1)]);
+    expect(eq(s(), t())).toBe(false);
+    expect(ne(s(), t())).toBe(true);
+  });
+
+  for (const [name, op] of [
+    ["lt", lt],
+    ["le", le],
+    ["gt", gt],
+    ["ge", ge],
+  ] as const) {
+    it(`${name} raises TypeError for slice and tuple`, () => {
+      const t = () => pyTuple([pyInt(1)]);
+      expect(() => op(s(), t())).toThrow(PyTypeError);
+      expect(() => op(s(), t())).toThrow(
+        new RegExp(`'${name}' not supported between instances of 'slice' and 'tuple'`),
+      );
+      expect(() => op(t(), s())).toThrow(PyTypeError);
+      expect(() => op(t(), s())).toThrow(
+        new RegExp(`'${name}' not supported between instances of 'tuple' and 'slice'`),
+      );
+    });
+  }
 });
 
 describe("cpython-derived tuple/scalar cross-type add", () => {

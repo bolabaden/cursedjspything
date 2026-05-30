@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 380 container niche cross-type evidence)
+
+### Landed
+
+- [REPO] Extended `operator-container-cross-type.test.ts` — dict↔frozenset, set↔slice, slice↔tuple ordering/eq, bidirectional dict+slice/bytes add, expanded container `iadd` rejects; §8.15 sync.
+
+### Partial
+
+- None.
+
+### Next
+
+1. Ops merge plan 380 PR when CI green (plan 381).
+2. Further niche §8.15 pairs if discovered (set↔list/tuple generic ordering); PEP 3118 remains out of scope.
+
+---
+
 ## Delta update (2026-05-24, plan 379 merge PR #203)
 
 ### Landed
