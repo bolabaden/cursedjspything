@@ -52,7 +52,7 @@ Emits JSON (`vitest_seconds`, pass gates, `test_count`); use median of several r
 | `test/cpython-derived/operator-bool-float.test.ts` | CPython `test_operator.py` bool/float cross-type |
 | `test/cpython-derived/sequence-repeat-bool.test.ts` | List/tuple bool/negative repeat; multi-element and spread-safe large repeat |
 | `test/cpython-derived/operator-str-scalar.test.ts` | CPython str↔scalar non-coercion; str bool/negative repeat |
-| `test/cpython-derived/operator-float-str-remaining-binary.test.ts` | float↔str truediv/floordiv/mod/divmod/pow TypeError |
+| `test/cpython-derived/operator-float-str-remaining-binary.test.ts` | float↔str truediv/floordiv/mod/divmod/pow TypeError both orders (plan 388) |
 
 ---
 
@@ -62,7 +62,7 @@ Emits JSON (`vitest_seconds`, pass gates, `test_count`); use median of several r
 ---
 
 | `test/cpython-derived/operator-str-float.test.ts` | str↔float eq/ne non-coercion; add/sub/mul TypeError |
-| `test/cpython-derived/operator-str-float-remaining-binary.test.ts` | str↔float truediv/floordiv/mod/divmod/pow/sub/mul TypeError; ordering lt/le/gt/ge TypeError |
+| `test/cpython-derived/operator-str-float-remaining-binary.test.ts` | str↔float truediv/floordiv/mod/divmod/pow/sub/mul TypeError both orders; ordering lt/le/gt/ge (plan 388) |
 
 ---
 

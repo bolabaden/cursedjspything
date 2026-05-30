@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 388 float↔str bidirectional binary evidence)
+
+### Landed
+
+- [REPO] `operator-float-str-remaining-binary.test.ts` and `operator-str-float-remaining-binary.test.ts` — truediv/floordiv/mod (and str-float sub/mul) bidirectional TypeError parity; validation-ladder sync.
+
+### Partial
+
+- None.
+
+### Next
+
+1. Ops merge plan 388 PR when CI green (plan 389).
+2. bytes↔scalar bidirectional truediv/floordiv/mod/add in `operator-bytes-remaining-cross-type.test.ts` (plan 390 candidate); PEP 3118 out of scope.
+
+---
+
 ## Delta update (2026-05-24, plan 387 merge PR #207)
 
 ### Landed
