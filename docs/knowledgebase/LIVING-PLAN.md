@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 390 bytes↔scalar bidirectional binary evidence)
+
+### Landed
+
+- [REPO] `operator-bytes-remaining-cross-type.test.ts` — add/sub/truediv/floordiv/mod bidirectional bytes↔int/float/str; validation-ladder + §8.15 sync.
+
+### Partial
+
+- None.
+
+### Next
+
+1. Ops merge plan 390 PR when CI green (plan 391).
+2. Next §8.15 or golden expansion; PEP 3118 out of scope.
+
+---
+
 ## Delta update (2026-05-24, plan 389 merge PR #208)
 
 ### Landed
