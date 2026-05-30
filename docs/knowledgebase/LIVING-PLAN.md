@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 387 merge PR #207)
+
+### Landed
+
+- [REPO] Plan 386 merged via PR #207 — str↔int bidirectional truediv/floordiv/mod TypeError evidence on `main` (882 Vitest / 140 files). int↔str and str↔int §8.15 binary matrices now symmetric (plans 384–386).
+
+### Partial
+
+- None.
+
+### Next
+
+1. Next §8.15 slice from backlog (float/str gaps, bytes remaining, or golden expansion).
+2. PEP 3118 remains out of scope.
+
+---
+
 ## Delta update (2026-05-24, plan 386 str↔int bidirectional binary evidence)
 
 ### Landed
