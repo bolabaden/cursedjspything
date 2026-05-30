@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 381 merge PR #204)
+
+### Landed
+
+- [REPO] Plan 380 merged via PR #204 — niche container cross-type Vitest (dict↔frozenset, set↔slice, slice↔tuple ordering, dict+slice/bytes bidirectional add, container `iadd` rejects, dict↔list ordering both orders) on `main` (870 Vitest / 140 files).
+
+### Partial
+
+- None.
+
+### Next
+
+1. Further niche §8.15 pairs if discovered (e.g. set↔list/tuple generic ordering matrices); PEP 3118 remains out of scope.
+2. Next feature slice per LIVING-PLAN backlog (int/str remaining binary plan 079 or successor).
+
+---
+
 ## Delta update (2026-05-24, plan 380 container niche cross-type evidence)
 
 ### Landed
