@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 382 set↔list/tuple cross-type evidence)
+
+### Landed
+
+- [REPO] Extended `operator-container-cross-type.test.ts` — set↔list and set↔tuple `add`/`eq`/`ne`/ordering both orders; §8.15 sync (plans 376–382).
+
+### Partial
+
+- None.
+
+### Next
+
+1. Ops merge plan 382 PR when CI green (plan 383).
+2. int↔str bidirectional sub/div/mod parity in `operator-int-str-remaining-binary.test.ts` (optional §8.15 slice); PEP 3118 out of scope.
+
+---
+
 ## Delta update (2026-05-24, plan 381 merge PR #204)
 
 ### Landed
