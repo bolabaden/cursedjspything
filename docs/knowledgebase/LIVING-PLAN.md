@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 383 merge PR #205)
+
+### Landed
+
+- [REPO] Plan 382 merged via PR #205 — set↔list and set↔tuple cross-type Vitest on `main` (882 Vitest / 140 files).
+
+### Partial
+
+- None.
+
+### Next
+
+1. int↔str bidirectional sub/div/mod/floordiv parity in `operator-int-str-remaining-binary.test.ts` (plan 384 candidate).
+2. PEP 3118 remains out of scope.
+
+---
+
 ## Delta update (2026-05-24, plan 382 set↔list/tuple cross-type evidence)
 
 ### Landed
