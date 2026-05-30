@@ -180,6 +180,84 @@ describe("cpython-derived set/slice cross-type", () => {
   }
 });
 
+describe("cpython-derived set/list cross-type", () => {
+  const s = () => pySet([pyInt(1)]);
+  const l = () => pyList([pyInt(1)]);
+
+  it("add rejects set and list in both orders", () => {
+    expect(() => add(s(), l())).toThrow(PyTypeError);
+    expect(() => add(s(), l())).toThrow(
+      /unsupported operand type\(s\) for \+: 'set' and 'list'/,
+    );
+    expect(() => add(l(), s())).toThrow(PyTypeError);
+    expect(() => add(l(), s())).toThrow(
+      /unsupported operand type\(s\) for \+: 'list' and 'set'/,
+    );
+  });
+
+  it("eq is false for set and list", () => {
+    expect(eq(s(), l())).toBe(false);
+    expect(ne(s(), l())).toBe(true);
+  });
+
+  for (const [name, op] of [
+    ["lt", lt],
+    ["le", le],
+    ["gt", gt],
+    ["ge", ge],
+  ] as const) {
+    it(`${name} raises TypeError for set and list`, () => {
+      expect(() => op(s(), l())).toThrow(PyTypeError);
+      expect(() => op(s(), l())).toThrow(
+        new RegExp(`'${name}' not supported between instances of 'set' and 'list'`),
+      );
+      expect(() => op(l(), s())).toThrow(PyTypeError);
+      expect(() => op(l(), s())).toThrow(
+        new RegExp(`'${name}' not supported between instances of 'list' and 'set'`),
+      );
+    });
+  }
+});
+
+describe("cpython-derived set/tuple cross-type", () => {
+  const s = () => pySet([pyInt(1)]);
+  const t = () => pyTuple([pyInt(1)]);
+
+  it("add rejects set and tuple in both orders", () => {
+    expect(() => add(s(), t())).toThrow(PyTypeError);
+    expect(() => add(s(), t())).toThrow(
+      /unsupported operand type\(s\) for \+: 'set' and 'tuple'/,
+    );
+    expect(() => add(t(), s())).toThrow(PyTypeError);
+    expect(() => add(t(), s())).toThrow(
+      /unsupported operand type\(s\) for \+: 'tuple' and 'set'/,
+    );
+  });
+
+  it("eq is false for set and tuple", () => {
+    expect(eq(s(), t())).toBe(false);
+    expect(ne(s(), t())).toBe(true);
+  });
+
+  for (const [name, op] of [
+    ["lt", lt],
+    ["le", le],
+    ["gt", gt],
+    ["ge", ge],
+  ] as const) {
+    it(`${name} raises TypeError for set and tuple`, () => {
+      expect(() => op(s(), t())).toThrow(PyTypeError);
+      expect(() => op(s(), t())).toThrow(
+        new RegExp(`'${name}' not supported between instances of 'set' and 'tuple'`),
+      );
+      expect(() => op(t(), s())).toThrow(PyTypeError);
+      expect(() => op(t(), s())).toThrow(
+        new RegExp(`'${name}' not supported between instances of 'tuple' and 'set'`),
+      );
+    });
+  }
+});
+
 describe("cpython-derived dict/set cross-type", () => {
   const d = () => pyDict([[pyStr("a"), pyInt(1)]]);
   const s = () => pySet([pyInt(1)]);
