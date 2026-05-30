@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 385 merge PR #206)
+
+### Landed
+
+- [REPO] Plan 384 merged via PR #206 — int↔str bidirectional sub/truediv/floordiv/mod/divmod/pow TypeError evidence on `main` (882 Vitest / 140 files).
+
+### Partial
+
+- None.
+
+### Next
+
+1. Optional: `operator-str-int-remaining-binary.test.ts` truediv/floordiv/mod both orders (symmetry with plan 384).
+2. Next §8.15 slice from backlog or golden expansion; PEP 3118 out of scope.
+
+---
+
 ## Delta update (2026-05-24, plan 384 int↔str bidirectional binary evidence)
 
 ### Landed
