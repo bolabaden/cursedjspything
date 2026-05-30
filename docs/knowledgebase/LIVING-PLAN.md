@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 386 str↔int bidirectional binary evidence)
+
+### Landed
+
+- [REPO] `operator-str-int-remaining-binary.test.ts` — truediv/floordiv/mod bidirectional TypeError parity with sub/ordering; validation-ladder sync.
+
+### Partial
+
+- None.
+
+### Next
+
+1. Ops merge plan 386 PR when CI green (plan 387).
+2. Next §8.15 slice from backlog or golden expansion; PEP 3118 out of scope.
+
+---
+
 ## Delta update (2026-05-24, plan 385 merge PR #206)
 
 ### Landed
