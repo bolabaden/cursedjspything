@@ -1,10 +1,14 @@
 /**
- * CPython: int↔str binary ops reject incompatible types (canonical; add in str-scalar; plan 402 dedupe).
+ * CPython: int↔str binary and ordering reject incompatible types (canonical; add in str-scalar; plan 406).
  */
 import { describe, it, expect } from "vitest";
 import {
   divmod,
   floordiv,
+  ge,
+  gt,
+  le,
+  lt,
   mod,
   pow,
   pyInt,
@@ -83,4 +87,27 @@ describe("cpython-derived int/str remaining binary ops", () => {
       /unsupported operand type\(s\) for \*\*: 'str' and 'int'/,
     );
   });
+});
+
+describe("cpython-derived int/str ordering", () => {
+  const s = () => pyStr("a");
+  const i = () => pyInt(1);
+
+  for (const [name, op] of [
+    ["lt", lt],
+    ["le", le],
+    ["gt", gt],
+    ["ge", ge],
+  ] as const) {
+    it(`${name} raises TypeError for str and int in both orders`, () => {
+      expect(() => op(s(), i())).toThrow(PyTypeError);
+      expect(() => op(s(), i())).toThrow(
+        new RegExp(`'${name}' not supported between instances of 'str' and 'int'`),
+      );
+      expect(() => op(i(), s())).toThrow(PyTypeError);
+      expect(() => op(i(), s())).toThrow(
+        new RegExp(`'${name}' not supported between instances of 'int' and 'str'`),
+      );
+    });
+  }
 });
