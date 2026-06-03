@@ -310,16 +310,36 @@ describe("cpython-derived dict/scalar container cross-type", () => {
     );
   });
 
-  it("add rejects dict and slice", () => {
-    expect(() => add(d(), pySlice(0, 1, 1))).toThrow(PyTypeError);
-    expect(() => add(d(), pySlice(0, 1, 1))).toThrow(
+  const sl = () => pySlice(0, 1, 1);
+
+  it("add rejects dict and slice in both orders", () => {
+    expect(() => add(d(), sl())).toThrow(PyTypeError);
+    expect(() => add(d(), sl())).toThrow(
       /unsupported operand type\(s\) for \+: 'dict' and 'slice'/,
     );
-    expect(() => add(pySlice(0, 1, 1), d())).toThrow(PyTypeError);
-    expect(() => add(pySlice(0, 1, 1), d())).toThrow(
+    expect(() => add(sl(), d())).toThrow(PyTypeError);
+    expect(() => add(sl(), d())).toThrow(
       /unsupported operand type\(s\) for \+: 'slice' and 'dict'/,
     );
   });
+
+  for (const [name, op] of [
+    ["lt", lt],
+    ["le", le],
+    ["gt", gt],
+    ["ge", ge],
+  ] as const) {
+    it(`${name} raises TypeError for dict and slice`, () => {
+      expect(() => op(d(), sl())).toThrow(PyTypeError);
+      expect(() => op(d(), sl())).toThrow(
+        new RegExp(`'${name}' not supported between instances of 'dict' and 'slice'`),
+      );
+      expect(() => op(sl(), d())).toThrow(PyTypeError);
+      expect(() => op(sl(), d())).toThrow(
+        new RegExp(`'${name}' not supported between instances of 'slice' and 'dict'`),
+      );
+    });
+  }
 
   it("add rejects dict and bytes", () => {
     expect(() => add(d(), pyBytes([1]))).toThrow(PyTypeError);
@@ -348,6 +368,29 @@ describe("cpython-derived slice cross-type", () => {
       /unsupported operand type\(s\) for \+: 'int' and 'slice'/,
     );
   });
+
+  it("eq is false for slice and int", () => {
+    expect(eq(s(), i())).toBe(false);
+    expect(ne(s(), i())).toBe(true);
+  });
+
+  for (const [name, op] of [
+    ["lt", lt],
+    ["le", le],
+    ["gt", gt],
+    ["ge", ge],
+  ] as const) {
+    it(`${name} raises TypeError for slice and int`, () => {
+      expect(() => op(s(), i())).toThrow(PyTypeError);
+      expect(() => op(s(), i())).toThrow(
+        new RegExp(`'${name}' not supported between instances of 'slice' and 'int'`),
+      );
+      expect(() => op(i(), s())).toThrow(PyTypeError);
+      expect(() => op(i(), s())).toThrow(
+        new RegExp(`'${name}' not supported between instances of 'int' and 'slice'`),
+      );
+    });
+  }
 
   it("add rejects slice and list in both orders", () => {
     expect(() => add(s(), l())).toThrow(PyTypeError);
