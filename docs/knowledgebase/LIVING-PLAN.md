@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 407 merge PR #217)
+
+### Landed
+
+- [REPO] Plan 406 merged via PR #217 — str↔int tests consolidated into `operator-int-str-remaining-binary` on `main` (872 Vitest / 133 files).
+
+### Partial
+
+- None.
+
+### Next
+
+1. str↔float split-file overlap review (`operator-str-float` vs `operator-float-str-remaining`) or §8.15 niche gaps.
+2. PEP 3118 out of scope.
+
+---
+
 ## Delta update (2026-05-24, plan 406 dedupe str↔int operator tests)
 
 ### Landed
