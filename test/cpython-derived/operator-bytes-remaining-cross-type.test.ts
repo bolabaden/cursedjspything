@@ -18,6 +18,7 @@ import {
   pyFloat,
   pyInt,
   pyStr,
+  pyTrue,
   sub,
   truediv,
 } from "../../src/index.js";
@@ -28,6 +29,7 @@ describe("cpython-derived bytes/scalar remaining binary ops", () => {
   const i = () => pyInt(1);
   const s = () => pyStr("a");
   const f = () => pyFloat(1.0);
+  const t = () => pyTrue;
 
   it("add rejects bytes and str in both orders", () => {
     expect(() => add(b(), s())).toThrow(PyTypeError);
@@ -59,6 +61,17 @@ describe("cpython-derived bytes/scalar remaining binary ops", () => {
     expect(() => add(i(), b())).toThrow(PyTypeError);
     expect(() => add(i(), b())).toThrow(
       /unsupported operand type\(s\) for \+: 'int' and 'bytes'/,
+    );
+  });
+
+  it("add rejects bytes and bool in both orders", () => {
+    expect(() => add(b(), t())).toThrow(PyTypeError);
+    expect(() => add(b(), t())).toThrow(
+      /unsupported operand type\(s\) for \+: 'bytes' and 'bool'/,
+    );
+    expect(() => add(t(), b())).toThrow(PyTypeError);
+    expect(() => add(t(), b())).toThrow(
+      /unsupported operand type\(s\) for \+: 'bool' and 'bytes'/,
     );
   });
 
@@ -281,6 +294,72 @@ describe("cpython-derived bytes/scalar remaining binary ops", () => {
       /unsupported operand type\(s\) for \*\*: 'float' and 'bytes'/,
     );
   });
+
+  it("sub rejects bytes and bool in both orders", () => {
+    expect(() => sub(b(), t())).toThrow(PyTypeError);
+    expect(() => sub(b(), t())).toThrow(
+      /unsupported operand type\(s\) for -: 'bytes' and 'bool'/,
+    );
+    expect(() => sub(t(), b())).toThrow(PyTypeError);
+    expect(() => sub(t(), b())).toThrow(
+      /unsupported operand type\(s\) for -: 'bool' and 'bytes'/,
+    );
+  });
+
+  it("truediv rejects bytes and bool in both orders", () => {
+    expect(() => truediv(b(), t())).toThrow(PyTypeError);
+    expect(() => truediv(b(), t())).toThrow(
+      /unsupported operand type\(s\) for \/: 'bytes' and 'bool'/,
+    );
+    expect(() => truediv(t(), b())).toThrow(PyTypeError);
+    expect(() => truediv(t(), b())).toThrow(
+      /unsupported operand type\(s\) for \/: 'bool' and 'bytes'/,
+    );
+  });
+
+  it("floordiv rejects bytes and bool in both orders", () => {
+    expect(() => floordiv(b(), t())).toThrow(PyTypeError);
+    expect(() => floordiv(b(), t())).toThrow(
+      /unsupported operand type\(s\) for \/\/: 'bytes' and 'bool'/,
+    );
+    expect(() => floordiv(t(), b())).toThrow(PyTypeError);
+    expect(() => floordiv(t(), b())).toThrow(
+      /unsupported operand type\(s\) for \/\/: 'bool' and 'bytes'/,
+    );
+  });
+
+  it("mod rejects bytes and bool in both orders", () => {
+    expect(() => mod(b(), t())).toThrow(PyTypeError);
+    expect(() => mod(b(), t())).toThrow(
+      /unsupported operand type\(s\) for %: 'bytes' and 'bool'/,
+    );
+    expect(() => mod(t(), b())).toThrow(PyTypeError);
+    expect(() => mod(t(), b())).toThrow(
+      /unsupported operand type\(s\) for %: 'bool' and 'bytes'/,
+    );
+  });
+
+  it("divmod rejects bytes and bool in both orders", () => {
+    expect(() => divmod(b(), t())).toThrow(PyTypeError);
+    expect(() => divmod(b(), t())).toThrow(
+      /unsupported operand type\(s\) for divmod\(\): 'bytes' and 'bool'/,
+    );
+    expect(() => divmod(t(), b())).toThrow(PyTypeError);
+    expect(() => divmod(t(), b())).toThrow(
+      /unsupported operand type\(s\) for divmod\(\): 'bool' and 'bytes'/,
+    );
+  });
+
+  it("pow rejects bytes and bool in both orders", () => {
+    expect(() => pow(b(), t())).toThrow(PyTypeError);
+    expect(() => pow(b(), t())).toThrow(
+      /unsupported operand type\(s\) for \*\*: 'bytes' and 'bool'/,
+    );
+    expect(() => pow(t(), b())).toThrow(PyTypeError);
+    expect(() => pow(t(), b())).toThrow(
+      /unsupported operand type\(s\) for \*\*: 'bool' and 'bytes'/,
+    );
+  });
 });
 
 describe("cpython-derived bytes/scalar ordering", () => {
@@ -288,6 +367,7 @@ describe("cpython-derived bytes/scalar ordering", () => {
   const i = () => pyInt(1);
   const s = () => pyStr("a");
   const f = () => pyFloat(1.0);
+  const t = () => pyTrue;
 
   for (const [name, op] of [
     ["lt", lt],
@@ -325,6 +405,17 @@ describe("cpython-derived bytes/scalar ordering", () => {
       expect(() => op(f(), b())).toThrow(PyTypeError);
       expect(() => op(f(), b())).toThrow(
         new RegExp(`'${name}' not supported between instances of 'float' and 'bytes'`),
+      );
+    });
+
+    it(`${name} raises TypeError for bytes and bool in both orders`, () => {
+      expect(() => op(b(), t())).toThrow(PyTypeError);
+      expect(() => op(b(), t())).toThrow(
+        new RegExp(`'${name}' not supported between instances of 'bytes' and 'bool'`),
+      );
+      expect(() => op(t(), b())).toThrow(PyTypeError);
+      expect(() => op(t(), b())).toThrow(
+        new RegExp(`'${name}' not supported between instances of 'bool' and 'bytes'`),
       );
     });
   }
