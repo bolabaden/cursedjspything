@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 403 merge PR #215)
+
+### Landed
+
+- [REPO] Plan 402 merged via PR #215 — five duplicate int/float↔str operator test files removed; canonical `*-remaining-binary` on `main` (876 Vitest / 135 files).
+
+### Partial
+
+- None.
+
+### Next
+
+1. bool↔str split-file dedupe (`operator-bool-str-binary` + `operator-bool-str-remaining-binary`) or §8.15 niche gaps.
+2. PEP 3118 out of scope.
+
+---
+
 ## Delta update (2026-05-24, plan 402 dedupe int/float↔str operator tests)
 
 ### Landed
