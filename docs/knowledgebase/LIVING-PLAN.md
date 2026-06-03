@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 409 merge PR #218)
+
+### Landed
+
+- [REPO] Plan 408 merged via PR #218 — str↔float tests consolidated on `main` (862 Vitest / 132 files).
+
+### Partial
+
+- None.
+
+### Next
+
+1. §8.15 niche operator gaps (e.g. imul/imatmul cross-type) or bytes/str scalar dedupe review.
+2. PEP 3118 out of scope.
+
+---
+
 ## Delta update (2026-05-24, plan 408 dedupe str↔float operator tests)
 
 ### Landed
