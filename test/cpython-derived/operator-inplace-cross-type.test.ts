@@ -457,3 +457,96 @@ describe("cpython-derived inplace int/bytes remaining ops", () => {
     );
   });
 });
+
+describe("cpython-derived inplace float/bytes remaining ops", () => {
+  const b = () => bytes(pyStr("ab")) as ReturnType<typeof pyBytes>;
+  const f = () => pyFloat(1.0);
+
+  it("iadd rejects float and bytes in both orders", () => {
+    expect(() => iadd(f(), b())).toThrow(PyTypeError);
+    expect(() => iadd(f(), b())).toThrow(
+      /unsupported operand type\(s\) for \+=: 'float' and 'bytes'/,
+    );
+    expect(() => iadd(b(), f())).toThrow(PyTypeError);
+    expect(() => iadd(b(), f())).toThrow(
+      /unsupported operand type\(s\) for \+=: 'bytes' and 'float'/,
+    );
+  });
+
+  it("isub rejects float and bytes in both orders", () => {
+    expect(() => isub(f(), b())).toThrow(PyTypeError);
+    expect(() => isub(f(), b())).toThrow(
+      /unsupported operand type\(s\) for -=: 'float' and 'bytes'/,
+    );
+    expect(() => isub(b(), f())).toThrow(PyTypeError);
+    expect(() => isub(b(), f())).toThrow(
+      /unsupported operand type\(s\) for -=: 'bytes' and 'float'/,
+    );
+  });
+
+  it("imul rejects float and bytes in both orders", () => {
+    expect(() => imul(f(), b())).toThrow(PyTypeError);
+    expect(() => imul(f(), b())).toThrow(
+      /unsupported operand type\(s\) for \*=: 'float' and 'bytes'/,
+    );
+    expect(() => imul(b(), f())).toThrow(PyTypeError);
+    expect(() => imul(b(), f())).toThrow(
+      /unsupported operand type\(s\) for \*=: 'bytes' and 'float'/,
+    );
+  });
+
+  it("imatmul rejects float and bytes in both orders", () => {
+    expect(() => imatmul(f(), b())).toThrow(PyTypeError);
+    expect(() => imatmul(f(), b())).toThrow(
+      /unsupported operand type\(s\) for @=: 'float' and 'bytes'/,
+    );
+    expect(() => imatmul(b(), f())).toThrow(PyTypeError);
+    expect(() => imatmul(b(), f())).toThrow(
+      /unsupported operand type\(s\) for @=: 'bytes' and 'float'/,
+    );
+  });
+
+  it("itruediv rejects float and bytes in both orders", () => {
+    expect(() => itruediv(f(), b())).toThrow(PyTypeError);
+    expect(() => itruediv(f(), b())).toThrow(
+      /unsupported operand type\(s\) for \/=: 'float' and 'bytes'/,
+    );
+    expect(() => itruediv(b(), f())).toThrow(PyTypeError);
+    expect(() => itruediv(b(), f())).toThrow(
+      /unsupported operand type\(s\) for \/=: 'bytes' and 'float'/,
+    );
+  });
+
+  it("ifloordiv rejects float and bytes in both orders", () => {
+    expect(() => ifloordiv(f(), b())).toThrow(PyTypeError);
+    expect(() => ifloordiv(f(), b())).toThrow(
+      /unsupported operand type\(s\) for \/\/=: 'float' and 'bytes'/,
+    );
+    expect(() => ifloordiv(b(), f())).toThrow(PyTypeError);
+    expect(() => ifloordiv(b(), f())).toThrow(
+      /unsupported operand type\(s\) for \/\/=: 'bytes' and 'float'/,
+    );
+  });
+
+  it("imod rejects float and bytes in both orders", () => {
+    expect(() => imod(f(), b())).toThrow(PyTypeError);
+    expect(() => imod(f(), b())).toThrow(
+      /unsupported operand type\(s\) for %=: 'float' and 'bytes'/,
+    );
+    expect(() => imod(b(), f())).toThrow(PyTypeError);
+    expect(() => imod(b(), f())).toThrow(
+      /unsupported operand type\(s\) for %=: 'bytes' and 'float'/,
+    );
+  });
+
+  it("ipow rejects float and bytes in both orders", () => {
+    expect(() => ipow(f(), b())).toThrow(PyTypeError);
+    expect(() => ipow(f(), b())).toThrow(
+      /unsupported operand type\(s\) for \*\*=: 'float' and 'bytes'/,
+    );
+    expect(() => ipow(b(), f())).toThrow(PyTypeError);
+    expect(() => ipow(b(), f())).toThrow(
+      /unsupported operand type\(s\) for \*\*=: 'bytes' and 'float'/,
+    );
+  });
+});
