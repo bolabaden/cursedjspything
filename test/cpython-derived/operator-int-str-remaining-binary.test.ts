@@ -1,5 +1,5 @@
 /**
- * CPython: int↔str sub/div/pow reject incompatible types (add covered in str-scalar).
+ * CPython: int↔str binary ops reject incompatible types (canonical; add in str-scalar; plan 402 dedupe).
  */
 import { describe, it, expect } from "vitest";
 import {

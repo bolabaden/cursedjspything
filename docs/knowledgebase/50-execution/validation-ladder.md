@@ -52,11 +52,11 @@ Emits JSON (`vitest_seconds`, pass gates, `test_count`); use median of several r
 | `test/cpython-derived/operator-bool-float.test.ts` | CPython `test_operator.py` bool/float cross-type |
 | `test/cpython-derived/sequence-repeat-bool.test.ts` | List/tuple bool/negative repeat; multi-element and spread-safe large repeat |
 | `test/cpython-derived/operator-str-scalar.test.ts` | CPython str↔scalar non-coercion; str bool/negative repeat |
-| `test/cpython-derived/operator-float-str-remaining-binary.test.ts` | float↔str truediv/floordiv/mod/divmod/pow TypeError both orders (plan 388) |
+| `test/cpython-derived/operator-float-str-remaining-binary.test.ts` | float↔str add/sub/truediv/floordiv/mod/divmod/pow TypeError both orders (canonical; plan 402) |
 
 ---
 
-| `test/cpython-derived/operator-int-str-remaining-binary.test.ts` | int↔str sub/truediv/floordiv/mod/divmod/pow TypeError both orders (add in str-scalar; plan 384) |
+| `test/cpython-derived/operator-int-str-remaining-binary.test.ts` | int↔str sub/truediv/floordiv/mod/divmod/pow TypeError both orders (canonical; add in str-scalar; plan 402) |
 | `test/cpython-derived/operator-str-int-remaining-binary.test.ts` | str↔int sub/truediv/floordiv/mod TypeError both orders; ordering lt/le/gt/ge TypeError (plan 386) |
 
 ---
@@ -72,21 +72,6 @@ Emits JSON (`vitest_seconds`, pass gates, `test_count`); use median of several r
 
 | `test/cpython-derived/operator-inplace-cross-type.test.ts` | In-place +=/-= cross-type TypeError both orders (int↔str, int↔list, str↔bool) |
 
----
-
-| `test/cpython-derived/operator-float-str-floordiv-mod.test.ts` | float↔str floordiv/mod TypeError both orders (plan 396) |
-
----
-
-| `test/cpython-derived/operator-float-str-divmod-pow.test.ts` | float↔str divmod/pow TypeError |
-
----
-
-| `test/cpython-derived/operator-int-str-divmod-pow.test.ts` | int↔str divmod/pow TypeError |
-
----
-
-| `test/cpython-derived/operator-int-str-binary.test.ts` | int↔str sub/floordiv/mod/truediv TypeError both orders (plan 396) |
 | `test/cpython-derived/operator-unary-evidence.test.ts` | neg/pos/invert/abs reject list without unary slots |
 | `test/cpython-derived/operator-rounding-evidence.test.ts` | round/trunc/floor/ceil reject list without hooks |
 | `test/cpython-derived/operator-numeric-conversion-evidence.test.ts` | toInt/toFloat/index/toComplex reject list |
@@ -166,7 +151,6 @@ Emits JSON (`vitest_seconds`, pass gates, `test_count`); use median of several r
 | `test/cpython-derived/operator-bytes-cross-type.test.ts` | bytes add/mul cross-type TypeError both orders (str/float mul plan 394); bytes+bytes and bytes*int |
 | `test/cpython-derived/operator-bytes-remaining-cross-type.test.ts` | bytes↔int/float/str add/sub/truediv/floordiv/mod/divmod/pow TypeError both orders; ordering lt/le/gt/ge (plan 390) |
 | `test/cpython-derived/operator-str-bytes-cross-type.test.ts` | str↔bytes eq/ne non-coercion; binary/ordering/div TypeError both orders (plan 396) |
-| `test/cpython-derived/operator-float-str-binary.test.ts` | float↔str add/sub/truediv TypeError both orders (plan 396) |
 | `test/cpython-derived/operator-bool-str-binary.test.ts` | bool↔str add/sub/truediv TypeError both orders ('bool' typename; plan 392) |
 | `test/cpython-derived/operator-bool-str-remaining-binary.test.ts` | bool↔str floordiv/mod/divmod/pow TypeError both orders (plan 392) |
 | `test/cpython-derived/sequence-index-type.test.ts` | List/tuple get/set/del non-integer subscript TypeError; list index out of range and delItem |

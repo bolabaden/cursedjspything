@@ -1,14 +1,16 @@
 /**
- * CPython: float↔str div/mod/pow reject incompatible types.
+ * CPython: float↔str binary ops reject incompatible types (canonical; plan 402 dedupe).
  */
 import { describe, it, expect } from "vitest";
 import {
+  add,
   divmod,
   floordiv,
   mod,
   pow,
   pyFloat,
   pyStr,
+  sub,
   truediv,
 } from "../../src/index.js";
 import { PyTypeError } from "../../src/runtime/core/errors.js";
@@ -16,6 +18,28 @@ import { PyTypeError } from "../../src/runtime/core/errors.js";
 describe("cpython-derived float/str remaining binary ops", () => {
   const f = () => pyFloat(1.0);
   const s = () => pyStr("a");
+
+  it("add rejects float and str in both orders", () => {
+    expect(() => add(f(), s())).toThrow(PyTypeError);
+    expect(() => add(f(), s())).toThrow(
+      /unsupported operand type\(s\) for \+: 'float' and 'str'/,
+    );
+    expect(() => add(s(), f())).toThrow(PyTypeError);
+    expect(() => add(s(), f())).toThrow(
+      /unsupported operand type\(s\) for \+: 'str' and 'float'/,
+    );
+  });
+
+  it("sub rejects float and str in both orders", () => {
+    expect(() => sub(f(), s())).toThrow(PyTypeError);
+    expect(() => sub(f(), s())).toThrow(
+      /unsupported operand type\(s\) for -: 'float' and 'str'/,
+    );
+    expect(() => sub(s(), f())).toThrow(PyTypeError);
+    expect(() => sub(s(), f())).toThrow(
+      /unsupported operand type\(s\) for -: 'str' and 'float'/,
+    );
+  });
 
   it("truediv rejects float and str in both orders", () => {
     expect(() => truediv(f(), s())).toThrow(PyTypeError);
