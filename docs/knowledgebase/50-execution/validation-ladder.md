@@ -64,7 +64,7 @@ Emits JSON (`vitest_seconds`, pass gates, `test_count`); use median of several r
 
 ---
 
-| `test/cpython-derived/operator-list-tuple-cross-type.test.ts` | list↔tuple eq/ordering/binary/inplace; list↔bytes mul; list/tuple↔int/str add rejects (plans 428, 444) |
+| `test/cpython-derived/operator-list-tuple-cross-type.test.ts` | list↔tuple eq/ordering/binary/inplace; list/tuple↔bytes mul; list↔bytes eq/ne (plans 428, 444, 446) |
 
 ---
 
