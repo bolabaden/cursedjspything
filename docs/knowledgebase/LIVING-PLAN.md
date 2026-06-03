@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 413 merge PR #220)
+
+### Landed
+
+- [REPO] Plan 412 merged via PR #220 — str↔bytes tests consolidated on `main` (861 Vitest / 132 files).
+
+### Partial
+
+- None.
+
+### Next
+
+1. inplace float↔str and bool↔str remaining ops (`@=`, `/=`, etc.).
+2. PEP 3118 out of scope.
+
+---
+
 ## Delta update (2026-05-24, plan 412 dedupe str↔bytes operator tests)
 
 ### Landed
