@@ -10,6 +10,7 @@ import {
   ipow,
   isub,
   itruediv,
+  pyFloat,
   pyInt,
   pyList,
   pyStr,
@@ -131,6 +132,148 @@ describe("cpython-derived inplace int/str remaining ops", () => {
     expect(() => ipow(s(), i())).toThrow(PyTypeError);
     expect(() => ipow(s(), i())).toThrow(
       /unsupported operand type\(s\) for \*\*=: 'str' and 'int'/,
+    );
+  });
+});
+
+describe("cpython-derived inplace float/str remaining ops", () => {
+  const f = () => pyFloat(1.0);
+  const s = () => pyStr("a");
+
+  it("isub rejects float and str in both orders", () => {
+    expect(() => isub(f(), s())).toThrow(PyTypeError);
+    expect(() => isub(f(), s())).toThrow(
+      /unsupported operand type\(s\) for -=: 'float' and 'str'/,
+    );
+    expect(() => isub(s(), f())).toThrow(PyTypeError);
+    expect(() => isub(s(), f())).toThrow(
+      /unsupported operand type\(s\) for -=: 'str' and 'float'/,
+    );
+  });
+
+  it("imatmul rejects float and str in both orders", () => {
+    expect(() => imatmul(f(), s())).toThrow(PyTypeError);
+    expect(() => imatmul(f(), s())).toThrow(
+      /unsupported operand type\(s\) for @=: 'float' and 'str'/,
+    );
+    expect(() => imatmul(s(), f())).toThrow(PyTypeError);
+    expect(() => imatmul(s(), f())).toThrow(
+      /unsupported operand type\(s\) for @=: 'str' and 'float'/,
+    );
+  });
+
+  it("itruediv rejects float and str in both orders", () => {
+    expect(() => itruediv(f(), s())).toThrow(PyTypeError);
+    expect(() => itruediv(f(), s())).toThrow(
+      /unsupported operand type\(s\) for \/=: 'float' and 'str'/,
+    );
+    expect(() => itruediv(s(), f())).toThrow(PyTypeError);
+    expect(() => itruediv(s(), f())).toThrow(
+      /unsupported operand type\(s\) for \/=: 'str' and 'float'/,
+    );
+  });
+
+  it("ifloordiv rejects float and str in both orders", () => {
+    expect(() => ifloordiv(f(), s())).toThrow(PyTypeError);
+    expect(() => ifloordiv(f(), s())).toThrow(
+      /unsupported operand type\(s\) for \/\/=: 'float' and 'str'/,
+    );
+    expect(() => ifloordiv(s(), f())).toThrow(PyTypeError);
+    expect(() => ifloordiv(s(), f())).toThrow(
+      /unsupported operand type\(s\) for \/\/=: 'str' and 'float'/,
+    );
+  });
+
+  it("imod rejects float and str in both orders", () => {
+    expect(() => imod(f(), s())).toThrow(PyTypeError);
+    expect(() => imod(f(), s())).toThrow(
+      /unsupported operand type\(s\) for %=: 'float' and 'str'/,
+    );
+    expect(() => imod(s(), f())).toThrow(PyTypeError);
+    expect(() => imod(s(), f())).toThrow(
+      /unsupported operand type\(s\) for %=: 'str' and 'float'/,
+    );
+  });
+
+  it("ipow rejects float and str in both orders", () => {
+    expect(() => ipow(f(), s())).toThrow(PyTypeError);
+    expect(() => ipow(f(), s())).toThrow(
+      /unsupported operand type\(s\) for \*\*=: 'float' and 'str'/,
+    );
+    expect(() => ipow(s(), f())).toThrow(PyTypeError);
+    expect(() => ipow(s(), f())).toThrow(
+      /unsupported operand type\(s\) for \*\*=: 'str' and 'float'/,
+    );
+  });
+});
+
+describe("cpython-derived inplace bool/str remaining ops", () => {
+  const t = () => pyTrue;
+  const s = () => pyStr("a");
+
+  it("isub rejects bool and str in both orders", () => {
+    expect(() => isub(t(), s())).toThrow(PyTypeError);
+    expect(() => isub(t(), s())).toThrow(
+      /unsupported operand type\(s\) for -=: 'bool' and 'str'/,
+    );
+    expect(() => isub(s(), t())).toThrow(PyTypeError);
+    expect(() => isub(s(), t())).toThrow(
+      /unsupported operand type\(s\) for -=: 'str' and 'bool'/,
+    );
+  });
+
+  it("imatmul rejects bool and str in both orders", () => {
+    expect(() => imatmul(t(), s())).toThrow(PyTypeError);
+    expect(() => imatmul(t(), s())).toThrow(
+      /unsupported operand type\(s\) for @=: 'bool' and 'str'/,
+    );
+    expect(() => imatmul(s(), t())).toThrow(PyTypeError);
+    expect(() => imatmul(s(), t())).toThrow(
+      /unsupported operand type\(s\) for @=: 'str' and 'bool'/,
+    );
+  });
+
+  it("itruediv rejects bool and str in both orders", () => {
+    expect(() => itruediv(t(), s())).toThrow(PyTypeError);
+    expect(() => itruediv(t(), s())).toThrow(
+      /unsupported operand type\(s\) for \/=: 'bool' and 'str'/,
+    );
+    expect(() => itruediv(s(), t())).toThrow(PyTypeError);
+    expect(() => itruediv(s(), t())).toThrow(
+      /unsupported operand type\(s\) for \/=: 'str' and 'bool'/,
+    );
+  });
+
+  it("ifloordiv rejects bool and str in both orders", () => {
+    expect(() => ifloordiv(t(), s())).toThrow(PyTypeError);
+    expect(() => ifloordiv(t(), s())).toThrow(
+      /unsupported operand type\(s\) for \/\/=: 'bool' and 'str'/,
+    );
+    expect(() => ifloordiv(s(), t())).toThrow(PyTypeError);
+    expect(() => ifloordiv(s(), t())).toThrow(
+      /unsupported operand type\(s\) for \/\/=: 'str' and 'bool'/,
+    );
+  });
+
+  it("imod rejects bool and str in both orders", () => {
+    expect(() => imod(t(), s())).toThrow(PyTypeError);
+    expect(() => imod(t(), s())).toThrow(
+      /unsupported operand type\(s\) for %=: 'bool' and 'str'/,
+    );
+    expect(() => imod(s(), t())).toThrow(PyTypeError);
+    expect(() => imod(s(), t())).toThrow(
+      /unsupported operand type\(s\) for %=: 'str' and 'bool'/,
+    );
+  });
+
+  it("ipow rejects bool and str in both orders", () => {
+    expect(() => ipow(t(), s())).toThrow(PyTypeError);
+    expect(() => ipow(t(), s())).toThrow(
+      /unsupported operand type\(s\) for \*\*=: 'bool' and 'str'/,
+    );
+    expect(() => ipow(s(), t())).toThrow(PyTypeError);
+    expect(() => ipow(s(), t())).toThrow(
+      /unsupported operand type\(s\) for \*\*=: 'str' and 'bool'/,
     );
   });
 });
