@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 399 merge PR #213)
+
+### Landed
+
+- [REPO] Plan 398 merged via PR #213 — golden scalar non-coercion keys on `main` (884 Vitest / 140 files; **32 golden keys/profile**).
+
+### Partial
+
+- None.
+
+### Next
+
+1. §8.15 inplace cross-type bidirectional `iadd`/`isub` or dedupe overlapping operator test files.
+2. PEP 3118 out of scope.
+
+---
+
 ## Delta update (2026-05-24, plan 398 golden scalar non-coercion keys)
 
 ### Landed
@@ -22,7 +39,6 @@
 ### Next
 
 1. Ops merge plan 398 PR when CI green (plan 399).
-2. §8.15 inplace cross-type bidirectional `iadd`/`isub` or dedupe overlapping operator test files; PEP 3118 out of scope.
 
 ---
 
