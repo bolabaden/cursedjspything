@@ -46,17 +46,25 @@ describe("cpython-derived bytes cross-type operators", () => {
     );
   });
 
-  it("mul rejects bytes and str", () => {
+  it("mul rejects bytes and str in both orders", () => {
     expect(() => mul(b(), pyStr("2"))).toThrow(PyTypeError);
     expect(() => mul(b(), pyStr("2"))).toThrow(
       /unsupported operand type\(s\) for \*: 'bytes' and 'str'/,
     );
+    expect(() => mul(pyStr("2"), b())).toThrow(PyTypeError);
+    expect(() => mul(pyStr("2"), b())).toThrow(
+      /unsupported operand type\(s\) for \*: 'str' and 'bytes'/,
+    );
   });
 
-  it("mul rejects bytes and float", () => {
+  it("mul rejects bytes and float in both orders", () => {
     expect(() => mul(b(), pyFloat(2))).toThrow(PyTypeError);
     expect(() => mul(b(), pyFloat(2))).toThrow(
       /unsupported operand type\(s\) for \*: 'bytes' and 'float'/,
+    );
+    expect(() => mul(pyFloat(2), b())).toThrow(PyTypeError);
+    expect(() => mul(pyFloat(2), b())).toThrow(
+      /unsupported operand type\(s\) for \*: 'float' and 'bytes'/,
     );
   });
 });
