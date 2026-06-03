@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 401 merge PR #214)
+
+### Landed
+
+- [REPO] Plan 400 merged via PR #214 — inplace cross-type `iadd`/`isub` both-order TypeError on `main` (887 Vitest / 140 files).
+
+### Partial
+
+- None.
+
+### Next
+
+1. Dedupe overlapping `operator-*-binary` / `*-remaining-*` test files or §8.15 niche operator gaps.
+2. PEP 3118 out of scope.
+
+---
+
 ## Delta update (2026-05-24, plan 400 inplace cross-type bidirectional)
 
 ### Landed
