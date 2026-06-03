@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 393 merge PR #210)
+
+### Landed
+
+- [REPO] Plan 392 merged via PR #210 — bool↔str bidirectional sub/truediv/floordiv/mod on `main` (884 Vitest / 140 files). Scalar §8.15 binary matrices symmetric for int/str/float/bytes/bool pairs (plans 384–392).
+
+### Partial
+
+- None.
+
+### Next
+
+1. §8.15 follow-ups: bool↔float remaining one-way ops, bytes `mul` str/float reverse in `operator-bytes-cross-type.test.ts`, or golden expansion.
+2. PEP 3118 out of scope.
+
+---
+
 ## Delta update (2026-05-24, plan 392 bool↔str bidirectional binary evidence)
 
 ### Landed
