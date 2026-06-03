@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 406 dedupe str↔int operator tests)
+
+### Landed
+
+- [REPO] Consolidated str↔int into `operator-int-str-remaining-binary.test.ts` (arithmetic + ordering); deleted duplicate `operator-str-int-remaining-binary.test.ts`; validation-ladder sync.
+
+### Partial
+
+- None.
+
+### Next
+
+1. Ops merge plan 406 PR when CI green (plan 407).
+2. str↔float split-file overlap review or §8.15 niche gaps; PEP 3118 out of scope.
+
+---
+
 ## Delta update (2026-05-24, plan 405 merge PR #216)
 
 ### Landed
