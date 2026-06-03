@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 434 merge PR #231)
+
+### Landed
+
+- [REPO] Plan 434 merged via PR #231 — slice↔list bidirectional ordering (`lt`/`le`/`gt`/`ge`), `ne` on eq, slice↔int `add` both orders in `operator-container-cross-type` (910 Vitest / 131 files).
+
+### Partial
+
+- None.
+
+### Next
+
+1. §8.15 — further container cross-type dedupe (e.g. dict↔bytes eq/ne companion) or operator-file consolidation.
+2. PEP 3118 out of scope.
+
+---
+
 ## Delta update (2026-05-24, plan 432 merge PR #230)
 
 ### Landed

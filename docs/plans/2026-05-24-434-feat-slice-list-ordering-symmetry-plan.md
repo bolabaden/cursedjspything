@@ -1,7 +1,7 @@
 ---
 title: "feat: slice↔list ordering symmetry in container cross-type"
 type: feat
-status: in_progress
+status: completed
 date: 2026-05-24
 origin: docs/knowledgebase/LIVING-PLAN.md plan 433
 ---
