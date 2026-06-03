@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 427 merge PR #227)
+
+### Landed
+
+- [REPO] Plan 426 merged via PR #227 — bytes↔bool binary/ordering in bytes-remaining (`mul` omitted) on `main` (912 Vitest / 132 files). bytes-remaining now covers int/float/str/bool.
+
+### Partial
+
+- None.
+
+### Next
+
+1. §8.15 — container cross-type dedupe or bytes↔scalar eq/ne audit; scalar↔bytes binary/inplace arcs complete.
+2. PEP 3118 out of scope.
+
+---
+
 ## Delta update (2026-05-24, plan 425 merge PR #226)
 
 ### Landed
