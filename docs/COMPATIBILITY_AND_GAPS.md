@@ -550,7 +550,7 @@ pyrt’s explicit-function approach is therefore aligned with JS reality.
 ## 12. Verification in this repository
 
 - **Unit tests:** `test/**/*.test.ts` (Vitest). Run: `npm test`.
-- **Golden harness:** `scripts/golden/` (CPython reference vs pyrt). Run: `npm run golden` (CI matrix: Python 3.10, 3.12, 3.14). **29 case keys per profile version** (3.9–3.14): MRO/`isinstance`, rich compare, slice, contains, int↔float / int↔bool / bool↔float ops, sequence bool repetition (`seq_bool_*`, `str_bool_*`, `tuple_bool_*`), descriptor precedence, class hooks (`init_subclass_called`, `set_name_called`), plus version-gated `match_args` (3.10+), buffer (3.12+), `annotate_x` (3.14+). Key parity: `npm run golden:keys`, `test/golden/key-parity.test.ts`.
+- **Golden harness:** `scripts/golden/` (CPython reference vs pyrt). Run: `npm run golden` (CI matrix: Python 3.10, 3.12, 3.14). **32 case keys per profile version** (3.9–3.14): MRO/`isinstance`, rich compare, slice, contains, int↔float / int↔bool / bool↔float ops, scalar non-coercion (`str_int_eq_false`, `str_bytes_eq_false`, `str_int_add_raises`), sequence bool repetition (`seq_bool_*`, `str_bool_*`, `tuple_bool_*`), descriptor precedence, class hooks (`init_subclass_called`, `set_name_called`), plus version-gated `match_args` (3.10+), buffer (3.12+), `annotate_x` (3.14+). Key parity: `npm run golden:keys`, `test/golden/key-parity.test.ts`.
 - **Examples:** `examples/python-vs-js.ts`. Run: `npm run examples`.
 - **Typecheck:** `npm run check`.
 
