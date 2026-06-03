@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 405 merge PR #216)
+
+### Landed
+
+- [REPO] Plan 404 merged via PR #216 — bool↔str operator tests consolidated on `main` (876 Vitest / 134 files).
+
+### Partial
+
+- None.
+
+### Next
+
+1. §8.15 niche operator gaps or str↔int remaining vs str-int-remaining overlap review.
+2. PEP 3118 out of scope.
+
+---
+
 ## Delta update (2026-05-24, plan 404 dedupe bool↔str operator tests)
 
 ### Landed
