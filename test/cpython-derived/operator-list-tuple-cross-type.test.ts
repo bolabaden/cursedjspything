@@ -48,6 +48,18 @@ describe("cpython-derived list/bytes comparisons", () => {
   });
 });
 
+describe("cpython-derived tuple/bytes comparisons", () => {
+  const t = () => pyTuple([pyInt(1)]);
+  const b = () => pyBytes([1, 2]);
+
+  it("eq and ne do not coerce tuple and bytes", () => {
+    expect(eq(t(), b())).toBe(false);
+    expect(eq(b(), t())).toBe(false);
+    expect(ne(t(), b())).toBe(true);
+    expect(ne(b(), t())).toBe(true);
+  });
+});
+
 describe("cpython-derived list/tuple ordering", () => {
   const l = () => pyList([pyInt(1)]);
   const t = () => pyTuple([pyInt(1)]);
