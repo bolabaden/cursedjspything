@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 429 merge PR #228)
+
+### Landed
+
+- [REPO] Plan 428 merged via PR #228 — sequence cross-type dedupe into `operator-list-tuple-cross-type`; deleted `operator-sequence-cross-type-add` and `sequence-cross-type` (905 Vitest / 130 files).
+
+### Partial
+
+- None.
+
+### Next
+
+1. §8.15 — bytes↔scalar eq/ne companion audit (str-bytes eq/ne exists; int/float/bool↔bytes) or further container dedupe.
+2. PEP 3118 out of scope.
+
+---
+
 ## Delta update (2026-05-24, plan 427 merge PR #227)
 
 ### Landed
