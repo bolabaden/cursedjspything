@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 448 merge PR #238)
+
+### Landed
+
+- [REPO] Plan 448 merged via PR #238 — tuple↔bytes eq/ne in `operator-list-tuple-cross-type`; list/tuple↔bytes mul+eq/ne arc complete (941 Vitest / 132 files).
+
+### Partial
+
+- None.
+
+### Next
+
+1. §8.15 — operator-file consolidation audit (dedupe overlapping operator-* paths in COMPATIBILITY evidence).
+2. PEP 3118 out of scope.
+
+---
+
 ## Delta update (2026-05-24, plan 446 merge PR #237)
 
 ### Landed
