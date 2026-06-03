@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 444 merge PR #236)
+
+### Landed
+
+- [REPO] Plan 444 merged via PR #236 — frozenset↔bytes cross-type in container file; list↔bytes `mul` in list-tuple canonical file (938 Vitest / 132 files).
+
+### Partial
+
+- None.
+
+### Next
+
+1. §8.15 — operator-file consolidation audit or tuple↔bytes / list↔bytes eq-ne companions if split needed.
+2. PEP 3118 out of scope.
+
+---
+
 ## Delta update (2026-05-24, plan 442 merge PR #235)
 
 ### Landed
