@@ -281,6 +281,58 @@ describe("cpython-derived set/bytes cross-type", () => {
   }
 });
 
+describe("cpython-derived frozenset/bytes cross-type", () => {
+  const f = () => pyFrozenSet([pyInt(1)]);
+  const b = () => pyBytes([1, 2]);
+
+  it("add rejects frozenset and bytes in both orders", () => {
+    expect(() => add(f(), b())).toThrow(PyTypeError);
+    expect(() => add(f(), b())).toThrow(
+      /unsupported operand type\(s\) for \+: 'frozenset' and 'bytes'/,
+    );
+    expect(() => add(b(), f())).toThrow(PyTypeError);
+    expect(() => add(b(), f())).toThrow(
+      /unsupported operand type\(s\) for \+: 'bytes' and 'frozenset'/,
+    );
+  });
+
+  it("eq is false for frozenset and bytes", () => {
+    expect(eq(f(), b())).toBe(false);
+    expect(eq(b(), f())).toBe(false);
+    expect(ne(f(), b())).toBe(true);
+    expect(ne(b(), f())).toBe(true);
+  });
+
+  it("mul rejects frozenset and bytes in both orders", () => {
+    expect(() => mul(f(), b())).toThrow(PyTypeError);
+    expect(() => mul(f(), b())).toThrow(
+      /unsupported operand type\(s\) for \*: 'frozenset' and 'bytes'/,
+    );
+    expect(() => mul(b(), f())).toThrow(PyTypeError);
+    expect(() => mul(b(), f())).toThrow(
+      /unsupported operand type\(s\) for \*: 'bytes' and 'frozenset'/,
+    );
+  });
+
+  for (const [name, op] of [
+    ["lt", lt],
+    ["le", le],
+    ["gt", gt],
+    ["ge", ge],
+  ] as const) {
+    it(`${name} raises TypeError for frozenset and bytes`, () => {
+      expect(() => op(f(), b())).toThrow(PyTypeError);
+      expect(() => op(f(), b())).toThrow(
+        new RegExp(`'${name}' not supported between instances of 'frozenset' and 'bytes'`),
+      );
+      expect(() => op(b(), f())).toThrow(PyTypeError);
+      expect(() => op(b(), f())).toThrow(
+        new RegExp(`'${name}' not supported between instances of 'bytes' and 'frozenset'`),
+      );
+    });
+  }
+});
+
 describe("cpython-derived set/tuple cross-type", () => {
   const s = () => pySet([pyInt(1)]);
   const t = () => pyTuple([pyInt(1)]);

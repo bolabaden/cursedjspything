@@ -15,6 +15,7 @@ import {
   lt,
   mul,
   ne,
+  pyBytes,
   pyFloat,
   pyInt,
   pyList,
@@ -132,6 +133,18 @@ describe("cpython-derived list/tuple binary ops", () => {
     expect(() => mul(pyStr("a"), l())).toThrow(PyTypeError);
     expect(() => mul(pyStr("a"), l())).toThrow(
       /unsupported operand type\(s\) for \*: 'str' and 'list'/,
+    );
+  });
+
+  it("mul rejects list and bytes in both orders", () => {
+    const b = () => pyBytes([1, 2]);
+    expect(() => mul(l(), b())).toThrow(PyTypeError);
+    expect(() => mul(l(), b())).toThrow(
+      /unsupported operand type\(s\) for \*: 'list' and 'bytes'/,
+    );
+    expect(() => mul(b(), l())).toThrow(PyTypeError);
+    expect(() => mul(b(), l())).toThrow(
+      /unsupported operand type\(s\) for \*: 'bytes' and 'list'/,
     );
   });
 

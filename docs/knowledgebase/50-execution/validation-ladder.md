@@ -64,11 +64,11 @@ Emits JSON (`vitest_seconds`, pass gates, `test_count`); use median of several r
 
 ---
 
-| `test/cpython-derived/operator-list-tuple-cross-type.test.ts` | list↔tuple eq/ordering/binary/inplace; list/tuple↔int/str add rejects (canonical; plan 428) |
+| `test/cpython-derived/operator-list-tuple-cross-type.test.ts` | list↔tuple eq/ordering/binary/inplace; list↔bytes mul; list/tuple↔int/str add rejects (plans 428, 444) |
 
 ---
 
-| `test/cpython-derived/operator-container-cross-type.test.ts` | dict/list/tuple/slice/set/frozenset cross-type add/eq/ordering/mul; list↔dict mul; set↔bytes; slice↔int (plans 434, 440, 442) |
+| `test/cpython-derived/operator-container-cross-type.test.ts` | dict/list/tuple/slice/set/frozenset cross-type add/eq/ordering/mul; set/frozenset↔bytes; slice↔int (plans 434, 440, 442, 444) |
 
 ---
 
