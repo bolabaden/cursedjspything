@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 404 dedupe bool↔str operator tests)
+
+### Landed
+
+- [REPO] Merged bool↔str add/sub/truediv into `operator-bool-str-remaining-binary.test.ts`; deleted split `operator-bool-str-binary.test.ts`; validation-ladder sync.
+
+### Partial
+
+- None.
+
+### Next
+
+1. Ops merge plan 404 PR when CI green (plan 405).
+2. §8.15 niche operator gaps or broader test consolidation; PEP 3118 out of scope.
+
+---
+
 ## Delta update (2026-05-24, plan 403 merge PR #215)
 
 ### Landed

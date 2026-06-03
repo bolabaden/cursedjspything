@@ -1,20 +1,56 @@
 /**
- * CPython: bool↔str floordiv/mod/divmod/pow reject incompatible types.
+ * CPython: bool↔str binary ops reject incompatible types (canonical; plan 404 dedupe).
  */
 import { describe, it, expect } from "vitest";
 import {
+  add,
   divmod,
   floordiv,
   mod,
   pow,
   pyStr,
   pyTrue,
+  sub,
+  truediv,
 } from "../../src/index.js";
 import { PyTypeError } from "../../src/runtime/core/errors.js";
 
 describe("cpython-derived bool/str remaining binary ops", () => {
   const t = () => pyTrue;
   const s = () => pyStr("a");
+
+  it("add rejects bool and str in both orders", () => {
+    expect(() => add(t(), s())).toThrow(PyTypeError);
+    expect(() => add(t(), s())).toThrow(
+      /unsupported operand type\(s\) for \+: 'bool' and 'str'/,
+    );
+    expect(() => add(s(), t())).toThrow(PyTypeError);
+    expect(() => add(s(), t())).toThrow(
+      /unsupported operand type\(s\) for \+: 'str' and 'bool'/,
+    );
+  });
+
+  it("sub rejects bool and str in both orders", () => {
+    expect(() => sub(t(), s())).toThrow(PyTypeError);
+    expect(() => sub(t(), s())).toThrow(
+      /unsupported operand type\(s\) for -: 'bool' and 'str'/,
+    );
+    expect(() => sub(s(), t())).toThrow(PyTypeError);
+    expect(() => sub(s(), t())).toThrow(
+      /unsupported operand type\(s\) for -: 'str' and 'bool'/,
+    );
+  });
+
+  it("truediv rejects bool and str in both orders", () => {
+    expect(() => truediv(t(), s())).toThrow(PyTypeError);
+    expect(() => truediv(t(), s())).toThrow(
+      /unsupported operand type\(s\) for \/: 'bool' and 'str'/,
+    );
+    expect(() => truediv(s(), t())).toThrow(PyTypeError);
+    expect(() => truediv(s(), t())).toThrow(
+      /unsupported operand type\(s\) for \/: 'str' and 'bool'/,
+    );
+  });
 
   it("floordiv rejects bool and str in both orders", () => {
     expect(() => floordiv(t(), s())).toThrow(PyTypeError);
