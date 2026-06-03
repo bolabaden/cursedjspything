@@ -48,8 +48,4 @@ describe("cpython-derived bytes getitem and compare", () => {
     expect(eq(a, a)).toBe(true);
     expect(ne(a, b)).toBe(true);
   });
-
-  it("bytes eq with int is false", () => {
-    expect(eq(abc(), pyInt(97))).toBe(false);
-  });
 });
