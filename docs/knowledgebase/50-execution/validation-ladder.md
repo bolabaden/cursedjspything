@@ -72,7 +72,7 @@ Emits JSON (`vitest_seconds`, pass gates, `test_count`); use median of several r
 
 ---
 
-| `test/cpython-derived/operator-container-scalar-cross-type.test.ts` | dict↔bytes eq/ne non-coercion (plan 436) |
+| `test/cpython-derived/operator-container-scalar-cross-type.test.ts` | dict↔bytes/int/slice eq/ne non-coercion (plans 436–438) |
 
 ---
 
