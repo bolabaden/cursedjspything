@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 412 dedupe str↔bytes operator tests)
+
+### Landed
+
+- [REPO] str↔bytes binary/ordering merged into `operator-bytes-remaining-cross-type.test.ts`; `operator-str-bytes-cross-type.test.ts` eq/ne only; validation-ladder sync.
+
+### Partial
+
+- None.
+
+### Next
+
+1. Ops merge plan 412 PR when CI green (plan 413).
+2. inplace float↔str / bool↔str remaining ops; PEP 3118 out of scope.
+
+---
+
 ## Delta update (2026-05-24, plan 411 merge PR #219)
 
 ### Landed

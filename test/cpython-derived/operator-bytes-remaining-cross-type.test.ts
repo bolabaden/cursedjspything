@@ -1,5 +1,5 @@
 /**
- * CPython: bytes↔scalar remaining binary and ordering reject incompatible types.
+ * CPython: bytes↔scalar binary and ordering reject incompatible types (canonical; plan 412).
  */
 import { describe, it, expect } from "vitest";
 import {
@@ -13,6 +13,7 @@ import {
   le,
   lt,
   mod,
+  mul,
   pow,
   pyFloat,
   pyInt,
@@ -58,6 +59,72 @@ describe("cpython-derived bytes/scalar remaining binary ops", () => {
     expect(() => sub(s(), b())).toThrow(PyTypeError);
     expect(() => sub(s(), b())).toThrow(
       /unsupported operand type\(s\) for -: 'str' and 'bytes'/,
+    );
+  });
+
+  it("mul rejects bytes and str in both orders", () => {
+    expect(() => mul(b(), s())).toThrow(PyTypeError);
+    expect(() => mul(b(), s())).toThrow(
+      /unsupported operand type\(s\) for \*: 'bytes' and 'str'/,
+    );
+    expect(() => mul(s(), b())).toThrow(PyTypeError);
+    expect(() => mul(s(), b())).toThrow(
+      /unsupported operand type\(s\) for \*: 'str' and 'bytes'/,
+    );
+  });
+
+  it("truediv rejects bytes and str in both orders", () => {
+    expect(() => truediv(b(), s())).toThrow(PyTypeError);
+    expect(() => truediv(b(), s())).toThrow(
+      /unsupported operand type\(s\) for \/: 'bytes' and 'str'/,
+    );
+    expect(() => truediv(s(), b())).toThrow(PyTypeError);
+    expect(() => truediv(s(), b())).toThrow(
+      /unsupported operand type\(s\) for \/: 'str' and 'bytes'/,
+    );
+  });
+
+  it("floordiv rejects bytes and str in both orders", () => {
+    expect(() => floordiv(b(), s())).toThrow(PyTypeError);
+    expect(() => floordiv(b(), s())).toThrow(
+      /unsupported operand type\(s\) for \/\/: 'bytes' and 'str'/,
+    );
+    expect(() => floordiv(s(), b())).toThrow(PyTypeError);
+    expect(() => floordiv(s(), b())).toThrow(
+      /unsupported operand type\(s\) for \/\/: 'str' and 'bytes'/,
+    );
+  });
+
+  it("mod rejects bytes and str in both orders", () => {
+    expect(() => mod(b(), s())).toThrow(PyTypeError);
+    expect(() => mod(b(), s())).toThrow(
+      /unsupported operand type\(s\) for %: 'bytes' and 'str'/,
+    );
+    expect(() => mod(s(), b())).toThrow(PyTypeError);
+    expect(() => mod(s(), b())).toThrow(
+      /unsupported operand type\(s\) for %: 'str' and 'bytes'/,
+    );
+  });
+
+  it("divmod rejects bytes and str in both orders", () => {
+    expect(() => divmod(b(), s())).toThrow(PyTypeError);
+    expect(() => divmod(b(), s())).toThrow(
+      /unsupported operand type\(s\) for divmod\(\): 'bytes' and 'str'/,
+    );
+    expect(() => divmod(s(), b())).toThrow(PyTypeError);
+    expect(() => divmod(s(), b())).toThrow(
+      /unsupported operand type\(s\) for divmod\(\): 'str' and 'bytes'/,
+    );
+  });
+
+  it("pow rejects bytes and str in both orders", () => {
+    expect(() => pow(b(), s())).toThrow(PyTypeError);
+    expect(() => pow(b(), s())).toThrow(
+      /unsupported operand type\(s\) for \*\*: 'bytes' and 'str'/,
+    );
+    expect(() => pow(s(), b())).toThrow(PyTypeError);
+    expect(() => pow(s(), b())).toThrow(
+      /unsupported operand type\(s\) for \*\*: 'str' and 'bytes'/,
     );
   });
 
