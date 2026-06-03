@@ -26,17 +26,25 @@ describe("cpython-derived bool/str binary ops", () => {
     );
   });
 
-  it("sub rejects bool and str", () => {
+  it("sub rejects bool and str in both orders", () => {
     expect(() => sub(t(), s())).toThrow(PyTypeError);
     expect(() => sub(t(), s())).toThrow(
       /unsupported operand type\(s\) for -: 'bool' and 'str'/,
     );
+    expect(() => sub(s(), t())).toThrow(PyTypeError);
+    expect(() => sub(s(), t())).toThrow(
+      /unsupported operand type\(s\) for -: 'str' and 'bool'/,
+    );
   });
 
-  it("truediv rejects bool and str", () => {
+  it("truediv rejects bool and str in both orders", () => {
     expect(() => truediv(t(), s())).toThrow(PyTypeError);
     expect(() => truediv(t(), s())).toThrow(
       /unsupported operand type\(s\) for \/: 'bool' and 'str'/,
+    );
+    expect(() => truediv(s(), t())).toThrow(PyTypeError);
+    expect(() => truediv(s(), t())).toThrow(
+      /unsupported operand type\(s\) for \/: 'str' and 'bool'/,
     );
   });
 });

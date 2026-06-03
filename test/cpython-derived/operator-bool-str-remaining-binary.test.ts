@@ -16,17 +16,25 @@ describe("cpython-derived bool/str remaining binary ops", () => {
   const t = () => pyTrue;
   const s = () => pyStr("a");
 
-  it("floordiv rejects bool and str", () => {
+  it("floordiv rejects bool and str in both orders", () => {
     expect(() => floordiv(t(), s())).toThrow(PyTypeError);
     expect(() => floordiv(t(), s())).toThrow(
       /unsupported operand type\(s\) for \/\/: 'bool' and 'str'/,
     );
+    expect(() => floordiv(s(), t())).toThrow(PyTypeError);
+    expect(() => floordiv(s(), t())).toThrow(
+      /unsupported operand type\(s\) for \/\/: 'str' and 'bool'/,
+    );
   });
 
-  it("mod rejects bool and str", () => {
+  it("mod rejects bool and str in both orders", () => {
     expect(() => mod(t(), s())).toThrow(PyTypeError);
     expect(() => mod(t(), s())).toThrow(
       /unsupported operand type\(s\) for %: 'bool' and 'str'/,
+    );
+    expect(() => mod(s(), t())).toThrow(PyTypeError);
+    expect(() => mod(s(), t())).toThrow(
+      /unsupported operand type\(s\) for %: 'str' and 'bool'/,
     );
   });
 
