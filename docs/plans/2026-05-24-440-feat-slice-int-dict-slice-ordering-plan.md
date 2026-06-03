@@ -1,7 +1,7 @@
 ---
 title: "feat: slice↔int eq/ne/ordering and dict↔slice ordering (plan 440)"
 type: feat
-status: in_progress
+status: completed
 date: 2026-05-24
 origin: docs/knowledgebase/LIVING-PLAN.md plan 439
 ---

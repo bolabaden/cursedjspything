@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 440 merge PR #234)
+
+### Landed
+
+- [REPO] Plan 440 merged via PR #234 — slice↔int eq/ne and bidirectional ordering; dict↔slice `lt`/`le`/`gt`/`ge` both orders in container cross-type (922 Vitest / 132 files).
+
+### Partial
+
+- None.
+
+### Next
+
+1. §8.15 — operator-file consolidation audit or remaining container gaps (e.g. list↔dict mul, set↔bytes).
+2. PEP 3118 out of scope.
+
+---
+
 ## Delta update (2026-05-24, plan 438 merge PR #233)
 
 ### Landed
