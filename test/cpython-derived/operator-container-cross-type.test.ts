@@ -43,6 +43,17 @@ describe("cpython-derived dict/list cross-type", () => {
     expect(ne(d(), l())).toBe(true);
   });
 
+  it("mul rejects dict and list in both orders", () => {
+    expect(() => mul(d(), l())).toThrow(PyTypeError);
+    expect(() => mul(d(), l())).toThrow(
+      /unsupported operand type\(s\) for \*: 'dict' and 'list'/,
+    );
+    expect(() => mul(l(), d())).toThrow(PyTypeError);
+    expect(() => mul(l(), d())).toThrow(
+      /unsupported operand type\(s\) for \*: 'list' and 'dict'/,
+    );
+  });
+
   for (const [name, op] of [
     ["lt", lt],
     ["le", le],
@@ -213,6 +224,58 @@ describe("cpython-derived set/list cross-type", () => {
       expect(() => op(l(), s())).toThrow(PyTypeError);
       expect(() => op(l(), s())).toThrow(
         new RegExp(`'${name}' not supported between instances of 'list' and 'set'`),
+      );
+    });
+  }
+});
+
+describe("cpython-derived set/bytes cross-type", () => {
+  const s = () => pySet([pyInt(1)]);
+  const b = () => pyBytes([1, 2]);
+
+  it("add rejects set and bytes in both orders", () => {
+    expect(() => add(s(), b())).toThrow(PyTypeError);
+    expect(() => add(s(), b())).toThrow(
+      /unsupported operand type\(s\) for \+: 'set' and 'bytes'/,
+    );
+    expect(() => add(b(), s())).toThrow(PyTypeError);
+    expect(() => add(b(), s())).toThrow(
+      /unsupported operand type\(s\) for \+: 'bytes' and 'set'/,
+    );
+  });
+
+  it("eq is false for set and bytes", () => {
+    expect(eq(s(), b())).toBe(false);
+    expect(eq(b(), s())).toBe(false);
+    expect(ne(s(), b())).toBe(true);
+    expect(ne(b(), s())).toBe(true);
+  });
+
+  it("mul rejects set and bytes in both orders", () => {
+    expect(() => mul(s(), b())).toThrow(PyTypeError);
+    expect(() => mul(s(), b())).toThrow(
+      /unsupported operand type\(s\) for \*: 'set' and 'bytes'/,
+    );
+    expect(() => mul(b(), s())).toThrow(PyTypeError);
+    expect(() => mul(b(), s())).toThrow(
+      /unsupported operand type\(s\) for \*: 'bytes' and 'set'/,
+    );
+  });
+
+  for (const [name, op] of [
+    ["lt", lt],
+    ["le", le],
+    ["gt", gt],
+    ["ge", ge],
+  ] as const) {
+    it(`${name} raises TypeError for set and bytes`, () => {
+      expect(() => op(s(), b())).toThrow(PyTypeError);
+      expect(() => op(s(), b())).toThrow(
+        new RegExp(`'${name}' not supported between instances of 'set' and 'bytes'`),
+      );
+      expect(() => op(b(), s())).toThrow(PyTypeError);
+      expect(() => op(b(), s())).toThrow(
+        new RegExp(`'${name}' not supported between instances of 'bytes' and 'set'`),
       );
     });
   }

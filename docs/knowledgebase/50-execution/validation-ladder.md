@@ -68,7 +68,7 @@ Emits JSON (`vitest_seconds`, pass gates, `test_count`); use median of several r
 
 ---
 
-| `test/cpython-derived/operator-container-cross-type.test.ts` | dict/list/tuple/slice/set/frozenset cross-type add/eq/ordering; slice↔int/list; dict↔slice ordering (plans 434, 440) |
+| `test/cpython-derived/operator-container-cross-type.test.ts` | dict/list/tuple/slice/set/frozenset cross-type add/eq/ordering/mul; list↔dict mul; set↔bytes; slice↔int (plans 434, 440, 442) |
 
 ---
 
