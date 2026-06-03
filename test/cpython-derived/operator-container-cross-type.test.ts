@@ -1,5 +1,5 @@
 /**
- * CPython: dict/list/tuple/slice/set/frozenset cross-type binary, ordering, and inplace rejects.
+ * CPython: dict/list/tuple/slice/set/frozenset cross-type binary and ordering (inplace in operator-inplace-cross-type).
  */
 import { describe, it, expect } from "vitest";
 import {
@@ -7,7 +7,6 @@ import {
   eq,
   ge,
   gt,
-  iadd,
   le,
   lt,
   mul,
@@ -326,43 +325,6 @@ describe("cpython-derived dict/scalar container cross-type", () => {
     expect(() => add(pyBytes([1]), d())).toThrow(PyTypeError);
     expect(() => add(pyBytes([1]), d())).toThrow(
       /unsupported operand type\(s\) for \+: 'bytes' and 'dict'/,
-    );
-  });
-});
-
-describe("cpython-derived container in-place rejects", () => {
-  it("iadd rejects dict and list", () => {
-    expect(() => iadd(pyDict([]), pyList([pyInt(1)]))).toThrow(PyTypeError);
-    expect(() => iadd(pyDict([]), pyList([pyInt(1)]))).toThrow(
-      /unsupported operand type\(s\) for \+=: 'dict' and 'list'/,
-    );
-  });
-
-  it("iadd rejects dict and tuple", () => {
-    expect(() => iadd(pyDict([]), pyTuple([pyInt(1)]))).toThrow(PyTypeError);
-    expect(() => iadd(pyDict([]), pyTuple([pyInt(1)]))).toThrow(
-      /unsupported operand type\(s\) for \+=: 'dict' and 'tuple'/,
-    );
-  });
-
-  it("iadd rejects list and dict", () => {
-    expect(() => iadd(pyList([pyInt(1)]), pyDict([]))).toThrow(PyTypeError);
-    expect(() => iadd(pyList([pyInt(1)]), pyDict([]))).toThrow(
-      /unsupported operand type\(s\) for \+=: 'list' and 'dict'/,
-    );
-  });
-
-  it("iadd rejects set and dict", () => {
-    expect(() => iadd(pySet([pyInt(1)]), pyDict([]))).toThrow(PyTypeError);
-    expect(() => iadd(pySet([pyInt(1)]), pyDict([]))).toThrow(
-      /unsupported operand type\(s\) for \+=: 'set' and 'dict'/,
-    );
-  });
-
-  it("iadd rejects dict and set", () => {
-    expect(() => iadd(pyDict([]), pySet([pyInt(1)]))).toThrow(PyTypeError);
-    expect(() => iadd(pyDict([]), pySet([pyInt(1)]))).toThrow(
-      /unsupported operand type\(s\) for \+=: 'dict' and 'set'/,
     );
   });
 });

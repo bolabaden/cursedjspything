@@ -68,7 +68,11 @@ Emits JSON (`vitest_seconds`, pass gates, `test_count`); use median of several r
 
 ---
 
-| `test/cpython-derived/operator-inplace-cross-type.test.ts` | In-place cross-type TypeError both orders (scalar↔str/bytes; list↔int; plan 424) |
+| `test/cpython-derived/operator-container-cross-type.test.ts` | dict/list/tuple/slice/set/frozenset cross-type add/eq/ordering (plan 432) |
+
+---
+
+| `test/cpython-derived/operator-inplace-cross-type.test.ts` | In-place cross-type TypeError both orders (scalar↔str/bytes; container iadd; plan 432) |
 
 | `test/cpython-derived/operator-unary-evidence.test.ts` | neg/pos/invert/abs reject list without unary slots |
 | `test/cpython-derived/operator-rounding-evidence.test.ts` | round/trunc/floor/ceil reject list without hooks |

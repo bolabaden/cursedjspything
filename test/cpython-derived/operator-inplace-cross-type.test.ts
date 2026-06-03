@@ -13,11 +13,14 @@ import {
   isub,
   itruediv,
   pyBytes,
+  pyDict,
   pyFloat,
   pyInt,
   pyList,
+  pySet,
   pyStr,
   pyTrue,
+  pyTuple,
 } from "../../src/index.js";
 import { PyTypeError } from "../../src/runtime/core/errors.js";
 
@@ -75,6 +78,43 @@ describe("cpython-derived inplace cross-type TypeError", () => {
     expect(() => iadd(pyTrue, pyStr("a"))).toThrow(PyTypeError);
     expect(() => iadd(pyTrue, pyStr("a"))).toThrow(
       /unsupported operand type\(s\) for \+=: 'bool' and 'str'/,
+    );
+  });
+});
+
+describe("cpython-derived inplace container cross-type rejects", () => {
+  it("iadd rejects dict and list", () => {
+    expect(() => iadd(pyDict([]), pyList([pyInt(1)]))).toThrow(PyTypeError);
+    expect(() => iadd(pyDict([]), pyList([pyInt(1)]))).toThrow(
+      /unsupported operand type\(s\) for \+=: 'dict' and 'list'/,
+    );
+  });
+
+  it("iadd rejects dict and tuple", () => {
+    expect(() => iadd(pyDict([]), pyTuple([pyInt(1)]))).toThrow(PyTypeError);
+    expect(() => iadd(pyDict([]), pyTuple([pyInt(1)]))).toThrow(
+      /unsupported operand type\(s\) for \+=: 'dict' and 'tuple'/,
+    );
+  });
+
+  it("iadd rejects list and dict", () => {
+    expect(() => iadd(pyList([pyInt(1)]), pyDict([]))).toThrow(PyTypeError);
+    expect(() => iadd(pyList([pyInt(1)]), pyDict([]))).toThrow(
+      /unsupported operand type\(s\) for \+=: 'list' and 'dict'/,
+    );
+  });
+
+  it("iadd rejects set and dict", () => {
+    expect(() => iadd(pySet([pyInt(1)]), pyDict([]))).toThrow(PyTypeError);
+    expect(() => iadd(pySet([pyInt(1)]), pyDict([]))).toThrow(
+      /unsupported operand type\(s\) for \+=: 'set' and 'dict'/,
+    );
+  });
+
+  it("iadd rejects dict and set", () => {
+    expect(() => iadd(pyDict([]), pySet([pyInt(1)]))).toThrow(PyTypeError);
+    expect(() => iadd(pyDict([]), pySet([pyInt(1)]))).toThrow(
+      /unsupported operand type\(s\) for \+=: 'dict' and 'set'/,
     );
   });
 });
