@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 436 merge PR #232)
+
+### Landed
+
+- [REPO] Plan 436 merged via PR #232 — `operator-container-scalar-cross-type.test.ts` dict↔bytes eq/ne; dict↔int `mul` both orders in container cross-type (911 Vitest / 132 files).
+
+### Partial
+
+- None.
+
+### Next
+
+1. §8.15 — dict↔slice eq/ne companion or further container/scalar symmetry in container cross-type.
+2. PEP 3118 out of scope.
+
+---
+
 ## Delta update (2026-05-24, plan 434 merge PR #231)
 
 ### Landed
