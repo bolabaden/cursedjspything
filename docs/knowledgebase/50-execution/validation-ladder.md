@@ -72,6 +72,10 @@ Emits JSON (`vitest_seconds`, pass gates, `test_count`); use median of several r
 
 ---
 
+| `test/cpython-derived/operator-container-scalar-cross-type.test.ts` | dict↔bytes eq/ne non-coercion (plan 436) |
+
+---
+
 | `test/cpython-derived/operator-inplace-cross-type.test.ts` | In-place cross-type TypeError both orders (scalar↔str/bytes; container iadd; plan 432) |
 
 | `test/cpython-derived/operator-unary-evidence.test.ts` | neg/pos/invert/abs reject list without unary slots |
