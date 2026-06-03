@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 421 merge PR #224)
+
+### Landed
+
+- [REPO] Plan 420 merged via PR #224 — inplace int↔bytes remaining ops (`*=` omitted; mul fallback) on `main` (886 Vitest / 132 files).
+
+### Partial
+
+- None.
+
+### Next
+
+1. §8.15 gaps — binary `mul` bytes↔int in bytes-remaining, float↔bytes inplace, or container cross-type dedupe.
+2. PEP 3118 out of scope.
+
+---
+
 ## Delta update (2026-05-24, plan 419 merge PR #223)
 
 ### Landed
