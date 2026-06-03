@@ -27,6 +27,13 @@ describe("cpython-derived inplace cross-type TypeError", () => {
     );
   });
 
+  it("isub rejects str and int", () => {
+    expect(() => isub(pyStr("a"), pyInt(1))).toThrow(PyTypeError);
+    expect(() => isub(pyStr("a"), pyInt(1))).toThrow(
+      /unsupported operand type\(s\) for -=: 'str' and 'int'/,
+    );
+  });
+
   it("iadd rejects str and int", () => {
     expect(() => iadd(pyStr("a"), pyInt(1))).toThrow(PyTypeError);
     expect(() => iadd(pyStr("a"), pyInt(1))).toThrow(
@@ -41,10 +48,24 @@ describe("cpython-derived inplace cross-type TypeError", () => {
     );
   });
 
+  it("iadd rejects int and list", () => {
+    expect(() => iadd(pyInt(2), pyList([pyInt(1)]))).toThrow(PyTypeError);
+    expect(() => iadd(pyInt(2), pyList([pyInt(1)]))).toThrow(
+      /unsupported operand type\(s\) for \+=: 'int' and 'list'/,
+    );
+  });
+
   it("iadd rejects str and bool", () => {
     expect(() => iadd(pyStr("a"), pyTrue)).toThrow(PyTypeError);
     expect(() => iadd(pyStr("a"), pyTrue)).toThrow(
       /unsupported operand type\(s\) for \+=: 'str' and 'bool'/,
+    );
+  });
+
+  it("iadd rejects bool and str", () => {
+    expect(() => iadd(pyTrue, pyStr("a"))).toThrow(PyTypeError);
+    expect(() => iadd(pyTrue, pyStr("a"))).toThrow(
+      /unsupported operand type\(s\) for \+=: 'bool' and 'str'/,
     );
   });
 });

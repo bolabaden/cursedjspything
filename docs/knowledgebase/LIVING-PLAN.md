@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 400 inplace cross-type bidirectional)
+
+### Landed
+
+- [REPO] `operator-inplace-cross-type.test.ts` — `isub` str↔int, `iadd` int↔list, `iadd` bool↔str both-order TypeError; validation-ladder sync.
+
+### Partial
+
+- None.
+
+### Next
+
+1. Ops merge plan 400 PR when CI green (plan 401).
+2. Dedupe overlapping `operator-*-binary` / `*-remaining-*` test files or §8.15 niche gaps; PEP 3118 out of scope.
+
+---
+
 ## Delta update (2026-05-24, plan 399 merge PR #213)
 
 ### Landed
