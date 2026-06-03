@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 417 merge PR #222)
+
+### Landed
+
+- [REPO] Plan 416 merged via PR #222 — inplace bytes↔str remaining ops on `main` (881 Vitest / 132 files).
+
+### Partial
+
+- None.
+
+### Next
+
+1. operator-file consolidation audit (e.g. bytes-cross-type mul overlap) or §8.15 niche gaps.
+2. PEP 3118 out of scope.
+
+---
+
 ## Delta update (2026-05-24, plan 416 inplace bytes↔str remaining ops)
 
 ### Landed
