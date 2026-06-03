@@ -73,6 +73,39 @@ describe("cpython-derived list/tuple binary ops", () => {
     );
   });
 
+  it("add rejects list and int in both orders", () => {
+    expect(() => add(l(), pyInt(2))).toThrow(PyTypeError);
+    expect(() => add(l(), pyInt(2))).toThrow(
+      /unsupported operand type\(s\) for \+: 'list' and 'int'/,
+    );
+    expect(() => add(pyInt(2), l())).toThrow(PyTypeError);
+    expect(() => add(pyInt(2), l())).toThrow(
+      /unsupported operand type\(s\) for \+: 'int' and 'list'/,
+    );
+  });
+
+  it("add rejects list and str in both orders", () => {
+    expect(() => add(l(), pyStr("a"))).toThrow(PyTypeError);
+    expect(() => add(l(), pyStr("a"))).toThrow(
+      /unsupported operand type\(s\) for \+: 'list' and 'str'/,
+    );
+    expect(() => add(pyStr("a"), l())).toThrow(PyTypeError);
+    expect(() => add(pyStr("a"), l())).toThrow(
+      /unsupported operand type\(s\) for \+: 'str' and 'list'/,
+    );
+  });
+
+  it("add rejects tuple and int in both orders", () => {
+    expect(() => add(t(), pyInt(2))).toThrow(PyTypeError);
+    expect(() => add(t(), pyInt(2))).toThrow(
+      /unsupported operand type\(s\) for \+: 'tuple' and 'int'/,
+    );
+    expect(() => add(pyInt(2), t())).toThrow(PyTypeError);
+    expect(() => add(pyInt(2), t())).toThrow(
+      /unsupported operand type\(s\) for \+: 'int' and 'tuple'/,
+    );
+  });
+
   it("mul rejects list and tuple in both orders", () => {
     expect(() => mul(l(), t())).toThrow(PyTypeError);
     expect(() => mul(l(), t())).toThrow(
