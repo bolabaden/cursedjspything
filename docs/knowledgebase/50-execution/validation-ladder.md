@@ -147,8 +147,8 @@ Emits JSON (`vitest_seconds`, pass gates, `test_count`); use median of several r
 | `test/cpython-derived/bytes-getitem-compare.test.ts` | bytes int index; non-integer subscript TypeError; out-of-range IndexError; lexicographic rich compare |
 | `test/cpython-derived/operator-bytes-conversion.test.ts` | bytes() on str vs int/float TypeError |
 | `test/cpython-derived/operator-bytes-cross-type.test.ts` | bytes add/mul cross-type TypeError both orders (str/float mul plan 394); bytes+bytes and bytes*int |
-| `test/cpython-derived/operator-bytes-remaining-cross-type.test.ts` | bytes↔int/float/str add/sub/truediv/floordiv/mod/divmod/pow TypeError both orders; ordering lt/le/gt/ge (plan 390) |
-| `test/cpython-derived/operator-str-bytes-cross-type.test.ts` | str↔bytes eq/ne non-coercion; binary/ordering/div TypeError both orders (plan 396) |
+| `test/cpython-derived/operator-bytes-remaining-cross-type.test.ts` | bytes↔int/float/str full binary + ordering TypeError both orders (canonical; plan 412) |
+| `test/cpython-derived/operator-str-bytes-cross-type.test.ts` | str↔bytes eq/ne non-coercion (binary in bytes-remaining) |
 | `test/cpython-derived/operator-bool-str-remaining-binary.test.ts` | bool↔str add/sub/truediv/floordiv/mod/divmod/pow TypeError both orders (canonical; plan 404) |
 | `test/cpython-derived/sequence-index-type.test.ts` | List/tuple get/set/del non-integer subscript TypeError; list index out of range and delItem |
 | `test/cpython-derived/contains-protocol.test.ts` | CPython `test_contains.py` membership protocol |
