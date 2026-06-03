@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 416 inplace bytes↔str remaining ops)
+
+### Landed
+
+- [REPO] `operator-inplace-cross-type.test.ts` — bytes↔str iadd/isub/imul/imatmul/itruediv/ifloordiv/imod/ipow both-order TypeError; validation-ladder sync.
+
+### Partial
+
+- None.
+
+### Next
+
+1. Ops merge plan 416 PR when CI green (plan 417).
+2. operator-file consolidation audit or §8.15 niche gaps; PEP 3118 out of scope.
+
+---
+
 ## Delta update (2026-05-24, plan 415 merge PR #221)
 
 ### Landed
