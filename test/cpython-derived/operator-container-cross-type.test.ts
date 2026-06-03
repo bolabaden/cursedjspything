@@ -334,10 +334,14 @@ describe("cpython-derived slice cross-type", () => {
   const l = () => pyList([pyInt(1)]);
   const i = () => pyInt(1);
 
-  it("add rejects slice and int", () => {
+  it("add rejects slice and int in both orders", () => {
     expect(() => add(s(), i())).toThrow(PyTypeError);
     expect(() => add(s(), i())).toThrow(
       /unsupported operand type\(s\) for \+: 'slice' and 'int'/,
+    );
+    expect(() => add(i(), s())).toThrow(PyTypeError);
+    expect(() => add(i(), s())).toThrow(
+      /unsupported operand type\(s\) for \+: 'int' and 'slice'/,
     );
   });
 
@@ -354,14 +358,26 @@ describe("cpython-derived slice cross-type", () => {
 
   it("eq is false for slice and list", () => {
     expect(eq(s(), l())).toBe(false);
+    expect(ne(s(), l())).toBe(true);
   });
 
-  it("lt raises TypeError for slice and list", () => {
-    expect(() => lt(s(), l())).toThrow(PyTypeError);
-    expect(() => lt(s(), l())).toThrow(
-      /'lt' not supported between instances of 'slice' and 'list'/,
-    );
-  });
+  for (const [name, op] of [
+    ["lt", lt],
+    ["le", le],
+    ["gt", gt],
+    ["ge", ge],
+  ] as const) {
+    it(`${name} raises TypeError for slice and list`, () => {
+      expect(() => op(s(), l())).toThrow(PyTypeError);
+      expect(() => op(s(), l())).toThrow(
+        new RegExp(`'${name}' not supported between instances of 'slice' and 'list'`),
+      );
+      expect(() => op(l(), s())).toThrow(PyTypeError);
+      expect(() => op(l(), s())).toThrow(
+        new RegExp(`'${name}' not supported between instances of 'list' and 'slice'`),
+      );
+    });
+  }
 
   it("add rejects slice and tuple in both orders", () => {
     const t = () => pyTuple([pyInt(1)]);
