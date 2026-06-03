@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 415 merge PR #221)
+
+### Landed
+
+- [REPO] Plan 414 merged via PR #221 — inplace float/bool↔str remaining ops on `main` (873 Vitest / 132 files).
+
+### Partial
+
+- None.
+
+### Next
+
+1. §8.15 niche gaps (e.g. bytes↔str inplace, imul scalar pairs) or operator-file consolidation audit.
+2. PEP 3118 out of scope.
+
+---
+
 ## Delta update (2026-05-24, plan 414 inplace float/bool↔str remaining ops)
 
 ### Landed
