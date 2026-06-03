@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 394 bytes mul str/float bidirectional evidence)
+
+### Landed
+
+- [REPO] `operator-bytes-cross-type.test.ts` — `mul` bytes↔str and bytes↔float TypeError both orders; validation-ladder sync.
+
+### Partial
+
+- None.
+
+### Next
+
+1. Ops merge plan 394 PR when CI green (plan 395).
+2. §8.15 follow-ups: golden expansion or niche operator gaps; bool↔float reject N/A (numeric tower). PEP 3118 out of scope.
+
+---
+
 ## Delta update (2026-05-24, plan 393 merge PR #210)
 
 ### Landed
