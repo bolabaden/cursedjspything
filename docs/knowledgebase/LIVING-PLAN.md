@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 408 dedupe str↔float operator tests)
+
+### Landed
+
+- [REPO] Consolidated str↔float into `operator-float-str-remaining-binary.test.ts`; deleted `operator-str-float-remaining-binary.test.ts`; `operator-str-float.test.ts` eq/ne only; validation-ladder sync.
+
+### Partial
+
+- None.
+
+### Next
+
+1. Ops merge plan 408 PR when CI green (plan 409).
+2. §8.15 niche operator gaps or further scalar-pair dedupe; PEP 3118 out of scope.
+
+---
+
 ## Delta update (2026-05-24, plan 407 merge PR #217)
 
 ### Landed

@@ -1,12 +1,17 @@
 /**
- * CPython: float↔str binary ops reject incompatible types (canonical; plan 402 dedupe).
+ * CPython: float↔str binary and ordering reject incompatible types (canonical; plan 408).
  */
 import { describe, it, expect } from "vitest";
 import {
   add,
   divmod,
   floordiv,
+  ge,
+  gt,
+  le,
+  lt,
   mod,
+  mul,
   pow,
   pyFloat,
   pyStr,
@@ -95,4 +100,38 @@ describe("cpython-derived float/str remaining binary ops", () => {
       /unsupported operand type\(s\) for \*\*: 'str' and 'float'/,
     );
   });
+
+  it("mul rejects float and str in both orders", () => {
+    expect(() => mul(f(), s())).toThrow(PyTypeError);
+    expect(() => mul(f(), s())).toThrow(
+      /unsupported operand type\(s\) for \*: 'float' and 'str'/,
+    );
+    expect(() => mul(s(), f())).toThrow(PyTypeError);
+    expect(() => mul(s(), f())).toThrow(
+      /unsupported operand type\(s\) for \*: 'str' and 'float'/,
+    );
+  });
+});
+
+describe("cpython-derived float/str ordering", () => {
+  const s = () => pyStr("a");
+  const f = () => pyFloat(1.0);
+
+  for (const [name, op] of [
+    ["lt", lt],
+    ["le", le],
+    ["gt", gt],
+    ["ge", ge],
+  ] as const) {
+    it(`${name} raises TypeError for str and float in both orders`, () => {
+      expect(() => op(s(), f())).toThrow(PyTypeError);
+      expect(() => op(s(), f())).toThrow(
+        new RegExp(`'${name}' not supported between instances of 'str' and 'float'`),
+      );
+      expect(() => op(f(), s())).toThrow(PyTypeError);
+      expect(() => op(f(), s())).toThrow(
+        new RegExp(`'${name}' not supported between instances of 'float' and 'str'`),
+      );
+    });
+  }
 });
