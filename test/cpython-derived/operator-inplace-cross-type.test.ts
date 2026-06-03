@@ -4,7 +4,12 @@
 import { describe, it, expect } from "vitest";
 import {
   iadd,
+  ifloordiv,
+  imatmul,
+  imod,
+  ipow,
   isub,
+  itruediv,
   pyInt,
   pyList,
   pyStr,
@@ -66,6 +71,66 @@ describe("cpython-derived inplace cross-type TypeError", () => {
     expect(() => iadd(pyTrue, pyStr("a"))).toThrow(PyTypeError);
     expect(() => iadd(pyTrue, pyStr("a"))).toThrow(
       /unsupported operand type\(s\) for \+=: 'bool' and 'str'/,
+    );
+  });
+});
+
+describe("cpython-derived inplace int/str remaining ops", () => {
+  const i = () => pyInt(1);
+  const s = () => pyStr("a");
+
+  it("imatmul rejects int and str in both orders", () => {
+    expect(() => imatmul(i(), s())).toThrow(PyTypeError);
+    expect(() => imatmul(i(), s())).toThrow(
+      /unsupported operand type\(s\) for @=: 'int' and 'str'/,
+    );
+    expect(() => imatmul(s(), i())).toThrow(PyTypeError);
+    expect(() => imatmul(s(), i())).toThrow(
+      /unsupported operand type\(s\) for @=: 'str' and 'int'/,
+    );
+  });
+
+  it("itruediv rejects int and str in both orders", () => {
+    expect(() => itruediv(i(), s())).toThrow(PyTypeError);
+    expect(() => itruediv(i(), s())).toThrow(
+      /unsupported operand type\(s\) for \/=: 'int' and 'str'/,
+    );
+    expect(() => itruediv(s(), i())).toThrow(PyTypeError);
+    expect(() => itruediv(s(), i())).toThrow(
+      /unsupported operand type\(s\) for \/=: 'str' and 'int'/,
+    );
+  });
+
+  it("ifloordiv rejects int and str in both orders", () => {
+    expect(() => ifloordiv(i(), s())).toThrow(PyTypeError);
+    expect(() => ifloordiv(i(), s())).toThrow(
+      /unsupported operand type\(s\) for \/\/=: 'int' and 'str'/,
+    );
+    expect(() => ifloordiv(s(), i())).toThrow(PyTypeError);
+    expect(() => ifloordiv(s(), i())).toThrow(
+      /unsupported operand type\(s\) for \/\/=: 'str' and 'int'/,
+    );
+  });
+
+  it("imod rejects int and str in both orders", () => {
+    expect(() => imod(i(), s())).toThrow(PyTypeError);
+    expect(() => imod(i(), s())).toThrow(
+      /unsupported operand type\(s\) for %=: 'int' and 'str'/,
+    );
+    expect(() => imod(s(), i())).toThrow(PyTypeError);
+    expect(() => imod(s(), i())).toThrow(
+      /unsupported operand type\(s\) for %=: 'str' and 'int'/,
+    );
+  });
+
+  it("ipow rejects int and str in both orders", () => {
+    expect(() => ipow(i(), s())).toThrow(PyTypeError);
+    expect(() => ipow(i(), s())).toThrow(
+      /unsupported operand type\(s\) for \*\*=: 'int' and 'str'/,
+    );
+    expect(() => ipow(s(), i())).toThrow(PyTypeError);
+    expect(() => ipow(s(), i())).toThrow(
+      /unsupported operand type\(s\) for \*\*=: 'str' and 'int'/,
     );
   });
 });

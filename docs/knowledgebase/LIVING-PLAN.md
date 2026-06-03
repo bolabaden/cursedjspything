@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 410 inplace int↔str remaining ops)
+
+### Landed
+
+- [REPO] `operator-inplace-cross-type.test.ts` — imatmul/itruediv/ifloordiv/imod/ipow int↔str both-order TypeError; validation-ladder sync.
+
+### Partial
+
+- None.
+
+### Next
+
+1. Ops merge plan 410 PR when CI green (plan 411).
+2. bytes/str scalar dedupe or other §8.15 gaps; PEP 3118 out of scope.
+
+---
+
 ## Delta update (2026-05-24, plan 409 merge PR #218)
 
 ### Landed
