@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 423 merge PR #225)
+
+### Landed
+
+- [REPO] Plan 422 merged via PR #225 — inplace float↔bytes remaining ops on `main` (894 Vitest / 132 files).
+
+### Partial
+
+- None.
+
+### Next
+
+1. §8.15 — bool↔bytes inplace, container cross-type dedupe, or binary `mul` bytes↔float-only rejects (bytes↔int repeat is valid; no reject test).
+2. PEP 3118 out of scope.
+
+---
+
 ## Delta update (2026-05-24, plan 421 merge PR #224)
 
 ### Landed
