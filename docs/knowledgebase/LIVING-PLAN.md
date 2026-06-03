@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 397 merge PR #212)
+
+### Landed
+
+- [REPO] Plan 396 merged via PR #212 — legacy split operator files bidirectional §8.15 audit on `main` (884 Vitest / 140 files).
+
+### Partial
+
+- None.
+
+### Next
+
+1. Golden expansion or dedupe overlapping `operator-*-binary` / `*-remaining-*` test files.
+2. PEP 3118 out of scope.
+
+---
+
 ## Delta update (2026-05-24, plan 396 §8.15 one-way operator test audit)
 
 ### Landed
