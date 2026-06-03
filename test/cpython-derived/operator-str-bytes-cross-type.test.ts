@@ -72,24 +72,36 @@ describe("cpython-derived str/bytes binary ops", () => {
     );
   });
 
-  it("truediv rejects str and bytes", () => {
+  it("truediv rejects str and bytes in both orders", () => {
     expect(() => truediv(s(), b())).toThrow(PyTypeError);
     expect(() => truediv(s(), b())).toThrow(
       /unsupported operand type\(s\) for \/: 'str' and 'bytes'/,
     );
+    expect(() => truediv(b(), s())).toThrow(PyTypeError);
+    expect(() => truediv(b(), s())).toThrow(
+      /unsupported operand type\(s\) for \/: 'bytes' and 'str'/,
+    );
   });
 
-  it("floordiv rejects str and bytes", () => {
+  it("floordiv rejects str and bytes in both orders", () => {
     expect(() => floordiv(s(), b())).toThrow(PyTypeError);
     expect(() => floordiv(s(), b())).toThrow(
       /unsupported operand type\(s\) for \/\/: 'str' and 'bytes'/,
     );
+    expect(() => floordiv(b(), s())).toThrow(PyTypeError);
+    expect(() => floordiv(b(), s())).toThrow(
+      /unsupported operand type\(s\) for \/\/: 'bytes' and 'str'/,
+    );
   });
 
-  it("mod rejects str and bytes", () => {
+  it("mod rejects str and bytes in both orders", () => {
     expect(() => mod(s(), b())).toThrow(PyTypeError);
     expect(() => mod(s(), b())).toThrow(
       /unsupported operand type\(s\) for %: 'str' and 'bytes'/,
+    );
+    expect(() => mod(b(), s())).toThrow(PyTypeError);
+    expect(() => mod(b(), s())).toThrow(
+      /unsupported operand type\(s\) for %: 'bytes' and 'str'/,
     );
   });
 

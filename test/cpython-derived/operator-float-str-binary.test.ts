@@ -26,17 +26,25 @@ describe("cpython-derived float/str binary arithmetic", () => {
     );
   });
 
-  it("sub rejects float and str", () => {
+  it("sub rejects float and str in both orders", () => {
     expect(() => sub(f1(), sa())).toThrow(PyTypeError);
     expect(() => sub(f1(), sa())).toThrow(
       /unsupported operand type\(s\) for -: 'float' and 'str'/,
     );
+    expect(() => sub(sa(), f1())).toThrow(PyTypeError);
+    expect(() => sub(sa(), f1())).toThrow(
+      /unsupported operand type\(s\) for -: 'str' and 'float'/,
+    );
   });
 
-  it("truediv rejects float and str", () => {
+  it("truediv rejects float and str in both orders", () => {
     expect(() => truediv(f1(), sa())).toThrow(PyTypeError);
     expect(() => truediv(f1(), sa())).toThrow(
       /unsupported operand type\(s\) for \/: 'float' and 'str'/,
+    );
+    expect(() => truediv(sa(), f1())).toThrow(PyTypeError);
+    expect(() => truediv(sa(), f1())).toThrow(
+      /unsupported operand type\(s\) for \/: 'str' and 'float'/,
     );
   });
 });

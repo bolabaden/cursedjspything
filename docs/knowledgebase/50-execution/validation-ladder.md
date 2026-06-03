@@ -74,7 +74,7 @@ Emits JSON (`vitest_seconds`, pass gates, `test_count`); use median of several r
 
 ---
 
-| `test/cpython-derived/operator-float-str-floordiv-mod.test.ts` | float↔str floordiv/mod TypeError |
+| `test/cpython-derived/operator-float-str-floordiv-mod.test.ts` | float↔str floordiv/mod TypeError both orders (plan 396) |
 
 ---
 
@@ -86,7 +86,7 @@ Emits JSON (`vitest_seconds`, pass gates, `test_count`); use median of several r
 
 ---
 
-| `test/cpython-derived/operator-int-str-binary.test.ts` | int↔str sub/floordiv/mod/truediv TypeError |
+| `test/cpython-derived/operator-int-str-binary.test.ts` | int↔str sub/floordiv/mod/truediv TypeError both orders (plan 396) |
 | `test/cpython-derived/operator-unary-evidence.test.ts` | neg/pos/invert/abs reject list without unary slots |
 | `test/cpython-derived/operator-rounding-evidence.test.ts` | round/trunc/floor/ceil reject list without hooks |
 | `test/cpython-derived/operator-numeric-conversion-evidence.test.ts` | toInt/toFloat/index/toComplex reject list |
@@ -165,8 +165,8 @@ Emits JSON (`vitest_seconds`, pass gates, `test_count`); use median of several r
 | `test/cpython-derived/operator-bytes-conversion.test.ts` | bytes() on str vs int/float TypeError |
 | `test/cpython-derived/operator-bytes-cross-type.test.ts` | bytes add/mul cross-type TypeError both orders (str/float mul plan 394); bytes+bytes and bytes*int |
 | `test/cpython-derived/operator-bytes-remaining-cross-type.test.ts` | bytes↔int/float/str add/sub/truediv/floordiv/mod/divmod/pow TypeError both orders; ordering lt/le/gt/ge (plan 390) |
-| `test/cpython-derived/operator-str-bytes-cross-type.test.ts` | str↔bytes eq/ne non-coercion; binary and ordering TypeError |
-| `test/cpython-derived/operator-float-str-binary.test.ts` | float↔str add/sub/truediv TypeError |
+| `test/cpython-derived/operator-str-bytes-cross-type.test.ts` | str↔bytes eq/ne non-coercion; binary/ordering/div TypeError both orders (plan 396) |
+| `test/cpython-derived/operator-float-str-binary.test.ts` | float↔str add/sub/truediv TypeError both orders (plan 396) |
 | `test/cpython-derived/operator-bool-str-binary.test.ts` | bool↔str add/sub/truediv TypeError both orders ('bool' typename; plan 392) |
 | `test/cpython-derived/operator-bool-str-remaining-binary.test.ts` | bool↔str floordiv/mod/divmod/pow TypeError both orders (plan 392) |
 | `test/cpython-derived/sequence-index-type.test.ts` | List/tuple get/set/del non-integer subscript TypeError; list index out of range and delItem |

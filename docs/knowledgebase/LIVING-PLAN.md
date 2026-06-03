@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 396 §8.15 one-way operator test audit)
+
+### Landed
+
+- [REPO] Legacy split operator files — bidirectional TypeError for float-str binary, int-str binary, float-str floordiv/mod, str-bytes div ops; validation-ladder sync.
+
+### Partial
+
+- None.
+
+### Next
+
+1. Ops merge plan 396 PR when CI green (plan 397).
+2. Golden expansion or consolidate duplicate split operator files; PEP 3118 out of scope.
+
+---
+
 ## Delta update (2026-05-24, plan 395 merge PR #211)
 
 ### Landed
