@@ -70,7 +70,7 @@ Emits JSON (`vitest_seconds`, pass gates, `test_count`); use median of several r
 
 ---
 
-| `test/cpython-derived/operator-inplace-cross-type.test.ts` | In-place +=/-= cross-type TypeError (int/str/list/bool) |
+| `test/cpython-derived/operator-inplace-cross-type.test.ts` | In-place +=/-= cross-type TypeError both orders (int↔str, int↔list, str↔bool) |
 
 ---
 
