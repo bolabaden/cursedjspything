@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 425 merge PR #226)
+
+### Landed
+
+- [REPO] Plan 424 merged via PR #226 — inplace bool↔bytes remaining ops (`*=` omitted) on `main` (901 Vitest / 132 files). Scalar↔bytes inplace arc complete (int/float/bool/str).
+
+### Partial
+
+- None.
+
+### Next
+
+1. §8.15 — bytes↔bool binary in `operator-bytes-remaining-cross-type`, container cross-type dedupe, or bool↔bytes eq/ne companion if split needed.
+2. PEP 3118 out of scope.
+
+---
+
 ## Delta update (2026-05-24, plan 423 merge PR #225)
 
 ### Landed
