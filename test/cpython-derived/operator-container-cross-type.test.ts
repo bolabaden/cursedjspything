@@ -299,10 +299,14 @@ describe("cpython-derived dict/set cross-type", () => {
 describe("cpython-derived dict/scalar container cross-type", () => {
   const d = () => pyDict([[pyInt(1), pyInt(2)]]);
 
-  it("mul rejects dict and int", () => {
+  it("mul rejects dict and int in both orders", () => {
     expect(() => mul(d(), pyInt(2))).toThrow(PyTypeError);
     expect(() => mul(d(), pyInt(2))).toThrow(
       /unsupported operand type\(s\) for \*: 'dict' and 'int'/,
+    );
+    expect(() => mul(pyInt(2), d())).toThrow(PyTypeError);
+    expect(() => mul(pyInt(2), d())).toThrow(
+      /unsupported operand type\(s\) for \*: 'int' and 'dict'/,
     );
   });
 
