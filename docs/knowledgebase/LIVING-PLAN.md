@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 391 merge PR #209)
+
+### Landed
+
+- [REPO] Plan 390 merged via PR #209 — bytes↔scalar bidirectional add/sub/truediv/floordiv/mod on `main` (882 Vitest / 140 files).
+
+### Partial
+
+- None.
+
+### Next
+
+1. bool↔str bidirectional sub/truediv/floordiv/mod in bool-str test files (plan 392).
+2. PEP 3118 out of scope.
+
+---
+
 ## Delta update (2026-05-24, plan 390 bytes↔scalar bidirectional binary evidence)
 
 ### Landed
