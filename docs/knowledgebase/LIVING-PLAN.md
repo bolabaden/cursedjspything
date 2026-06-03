@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 414 inplace float/bool↔str remaining ops)
+
+### Landed
+
+- [REPO] `operator-inplace-cross-type.test.ts` — float↔str and bool↔str isub/imatmul/itruediv/ifloordiv/imod/ipow both-order TypeError; validation-ladder sync.
+
+### Partial
+
+- None.
+
+### Next
+
+1. Ops merge plan 414 PR when CI green (plan 415).
+2. §8.15 niche gaps or operator test consolidation; PEP 3118 out of scope.
+
+---
+
 ## Delta update (2026-05-24, plan 413 merge PR #220)
 
 ### Landed
