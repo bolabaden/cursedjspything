@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 419 merge PR #223)
+
+### Landed
+
+- [REPO] Plan 418 merged via PR #223 — bytes-cross-type happy paths only; add↔int and mul↔float rejects in bytes-remaining (879 Vitest / 132 files).
+
+### Partial
+
+- None.
+
+### Next
+
+1. §8.15 operator-file audit — other niche overlaps (e.g. container cross-type vs remaining) or inplace int↔bytes gaps.
+2. PEP 3118 out of scope.
+
+---
+
 ## Delta update (2026-05-24, plan 417 merge PR #222)
 
 ### Landed
