@@ -36,6 +36,18 @@ describe("cpython-derived list/tuple equality", () => {
   });
 });
 
+describe("cpython-derived list/bytes comparisons", () => {
+  const l = () => pyList([pyInt(1)]);
+  const b = () => pyBytes([1, 2]);
+
+  it("eq and ne do not coerce list and bytes", () => {
+    expect(eq(l(), b())).toBe(false);
+    expect(eq(b(), l())).toBe(false);
+    expect(ne(l(), b())).toBe(true);
+    expect(ne(b(), l())).toBe(true);
+  });
+});
+
 describe("cpython-derived list/tuple ordering", () => {
   const l = () => pyList([pyInt(1)]);
   const t = () => pyTuple([pyInt(1)]);
@@ -145,6 +157,18 @@ describe("cpython-derived list/tuple binary ops", () => {
     expect(() => mul(b(), l())).toThrow(PyTypeError);
     expect(() => mul(b(), l())).toThrow(
       /unsupported operand type\(s\) for \*: 'bytes' and 'list'/,
+    );
+  });
+
+  it("mul rejects tuple and bytes in both orders", () => {
+    const b = () => pyBytes([1, 2]);
+    expect(() => mul(t(), b())).toThrow(PyTypeError);
+    expect(() => mul(t(), b())).toThrow(
+      /unsupported operand type\(s\) for \*: 'tuple' and 'bytes'/,
+    );
+    expect(() => mul(b(), t())).toThrow(PyTypeError);
+    expect(() => mul(b(), t())).toThrow(
+      /unsupported operand type\(s\) for \*: 'bytes' and 'tuple'/,
     );
   });
 
