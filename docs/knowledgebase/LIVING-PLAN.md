@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 442 merge PR #235)
+
+### Landed
+
+- [REPO] Plan 442 merged via PR #235 — list↔dict `mul` both orders; set↔bytes add/eq/mul/ordering in container cross-type (930 Vitest / 132 files).
+
+### Partial
+
+- None.
+
+### Next
+
+1. §8.15 — operator-file consolidation audit or remaining container pairs (e.g. frozenset↔bytes, list↔bytes mul).
+2. PEP 3118 out of scope.
+
+---
+
 ## Delta update (2026-05-24, plan 440 merge PR #234)
 
 ### Landed
