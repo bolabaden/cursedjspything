@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 395 merge PR #211)
+
+### Landed
+
+- [REPO] Plan 394 merged via PR #211 — bytes `mul` str/float bidirectional TypeError on `main` (884 Vitest / 140 files).
+
+### Partial
+
+- None.
+
+### Next
+
+1. §8.15: golden expansion or audit remaining one-way operator tests repo-wide.
+2. PEP 3118 out of scope.
+
+---
+
 ## Delta update (2026-05-24, plan 394 bytes mul str/float bidirectional evidence)
 
 ### Landed
