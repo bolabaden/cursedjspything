@@ -79,7 +79,7 @@ See COMPATIBILITY §9–10 for exhaustive list.
 |-------|-------|
 | “Follows 3.14 slotdefs names” | Yes `[REPO]` |
 | “Documents 3.9–3.14 official behavior” | Yes with pinned URLs |
-| “Matches CPython on all versions” | **No** — golden is 29 keys/profile per host Python `[REPO]` |
+| “Matches CPython on all versions” | **No** — golden is 32 keys/profile per host Python `[REPO]` |
 | “Complete Python compatibility” | **No** |
 
 ---

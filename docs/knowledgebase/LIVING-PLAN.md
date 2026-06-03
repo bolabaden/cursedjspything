@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 398 golden scalar non-coercion keys)
+
+### Landed
+
+- [REPO] Golden harness — `str_int_eq_false`, `str_bytes_eq_false`, `str_int_add_raises` in `cases.py` / `pyrt-cases.ts`; **32 keys/profile**; expected JSON + key-sets updated.
+
+### Partial
+
+- None.
+
+### Next
+
+1. Ops merge plan 398 PR when CI green (plan 399).
+2. §8.15 inplace cross-type bidirectional `iadd`/`isub` or dedupe overlapping operator test files; PEP 3118 out of scope.
+
+---
+
 ## Delta update (2026-05-24, plan 397 merge PR #212)
 
 ### Landed

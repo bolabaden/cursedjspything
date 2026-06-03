@@ -26,6 +26,7 @@ import {
   pyTuple,
   getItem,
   pySlice,
+  pyBytes,
   unwrap,
   wrapBuffer,
   getBuffer,
@@ -105,6 +106,13 @@ export function buildPyrtCases(pythonVersion: string): Record<string, unknown> {
     lt(incA, incB);
   } catch (e) {
     if (e instanceof PyTypeError) rich_lt_both_not_impl_raises = true;
+  }
+
+  let str_int_add_raises = false;
+  try {
+    add(pyInt(1), pyStr("a"));
+  } catch (e) {
+    if (e instanceof PyTypeError) str_int_add_raises = true;
   }
 
   const list = pyList([pyInt(0), pyInt(1), pyInt(2)]);
@@ -198,6 +206,11 @@ export function buildPyrtCases(pythonVersion: string): Record<string, unknown> {
     bool_int_add: unwrap<number>(add(pyInt(1), pyTrue) as PyObject),
     bool_float_eq: eq(pyTrue, pyFloat(1.0)) === true,
     bool_float_add: unwrap<number>(add(pyTrue, pyFloat(1.0)) as PyObject),
+    // golden:str_int_eq_false / str_bytes_eq_false / str_int_add_raises — keep in sync with cases.py
+    str_int_eq_false: eq(pyStr("1"), pyInt(1)) === false,
+    str_bytes_eq_false:
+      eq(pyStr("ab"), pyBytes(new Uint8Array([97, 98]))) === false,
+    str_int_add_raises,
     // golden:seq_bool_mul / seq_bool_rmul — keep in sync with scripts/golden/cases.py
     seq_bool_mul: len(mul(oneItemList, pyTrue) as PyObject),
     seq_bool_rmul: len(mul(pyTrue, oneItemList) as PyObject),

@@ -40,5 +40,8 @@
   "descriptor_data_wins": "descriptor-value",
   "descriptor_nodata_loses": "instance-value",
   "init_subclass_called": true,
-  "set_name_called": true
+  "set_name_called": true,
+  "str_int_eq_false": true,
+  "str_bytes_eq_false": true,
+  "str_int_add_raises": true
 }

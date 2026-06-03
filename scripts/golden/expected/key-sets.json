@@ -27,6 +27,9 @@
     "slice_list",
     "str_bool_mul",
     "str_bool_rmul",
+    "str_bytes_eq_false",
+    "str_int_add_raises",
+    "str_int_eq_false",
     "tuple_bool_mul",
     "tuple_bool_rmul"
   ],
@@ -58,6 +61,9 @@
     "slice_list",
     "str_bool_mul",
     "str_bool_rmul",
+    "str_bytes_eq_false",
+    "str_int_add_raises",
+    "str_int_eq_false",
     "tuple_bool_mul",
     "tuple_bool_rmul"
   ],
@@ -89,6 +95,9 @@
     "slice_list",
     "str_bool_mul",
     "str_bool_rmul",
+    "str_bytes_eq_false",
+    "str_int_add_raises",
+    "str_int_eq_false",
     "tuple_bool_mul",
     "tuple_bool_rmul"
   ],
@@ -120,6 +129,9 @@
     "slice_list",
     "str_bool_mul",
     "str_bool_rmul",
+    "str_bytes_eq_false",
+    "str_int_add_raises",
+    "str_int_eq_false",
     "tuple_bool_mul",
     "tuple_bool_rmul"
   ]

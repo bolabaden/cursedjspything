@@ -108,6 +108,9 @@ def main() -> None:
         "bool_int_add": 1 + True,
         "bool_float_eq": True == 1.0,
         "bool_float_add": True + 1.0,
+        # golden:str_int_eq_false / str_bytes_eq_false / str_int_add_raises — keep in sync with pyrt-cases.ts
+        "str_int_eq_false": ("1" == 1) == False,
+        "str_bytes_eq_false": ("ab" == b"ab") == False,
         # golden:seq_bool_mul / seq_bool_rmul — keep in sync with scripts/golden/pyrt-cases.ts
         "seq_bool_mul": len([1] * True),
         "seq_bool_rmul": len(True * [1]),
@@ -155,6 +158,12 @@ def main() -> None:
         my_desc = SetNameDesc()
 
     cases["set_name_called"] = set_name_log == [("SetNameOwner", "my_desc")]
+
+    try:
+        1 + "a"
+        cases["str_int_add_raises"] = False
+    except TypeError:
+        cases["str_int_add_raises"] = True
 
     inc_a, inc_b = Incomparable(), Incomparable()
     try:
