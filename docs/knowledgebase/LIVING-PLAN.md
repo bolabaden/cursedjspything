@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 438 merge PR #233)
+
+### Landed
+
+- [REPO] Plan 438 merged via PR #233 — dict↔slice and dict↔int eq/ne in `operator-container-scalar-cross-type` (913 Vitest / 132 files). dict↔bytes/int/slice scalar comparisons complete in companion.
+
+### Partial
+
+- None.
+
+### Next
+
+1. §8.15 — slice↔int eq/ne or container ordering gaps (dict↔slice lt/le/gt/ge); operator-file consolidation audit.
+2. PEP 3118 out of scope.
+
+---
+
 ## Delta update (2026-05-24, plan 436 merge PR #232)
 
 ### Landed

@@ -1,7 +1,7 @@
 ---
 title: "feat: dict↔slice and dict↔int eq/ne companion (plan 438)"
 type: feat
-status: in_progress
+status: completed
 date: 2026-05-24
 origin: docs/knowledgebase/LIVING-PLAN.md plan 437
 ---
