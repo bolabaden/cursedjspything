@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 431 merge PR #229)
+
+### Landed
+
+- [REPO] Plan 430 merged via PR #229 — `operator-bytes-scalar-cross-type.test.ts` for bytes↔int/float/bool eq/ne; deduped bytes-getitem-compare (907 Vitest / 131 files).
+
+### Partial
+
+- None.
+
+### Next
+
+1. §8.15 — further container cross-type dedupe or operator-file consolidation audit.
+2. PEP 3118 out of scope.
+
+---
+
 ## Delta update (2026-05-24, plan 429 merge PR #228)
 
 ### Landed
