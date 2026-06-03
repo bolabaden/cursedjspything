@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 446 merge PR #237)
+
+### Landed
+
+- [REPO] Plan 446 merged via PR #237 — tuple↔bytes `mul` and list↔bytes eq/ne in `operator-list-tuple-cross-type` (939 Vitest / 132 files).
+
+### Partial
+
+- None.
+
+### Next
+
+1. §8.15 — operator-file consolidation audit or tuple↔bytes eq/ne if split from list-tuple file.
+2. PEP 3118 out of scope.
+
+---
+
 ## Delta update (2026-05-24, plan 444 merge PR #236)
 
 ### Landed
