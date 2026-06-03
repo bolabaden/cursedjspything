@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 402 dedupe int/float↔str operator tests)
+
+### Landed
+
+- [REPO] Removed five duplicate split test files; `operator-int-str-remaining-binary` and `operator-float-str-remaining-binary` are canonical (float add/sub merged); validation-ladder sync.
+
+### Partial
+
+- None.
+
+### Next
+
+1. Ops merge plan 402 PR when CI green (plan 403).
+2. bool↔str split-file dedupe or §8.15 niche gaps; PEP 3118 out of scope.
+
+---
+
 ## Delta update (2026-05-24, plan 401 merge PR #214)
 
 ### Landed
