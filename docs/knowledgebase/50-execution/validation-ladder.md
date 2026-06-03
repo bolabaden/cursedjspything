@@ -146,7 +146,7 @@ Emits JSON (`vitest_seconds`, pass gates, `test_count`); use median of several r
 | `test/cpython-derived/bytes-slice-index.test.ts` | bytes slice subscript returns bytes |
 | `test/cpython-derived/bytes-getitem-compare.test.ts` | bytes int index; non-integer subscript TypeError; out-of-range IndexError; lexicographic rich compare |
 | `test/cpython-derived/operator-bytes-conversion.test.ts` | bytes() on str vs int/float TypeError |
-| `test/cpython-derived/operator-bytes-cross-type.test.ts` | bytes add/mul cross-type TypeError both orders (str/float mul plan 394); bytes+bytes and bytes*int |
+| `test/cpython-derived/operator-bytes-cross-type.test.ts` | bytes+bytes add and bytes*int mul happy paths only (plan 418) |
 | `test/cpython-derived/operator-bytes-remaining-cross-type.test.ts` | bytes↔int/float/str full binary + ordering TypeError both orders (canonical; plan 412) |
 | `test/cpython-derived/operator-str-bytes-cross-type.test.ts` | str↔bytes eq/ne non-coercion (binary in bytes-remaining) |
 | `test/cpython-derived/operator-bool-str-remaining-binary.test.ts` | bool↔str add/sub/truediv/floordiv/mod/divmod/pow TypeError both orders (canonical; plan 404) |

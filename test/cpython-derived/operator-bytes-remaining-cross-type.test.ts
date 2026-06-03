@@ -51,6 +51,17 @@ describe("cpython-derived bytes/scalar remaining binary ops", () => {
     );
   });
 
+  it("add rejects bytes and int in both orders", () => {
+    expect(() => add(b(), i())).toThrow(PyTypeError);
+    expect(() => add(b(), i())).toThrow(
+      /unsupported operand type\(s\) for \+: 'bytes' and 'int'/,
+    );
+    expect(() => add(i(), b())).toThrow(PyTypeError);
+    expect(() => add(i(), b())).toThrow(
+      /unsupported operand type\(s\) for \+: 'int' and 'bytes'/,
+    );
+  });
+
   it("sub rejects bytes and str in both orders", () => {
     expect(() => sub(b(), s())).toThrow(PyTypeError);
     expect(() => sub(b(), s())).toThrow(
@@ -70,6 +81,17 @@ describe("cpython-derived bytes/scalar remaining binary ops", () => {
     expect(() => mul(s(), b())).toThrow(PyTypeError);
     expect(() => mul(s(), b())).toThrow(
       /unsupported operand type\(s\) for \*: 'str' and 'bytes'/,
+    );
+  });
+
+  it("mul rejects bytes and float in both orders", () => {
+    expect(() => mul(b(), f())).toThrow(PyTypeError);
+    expect(() => mul(b(), f())).toThrow(
+      /unsupported operand type\(s\) for \*: 'bytes' and 'float'/,
+    );
+    expect(() => mul(f(), b())).toThrow(PyTypeError);
+    expect(() => mul(f(), b())).toThrow(
+      /unsupported operand type\(s\) for \*: 'float' and 'bytes'/,
     );
   });
 
