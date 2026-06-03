@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 392 bool↔str bidirectional binary evidence)
+
+### Landed
+
+- [REPO] `operator-bool-str-binary.test.ts` and `operator-bool-str-remaining-binary.test.ts` — sub/truediv/floordiv/mod bidirectional TypeError parity; validation-ladder sync.
+
+### Partial
+
+- None.
+
+### Next
+
+1. Ops merge plan 392 PR when CI green (plan 393).
+2. Next §8.15 slice (bool↔float remaining, bytes mul reverse, or golden expansion); PEP 3118 out of scope.
+
+---
+
 ## Delta update (2026-05-24, plan 391 merge PR #209)
 
 ### Landed
