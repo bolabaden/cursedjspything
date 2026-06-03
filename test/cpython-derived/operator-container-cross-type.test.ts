@@ -438,16 +438,3 @@ describe("cpython-derived slice cross-type", () => {
     });
   }
 });
-
-describe("cpython-derived tuple/scalar cross-type add", () => {
-  it("add rejects tuple and int", () => {
-    expect(() => add(pyTuple([pyInt(1)]), pyInt(2))).toThrow(PyTypeError);
-    expect(() => add(pyTuple([pyInt(1)]), pyInt(2))).toThrow(
-      /unsupported operand type\(s\) for \+: 'tuple' and 'int'/,
-    );
-    expect(() => add(pyInt(2), pyTuple([pyInt(1)]))).toThrow(PyTypeError);
-    expect(() => add(pyInt(2), pyTuple([pyInt(1)]))).toThrow(
-      /unsupported operand type\(s\) for \+: 'int' and 'tuple'/,
-    );
-  });
-});

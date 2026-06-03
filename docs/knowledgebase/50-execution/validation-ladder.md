@@ -64,7 +64,7 @@ Emits JSON (`vitest_seconds`, pass gates, `test_count`); use median of several r
 
 ---
 
-| `test/cpython-derived/operator-sequence-cross-type-add.test.ts` | list/tuple add rejects int/str/tuple cross-type |
+| `test/cpython-derived/operator-list-tuple-cross-type.test.ts` | list↔tuple eq/ordering/binary/inplace; list/tuple↔int/str add rejects (canonical; plan 428) |
 
 ---
 
@@ -152,7 +152,6 @@ Emits JSON (`vitest_seconds`, pass gates, `test_count`); use median of several r
 | `test/cpython-derived/operator-bool-str-remaining-binary.test.ts` | bool↔str add/sub/truediv/floordiv/mod/divmod/pow TypeError both orders (canonical; plan 404) |
 | `test/cpython-derived/sequence-index-type.test.ts` | List/tuple get/set/del non-integer subscript TypeError; list index out of range and delItem |
 | `test/cpython-derived/contains-protocol.test.ts` | CPython `test_contains.py` membership protocol |
-| `test/cpython-derived/sequence-cross-type.test.ts` | List/str add and list mul reject incompatible types |
 | `test/cpython-derived/isinstance-protocol.test.ts` | CPython `test_isinstance.py` MRO / tuple checks |
 | `test/cpython-derived/sequence-repeat-nonint.test.ts` | List/tuple/str repeat rejects float repeat count |
 | `test/cpython-derived/list-reversed.test.ts` | list.__reversed__ yields elements last-to-first via list_reverseiterator; empty StopIteration; iterator __iter__ returns self |
