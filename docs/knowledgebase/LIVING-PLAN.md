@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 432 merge PR #230)
+
+### Landed
+
+- [REPO] Plan 432 merged via PR #230 — container `iadd` rejects moved to `operator-inplace-cross-type`; validation-ladder container row; COMPATIBILITY §8.15 pruned eight deleted operator paths (907 Vitest / 131 files).
+
+### Partial
+
+- None.
+
+### Next
+
+1. §8.15 — slice↔list ordering symmetry in container cross-type; further container dedupe or operator consolidation.
+2. PEP 3118 out of scope.
+
+---
+
 ## Delta update (2026-05-24, plan 431 merge PR #229)
 
 ### Landed
