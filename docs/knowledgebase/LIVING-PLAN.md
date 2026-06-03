@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 411 merge PR #219)
+
+### Landed
+
+- [REPO] Plan 410 merged via PR #219 — inplace int↔str `@=`/`/=`/`//=`/`%=`/`**=` on `main` (867 Vitest / 132 files).
+
+### Partial
+
+- None.
+
+### Next
+
+1. bytes↔str cross-type dedupe review or inplace float↔str / bool↔str remaining ops.
+2. PEP 3118 out of scope.
+
+---
+
 ## Delta update (2026-05-24, plan 410 inplace int↔str remaining ops)
 
 ### Landed
