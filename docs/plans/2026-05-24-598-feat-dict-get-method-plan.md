@@ -1,7 +1,7 @@
 ---
 title: "feat: dict.get with hash+eq lookup (plan 598)"
 type: feat
-status: active
+status: completed
 date: 2026-05-24
 origin: plan 596; dict method surface gap
 ---
