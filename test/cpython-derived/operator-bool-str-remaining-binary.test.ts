@@ -1,9 +1,8 @@
 /**
- * CPython: bool↔str binary ops reject incompatible types (canonical; plan 404 dedupe).
+ * CPython: bool↔str remaining binary ops (add in operator-str-scalar; plan 404/474).
  */
 import { describe, it, expect } from "vitest";
 import {
-  add,
   divmod,
   floordiv,
   mod,
@@ -18,17 +17,6 @@ import { PyTypeError } from "../../src/runtime/core/errors.js";
 describe("cpython-derived bool/str remaining binary ops", () => {
   const t = () => pyTrue;
   const s = () => pyStr("a");
-
-  it("add rejects bool and str in both orders", () => {
-    expect(() => add(t(), s())).toThrow(PyTypeError);
-    expect(() => add(t(), s())).toThrow(
-      /unsupported operand type\(s\) for \+: 'bool' and 'str'/,
-    );
-    expect(() => add(s(), t())).toThrow(PyTypeError);
-    expect(() => add(s(), t())).toThrow(
-      /unsupported operand type\(s\) for \+: 'str' and 'bool'/,
-    );
-  });
 
   it("sub rejects bool and str in both orders", () => {
     expect(() => sub(t(), s())).toThrow(PyTypeError);
