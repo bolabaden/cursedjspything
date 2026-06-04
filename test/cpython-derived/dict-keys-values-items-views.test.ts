@@ -148,4 +148,13 @@ describe("dict keys values items views", () => {
     expect(contains(iv, pyTuple([k2, v]))).toBe(true);
     expect(contains(iv, pyTuple([k2, pyInt(8)]))).toBe(false);
   });
+
+  it("items view contains uses rich eq on values", () => {
+    const [v1, v2] = equalValuePair();
+    const k = pyStr("key");
+    const d = pyDict([[k, v1]]);
+    const iv = (getAttr(d, "items") as (self: PyObject) => PyObject)(d);
+    expect(contains(iv, pyTuple([k, v2]))).toBe(true);
+    expect(contains(iv, pyTuple([k, pyInt(0)]))).toBe(false);
+  });
 });
