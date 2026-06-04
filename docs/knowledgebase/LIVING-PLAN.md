@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-06-04, plan 632 merge PR #330)
+
+### Landed
+
+- [REPO] Plan 632 merged via PR #330 — `dict.__delitem__` hash+eq and `dict_items` value `contains` evidence; §8.5 docs; validation-ladder sync (1132 Vitest / 155 files).
+
+### Partial
+
+- None.
+
+### Next
+
+1. Further §8.15 gaps only when scoped (remaining niche API).
+2. PEP 3118 out of scope.
+
+---
+
 ## Delta update (2026-06-04, plan 630 merge PR #329)
 
 ### Landed
