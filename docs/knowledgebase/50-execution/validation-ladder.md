@@ -96,7 +96,7 @@ Emits JSON (`vitest_seconds`, pass gates, `test_count`); use median of several r
 | `test/cpython-derived/operator-matmul-evidence.test.ts` | matmul @ rejects builtins without __matmul__ |
 | `test/cpython-derived/operator-format-evidence.test.ts` | format() __format__ on int/str/float/bool/bytes/None/list/tuple/dict/slice/set/frozenset; empty-spec repr; non-empty TypeError; repr-only fallback class |
 | `test/cpython-derived/frozenset-set-eq.test.ts` | frozenset ↔ set cross-type __eq__; equal-but-distinct keys (plan 620) |
-| `test/cpython-derived/frozenset-hash.test.ts` | frozenset __hash__; build/contains hash guards (plans 578/582); set unhashable |
+| `test/cpython-derived/frozenset-hash.test.ts` | frozenset __hash__; equal-key hash+eq (plan 630); hash guards (578/582) |
 | `test/cpython-derived/frozenset-set-algebra.test.ts` | frozenset |&-^ and cross-type set↔frozenset result-type; hash+eq equal keys (plan 618) |
 | `test/cpython-derived/frozenset-iter.test.ts` | frozenset __iter__ / frozenset_iterator; StopIteration on empty |
 | `test/cpython-derived/frozenset-set-ordering.test.ts` | frozenset ↔ set subset/superset ordering (<=, <, >=, >) cross-type; hash+eq equal keys (plan 612) |
@@ -188,7 +188,7 @@ Emits JSON (`vitest_seconds`, pass gates, `test_count`); use median of several r
 | `test/cpython-derived/frozenset-bool.test.ts` | frozenset.__bool__ empty falsy; non-empty truthy |
 | `test/cpython-derived/tuple-reversed.test.ts` | tuple.__reversed__ yields elements last-to-first; empty StopIteration; iterator __iter__ returns self |
 | `test/cpython-derived/tuple-bool.test.ts` | tuple.__bool__ empty falsy; non-empty truthy |
-| `test/cpython-derived/tuple-hash.test.ts` | tuple.__hash__ empty/None sentinel/order; unhashable/invalid-hash elements (plan 586); plans 564/572 |
+| `test/cpython-derived/tuple-hash.test.ts` | tuple __hash__; equal-key element hash (plan 630); empty/order/guards (586, 564/572) |
 | `test/cpython-derived/int-bool.test.ts` | int.__bool__ 0 falsy; non-zero truthy |
 | `test/cpython-derived/int-hash.test.ts` | int.__hash__ stable; zero hash 0; equal value matches (plan 558) |
 | `test/cpython-derived/float-bool.test.ts` | float.__bool__ 0.0 falsy; non-zero truthy |

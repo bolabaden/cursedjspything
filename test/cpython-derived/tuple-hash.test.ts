@@ -6,6 +6,7 @@ import {
   hash,
   instantiate,
   makeClass,
+  NotImplemented,
   objectType,
   pyInt,
   pyList,
@@ -15,6 +16,24 @@ import {
 } from "../../src/index.js";
 import { Slot } from "../../src/runtime/core/slots.js";
 import { PyTypeError } from "../../src/runtime/core/errors.js";
+
+function equalKeyPair(): [PyObject, PyObject] {
+  const Key = makeClass({
+    name: "Key",
+    bases: [objectType],
+    dict: new Map<string | symbol, unknown>([
+      [Slot.hash, () => 59],
+      [
+        Slot.eq,
+        (_self: PyObject, other: PyObject) => {
+          if (other.type.name === "Key") return true;
+          return NotImplemented;
+        },
+      ],
+    ]),
+  });
+  return [instantiate(Key), instantiate(Key)];
+}
 
 function badHashElement(): PyObject {
   const BadHash = makeClass({
@@ -46,6 +65,12 @@ describe("tuple __hash__", () => {
     const a = pyTuple([pyInt(1), pyInt(2)]);
     const b = pyTuple([pyInt(1), pyInt(2)]);
     expect(hash(a)).toBe(hash(b));
+  });
+
+  it("matches for tuples with equal-but-distinct elements", () => {
+    const [k1, k2] = equalKeyPair();
+    expect(hash(pyTuple([k1]))).toBe(hash(pyTuple([k2])));
+    expect(hash(pyTuple([k1, pyInt(1)]))).toBe(hash(pyTuple([k2, pyInt(1)])));
   });
 
   it("differs for different tuples", () => {
