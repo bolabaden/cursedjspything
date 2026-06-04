@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 452 merge PR #240)
+
+### Landed
+
+- [REPO] Plan 452 merged via PR #240 — `registerCrossTypeOrderingRejects` helper; 13 container + 1 list-tuple ordering refactors (~250 lines deduped; 941 Vitest / 132 files).
+
+### Partial
+
+- None.
+
+### Next
+
+1. §8.15 — extend ordering helper to other operator-* files only if a scoped plan justifies it.
+2. PEP 3118 out of scope.
+
+---
+
 ## Delta update (2026-05-24, plan 450 merge PR #239)
 
 ### Landed
