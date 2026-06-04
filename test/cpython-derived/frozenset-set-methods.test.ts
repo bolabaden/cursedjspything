@@ -3,13 +3,36 @@
  */
 import { describe, it, expect } from "vitest";
 import {
-  PyObject,
   getAttr,
+  instantiate,
+  makeClass,
+  NotImplemented,
+  objectType,
+  PyObject,
   pyFrozenSet,
   pyInt,
   pySet,
 } from "../../src/index.js";
+import { Slot } from "../../src/runtime/core/slots.js";
 import { PyTypeError } from "../../src/runtime/core/errors.js";
+
+function equalKeyPair(): [PyObject, PyObject] {
+  const Key = makeClass({
+    name: "Key",
+    bases: [objectType],
+    dict: new Map<string | symbol, unknown>([
+      [Slot.hash, () => 61],
+      [
+        Slot.eq,
+        (_self: PyObject, other: PyObject) => {
+          if (other.type.name === "Key") return true;
+          return NotImplemented;
+        },
+      ],
+    ]),
+  });
+  return [instantiate(Key), instantiate(Key)];
+}
 
 type SetMethodFn = (self: PyObject, other: PyObject) => unknown;
 
@@ -50,5 +73,21 @@ describe("set and frozenset subset methods", () => {
     expect(() => call(pySet([pyInt(1)]), "isdisjoint", pyInt(2))).toThrow(
       PyTypeError,
     );
+  });
+
+  it("issubset and issuperset use hash+eq membership", () => {
+    const [k1, k2] = equalKeyPair();
+    const three = pyInt(3);
+    expect(call(pyFrozenSet([k1]), "issubset", pySet([k2, three]))).toBe(true);
+    expect(call(pySet([k2, three]), "issuperset", pyFrozenSet([k1]))).toBe(
+      true,
+    );
+    expect(call(pySet([k1, three]), "issubset", pyFrozenSet([k2]))).toBe(false);
+  });
+
+  it("isdisjoint is false when equal keys overlap", () => {
+    const [k1, k2] = equalKeyPair();
+    expect(call(pySet([k1]), "isdisjoint", pyFrozenSet([k2]))).toBe(false);
+    expect(call(pyFrozenSet([k1]), "isdisjoint", pySet([pyInt(9)]))).toBe(true);
   });
 });
