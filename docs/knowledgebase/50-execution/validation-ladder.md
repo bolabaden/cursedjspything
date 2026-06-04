@@ -141,7 +141,7 @@ Emits JSON (`vitest_seconds`, pass gates, `test_count`); use median of several r
 | `test/cpython-derived/bytes-title.test.ts` | bytes.title ASCII word title case |
 | `test/cpython-derived/bytes-removeprefix-removesuffix.test.ts` | bytes.removeprefix/removesuffix affix stripping |
 | `test/cpython-derived/bytes-expandtabs.test.ts` | bytes.expandtabs tab expansion |
-| `test/cpython-derived/bytes-hex-fromhex.test.ts` | bytes.hex / bytes.fromhex |
+| `test/cpython-derived/bytes-hex-fromhex.test.ts` | bytes.hex / bytes.fromhex + TypeError/ValueError messages (plan 480) |
 | `test/cpython-derived/bytes-predicates.test.ts` | bytes ASCII predicate methods |
 | `test/cpython-derived/bytes-translate.test.ts` | bytes.maketrans / bytes.translate |
 | `test/cpython-derived/bytes-isascii-contains.test.ts` | bytes.isascii / bytes.__contains__ |
