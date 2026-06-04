@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-06-04, plan 528 merge PR #278)
+
+### Landed
+
+- [REPO] Plan 528 merged via PR #278 — `str`/`bytes.splitlines` `keepends=True` with no line breaks; validation-ladder sync (977 Vitest / 132 files).
+
+### Partial
+
+- None.
+
+### Next
+
+1. Further §8.15 gaps only when scoped (remaining niche bytes/str API).
+2. PEP 3118 out of scope.
+
+---
+
 ## Delta update (2026-06-04, plan 526 merge PR #277)
 
 ### Landed
