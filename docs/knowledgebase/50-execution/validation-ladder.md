@@ -182,7 +182,7 @@ Emits JSON (`vitest_seconds`, pass gates, `test_count`); use median of several r
 | `test/cpython-derived/sequence-index-type.test.ts` | List/tuple get/set/del non-integer subscript TypeError; list index out of range and delItem |
 | `test/cpython-derived/contains-protocol.test.ts` | CPython `test_contains.py` membership protocol |
 | `test/cpython-derived/isinstance-protocol.test.ts` | CPython `test_isinstance.py` MRO / tuple checks |
-| `test/cpython-derived/sequence-repeat-nonint.test.ts` | list/tuple/str/bytes repeat rejects float repeat count (plan 642 bytes) |
+| `test/cpython-derived/sequence-repeat-nonint.test.ts` | seq*float and float*seq reject float repeat (plans 642/648) |
 | `test/cpython-derived/list-reversed.test.ts` | list.__reversed__ yields elements last-to-first via list_reverseiterator; empty StopIteration; iterator __iter__ returns self |
 | `test/cpython-derived/list-bool.test.ts` | list.__bool__ empty falsy; non-empty truthy |
 | `test/cpython-derived/list-dict-unhashable.test.ts` | list/dict hash TypeError unhashable (plan 568); set in frozenset-hash |
