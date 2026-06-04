@@ -58,6 +58,16 @@ describe("cpython-derived bytes join", () => {
     expect(Array.from(asBytes(out))).toEqual([111]);
   });
 
+  it("empty separator concatenates without intervening bytes", () => {
+    const parts = pyList([
+      pyBytes(new Uint8Array([97])),
+      pyBytes(new Uint8Array([98])),
+      pyBytes(new Uint8Array([99])),
+    ]);
+    const out = join(new Uint8Array([]), parts);
+    expect(Array.from(asBytes(out))).toEqual([97, 98, 99]);
+  });
+
   it("rejects non-bytes sequence items", () => {
     const parts = pyList([
       pyBytes(new Uint8Array([97])),
