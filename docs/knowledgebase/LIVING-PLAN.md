@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-06-04, plan 634 merge PR #331)
+
+### Landed
+
+- [REPO] Plan 634 merged via PR #331 — list/tuple `__add__` same-type concatenation evidence (`sequence-add.test.ts`); §8.6 docs; validation-ladder sync (1135 Vitest / 156 files).
+
+### Partial
+
+- None.
+
+### Next
+
+1. Further §8.15 gaps only when scoped (remaining niche API).
+2. PEP 3118 out of scope.
+
+---
+
 ## Delta update (2026-06-04, plan 632 merge PR #330)
 
 ### Landed
