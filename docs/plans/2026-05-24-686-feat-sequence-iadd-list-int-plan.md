@@ -1,7 +1,7 @@
 ---
 title: "feat: list __iadd__ int cross-type evidence (plan 686)"
 type: feat
-status: active
+status: completed
 date: 2026-05-24
 origin: LIVING-PLAN §8.6; post plan 684 sequence-ordering
 ---

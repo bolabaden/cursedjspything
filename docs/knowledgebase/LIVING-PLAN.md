@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-06-04, plan 686 merge PR #357)
+
+### Landed
+
+- [REPO] Plan 686 merged via PR #357 — `list += int` cross-type evidence in `sequence-iadd.test.ts`; §8.6 docs; validation-ladder sync (1193 Vitest / 164 files).
+
+### Partial
+
+- None.
+
+### Next
+
+1. Further §8.15 gaps only when scoped (remaining niche API).
+2. PEP 3118 out of scope.
+
+---
+
 ## Delta update (2026-06-04, plan 684 merge PR #356)
 
 ### Landed
