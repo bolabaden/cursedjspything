@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-06-04, plan 534 merge PR #281)
+
+### Landed
+
+- [REPO] Plan 534 merged via PR #281 — `str`/`bytes.rjust(0)` on empty input with optional fill (complements plan 522 `ljust`); validation-ladder sync (977 Vitest / 132 files).
+
+### Partial
+
+- None.
+
+### Next
+
+1. Further §8.15 gaps only when scoped (remaining niche bytes/str API).
+2. PEP 3118 out of scope.
+
+---
+
 ## Delta update (2026-06-04, plan 532 merge PR #280)
 
 ### Landed
