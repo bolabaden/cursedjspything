@@ -44,6 +44,13 @@ describe("cpython-derived str/scalar comparisons", () => {
     );
   });
 
+  it("contains on str requires str operand not bool", () => {
+    expect(() => contains(pyStr("abc"), pyTrue)).toThrow(PyTypeError);
+    expect(() => contains(pyStr("abc"), pyTrue)).toThrow(
+      /'in <string>' requires string as left operand, not bool/,
+    );
+  });
+
   registerCrossTypeOrderingRejects("str", "int", s, i);
   registerCrossTypeOrderingRejects("str", "bool", s, t);
 });
@@ -60,6 +67,20 @@ describe("cpython-derived str/scalar arithmetic", () => {
     expect(() => add(pyInt(1), pyStr("a"))).toThrow(PyTypeError);
     expect(() => add(pyInt(1), pyStr("a"))).toThrow(
       /unsupported operand type\(s\) for \+: 'int' and 'str'/,
+    );
+  });
+
+  it("add str + bool raises TypeError", () => {
+    expect(() => add(pyStr("a"), pyTrue)).toThrow(PyTypeError);
+    expect(() => add(pyStr("a"), pyTrue)).toThrow(
+      /unsupported operand type\(s\) for \+: 'str' and 'bool'/,
+    );
+  });
+
+  it("add bool + str raises TypeError", () => {
+    expect(() => add(pyTrue, pyStr("a"))).toThrow(PyTypeError);
+    expect(() => add(pyTrue, pyStr("a"))).toThrow(
+      /unsupported operand type\(s\) for \+: 'bool' and 'str'/,
     );
   });
 });
