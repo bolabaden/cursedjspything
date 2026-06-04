@@ -69,6 +69,9 @@ export function dictFindKey(
   key: unknown,
 ): unknown | undefined {
   if (map.has(key)) return key;
+  if (key instanceof PyObject) {
+    dictKeyHash(key);
+  }
   for (const k of map.keys()) {
     if (dictKeysEqual(k, key)) return k;
   }
@@ -92,6 +95,9 @@ export function dictSet(
   key: unknown,
   value: unknown,
 ): void {
+  if (key instanceof PyObject) {
+    dictKeyHash(key);
+  }
   const existing = dictFindKey(map, key);
   if (existing !== undefined) map.delete(existing);
   map.set(key, value);
