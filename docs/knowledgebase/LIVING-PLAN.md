@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 450 merge PR #239)
+
+### Landed
+
+- [REPO] Plan 450 merged via PR #239 — COMPATIBILITY §8.15 prose/evidence sync with consolidated operator files; grouped evidence bullets; fixed stale path prefix (941 Vitest / 132 files).
+
+### Partial
+
+- None.
+
+### Next
+
+1. §8.15 — optional shared test helpers for cross-type ordering loops in operator-container / list-tuple files.
+2. PEP 3118 out of scope.
+
+---
+
 ## Delta update (2026-05-24, plan 448 merge PR #238)
 
 ### Landed
