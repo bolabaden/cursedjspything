@@ -119,7 +119,7 @@ Emits JSON (`vitest_seconds`, pass gates, `test_count`); use median of several r
 | `test/cpython-derived/str-split.test.ts` | str.split sep/maxsplit/whitespace + maxsplit=0 empty-str edges (plan 484) |
 | `test/cpython-derived/str-rsplit.test.ts` | str.rsplit sep/maxsplit/whitespace + maxsplit=0 with sep (plan 488) |
 | `test/cpython-derived/str-partition.test.ts` | str.partition first-separator triple |
-| `test/cpython-derived/str-rpartition.test.ts` | str.rpartition last-separator triple |
+| `test/cpython-derived/str-rpartition.test.ts` | str.rpartition last-separator triple + empty str (plan 496) |
 | `test/cpython-derived/str-splitlines.test.ts` | str.splitlines Unicode/ASCII/NEL line breaks (plans 490/494) |
 | `test/cpython-derived/bytes-join.test.ts` | bytes.join separator concatenation |
 | `test/cpython-derived/bytes-split.test.ts` | bytes.split sep/maxsplit/whitespace + maxsplit=0 with sep (plan 486) |
