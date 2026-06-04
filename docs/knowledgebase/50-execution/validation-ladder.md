@@ -86,7 +86,6 @@ Emits JSON (`vitest_seconds`, pass gates, `test_count`); use median of several r
 
 ---
 
-| `test/cpython-derived/operator-list-tuple-cross-type.test.ts` | §8.15 legacy duplicate of §8.6 `sequence-*` rows above (plans 428, 374; index plan 688) |
 
 ---
 
