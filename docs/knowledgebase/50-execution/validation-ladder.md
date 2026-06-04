@@ -48,6 +48,7 @@ Emits JSON (`vitest_seconds`, pass gates, `test_count`); use median of several r
 | `test/cpython-derived/dict-update-copy.test.ts` | dict.update / copy / |= iterable pairs; hash+eq overwrite (plan 600) |
 | `test/cpython-derived/dict-setdefault-clear.test.ts` | dict.setdefault insert/lookup; dict.clear (plan 602) |
 | `test/cpython-derived/dict-pop-popitem.test.ts` | dict.pop / popitem; hash+eq pop; LIFO popitem (plan 604) |
+| `test/cpython-derived/dict-keys-values-items-views.test.ts` | dict.keys / values / items live views (plan 606) |
 | `test/cpython-derived/hash-strictness-matrix.test.ts` | Cross-cutting hash strictness matrix dict/set/frozenset/tuple (plan 588) |
 | `test/collections/slice-with.test.ts` | `pySlice`, `withObject` |
 | `test/cpython-derived/compare-ne.test.ts` | CPython `test_compare.py` `__ne__` delegation |
