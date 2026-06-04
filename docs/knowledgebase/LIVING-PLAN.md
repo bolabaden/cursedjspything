@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-06-04, plan 586 merge PR #307)
+
+### Landed
+
+- [REPO] Plan 586 merged via PR #307 — `tuple.__hash__` uses per-element `hash()` (no silent `0` for missing `__hash__`); `tuple-hash.test.ts`; validation-ladder sync (1028 Vitest / 140 files).
+
+### Partial
+
+- None.
+
+### Next
+
+1. Further §8.15 gaps only when scoped (remaining niche API).
+2. PEP 3118 out of scope.
+
+---
+
 ## Delta update (2026-06-04, plan 584 merge PR #306)
 
 ### Landed
