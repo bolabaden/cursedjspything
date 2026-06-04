@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-06-04, plan 574 merge PR #301)
+
+### Landed
+
+- [REPO] Plan 574 merged via PR #301 — dict PyObject keys with non-integer `__hash__` raise `TypeError` on insert and lookup (`dict-keys.ts`); tests in `dict-keys.test.ts`; validation-ladder sync (1017 Vitest / 140 files).
+
+### Partial
+
+- None.
+
+### Next
+
+1. Further §8.15 gaps only when scoped (remaining niche API).
+2. PEP 3118 out of scope.
+
+---
+
 ## Delta update (2026-06-04, plan 572 merge PR #300)
 
 ### Landed
