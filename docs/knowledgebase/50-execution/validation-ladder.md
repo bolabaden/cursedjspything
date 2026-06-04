@@ -144,7 +144,7 @@ Emits JSON (`vitest_seconds`, pass gates, `test_count`); use median of several r
 | `test/cpython-derived/bytes-hex-fromhex.test.ts` | bytes.hex / fromhex + str/bytes arg + error messages (plans 480/482) |
 | `test/cpython-derived/bytes-predicates.test.ts` | bytes ASCII predicate methods |
 | `test/cpython-derived/bytes-translate.test.ts` | bytes.maketrans / bytes.translate + empty input (plan 536) |
-| `test/cpython-derived/bytes-isascii-contains.test.ts` | bytes.isascii / bytes.__contains__ |
+| `test/cpython-derived/bytes-isascii-contains.test.ts` | bytes.isascii / bytes.__contains__ + empty haystack (plan 552) |
 | `test/cpython-derived/bytes-decode.test.ts` | bytes.decode codecs + empty input (plan 550) |
 | `test/cpython-derived/bytes-iter.test.ts` | bytes.__iter__ yields int 0–255; empty bytes StopIteration; iterator __iter__ returns self |
 | `test/cpython-derived/bytes-hash.test.ts` | bytes.__hash__ stable; empty bytes hash 0; equal content matches |

@@ -43,6 +43,13 @@ describe("cpython-derived bytes isascii contains", () => {
     expect(contains(self, pyInt(122))).toBe(false);
   });
 
+  it("contains on empty bytes haystack", () => {
+    const empty = pyBytes(new Uint8Array(0));
+    expect(contains(empty, pyBytes(new Uint8Array([97])))).toBe(false);
+    expect(contains(empty, pyBytes(new Uint8Array([])))).toBe(true);
+    expect(contains(empty, pyInt(97))).toBe(false);
+  });
+
   it("returns bool singletons from isascii", () => {
     const self = pyBytes(hello);
     const fn = getAttr(self, "isascii") as PredicateFn;
