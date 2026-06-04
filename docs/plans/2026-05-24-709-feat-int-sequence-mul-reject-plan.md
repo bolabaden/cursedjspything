@@ -1,7 +1,7 @@
 ---
 title: "feat: int * list/tuple mul reject + plan 708 merge (plan 709)"
 type: feat
-status: complete
+status: completed
 date: 2026-05-24
 origin: plans 705/707; merge PR #376
 ---
