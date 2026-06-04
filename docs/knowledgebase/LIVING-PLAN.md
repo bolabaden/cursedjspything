@@ -9,6 +9,40 @@
 
 ---
 
+## Delta update (2026-05-24, plan 713)
+
+### Landed
+
+- [REPO] Plan 713 — §8.15 prose for **`int * list`** / **`int * tuple`** mul reject (plan 709 runtime); validation-ladder row (1200 Vitest / 163 files).
+
+### Partial
+
+- None.
+
+### Next
+
+1. Further §8.15 gaps only when scoped (remaining niche API).
+2. PEP 3118 out of scope.
+
+---
+
+## Delta update (2026-05-24, plan 712 merge PR #380)
+
+### Landed
+
+- [REPO] Plan 712 merged via PR #380 — plan 711 merge record in LIVING-PLAN (1200 Vitest / 163 files).
+
+### Partial
+
+- None.
+
+### Next
+
+1. §8.15 sync for int*list/tuple mul (plan 713).
+2. PEP 3118 out of scope.
+
+---
+
 ## Delta update (2026-05-24, plan 711 merge PR #379)
 
 ### Landed
