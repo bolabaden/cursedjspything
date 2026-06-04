@@ -175,6 +175,7 @@ Emits JSON (`vitest_seconds`, pass gates, `test_count`); use median of several r
 | `test/cpython-derived/int-bool.test.ts` | int.__bool__ 0 falsy; non-zero truthy |
 | `test/cpython-derived/int-hash.test.ts` | int.__hash__ stable; zero hash 0; equal value matches (plan 558) |
 | `test/cpython-derived/float-bool.test.ts` | float.__bool__ 0.0 falsy; non-zero truthy |
+| `test/cpython-derived/float-hash.test.ts` | float.__hash__ integral matches int; stable/non-integral (plan 562) |
 | `test/cpython-derived/bool-bool.test.ts` | bool.__bool__ False falsy; True truthy |
 | `test/cpython-derived/bool-hash.test.ts` | bool.__hash__ False 0 / True 1; stable singletons (plan 560) |
 | `test/cpython-derived/none-bool.test.ts` | NoneType.__bool__ None always falsy |
