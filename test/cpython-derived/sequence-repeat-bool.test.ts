@@ -5,11 +5,13 @@ import { describe, it, expect } from "vitest";
 import {
   len,
   mul,
+  pyBytes,
   pyFalse,
   pyInt,
   pyList,
   pyTrue,
   pyTuple,
+  unwrap,
 } from "../../src/index.js";
 
 describe("cpython-derived list/tuple repetition with bool", () => {
@@ -63,5 +65,25 @@ describe("cpython-derived list/tuple repetition with bool", () => {
     const zero = pyInt(0);
     const wide = pyList(Array.from({ length: 127_000 }, () => zero));
     expect(len(mul(wide, pyInt(1)) as ReturnType<typeof pyList>)).toBe(127_000);
+  });
+});
+
+describe("cpython-derived bytes repetition with bool", () => {
+  it("bytes mul treats True as 1 and False as 0", () => {
+    const ab = pyBytes(new Uint8Array([97, 98]));
+    expect(
+      Array.from(unwrap<Uint8Array>(mul(ab, pyTrue) as ReturnType<typeof pyBytes>)),
+    ).toEqual([97, 98]);
+    expect(
+      len(mul(ab, pyFalse) as ReturnType<typeof pyBytes>),
+    ).toBe(0);
+  });
+
+  it("reflected mul (bool * bytes) matches forward", () => {
+    const ab = pyBytes(new Uint8Array([97, 98]));
+    expect(
+      Array.from(unwrap<Uint8Array>(mul(pyTrue, ab) as ReturnType<typeof pyBytes>)),
+    ).toEqual([97, 98]);
+    expect(len(mul(pyFalse, ab) as ReturnType<typeof pyBytes>)).toBe(0);
   });
 });
