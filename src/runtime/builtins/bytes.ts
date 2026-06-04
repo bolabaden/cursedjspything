@@ -371,6 +371,17 @@ function isAsciiWhitespace(byte: number): boolean {
   return byte === 0x09 || byte === 0x0a || byte === 0x0b || byte === 0x0c || byte === 0x0d || byte === 0x20;
 }
 
+function bytesIsWhitespaceOnly(data: Uint8Array): boolean {
+  for (let i = 0; i < data.length; i++) {
+    if (!isAsciiWhitespace(data[i]!)) return false;
+  }
+  return true;
+}
+
+function splitWhitespaceMaxsplitZero(data: Uint8Array): Uint8Array[] {
+  return bytesIsWhitespaceOnly(data) ? [] : [data];
+}
+
 function splitMaxsplitArg(maxsplit: unknown): number {
   if (maxsplit === undefined || maxsplit === null) return -1;
   if (typeof maxsplit === "number") return maxsplit;
@@ -431,7 +442,7 @@ function splitWithSep(
 }
 
 function splitWhitespace(data: Uint8Array, maxsplit: number): Uint8Array[] {
-  if (maxsplit === 0) return [data];
+  if (maxsplit === 0) return splitWhitespaceMaxsplitZero(data);
   const parts: Uint8Array[] = [];
   let i = 0;
   const n = data.length;
@@ -502,7 +513,7 @@ function rsplitWithSep(
 }
 
 function rsplitWhitespace(data: Uint8Array, maxsplit: number): Uint8Array[] {
-  if (maxsplit === 0) return [data];
+  if (maxsplit === 0) return splitWhitespaceMaxsplitZero(data);
   const parts: Uint8Array[] = [];
   let i = data.length;
   while (i > 0) {

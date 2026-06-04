@@ -96,6 +96,18 @@ describe("cpython-derived bytes rsplit", () => {
     ]);
   });
 
+  it("maxsplit zero on whitespace-only returns empty list", () => {
+    expect(asBytesList(rsplit(new Uint8Array([32, 32, 32]), undefined, pyInt(0)))).toEqual(
+      [],
+    );
+    expect(asBytesList(rsplit(new Uint8Array([9, 9]), undefined, pyInt(0)))).toEqual([]);
+    expect(
+      asBytesList(rsplit(new Uint8Array([32, 97, 32]), undefined, pyInt(0))).map((part) =>
+        Array.from(part),
+      ),
+    ).toEqual([[32, 97, 32]]);
+  });
+
   it("rejects non-bytes separator", () => {
     expect(() => rsplit(new Uint8Array([104, 105]), pyStr(","))).toThrow(PyTypeError);
     expect(() => rsplit(new Uint8Array([104, 105]), pyStr(","))).toThrow(
