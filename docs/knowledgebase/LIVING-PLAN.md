@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-06-04, plan 556 merge PR #292)
+
+### Landed
+
+- [REPO] Plan 556 merged via PR #292 — `str.__hash__` evidence in `str-hash.test.ts`; validation-ladder sync (989 Vitest / 133 files).
+
+### Partial
+
+- None.
+
+### Next
+
+1. Further §8.15 gaps only when scoped (remaining niche bytes/str API).
+2. PEP 3118 out of scope.
+
+---
+
 ## Delta update (2026-06-04, plan 554 merge PR #291)
 
 ### Landed
