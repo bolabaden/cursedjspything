@@ -43,6 +43,13 @@ function repeatListRmul(self: PyObject, other: PyObject) {
   return repeatList(self, other);
 }
 
+function imulList(self: PyObject, other: PyObject) {
+  const n = sequenceRepeatCount(other);
+  if (n === null) return NotImplemented;
+  setNative(self, buildRepeatedArray(nativeVal<PyObject[]>(self), n));
+  return self;
+}
+
 // ── pyList ────────────────────────────────────────────────────────────
 
 export const listType = makeClass({
@@ -104,6 +111,7 @@ export const listType = makeClass({
       }
       return NotImplemented;
     }],
+    [Slot.imul, imulList],
     [Slot.mul, repeatList],
     [Slot.rmul, repeatListRmul],
     [Slot.iter, (self: PyObject) => {
