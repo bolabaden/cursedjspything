@@ -9,6 +9,7 @@ import {
   pyFalse,
   pyInt,
   pyList,
+  pyStr,
   pyTrue,
   pyTuple,
   unwrap,
@@ -99,5 +100,37 @@ describe("cpython-derived bytes repetition with bool", () => {
     expect(Array.from(unwrap<Uint8Array>(repeated))).toEqual([
       1, 2, 1, 2, 1, 2,
     ]);
+  });
+});
+
+describe("cpython-derived str repetition with bool", () => {
+  it("str mul treats True as 1 and False as 0", () => {
+    expect(unwrap<string>(mul(pyStr("ab"), pyTrue) as ReturnType<typeof pyStr>)).toBe(
+      "ab",
+    );
+    expect(unwrap<string>(mul(pyStr("ab"), pyFalse) as ReturnType<typeof pyStr>)).toBe(
+      "",
+    );
+  });
+
+  it("reflected mul (bool * str) matches forward", () => {
+    expect(unwrap<string>(mul(pyTrue, pyStr("ab")) as ReturnType<typeof pyStr>)).toBe(
+      "ab",
+    );
+    expect(unwrap<string>(mul(pyFalse, pyStr("ab")) as ReturnType<typeof pyStr>)).toBe(
+      "",
+    );
+  });
+
+  it("negative int repeat count yields empty string", () => {
+    expect(unwrap<string>(mul(pyStr("ab"), pyInt(-1)) as ReturnType<typeof pyStr>)).toBe(
+      "",
+    );
+  });
+
+  it("repeats multi-character strings (general path)", () => {
+    expect(unwrap<string>(mul(pyStr("ab"), pyInt(3)) as ReturnType<typeof pyStr>)).toBe(
+      "ababab",
+    );
   });
 });
