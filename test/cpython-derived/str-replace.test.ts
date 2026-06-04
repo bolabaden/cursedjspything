@@ -50,6 +50,11 @@ describe("cpython-derived str replace", () => {
     expect(asStr(replace("aaa", pyStr("aa"), pyStr("x")))).toBe("xa");
   });
 
+  it("handles empty input with empty old string", () => {
+    expect(asStr(replace("", pyStr(""), pyStr("|")))).toBe("|");
+    expect(asStr(replace("", pyStr(""), pyStr("|"), pyInt(0)))).toBe("");
+  });
+
   it("handles empty old string insertion", () => {
     expect(asStr(replace("abcabc", pyStr(""), pyStr("|")))).toBe(
       "|a|b|c|a|b|c|",

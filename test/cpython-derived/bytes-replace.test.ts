@@ -61,6 +61,15 @@ describe("cpython-derived bytes replace", () => {
     ).toEqual(new Uint8Array([120, 97]));
   });
 
+  it("handles empty input with empty old bytes", () => {
+    expect(asBytes(replace(new Uint8Array([]), pyBytes(empty), pyBytes(pipe)))).toEqual(
+      pipe,
+    );
+    expect(
+      asBytes(replace(new Uint8Array([]), pyBytes(empty), pyBytes(pipe), pyInt(0))),
+    ).toEqual(new Uint8Array([]));
+  });
+
   it("handles empty old bytes insertion", () => {
     expect(asBytes(replace(abcabc, pyBytes(empty), pyBytes(pipe)))).toEqual(
       new Uint8Array([124, 97, 124, 98, 124, 99, 124, 97, 124, 98, 124, 99, 124]),
