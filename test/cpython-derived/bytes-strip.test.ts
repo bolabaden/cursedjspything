@@ -36,6 +36,16 @@ describe("cpython-derived bytes strip", () => {
 
   const spaced = new Uint8Array([32, 32, 97, 98, 99, 32, 32]);
 
+  it("returns empty bytes for empty input", () => {
+    const empty = new Uint8Array([]);
+    expect(Array.from(strip(empty))).toEqual([]);
+    expect(Array.from(lstrip(empty))).toEqual([]);
+    expect(Array.from(rstrip(empty))).toEqual([]);
+    const x = pyBytes(new Uint8Array([120]));
+    expect(Array.from(lstrip(empty, x))).toEqual([]);
+    expect(Array.from(rstrip(empty, x))).toEqual([]);
+  });
+
   it("strips ascii whitespace on both sides", () => {
     expect(Array.from(strip(spaced))).toEqual([97, 98, 99]);
   });
@@ -52,7 +62,10 @@ describe("cpython-derived bytes strip", () => {
 
   it("leaves bytes unchanged for empty chars", () => {
     const data = new Uint8Array([97, 98, 99]);
-    expect(Array.from(strip(data, pyBytes(new Uint8Array([]))))).toEqual([97, 98, 99]);
+    const emptyChars = pyBytes(new Uint8Array([]));
+    expect(Array.from(strip(data, emptyChars))).toEqual([97, 98, 99]);
+    expect(Array.from(lstrip(data, emptyChars))).toEqual([97, 98, 99]);
+    expect(Array.from(rstrip(data, emptyChars))).toEqual([97, 98, 99]);
   });
 
   it("rejects non-bytes chars", () => {
