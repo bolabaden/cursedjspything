@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-06-04, plan 476 merge PR #252)
+
+### Landed
+
+- [REPO] Plan 476 merged via PR #252 — str↔float **add** canonical in `operator-str-float.test.ts`; duplicate add removed from float-str-remaining; §8.15 bool-str prose fix + validation-ladder sync (953 Vitest / 132 files).
+
+### Partial
+
+- None.
+
+### Next
+
+1. Further §8.15 gaps only when scoped (niche bytes/str API edge cases).
+2. PEP 3118 out of scope.
+
+---
+
 ## Delta update (2026-06-04, plan 474 merge PR #251)
 
 ### Landed
