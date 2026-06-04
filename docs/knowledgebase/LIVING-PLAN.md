@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-06-04, plan 570 merge PR #299)
+
+### Landed
+
+- [REPO] Plan 570 merged via PR #299 — `slice` unhashable `hash()` evidence in `slice-unhashable.test.ts`; validation-ladder sync (1013 Vitest / 140 files). Unhashable builtins in scope: list, dict, set, slice.
+
+### Partial
+
+- None.
+
+### Next
+
+1. Further §8.15 gaps only when scoped (e.g. empty tuple hash ↔ None sentinel, remaining niche API).
+2. PEP 3118 out of scope.
+
+---
+
 ## Delta update (2026-06-04, plan 568 merge PR #298)
 
 ### Landed
