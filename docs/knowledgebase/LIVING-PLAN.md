@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-06-04, plan 464 merge PR #246)
+
+### Landed
+
+- [REPO] Plan 464 merged via PR #246 — bidirectional str↔bytes `contains` in canonical `operator-str-bytes-cross-type.test.ts`; validation-ladder + §8.15 sync (944 Vitest / 132 files).
+
+### Partial
+
+- None.
+
+### Next
+
+1. Scan COMPATIBILITY §8.15 remaining gap for the next evidenced bytes/str or scalar slice when discovered.
+2. PEP 3118 out of scope.
+
+---
+
 ## Delta update (2026-06-04, plan 462 merge PR #245)
 
 ### Landed
