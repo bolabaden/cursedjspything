@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-06-04, plan 680 merge PR #354)
+
+### Landed
+
+- [REPO] Plan 680 merged via PR #354 — `list * list` in `sequence-mul-cross-type.test.ts` and `list - list` in `sequence-sub.test.ts`; §8.6 docs; validation-ladder sync (1184 Vitest / 162 files).
+
+### Partial
+
+- None.
+
+### Next
+
+1. Further §8.15 gaps only when scoped (remaining niche API).
+2. PEP 3118 out of scope.
+
+---
+
 ## Delta update (2026-06-04, plan 678 merge PR #353)
 
 ### Landed

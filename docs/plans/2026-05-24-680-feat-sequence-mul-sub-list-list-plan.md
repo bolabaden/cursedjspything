@@ -1,7 +1,7 @@
 ---
 title: "feat: list list mul/sub TypeError evidence (plan 680)"
 type: feat
-status: active
+status: completed
 date: 2026-05-24
 origin: LIVING-PLAN §8.6; post plan 678 sequence-add tuple+int
 ---
