@@ -51,6 +51,16 @@ describe("cpython-derived str/scalar comparisons", () => {
     );
   });
 
+  it("contains on empty str haystack", () => {
+    const empty = pyStr("");
+    expect(contains(empty, pyStr("a"))).toBe(false);
+    expect(contains(empty, pyStr(""))).toBe(true);
+    expect(() => contains(empty, pyInt(97))).toThrow(PyTypeError);
+    expect(() => contains(empty, pyInt(97))).toThrow(
+      /'in <string>' requires string as left operand, not int/,
+    );
+  });
+
   registerCrossTypeOrderingRejects("str", "int", s, i);
   registerCrossTypeOrderingRejects("str", "bool", s, t);
 });
