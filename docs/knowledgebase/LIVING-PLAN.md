@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-06-04, plan 674 merge PR #351)
+
+### Landed
+
+- [REPO] Plan 674 merged via PR #351 — list cross-type `+` `__add__` evidence in `sequence-add.test.ts`; §8.6 docs; validation-ladder sync (1178 Vitest / 160 files).
+
+### Partial
+
+- None.
+
+### Next
+
+1. Further §8.15 gaps only when scoped (remaining niche API).
+2. PEP 3118 out of scope.
+
+---
+
 ## Delta update (2026-06-04, plan 672 merge PR #350)
 
 ### Landed
