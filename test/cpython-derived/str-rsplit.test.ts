@@ -54,6 +54,12 @@ describe("cpython-derived str rsplit", () => {
     expect(asStrList(rsplit("a,b,c", pyStr(","), pyInt(0)))).toEqual(["a,b,c"]);
   });
 
+  it("maxsplit zero on whitespace-only returns empty list", () => {
+    expect(asStrList(rsplit("   ", undefined, pyInt(0)))).toEqual([]);
+    expect(asStrList(rsplit("\t\t", undefined, pyInt(0)))).toEqual([]);
+    expect(asStrList(rsplit(" a ", undefined, pyInt(0)))).toEqual([" a "]);
+  });
+
   it("rejects non-str separator", () => {
     expect(() => rsplit("hi", pyBytes(new Uint8Array([44])))).toThrow(PyTypeError);
     expect(() => rsplit("hi", pyBytes(new Uint8Array([44])))).toThrow(

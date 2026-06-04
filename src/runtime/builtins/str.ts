@@ -489,6 +489,19 @@ function strWhitespaceWidth(text: string, pos: number): number {
   return cp > 0xffff ? 2 : 1;
 }
 
+function strIsWhitespaceOnly(text: string): boolean {
+  for (let i = 0; i < text.length; ) {
+    const cp = text.codePointAt(i)!;
+    if (!isStrWhitespaceCodePoint(cp)) return false;
+    i += cp > 0xffff ? 2 : 1;
+  }
+  return true;
+}
+
+function splitStrWhitespaceMaxsplitZero(text: string): string[] {
+  return strIsWhitespaceOnly(text) ? [] : [text];
+}
+
 function splitStrWithSep(text: string, sep: string, maxsplit: number): string[] {
   if (sep.length === 0) {
     throw new PyValueError("empty separator");
@@ -514,7 +527,7 @@ function splitStrWithSep(text: string, sep: string, maxsplit: number): string[] 
 }
 
 function splitStrWhitespace(text: string, maxsplit: number): string[] {
-  if (maxsplit === 0) return [text];
+  if (maxsplit === 0) return splitStrWhitespaceMaxsplitZero(text);
   const parts: string[] = [];
   let i = 0;
   const n = text.length;
@@ -588,7 +601,7 @@ function rsplitStrWithSep(text: string, sep: string, maxsplit: number): string[]
 }
 
 function rsplitStrWhitespace(text: string, maxsplit: number): string[] {
-  if (maxsplit === 0) return [text];
+  if (maxsplit === 0) return splitStrWhitespaceMaxsplitZero(text);
   const cps: number[] = [];
   for (let i = 0; i < text.length; ) {
     const cp = text.codePointAt(i)!;
