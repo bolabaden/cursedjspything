@@ -120,13 +120,13 @@ Emits JSON (`vitest_seconds`, pass gates, `test_count`); use median of several r
 | `test/cpython-derived/str-rsplit.test.ts` | str.rsplit sep/maxsplit/whitespace; maxsplit=0 whitespace-only (plans 488/516) |
 | `test/cpython-derived/str-partition.test.ts` | str.partition triple + multi-byte exact match (plan 524) |
 | `test/cpython-derived/str-rpartition.test.ts` | str.rpartition triple; empty str (496); multi-byte exact (524) |
-| `test/cpython-derived/str-splitlines.test.ts` | str.splitlines breaks + keepends; empty input + keepends (plans 490/494/500/508/514) |
+| `test/cpython-derived/str-splitlines.test.ts` | str.splitlines breaks + keepends; empty input (514); no breaks + keepends (528) |
 | `test/cpython-derived/bytes-join.test.ts` | bytes.join empty sep: concat, empty iter, single elt (510/518/526) |
 | `test/cpython-derived/bytes-split.test.ts` | bytes.split sep/maxsplit/whitespace; maxsplit=0 whitespace-only (plans 486/516) |
 | `test/cpython-derived/bytes-rsplit.test.ts` | bytes.rsplit from the right; maxsplit=0 whitespace-only (plans 486/516) |
 | `test/cpython-derived/bytes-startswith-endswith.test.ts` | bytes.startswith/endswith affix and bounds |
 | `test/cpython-derived/bytes-partition.test.ts` | bytes.partition/rpartition; empty/exact; multi-byte exact (524) |
-| `test/cpython-derived/bytes-splitlines.test.ts` | bytes.splitlines `\n`/`\r`/CRLF; lone CR (500); empty + keepends (514); non-LS (492) |
+| `test/cpython-derived/bytes-splitlines.test.ts` | bytes.splitlines breaks; empty + keepends (514); no breaks + keepends (528) |
 | `test/cpython-derived/bytes-strip.test.ts` | bytes.strip/lstrip/rstrip empty input + empty chars (506) |
 | `test/cpython-derived/bytes-find.test.ts` | bytes.find/rfind subbytes search with bounds |
 | `test/cpython-derived/bytes-index.test.ts` | bytes.index/rindex subbytes search; ValueError on miss |

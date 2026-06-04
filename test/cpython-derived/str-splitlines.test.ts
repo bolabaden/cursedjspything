@@ -60,6 +60,8 @@ describe("cpython-derived str splitlines", () => {
 
   it("returns single segment when no line breaks", () => {
     expect(asStrList(splitlines("abc"))).toEqual(["abc"]);
+    expect(asStrList(splitlines("abc", pyTrue))).toEqual(["abc"]);
+    expect(asStrList(splitlines("x", pyTrue))).toEqual(["x"]);
   });
 
   it("splits on Unicode line separator", () => {
