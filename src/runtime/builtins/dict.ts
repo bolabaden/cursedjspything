@@ -16,7 +16,7 @@ import { nativeVal, setNative } from "./native.js";
 import { keyErrorArg } from "./key-error-arg.js";
 import { pyNone } from "./none.js";
 import { listType } from "./list.js";
-import { tupleType } from "./tuple.js";
+import { pyTuple, tupleType } from "./tuple.js";
 
 function dictRepr(self: PyObject): string {
   const m = nativeVal<Map<unknown, PyObject>>(self);
@@ -160,6 +160,32 @@ export const dictType = makeClass({
     ["clear", (self: PyObject) => {
       nativeVal<Map<unknown, PyObject>>(self).clear();
       return undefined;
+    }],
+    ["pop", (self: PyObject, key: unknown, defaultArg?: unknown) => {
+      const m = nativeVal<Map<unknown, PyObject>>(self);
+      const found = dictGet(m, key);
+      if (found !== undefined) {
+        dictDelete(m, key);
+        return found;
+      }
+      if (defaultArg !== undefined) return defaultArg;
+      throw new PyKeyError(keyErrorArg(key));
+    }],
+    ["popitem", (self: PyObject) => {
+      const m = nativeVal<Map<unknown, PyObject>>(self);
+      if (m.size === 0) {
+        throw new PyKeyError("popitem(): dictionary is empty");
+      }
+      let lastKey: unknown;
+      let lastVal: PyObject | undefined;
+      for (const [k, v] of m) {
+        lastKey = k;
+        lastVal = v;
+      }
+      const key = lastKey!;
+      const val = lastVal!;
+      m.delete(key);
+      return pyTuple([key as PyObject, val]);
     }],
     [Slot.iter, (self: PyObject) => {
       const keys = [...nativeVal<Map<unknown, PyObject>>(self).keys()];
