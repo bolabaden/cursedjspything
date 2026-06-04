@@ -9,6 +9,40 @@
 
 ---
 
+## Delta update (2026-05-24, plan 715)
+
+### Landed
+
+- [REPO] Plan 715 — §8.15 `sequenceRepeatCount` __mul__ vs __rmul__ int/bool clarify (plans 705/707/709) (1200 Vitest / 163 files).
+
+### Partial
+
+- None.
+
+### Next
+
+1. Further §8.15 gaps only when scoped (remaining niche API).
+2. PEP 3118 out of scope.
+
+---
+
+## Delta update (2026-05-24, plan 714 merge PR #382)
+
+### Landed
+
+- [REPO] Plan 714 merged via PR #382 — plan 713 merge record in LIVING-PLAN (1200 Vitest / 163 files).
+
+### Partial
+
+- None.
+
+### Next
+
+1. §8.15 __rmul__ int clarify (plan 715).
+2. PEP 3118 out of scope.
+
+---
+
 ## Delta update (2026-05-24, plan 713 merge PR #381)
 
 ### Landed
