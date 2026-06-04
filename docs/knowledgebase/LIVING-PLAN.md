@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-06-04, plan 580 merge PR #304)
+
+### Landed
+
+- [REPO] Plan 580 merged via PR #304 — set `add`/`remove`/`discard`/`contains`/`update` hash-check PyObject elements in `set.ts`; `set-mutation.test.ts`; validation-ladder sync (1025 Vitest / 140 files).
+
+### Partial
+
+- None.
+
+### Next
+
+1. Further §8.15 gaps only when scoped (remaining niche API).
+2. PEP 3118 out of scope.
+
+---
+
 ## Delta update (2026-06-04, plan 578 merge PR #303)
 
 ### Landed
