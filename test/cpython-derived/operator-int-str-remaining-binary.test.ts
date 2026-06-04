@@ -1,16 +1,18 @@
 /**
- * CPython: int↔str remaining binary ops (ordering in operator-str-scalar; plan 406/468).
+ * CPython: int↔str remaining binary ops (ordering in operator-str-scalar; plans 406/468/705).
  */
 import { describe, it, expect } from "vitest";
 import {
   divmod,
   floordiv,
   mod,
+  mul,
   pow,
   pyInt,
   pyStr,
   sub,
   truediv,
+  unwrap,
 } from "../../src/index.js";
 import { PyTypeError } from "../../src/runtime/core/errors.js";
 
@@ -82,5 +84,16 @@ describe("cpython-derived int/str remaining binary ops", () => {
     expect(() => pow(s(), i())).toThrow(
       /unsupported operand type\(s\) for \*\*: 'str' and 'int'/,
     );
+  });
+
+  it("mul rejects int and str", () => {
+    expect(() => mul(i(), s())).toThrow(PyTypeError);
+    expect(() => mul(i(), s())).toThrow(
+      /unsupported operand type\(s\) for \*: 'int' and 'str'/,
+    );
+  });
+
+  it("mul allows str and int (repeat)", () => {
+    expect(unwrap(mul(s(), pyInt(2)) as ReturnType<typeof pyStr>)).toBe("aa");
   });
 });
