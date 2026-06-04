@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-06-04, plan 474 merge PR #251)
+
+### Landed
+
+- [REPO] Plan 474 merged via PR #251 — str↔bool **add** + **contains** canonical in `operator-str-scalar.test.ts`; duplicate add removed from bool-str-remaining; §8.15 + validation-ladder sync (952 Vitest / 132 files).
+
+### Partial
+
+- None.
+
+### Next
+
+1. Further §8.15 gaps only when scoped (niche bytes/str API edge cases).
+2. PEP 3118 out of scope.
+
+---
+
 ## Delta update (2026-06-04, plan 472 merge PR #250)
 
 ### Landed
