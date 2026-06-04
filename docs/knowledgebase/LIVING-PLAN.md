@@ -9,6 +9,40 @@
 
 ---
 
+## Delta update (2026-05-24, plan 700)
+
+### Landed
+
+- [REPO] Plan 700 — list/tuple `-` dict rejects in `sequence-sub.test.ts`; §8.6 docs (1191 Vitest / 163 files).
+
+### Partial
+
+- None.
+
+### Next
+
+1. Further §8.15 gaps only when scoped (remaining niche API).
+2. PEP 3118 out of scope.
+
+---
+
+## Delta update (2026-05-24, plan 699 merge PR #367)
+
+### Landed
+
+- [REPO] Plan 699 merged via PR #367 — list cross-type `-` evidence (1189 Vitest / 163 files).
+
+### Partial
+
+- None.
+
+### Next
+
+1. Further §8.15 gaps only when scoped (remaining niche API).
+2. PEP 3118 out of scope.
+
+---
+
 ## Delta update (2026-05-24, plan 699)
 
 ### Landed
