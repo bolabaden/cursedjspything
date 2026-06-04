@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 692)
+
+### Landed
+
+- [REPO] Plan 692 — §8.15 prose and ordering-helper consumers point at canonical `sequence-*` files after plan 690; KB Vitest counts synced to 1170 / 163 (`repo-signals`, `runtime-overview`).
+
+### Partial
+
+- None.
+
+### Next
+
+1. Further §8.15 gaps only when scoped (remaining niche API).
+2. PEP 3118 out of scope.
+
+---
+
 ## Delta update (2026-06-04, plan 690 merge PR #359)
 
 ### Landed
