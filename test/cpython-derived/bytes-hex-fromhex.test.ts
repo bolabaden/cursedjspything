@@ -43,6 +43,13 @@ describe("cpython-derived bytes hex fromhex", () => {
     expect(fromhex(pyStr(""))).toEqual(new Uint8Array([]));
   });
 
+  it("fromhex accepts bytes-like argument", () => {
+    const hexAscii = new TextEncoder().encode("deadbeef");
+    expect(fromhex(pyBytes(hexAscii))).toEqual(deadbeef);
+    const spaced = new TextEncoder().encode("DE AD BE EF");
+    expect(fromhex(pyBytes(spaced))).toEqual(deadbeef);
+  });
+
   it("raises on invalid hex input or separator", () => {
     expect(() => fromhex(pyStr("abc"))).toThrow(PyValueError);
     expect(() => fromhex(pyStr("abc"))).toThrow(

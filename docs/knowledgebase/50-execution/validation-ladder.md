@@ -92,7 +92,7 @@ Emits JSON (`vitest_seconds`, pass gates, `test_count`); use median of several r
 | `test/cpython-derived/frozenset-set-methods.test.ts` | set/frozenset issubset, issuperset, isdisjoint; cross-type; TypeError on non-set-like |
 | `test/cpython-derived/set-mutation.test.ts` | set add/remove/discard/pop/clear/copy/update; remove KeyError repr-shaped item text; frozenset.copy; iterable update |
 | `test/cpython-derived/frozenset-set-named-algebra.test.ts` | set/frozenset union/intersection/difference/symmetric_difference; cross-type result-type rules |
-| `test/cpython-derived/str-encode.test.ts` | str.encode codecs + encoding/errors TypeError guards (parity with bytes-decode; plan 478) |
+| `test/cpython-derived/str-encode.test.ts` | str.encode codecs + encoding/errors guards + LookupError messages (plans 478/482) |
 | `test/cpython-derived/str-upper-lower.test.ts` | str.upper / str.lower case conversion |
 | `test/cpython-derived/str-capitalize.test.ts` | str.capitalize case conversion |
 | `test/cpython-derived/str-title.test.ts` | str.title word boundaries and Unicode |
@@ -141,7 +141,7 @@ Emits JSON (`vitest_seconds`, pass gates, `test_count`); use median of several r
 | `test/cpython-derived/bytes-title.test.ts` | bytes.title ASCII word title case |
 | `test/cpython-derived/bytes-removeprefix-removesuffix.test.ts` | bytes.removeprefix/removesuffix affix stripping |
 | `test/cpython-derived/bytes-expandtabs.test.ts` | bytes.expandtabs tab expansion |
-| `test/cpython-derived/bytes-hex-fromhex.test.ts` | bytes.hex / bytes.fromhex + TypeError/ValueError messages (plan 480) |
+| `test/cpython-derived/bytes-hex-fromhex.test.ts` | bytes.hex / fromhex + str/bytes arg + error messages (plans 480/482) |
 | `test/cpython-derived/bytes-predicates.test.ts` | bytes ASCII predicate methods |
 | `test/cpython-derived/bytes-translate.test.ts` | bytes.maketrans / bytes.translate |
 | `test/cpython-derived/bytes-isascii-contains.test.ts` | bytes.isascii / bytes.__contains__ |
