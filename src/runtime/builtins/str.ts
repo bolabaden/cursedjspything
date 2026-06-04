@@ -1392,7 +1392,11 @@ export const strType = makeClass({
     [Slot.rmul, repeatStr],
     [Slot.contains, (self: PyObject, item: unknown) => {
       if (!(item instanceof PyObject) || item.type !== strType) {
-        throw new PyTypeError("'in <string>' requires string as left operand, not int");
+        const kind =
+          item instanceof PyObject ? item.type.name : typeof item;
+        throw new PyTypeError(
+          `'in <string>' requires string as left operand, not ${kind}`,
+        );
       }
       return nativeVal<string>(self).includes(nativeVal<string>(item));
     }],
