@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-06-04, plan 646 merge PR #337)
+
+### Landed
+
+- [REPO] Plan 646 merged via PR #337 — bytes multi-byte `__mul__` int repeat in `sequence-repeat-bool.test.ts`; validation-ladder sync (1145 Vitest / 158 files).
+
+### Partial
+
+- None.
+
+### Next
+
+1. Further §8.15 gaps only when scoped (remaining niche API).
+2. PEP 3118 out of scope.
+
+---
+
 ## Delta update (2026-06-04, plan 644 merge PR #336)
 
 ### Landed
