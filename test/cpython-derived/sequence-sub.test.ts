@@ -1,5 +1,5 @@
 /**
- * CPython: list/tuple __sub__ and list __isub__ rejects (plans 680, 694–697).
+ * CPython: list/tuple __sub__ and list __isub__ rejects (plans 680, 694–698).
  */
 import { describe, it, expect } from "vitest";
 import {
@@ -49,6 +49,55 @@ describe("tuple __sub__", () => {
     expect(() => sub(pyInt(2), t())).toThrow(PyTypeError);
     expect(() => sub(pyInt(2), t())).toThrow(
       /unsupported operand type\(s\) for -: 'int' and 'tuple'/,
+    );
+  });
+
+  it("sub rejects tuple and str in both orders", () => {
+    const t = oneTuple;
+    expect(() => sub(t(), pyStr("a"))).toThrow(PyTypeError);
+    expect(() => sub(t(), pyStr("a"))).toThrow(
+      /unsupported operand type\(s\) for -: 'tuple' and 'str'/,
+    );
+    expect(() => sub(pyStr("a"), t())).toThrow(PyTypeError);
+    expect(() => sub(pyStr("a"), t())).toThrow(
+      /unsupported operand type\(s\) for -: 'str' and 'tuple'/,
+    );
+  });
+
+  it("sub rejects tuple and bytes in both orders", () => {
+    const t = oneTuple;
+    const b = () => pyBytes(new Uint8Array([1]));
+    expect(() => sub(t(), b())).toThrow(PyTypeError);
+    expect(() => sub(t(), b())).toThrow(
+      /unsupported operand type\(s\) for -: 'tuple' and 'bytes'/,
+    );
+    expect(() => sub(b(), t())).toThrow(PyTypeError);
+    expect(() => sub(b(), t())).toThrow(
+      /unsupported operand type\(s\) for -: 'bytes' and 'tuple'/,
+    );
+  });
+
+  it("sub rejects tuple and float in both orders", () => {
+    const t = oneTuple;
+    expect(() => sub(t(), pyFloat(2))).toThrow(PyTypeError);
+    expect(() => sub(t(), pyFloat(2))).toThrow(
+      /unsupported operand type\(s\) for -: 'tuple' and 'float'/,
+    );
+    expect(() => sub(pyFloat(2), t())).toThrow(PyTypeError);
+    expect(() => sub(pyFloat(2), t())).toThrow(
+      /unsupported operand type\(s\) for -: 'float' and 'tuple'/,
+    );
+  });
+
+  it("sub rejects tuple and bool in both orders", () => {
+    const t = oneTuple;
+    expect(() => sub(t(), pyTrue)).toThrow(PyTypeError);
+    expect(() => sub(t(), pyTrue)).toThrow(
+      /unsupported operand type\(s\) for -: 'tuple' and 'bool'/,
+    );
+    expect(() => sub(pyTrue, t())).toThrow(PyTypeError);
+    expect(() => sub(pyTrue, t())).toThrow(
+      /unsupported operand type\(s\) for -: 'bool' and 'tuple'/,
     );
   });
 });
