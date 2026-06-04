@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-06-04, plan 628 merge PR #328)
+
+### Landed
+
+- [REPO] Plan 628 merged via PR #328 — `dict.__contains__` and `__getitem__` hash+eq evidence (`dict-contains-hash-eq.test.ts`); §8.5 docs; validation-ladder sync (1127 Vitest / 154 files). Dict hash+eq surface evidence stack (596–628) complete for documented paths.
+
+### Partial
+
+- None.
+
+### Next
+
+1. Further §8.15 gaps only when scoped (remaining niche API).
+2. PEP 3118 out of scope.
+
+---
+
 ## Delta update (2026-06-04, plan 626 merge PR #327)
 
 ### Landed
