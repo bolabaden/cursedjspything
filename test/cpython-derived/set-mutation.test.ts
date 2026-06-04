@@ -3,6 +3,10 @@
  */
 import { describe, it, expect } from "vitest";
 import {
+  contains,
+  instantiate,
+  makeClass,
+  objectType,
   PyObject,
   eq,
   getAttr,
@@ -12,7 +16,20 @@ import {
   pySet,
   pyStr,
 } from "../../src/index.js";
+import { Slot } from "../../src/runtime/core/slots.js";
 import { PyKeyError, PyTypeError } from "../../src/runtime/core/errors.js";
+
+function badHashElement(): PyObject {
+  const BadHash = makeClass({
+    name: "BadHash",
+    bases: [objectType],
+    dict: new Map([[Slot.hash, () => "nope"]]),
+  });
+  return instantiate(BadHash);
+}
+
+const UNHASHABLE_LIST_MSG = /unhashable type: 'list'/;
+const INVALID_HASH_MSG = /__hash__ method should return an integer/;
 
 type SetMutFn = (self: PyObject, ...args: unknown[]) => unknown;
 
@@ -86,5 +103,26 @@ describe("set mutation methods", () => {
 
   it("update rejects non-iterable operand", () => {
     expect(() => call(pySet([]), "update", pyInt(1))).toThrow(PyTypeError);
+  });
+
+  it("rejects unhashable elements on add, remove, discard, and contains", () => {
+    const s = pySet([pyInt(0)]);
+    const key = pyList([]);
+    expect(() => call(pySet([]), "add", key)).toThrow(UNHASHABLE_LIST_MSG);
+    expect(() => call(s, "remove", key)).toThrow(UNHASHABLE_LIST_MSG);
+    expect(() => call(s, "discard", key)).toThrow(UNHASHABLE_LIST_MSG);
+    expect(() => contains(s, key)).toThrow(UNHASHABLE_LIST_MSG);
+  });
+
+  it("rejects invalid __hash__ on add and contains", () => {
+    const key = badHashElement();
+    expect(() => call(pySet([]), "add", key)).toThrow(INVALID_HASH_MSG);
+    expect(() => contains(pySet([]), key)).toThrow(INVALID_HASH_MSG);
+  });
+
+  it("update rejects iterable with unhashable element", () => {
+    expect(() => call(pySet([]), "update", pyList([pyList([])]))).toThrow(
+      UNHASHABLE_LIST_MSG,
+    );
   });
 });
