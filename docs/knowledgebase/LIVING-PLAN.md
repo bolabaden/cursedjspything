@@ -9,6 +9,40 @@
 
 ---
 
+## Delta update (2026-05-24, plan 692 merge PR #360)
+
+### Landed
+
+- [REPO] Plan 692 merged via PR #360 — §8.15 sequence evidence prose sync; KB counts 1170 Vitest / 163 files (`repo-signals`, `runtime-overview`).
+
+### Partial
+
+- None.
+
+### Next
+
+1. Further §8.15 gaps only when scoped (remaining niche API).
+2. PEP 3118 out of scope.
+
+---
+
+## Delta update (2026-05-24, plan 692 merge PR #360)
+
+### Landed
+
+- [REPO] Plan 692 merged via PR #360 — §8.15 sequence evidence prose sync; KB counts 1170 Vitest / 163 files (`repo-signals`, `runtime-overview`).
+
+### Partial
+
+- None.
+
+### Next
+
+1. Further §8.15 gaps only when scoped (remaining niche API).
+2. PEP 3118 out of scope.
+
+---
+
 ## Delta update (2026-05-24, plan 692)
 
 ### Landed
