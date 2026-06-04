@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-06-04, plan 678 merge PR #353)
+
+### Landed
+
+- [REPO] Plan 678 merged via PR #353 — tuple↔int cross-type `+` evidence in `sequence-add.test.ts`; §8.6 docs; validation-ladder sync (1182 Vitest / 161 files).
+
+### Partial
+
+- None.
+
+### Next
+
+1. Further §8.15 gaps only when scoped (remaining niche API).
+2. PEP 3118 out of scope.
+
+---
+
 ## Delta update (2026-06-04, plan 676 merge PR #352)
 
 ### Landed

@@ -1,7 +1,7 @@
 ---
 title: "feat: tuple __add__ int cross-type TypeError evidence (plan 678)"
 type: feat
-status: active
+status: completed
 date: 2026-05-24
 origin: LIVING-PLAN §8.6; post plan 676 sequence-imul
 ---
