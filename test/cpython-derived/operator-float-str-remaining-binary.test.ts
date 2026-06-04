@@ -6,10 +6,6 @@ import {
   add,
   divmod,
   floordiv,
-  ge,
-  gt,
-  le,
-  lt,
   mod,
   mul,
   pow,
@@ -19,6 +15,7 @@ import {
   truediv,
 } from "../../src/index.js";
 import { PyTypeError } from "../../src/runtime/core/errors.js";
+import { registerCrossTypeOrderingRejects } from "./helpers/cross-type-ordering.js";
 
 describe("cpython-derived float/str remaining binary ops", () => {
   const f = () => pyFloat(1.0);
@@ -117,21 +114,5 @@ describe("cpython-derived float/str ordering", () => {
   const s = () => pyStr("a");
   const f = () => pyFloat(1.0);
 
-  for (const [name, op] of [
-    ["lt", lt],
-    ["le", le],
-    ["gt", gt],
-    ["ge", ge],
-  ] as const) {
-    it(`${name} raises TypeError for str and float in both orders`, () => {
-      expect(() => op(s(), f())).toThrow(PyTypeError);
-      expect(() => op(s(), f())).toThrow(
-        new RegExp(`'${name}' not supported between instances of 'str' and 'float'`),
-      );
-      expect(() => op(f(), s())).toThrow(PyTypeError);
-      expect(() => op(f(), s())).toThrow(
-        new RegExp(`'${name}' not supported between instances of 'float' and 'str'`),
-      );
-    });
-  }
+  registerCrossTypeOrderingRejects("str", "float", s, f);
 });
