@@ -45,4 +45,33 @@ describe("cpython-derived sequence repeat non-int", () => {
       /unsupported operand type\(s\) for \*: 'bytes' and 'float'/,
     );
   });
+
+  it("list mul rejects reflected float repeat count", () => {
+    expect(() => mul(pyFloat(2), oneList())).toThrow(PyTypeError);
+    expect(() => mul(pyFloat(2), oneList())).toThrow(
+      /unsupported operand type\(s\) for \*: 'float' and 'list'/,
+    );
+  });
+
+  it("tuple mul rejects reflected float repeat count", () => {
+    expect(() => mul(pyFloat(2), oneTuple())).toThrow(PyTypeError);
+    expect(() => mul(pyFloat(2), oneTuple())).toThrow(
+      /unsupported operand type\(s\) for \*: 'float' and 'tuple'/,
+    );
+  });
+
+  it("str mul rejects reflected float repeat count", () => {
+    expect(() => mul(pyFloat(2), pyStr("a"))).toThrow(PyTypeError);
+    expect(() => mul(pyFloat(2), pyStr("a"))).toThrow(
+      /unsupported operand type\(s\) for \*: 'float' and 'str'/,
+    );
+  });
+
+  it("bytes mul rejects reflected float repeat count", () => {
+    const one = pyBytes(new Uint8Array([97]));
+    expect(() => mul(pyFloat(2), one)).toThrow(PyTypeError);
+    expect(() => mul(pyFloat(2), one)).toThrow(
+      /unsupported operand type\(s\) for \*: 'float' and 'bytes'/,
+    );
+  });
 });
