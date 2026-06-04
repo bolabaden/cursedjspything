@@ -1,7 +1,7 @@
 /**
  * CPython: list and tuple __add__ concatenate same-type sequences (plan 634);
  * tuple cross-type + rejects for str/bytes (plan 660), float/bool (plan 662);
- * list cross-type + rejects (plan 674).
+ * list cross-type + rejects (plan 674); tuple+int (plan 678).
  */
 import { describe, it, expect } from "vitest";
 import {
@@ -144,6 +144,18 @@ describe("list and tuple __add__", () => {
     expect(() => add(pyTrue, l())).toThrow(PyTypeError);
     expect(() => add(pyTrue, l())).toThrow(
       /unsupported operand type\(s\) for \+: 'bool' and 'list'/,
+    );
+  });
+
+  it("add rejects tuple and int in both orders", () => {
+    const t = () => pyTuple([pyInt(1)]);
+    expect(() => add(t(), pyInt(2))).toThrow(PyTypeError);
+    expect(() => add(t(), pyInt(2))).toThrow(
+      /unsupported operand type\(s\) for \+: 'tuple' and 'int'/,
+    );
+    expect(() => add(pyInt(2), t())).toThrow(PyTypeError);
+    expect(() => add(pyInt(2), t())).toThrow(
+      /unsupported operand type\(s\) for \+: 'int' and 'tuple'/,
     );
   });
 
