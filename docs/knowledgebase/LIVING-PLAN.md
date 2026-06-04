@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-06-04, plan 540 merge PR #284)
+
+### Landed
+
+- [REPO] Plan 540 merged via PR #284 — `str`/`bytes.index` and `rindex` on empty input with missing sub → `ValueError` (pairs with plan 538 find/rfind); validation-ladder sync (977 Vitest / 132 files).
+
+### Partial
+
+- None.
+
+### Next
+
+1. Further §8.15 gaps only when scoped (remaining niche bytes/str API).
+2. PEP 3118 out of scope.
+
+---
+
 ## Delta update (2026-06-04, plan 538 merge PR #283)
 
 ### Landed
