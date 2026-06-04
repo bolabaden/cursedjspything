@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-06-04, plan 530 merge PR #279)
+
+### Landed
+
+- [REPO] Plan 530 merged via PR #279 — `str`/`bytes.expandtabs` on empty input with optional tabsize; validation-ladder sync (977 Vitest / 132 files).
+
+### Partial
+
+- None.
+
+### Next
+
+1. Further §8.15 gaps only when scoped (remaining niche bytes/str API).
+2. PEP 3118 out of scope.
+
+---
+
 ## Delta update (2026-06-04, plan 528 merge PR #278)
 
 ### Landed
