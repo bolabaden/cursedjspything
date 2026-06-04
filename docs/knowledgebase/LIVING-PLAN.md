@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-06-04, plan 606 merge PR #317)
+
+### Landed
+
+- [REPO] Plan 606 merged via PR #317 — `dict.keys` / `values` / `items` live views; `dict-keys-values-items-views.test.ts`; §8.5 / §10.6 docs; validation-ladder sync (1098 Vitest / 150 files).
+
+### Partial
+
+- None.
+
+### Next
+
+1. Further §8.15 gaps only when scoped (remaining niche API).
+2. PEP 3118 out of scope.
+
+---
+
 ## Delta update (2026-06-04, plan 604 merge PR #316)
 
 ### Landed

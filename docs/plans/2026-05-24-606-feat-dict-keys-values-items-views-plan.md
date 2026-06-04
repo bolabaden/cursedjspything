@@ -1,7 +1,7 @@
 ---
 title: "feat: dict.keys values items views (plan 606)"
 type: feat
-status: active
+status: completed
 date: 2026-05-24
 origin: plan 604; dict method surface
 ---
