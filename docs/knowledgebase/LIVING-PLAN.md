@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-06-04, plan 562 merge PR #295)
+
+### Landed
+
+- [REPO] Plan 562 merged via PR #295 — `float.__hash__` evidence in `float-hash.test.ts`; validation-ladder sync (1002 Vitest / 136 files). Scalar hash series complete (bytes/str/int/bool/float).
+
+### Partial
+
+- None.
+
+### Next
+
+1. Further §8.15 gaps only when scoped (tuple hash, None hash, or remaining niche API).
+2. PEP 3118 out of scope.
+
+---
+
 ## Delta update (2026-06-04, plan 560 merge PR #294)
 
 ### Landed
