@@ -183,6 +183,7 @@ Emits JSON (`vitest_seconds`, pass gates, `test_count`); use median of several r
 | `test/cpython-derived/none-bool.test.ts` | NoneType.__bool__ None always falsy |
 | `test/cpython-derived/none-hash.test.ts` | NoneType.__hash__ fixed sentinel 0x345678; stable (plan 566) |
 | `test/cpython-derived/slice-bool.test.ts` | slice.__bool__ all slice objects truthy |
+| `test/cpython-derived/slice-unhashable.test.ts` | slice hash TypeError unhashable (plan 570) |
 | `test/cpython-derived/operator-zerodivision.test.ts` | Int/float division by zero raises ZeroDivisionError |
 | `test/golden/key-parity.test.ts` | Golden case key snapshot parity |
 | `test/golden/pyrt-cases-version-gates.test.ts` | `buildPyrtCases` version-gate semantics (`match_args`, buffer, `annotate_x`) per profile 3.9–3.14 |
