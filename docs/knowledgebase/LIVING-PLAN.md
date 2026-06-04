@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-06-04, plan 484 merge PR #256)
+
+### Landed
+
+- [REPO] Plan 484 merged via PR #256 — `str.split` maxsplit=0 + empty-str edge cases (parity with rsplit/bytes.split); validation-ladder sync (958 Vitest / 132 files).
+
+### Partial
+
+- None.
+
+### Next
+
+1. Further §8.15 gaps only when scoped (remaining niche bytes/str API).
+2. PEP 3118 out of scope.
+
+---
+
 ## Delta update (2026-06-04, plan 482 merge PR #255)
 
 ### Landed
