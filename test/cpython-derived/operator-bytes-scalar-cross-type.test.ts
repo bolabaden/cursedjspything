@@ -1,17 +1,20 @@
 /**
- * CPython: bytes↔int/float/bool eq/ne non-coercion (binary/ordering in bytes-remaining).
+ * CPython: bytes↔int/float/bool eq/ne non-coercion; int*bytes mul (plan 707).
  */
 import { describe, it, expect } from "vitest";
 import {
   bytes,
   eq,
+  mul,
   ne,
   pyBytes,
   pyFloat,
   pyInt,
   pyStr,
   pyTrue,
+  unwrap,
 } from "../../src/index.js";
+import { PyTypeError } from "../../src/runtime/core/errors.js";
 
 describe("cpython-derived bytes/scalar comparisons", () => {
   const b = () => bytes(pyStr("ab")) as ReturnType<typeof pyBytes>;
@@ -35,5 +38,22 @@ describe("cpython-derived bytes/scalar comparisons", () => {
     expect(eq(pyTrue, b())).toBe(false);
     expect(ne(b(), pyTrue)).toBe(true);
     expect(ne(pyTrue, b())).toBe(true);
+  });
+});
+
+describe("cpython-derived bytes/int mul", () => {
+  const b = () => bytes(pyStr("ab")) as ReturnType<typeof pyBytes>;
+
+  it("mul rejects int and bytes", () => {
+    expect(() => mul(pyInt(1), b())).toThrow(PyTypeError);
+    expect(() => mul(pyInt(1), b())).toThrow(
+      /unsupported operand type\(s\) for \*: 'int' and 'bytes'/,
+    );
+  });
+
+  it("mul allows bytes and int (repeat)", () => {
+    expect(
+      Array.from(unwrap<Uint8Array>(mul(b(), pyInt(2)) as ReturnType<typeof pyBytes>)),
+    ).toEqual([97, 98, 97, 98]);
   });
 });
