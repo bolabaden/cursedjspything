@@ -6,6 +6,7 @@ import {
   contains,
   instantiate,
   makeClass,
+  NotImplemented,
   objectType,
   PyObject,
   eq,
@@ -18,6 +19,24 @@ import {
 } from "../../src/index.js";
 import { Slot } from "../../src/runtime/core/slots.js";
 import { PyKeyError, PyTypeError } from "../../src/runtime/core/errors.js";
+
+function equalKeyPair(): [PyObject, PyObject] {
+  const Key = makeClass({
+    name: "Key",
+    bases: [objectType],
+    dict: new Map<string | symbol, unknown>([
+      [Slot.hash, () => 66],
+      [
+        Slot.eq,
+        (_self: PyObject, other: PyObject) => {
+          if (other.type.name === "Key") return true;
+          return NotImplemented;
+        },
+      ],
+    ]),
+  });
+  return [instantiate(Key), instantiate(Key)];
+}
 
 function badHashElement(): PyObject {
   const BadHash = makeClass({
@@ -74,6 +93,20 @@ describe("set mutation methods", () => {
     const s = pySet([one]);
     const item = call(s, "pop");
     expect(item).toBe(one);
+    expect(eq(s, pySet([]))).toBe(true);
+  });
+
+  it("pop empties set built from equal-but-distinct keys", () => {
+    const [k1, k2] = equalKeyPair();
+    const s = pySet([k1, k2]);
+    call(s, "pop");
+    expect(eq(s, pySet([]))).toBe(true);
+  });
+
+  it("remove finds member by equality", () => {
+    const [k1, k2] = equalKeyPair();
+    const s = pySet([k1]);
+    call(s, "remove", k2);
     expect(eq(s, pySet([]))).toBe(true);
   });
 
