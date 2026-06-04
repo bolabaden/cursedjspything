@@ -39,6 +39,8 @@ describe("cpython-derived str rpartition", () => {
 
   it("rpartitions exact match", () => {
     expect(asTriple(rpartition("x", pyStr("x")))).toEqual(["", "x", ""]);
+    expect(asTriple(rpartition("ab", pyStr("ab")))).toEqual(["", "ab", ""]);
+    expect(asTriple(rpartition("abab", pyStr("ab")))).toEqual(["ab", "ab", ""]);
   });
 
   it("handles empty string", () => {
