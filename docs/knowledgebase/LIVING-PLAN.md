@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-06-04, plan 584 merge PR #306)
+
+### Landed
+
+- [REPO] Plan 584 merged via PR #306 — `pySet` construction hash-checks elements in `set.ts`; `set-mutation.test.ts`; validation-ladder sync (1026 Vitest / 140 files).
+
+### Partial
+
+- None.
+
+### Next
+
+1. Further §8.15 gaps only when scoped (remaining niche API).
+2. PEP 3118 out of scope.
+
+---
+
 ## Delta update (2026-06-04, plan 582 merge PR #305)
 
 ### Landed
