@@ -102,7 +102,7 @@ Emits JSON (`vitest_seconds`, pass gates, `test_count`); use median of several r
 | `test/cpython-derived/str-find.test.ts` | str.find / rfind bounds, Unicode, empty input (plan 538) |
 | `test/cpython-derived/str-index.test.ts` | str.index / rindex ValueError on miss + empty input (plan 540) |
 | `test/cpython-derived/str-count.test.ts` | str.count non-overlapping bounds |
-| `test/cpython-derived/str-startswith-endswith.test.ts` | str.startswith / endswith tuple and bounds |
+| `test/cpython-derived/str-startswith-endswith.test.ts` | str.startswith/endswith tuple, bounds, empty input (plan 542) |
 | `test/cpython-derived/str-replace.test.ts` | str.replace empty-old + empty input (plan 512) |
 | `test/cpython-derived/str-removeprefix-removesuffix.test.ts` | str.removeprefix / removesuffix affix stripping |
 | `test/cpython-derived/str-center.test.ts` | str.center width padding + empty input width=0 (plan 532) |
@@ -124,7 +124,7 @@ Emits JSON (`vitest_seconds`, pass gates, `test_count`); use median of several r
 | `test/cpython-derived/bytes-join.test.ts` | bytes.join empty sep: concat, empty iter, single elt (510/518/526) |
 | `test/cpython-derived/bytes-split.test.ts` | bytes.split sep/maxsplit/whitespace; maxsplit=0 whitespace-only (plans 486/516) |
 | `test/cpython-derived/bytes-rsplit.test.ts` | bytes.rsplit from the right; maxsplit=0 whitespace-only (plans 486/516) |
-| `test/cpython-derived/bytes-startswith-endswith.test.ts` | bytes.startswith/endswith affix and bounds |
+| `test/cpython-derived/bytes-startswith-endswith.test.ts` | bytes.startswith/endswith affix, bounds, empty input (plan 542) |
 | `test/cpython-derived/bytes-partition.test.ts` | bytes.partition/rpartition; empty/exact; multi-byte exact (524) |
 | `test/cpython-derived/bytes-splitlines.test.ts` | bytes.splitlines breaks; empty + keepends (514); no breaks + keepends (528) |
 | `test/cpython-derived/bytes-strip.test.ts` | bytes.strip/lstrip/rstrip empty input + empty chars (506) |

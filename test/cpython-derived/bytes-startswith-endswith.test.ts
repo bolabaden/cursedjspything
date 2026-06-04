@@ -94,6 +94,16 @@ describe("cpython-derived bytes startswith endswith", () => {
     expect(endswith(hello, pyBytes(new Uint8Array([])))).toBe(pyTrue);
   });
 
+  it("handles empty haystack", () => {
+    const empty = new Uint8Array(0);
+    const a = pyBytes(new Uint8Array([97]));
+    const emptyAffix = pyBytes(new Uint8Array([]));
+    expect(startswith(empty, a)).toBe(pyFalse);
+    expect(endswith(empty, a)).toBe(pyFalse);
+    expect(startswith(empty, emptyAffix)).toBe(pyTrue);
+    expect(endswith(empty, emptyAffix)).toBe(pyTrue);
+  });
+
   it("rejects non-bytes prefix", () => {
     expect(() => startswith(hello, pyStr("he"))).toThrow(PyTypeError);
     expect(() => startswith(hello, pyStr("he"))).toThrow(
