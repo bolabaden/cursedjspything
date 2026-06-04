@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-06-04, plan 552 merge PR #290)
+
+### Landed
+
+- [REPO] Plan 552 merged via PR #290 — `bytes.__contains__` on empty haystack; validation-ladder sync (977 Vitest / 132 files).
+
+### Partial
+
+- None.
+
+### Next
+
+1. Further §8.15 gaps only when scoped (remaining niche bytes/str API).
+2. PEP 3118 out of scope.
+
+---
+
 ## Delta update (2026-06-04, plan 550 merge PR #289)
 
 ### Landed
