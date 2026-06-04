@@ -1,7 +1,7 @@
 ---
 title: "feat: splitlines keepends on empty str/bytes (plan 514)"
 type: feat
-status: active
+status: completed
 date: 2026-05-24
 origin: docs/knowledgebase/LIVING-PLAN.md plan 512
 ---
