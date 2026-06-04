@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-06-04, plan 558 merge PR #293)
+
+### Landed
+
+- [REPO] Plan 558 merged via PR #293 — `int.__hash__` evidence in `int-hash.test.ts`; validation-ladder sync (993 Vitest / 134 files).
+
+### Partial
+
+- None.
+
+### Next
+
+1. Further §8.15 gaps only when scoped (remaining niche scalar/hash/bool API).
+2. PEP 3118 out of scope.
+
+---
+
 ## Delta update (2026-06-04, plan 556 merge PR #292)
 
 ### Landed
