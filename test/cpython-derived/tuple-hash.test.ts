@@ -2,7 +2,28 @@
  * CPython: tuple is hashable; empty tuple uses fixed seed; order matters.
  */
 import { describe, it, expect } from "vitest";
-import { hash, pyInt, pyNone, pyTuple } from "../../src/index.js";
+import {
+  hash,
+  instantiate,
+  makeClass,
+  objectType,
+  pyInt,
+  pyList,
+  pyNone,
+  pyTuple,
+  PyObject,
+} from "../../src/index.js";
+import { Slot } from "../../src/runtime/core/slots.js";
+import { PyTypeError } from "../../src/runtime/core/errors.js";
+
+function badHashElement(): PyObject {
+  const BadHash = makeClass({
+    name: "BadHash",
+    bases: [objectType],
+    dict: new Map([[Slot.hash, () => "nope"]]),
+  });
+  return instantiate(BadHash);
+}
 
 describe("tuple __hash__", () => {
   it("empty tuple hash is stable across instances", () => {
@@ -35,5 +56,17 @@ describe("tuple __hash__", () => {
     const ab = pyTuple([pyInt(1), pyInt(2)]);
     const ba = pyTuple([pyInt(2), pyInt(1)]);
     expect(hash(ab)).not.toBe(hash(ba));
+  });
+
+  it("rejects unhashable elements when hashing tuple", () => {
+    expect(() => hash(pyTuple([pyList([])]))).toThrow(PyTypeError);
+    expect(() => hash(pyTuple([pyList([])]))).toThrow(/unhashable type: 'list'/);
+  });
+
+  it("rejects invalid __hash__ elements when hashing tuple", () => {
+    expect(() => hash(pyTuple([badHashElement()]))).toThrow(PyTypeError);
+    expect(() => hash(pyTuple([badHashElement()]))).toThrow(
+      /__hash__ method should return an integer/,
+    );
   });
 });

@@ -8,7 +8,7 @@ import { nativeVal, setNative } from "./native.js";
 import { sequenceRepeatCount } from "./int.js";
 import { buildRepeatedArray } from "./sequence-repeat.js";
 import { isSlice, sliceFields, sliceIndices } from "../collections/slice.js";
-import { eq } from "../dispatch/operators/compare.js";
+import { eq, hash as objectHash } from "../dispatch/operators/compare.js";
 
 function tupleRepr(self: PyObject): string {
   const items = nativeVal<readonly PyObject[]>(self);
@@ -55,8 +55,7 @@ export const tupleType = makeClass({
       const items = nativeVal<readonly PyObject[]>(self);
       let h = 0x345678;
       for (const item of items) {
-        const hFn = item.type.typeDict.get(Slot.hash);
-        const ih = typeof hFn === "function" ? ((hFn as Function)(item) as number) : 0;
+        const ih = objectHash(item);
         h = (Math.imul(h, 1000003) ^ ih) | 0;
       }
       return h;
