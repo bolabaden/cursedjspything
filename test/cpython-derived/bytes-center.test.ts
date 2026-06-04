@@ -51,6 +51,12 @@ describe("cpython-derived bytes center", () => {
     expect(asBytes(center(abc, pyInt(2)))).toEqual(abc);
     expect(asBytes(center(abc, pyInt(0)))).toEqual(abc);
     expect(asBytes(center(abc, pyInt(-1)))).toEqual(abc);
+    expect(asBytes(center(new Uint8Array(0), pyInt(0)))).toEqual(new Uint8Array(0));
+    expect(
+      asBytes(
+        center(new Uint8Array(0), pyInt(0), pyBytes(new Uint8Array([120]))),
+      ),
+    ).toEqual(new Uint8Array(0));
   });
 
   it("centers empty bytes", () => {
