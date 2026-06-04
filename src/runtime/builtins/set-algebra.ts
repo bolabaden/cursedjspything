@@ -1,8 +1,10 @@
+import { setMemberHas } from "./set-membership.js";
+
 export function intersectionItems(
   a: Set<unknown>,
   b: Set<unknown>,
 ): unknown[] {
-  return [...a].filter((x) => b.has(x));
+  return [...a].filter((x) => setMemberHas(b, x));
 }
 
 export function unionItems(a: Set<unknown>, b: Set<unknown>): unknown[] {
@@ -13,7 +15,7 @@ export function differenceItems(
   a: Set<unknown>,
   b: Set<unknown>,
 ): unknown[] {
-  return [...a].filter((x) => !b.has(x));
+  return [...a].filter((x) => !setMemberHas(b, x));
 }
 
 export function symmetricDifferenceItems(

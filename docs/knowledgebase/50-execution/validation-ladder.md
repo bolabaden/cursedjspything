@@ -92,6 +92,7 @@ Emits JSON (`vitest_seconds`, pass gates, `test_count`); use median of several r
 | `test/cpython-derived/set-frozenset-inplace.test.ts` | set |=, &=, -=, ^= mutate in place; frozenset/set operands |
 | `test/cpython-derived/frozenset-set-methods.test.ts` | set/frozenset issubset, issuperset, isdisjoint; cross-type; TypeError on non-set-like |
 | `test/cpython-derived/set-mutation.test.ts` | set/pySet hash guards on build and mutation paths (plans 580/584); KeyError repr; frozenset.copy |
+| `test/cpython-derived/set-membership.test.ts` | set/frozenset hash+eq membership via dictKeysEqual (plan 590); dedupe, contains, remove, inplace &=/-= |
 | `test/cpython-derived/frozenset-set-named-algebra.test.ts` | set/frozenset union/intersection/difference/symmetric_difference; cross-type result-type rules |
 | `test/cpython-derived/str-encode.test.ts` | str.encode codecs + empty input (plans 478/482/550) |
 | `test/cpython-derived/str-upper-lower.test.ts` | str.upper / str.lower case conversion |
