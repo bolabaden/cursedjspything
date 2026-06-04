@@ -1,7 +1,7 @@
 ---
 title: "fix: str __contains__ TypeError names rhs type (plan 462)"
 type: fix
-status: active
+status: completed
 date: 2026-05-24
 origin: docs/knowledgebase/LIVING-PLAN.md plan 460
 ---

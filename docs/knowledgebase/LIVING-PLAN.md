@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-06-04, plan 462 merge PR #245)
+
+### Landed
+
+- [REPO] Plan 462 merged via PR #245 — str `__contains__` TypeError uses rhs `type.name` (e.g. `bytes`); str↔bytes contains test; §8.17 prose (943 Vitest / 132 files).
+
+### Partial
+
+- None.
+
+### Next
+
+1. Further niche bytes/str API gaps from COMPATIBILITY §8.15 remaining line only when discovered/scoped.
+2. PEP 3118 out of scope.
+
+---
+
 ## Delta update (2026-06-04, plan 460 merge PR #244)
 
 ### Landed
