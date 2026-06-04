@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-06-04, plan 642 merge PR #335)
+
+### Landed
+
+- [REPO] Plan 642 merged via PR #335 — bytes `__mul__` rejects float repeat count in `sequence-repeat-nonint.test.ts`; §8.15 docs; validation-ladder sync (1143 Vitest / 158 files).
+
+### Partial
+
+- None.
+
+### Next
+
+1. Further §8.15 gaps only when scoped (remaining niche API).
+2. PEP 3118 out of scope.
+
+---
+
 ## Delta update (2026-06-04, plan 640 merge PR #334)
 
 ### Landed
