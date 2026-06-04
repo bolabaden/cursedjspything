@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-06-04, plan 644 merge PR #336)
+
+### Landed
+
+- [REPO] Plan 644 merged via PR #336 — bytes negative int repeat yields empty bytes in `sequence-repeat-bool.test.ts`; validation-ladder sync (1144 Vitest / 158 files).
+
+### Partial
+
+- None.
+
+### Next
+
+1. Further §8.15 gaps only when scoped (remaining niche API).
+2. PEP 3118 out of scope.
+
+---
+
 ## Delta update (2026-06-04, plan 642 merge PR #335)
 
 ### Landed
