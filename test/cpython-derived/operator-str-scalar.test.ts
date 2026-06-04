@@ -16,14 +16,27 @@ import {
   unwrap,
 } from "../../src/index.js";
 import { PyTypeError } from "../../src/runtime/core/errors.js";
+import { registerCrossTypeOrderingRejects } from "./helpers/cross-type-ordering.js";
 
 describe("cpython-derived str/scalar comparisons", () => {
+  const s = () => pyStr("a");
+  const i = () => pyInt(1);
+
   it("eq and ne do not coerce str and int", () => {
     expect(eq(pyStr("1"), pyInt(1))).toBe(false);
     expect(eq(pyInt(1), pyStr("1"))).toBe(false);
     expect(ne(pyStr("1"), pyInt(1))).toBe(true);
     expect(ne(pyInt(1), pyStr("1"))).toBe(true);
   });
+
+  it("contains on str requires str operand not int", () => {
+    expect(() => contains(pyStr("abc"), pyInt(97))).toThrow(PyTypeError);
+    expect(() => contains(pyStr("abc"), pyInt(97))).toThrow(
+      /'in <string>' requires string as left operand, not int/,
+    );
+  });
+
+  registerCrossTypeOrderingRejects("str", "int", s, i);
 });
 
 describe("cpython-derived str/scalar arithmetic", () => {
@@ -38,15 +51,6 @@ describe("cpython-derived str/scalar arithmetic", () => {
     expect(() => add(pyInt(1), pyStr("a"))).toThrow(PyTypeError);
     expect(() => add(pyInt(1), pyStr("a"))).toThrow(
       /unsupported operand type\(s\) for \+: 'int' and 'str'/,
-    );
-  });
-});
-
-describe("cpython-derived str contains", () => {
-  it("contains on str requires str operand", () => {
-    expect(() => contains(pyStr("abc"), pyInt(97))).toThrow(PyTypeError);
-    expect(() => contains(pyStr("abc"), pyInt(97))).toThrow(
-      /'in <string>' requires string as left operand, not int/,
     );
   });
 });

@@ -1,5 +1,5 @@
 /**
- * CPython: int↔str binary and ordering reject incompatible types (canonical; add in str-scalar; plan 406).
+ * CPython: int↔str remaining binary ops (ordering in operator-str-scalar; plan 406/468).
  */
 import { describe, it, expect } from "vitest";
 import {
@@ -13,7 +13,6 @@ import {
   truediv,
 } from "../../src/index.js";
 import { PyTypeError } from "../../src/runtime/core/errors.js";
-import { registerCrossTypeOrderingRejects } from "./helpers/cross-type-ordering.js";
 
 describe("cpython-derived int/str remaining binary ops", () => {
   const i = () => pyInt(1);
@@ -84,11 +83,4 @@ describe("cpython-derived int/str remaining binary ops", () => {
       /unsupported operand type\(s\) for \*\*: 'str' and 'int'/,
     );
   });
-});
-
-describe("cpython-derived int/str ordering", () => {
-  const s = () => pyStr("a");
-  const i = () => pyInt(1);
-
-  registerCrossTypeOrderingRejects("str", "int", s, i);
 });
