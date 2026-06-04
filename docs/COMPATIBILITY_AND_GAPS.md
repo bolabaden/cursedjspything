@@ -362,7 +362,7 @@ Python dict keys use **rich equality** + **consistent hashing** rules. `[REPO]` 
 | `sequence-iadd.test.ts` | `__iadd__` extend + cross-type `+=` rejects |
 | `sequence-imul.test.ts` | `__imul__` cross-type `*=` rejects |
 | `sequence-mul-cross-type.test.ts` | heterogeneous `*` + `list * list` rejects |
-| `sequence-sub.test.ts` | list/tuple `-` rejects; list cross-type `-=` rejects |
+| `sequence-sub.test.ts` | list/tuple `-` rejects; list `-=` same-type + cross-type rejects (plan 701) |
 | `sequence-eq-cross-type.test.ts` | cross-type `eq`/`ne` |
 | `sequence-ordering-cross-type.test.ts` | cross-type ordering rejects |
 
