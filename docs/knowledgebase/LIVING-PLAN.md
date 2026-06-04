@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-06-04, plan 502 merge PR #265)
+
+### Landed
+
+- [REPO] Plan 502 merged via PR #265 — `str.lstrip` / `str.rstrip` empty `chars` parity with `str.strip` and `bytes.strip`; validation-ladder sync (965 Vitest / 132 files).
+
+### Partial
+
+- None.
+
+### Next
+
+1. Further §8.15 gaps only when scoped (remaining niche bytes/str API).
+2. PEP 3118 out of scope.
+
+---
+
 ## Delta update (2026-06-04, plan 500 merge PR #264)
 
 ### Landed
