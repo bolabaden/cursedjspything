@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-06-04, plan 600 merge PR #314)
+
+### Landed
+
+- [REPO] Plan 600 merged via PR #314 — `dict.update` / `dict.copy`; `|= ` widened to iterable pairs via `dictUpdateFrom`; `dict-update-copy.test.ts`; §8.5 docs; validation-ladder sync (1083 Vitest / 147 files).
+
+### Partial
+
+- None.
+
+### Next
+
+1. Further §8.15 gaps only when scoped (remaining niche API).
+2. PEP 3118 out of scope.
+
+---
+
 ## Delta update (2026-06-04, plan 598 merge PR #313)
 
 ### Landed

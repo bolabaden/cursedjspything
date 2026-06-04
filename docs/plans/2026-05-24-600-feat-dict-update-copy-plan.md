@@ -1,7 +1,7 @@
 ---
 title: "feat: dict.update and dict.copy (plan 600)"
 type: feat
-status: active
+status: completed
 date: 2026-05-24
 origin: plan 598; dict method surface
 ---
