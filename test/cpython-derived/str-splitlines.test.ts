@@ -46,6 +46,7 @@ describe("cpython-derived str splitlines", () => {
 
   it("returns empty list for empty string", () => {
     expect(asStrList(splitlines(""))).toEqual([]);
+    expect(asStrList(splitlines("", pyTrue))).toEqual([]);
   });
 
   it("treats lone newline as empty line", () => {
