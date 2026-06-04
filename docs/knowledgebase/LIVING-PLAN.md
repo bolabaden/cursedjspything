@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-06-04, plan 664 merge PR #346)
+
+### Landed
+
+- [REPO] Plan 664 merged via PR #346 — `tuple * str` cross-type `__mul__` evidence in `sequence-mul-cross-type.test.ts`; §8.6 docs; validation-ladder sync (1166 Vitest / 160 files).
+
+### Partial
+
+- None.
+
+### Next
+
+1. Further §8.15 gaps only when scoped (remaining niche API).
+2. PEP 3118 out of scope.
+
+---
+
 ## Delta update (2026-06-04, plan 662 merge PR #345)
 
 ### Landed
