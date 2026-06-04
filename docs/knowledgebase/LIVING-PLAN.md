@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-06-04, plan 490 merge PR #259)
+
+### Landed
+
+- [REPO] Plan 490 merged via PR #259 — `str.splitlines` vertical tab, form feed, and U+2029 paragraph separator evidence; validation-ladder sync (960 Vitest / 132 files).
+
+### Partial
+
+- None.
+
+### Next
+
+1. Further §8.15 gaps only when scoped (remaining niche bytes/str API).
+2. PEP 3118 out of scope.
+
+---
+
 ## Delta update (2026-06-04, plan 488 merge PR #258)
 
 ### Landed
