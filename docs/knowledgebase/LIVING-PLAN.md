@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-06-04, plan 494 merge PR #261)
+
+### Landed
+
+- [REPO] Plan 494 merged via PR #261 — `str.splitlines` NEL (`U+0085`) line-break evidence; validation-ladder sync (961 Vitest / 132 files).
+
+### Partial
+
+- None.
+
+### Next
+
+1. Further §8.15 gaps only when scoped (remaining niche bytes/str API).
+2. PEP 3118 out of scope.
+
+---
+
 ## Delta update (2026-06-04, plan 492 merge PR #260)
 
 ### Landed
