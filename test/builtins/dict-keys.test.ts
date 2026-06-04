@@ -100,6 +100,11 @@ describe("dict key hash strictness", () => {
     expect(() => contains(d, probe)).toThrow(INVALID_HASH_MSG);
   });
 
+  it("pyDict constructor rejects unhashable keys", () => {
+    expect(() => pyDict([[pyList([]), pyInt(1)]])).toThrow(UNHASHABLE_LIST_MSG);
+    expect(() => pyDict([[badHashKey(), pyInt(1)]])).toThrow(INVALID_HASH_MSG);
+  });
+
   it("rejects unhashable list keys on insert and lookup paths", () => {
     const d = () => pyDict([[pyInt(0), pyInt(1)]]);
     const key = pyList([]);

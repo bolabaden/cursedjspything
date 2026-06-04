@@ -346,7 +346,9 @@ If `__bool__` returns a truthy/falsy non-boolean, pyrt raises. Python allows add
 
 ### 8.5 `dict` / `set` key identity vs Python equality
 
-Python dict keys use **rich equality** + **consistent hashing** rules. `pyDict` uses JS `Map` keyed by **whatever** the embedder inserts; if you insert `PyObject` keys, identity/equality depends on how you compare objects outside the dict API.
+Python dict keys use **rich equality** + **consistent hashing** rules. `[REPO]` **Hash strictness (plans 574–588):** `hash()` and `dictKeyHash` reject non-integer `__hash__` returns and unhashable types. **Dict** paths `dictSet`, `dictFindKey` (get/del/contains), and `pyDict()` construction validate PyObject keys. **`dictKeysEqual`** propagates hash `TypeError` (no silent `false`). **Set** `add`/`remove`/`discard`/`contains`/`update` and **`pySet()`** construction use `requireHashableElement`. **Frozenset** `pyFrozenSet()` and **`__contains__`** do the same. **Tuple** `__hash__` hashes each element via `hash()` (not `0` for missing `__hash__`). Evidence: `dict-keys.test.ts`, `set-mutation.test.ts`, `frozenset-hash.test.ts`, `tuple-hash.test.ts`, `hash-strictness-matrix.test.ts`. Embedders bypassing `pyDict`/`dictSet` with raw `Map` mutation can still insert unhashable keys — not supported.
+
+`pyDict` uses JS `Map` with the rules above when built through the public factory; direct `Map` mutation remains embedder responsibility.
 
 ### 8.6 `list` / `tuple` containment and equality paths
 

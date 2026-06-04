@@ -103,7 +103,11 @@ export const dictType = makeClass({
 
 export function pyDict(entries: [unknown, PyObject][] = []): PyObject {
   const obj = new PyObject(dictType);
-  setNative(obj, new Map(entries));
+  const m = new Map<unknown, PyObject>();
+  for (const [k, v] of entries) {
+    dictSet(m, k, v);
+  }
+  setNative(obj, m);
   return obj;
 }
 
