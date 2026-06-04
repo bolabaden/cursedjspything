@@ -354,6 +354,20 @@ Python dict keys use **rich equality** + **consistent hashing** rules. `[REPO]` 
 
 `list` / `tuple` `__contains__` and the `contains()` protocol fallback use `eq()` for `PyObject` pairs (`src/runtime/builtins/list.ts`, `tuple.ts`, `dispatch/protocols.ts`). Sequence `__eq__` compares elements with `eq()` (rich-compare semantics per item); element-level `NotImplemented` is treated as unequal, matching CPython list/tuple equality. Hash+eq element evidence: `list-eq.test.ts` and `tuple-eq-hash-eq.test.ts` (plans 622, 624 — includes tuple `__contains__`). Cross-type **list↔tuple** and **list/tuple↔bytes** `eq`/`ne` do not coerce (plan 682; `sequence-eq-cross-type.test.ts`). Cross-type **list↔tuple** ordering (`lt`/`le`/`gt`/`ge`) raises **`TypeError`** (plan 684; `sequence-ordering-cross-type.test.ts`). **`list.__add__`** / **`tuple.__add__`** concatenate same-type sequences without dedupe (plan 634; `sequence-add.test.ts`); cross-type **`+`** rejects for list↔tuple/int/str/bytes/float/bool and tuple↔int/str/bytes/float/bool (plans 660–662, 674, 678; same file). **`list.__iadd__`** extends in place with another list or a tuple, returns `self`, no dedupe (plans 636, 672; `sequence-iadd.test.ts`); cross-type **`+=`** rejects for list↔int, list↔str, list↔bytes, list↔float, and list↔bool (plans 656–658, 686; same file). **`list.__imul__`** cross-type **`*=`** rejects for list↔float, list↔list, and list↔tuple (plan 676; `sequence-imul.test.ts`). **`list * str`** / **`str * list`**, list/tuple↔**bytes** `*`, **list↔tuple** `*`, and **list * list** (non-repeat) reject with **`TypeError`** (plans 664–670, 680; `sequence-mul-cross-type.test.ts`). **`list.__sub__`** rejects **list − list** (plan 680; `sequence-sub.test.ts`). **`dict_items`** view `__contains__` probes keys via `dictGet` (plan 624; `dict-keys-values-items-views.test.ts`). Cross-type builtin delegation may still return `NotImplemented` where CPython coerces further.
 
+**Canonical §8.6 sequence evidence (plan 688):** prefer these files over overlapping cases in `operator-list-tuple-cross-type.test.ts` (§8.15 legacy duplicate):
+
+| File | Coverage |
+|------|----------|
+| `sequence-add.test.ts` | `__add__` same-type + cross-type `+` rejects |
+| `sequence-iadd.test.ts` | `__iadd__` extend + cross-type `+=` rejects |
+| `sequence-imul.test.ts` | `__imul__` cross-type `*=` rejects |
+| `sequence-mul-cross-type.test.ts` | heterogeneous `*` + `list * list` rejects |
+| `sequence-sub.test.ts` | `list - list` reject |
+| `sequence-eq-cross-type.test.ts` | cross-type `eq`/`ne` |
+| `sequence-ordering-cross-type.test.ts` | cross-type ordering rejects |
+
+Related (not operator duplicates): `sequence-repeat-nonint.test.ts` (float repeat count), `sequence-repeat-bool.test.ts`, `sequence-index-type.test.ts`, `list-eq.test.ts`, `tuple-eq-hash-eq.test.ts`.
+
 ### 8.7 Slicing
 
 `pySlice` and `sliceIndices` live in `src/runtime/collections/slice.ts`. `getItem` passes a slice object to `__getitem__` once. `pyList` / `pyTuple` implement `__getitem__(slice)` and return a new list/tuple; other types must implement slice subscripts themselves. Zero step raises **`PyValueError`** (`slice step cannot be zero`), matching CPython. Golden case `slice_list` compares against CPython.
