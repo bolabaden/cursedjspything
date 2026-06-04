@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-06-04, plan 508 merge PR #268)
+
+### Landed
+
+- [REPO] Plan 508 merged via PR #268 — `str.splitlines` `keepends=True` for vt/ff/NEL/U+2028/U+2029; validation-ladder sync (969 Vitest / 132 files).
+
+### Partial
+
+- None.
+
+### Next
+
+1. Further §8.15 gaps only when scoped (remaining niche bytes/str API).
+2. PEP 3118 out of scope.
+
+---
+
 ## Delta update (2026-06-04, plan 506 merge PR #267)
 
 ### Landed
