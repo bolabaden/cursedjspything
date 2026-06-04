@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-06-04, plan 690 merge PR #359)
+
+### Landed
+
+- [REPO] Plan 690 merged via PR #359 — removed duplicate `operator-list-tuple-cross-type.test.ts`; §8.6 `sequence-*` files are sole list/tuple operator evidence (1170 Vitest / 163 files).
+
+### Partial
+
+- None.
+
+### Next
+
+1. Further §8.15 gaps only when scoped (remaining niche API).
+2. PEP 3118 out of scope.
+
+---
+
 ## Delta update (2026-06-04, plan 688 merge PR #358)
 
 ### Landed

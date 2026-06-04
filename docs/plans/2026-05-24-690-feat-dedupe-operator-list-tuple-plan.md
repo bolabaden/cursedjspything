@@ -1,7 +1,7 @@
 ---
 title: "feat: remove duplicate operator-list-tuple tests (plan 690)"
 type: feat
-status: active
+status: completed
 date: 2026-05-24
 origin: LIVING-PLAN; post plan 688 sequence evidence index
 ---
