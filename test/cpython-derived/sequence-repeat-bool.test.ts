@@ -86,4 +86,9 @@ describe("cpython-derived bytes repetition with bool", () => {
     ).toEqual([97, 98]);
     expect(len(mul(pyFalse, ab) as ReturnType<typeof pyBytes>)).toBe(0);
   });
+
+  it("negative int repeat count yields empty bytes", () => {
+    const ab = pyBytes(new Uint8Array([97, 98]));
+    expect(len(mul(ab, pyInt(-1)) as ReturnType<typeof pyBytes>)).toBe(0);
+  });
 });
