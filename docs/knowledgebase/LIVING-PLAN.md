@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-06-04, plan 640 merge PR #334)
+
+### Landed
+
+- [REPO] Plan 640 merged via PR #334 — bytes `__mul__`/`__rmul__` bool repeat evidence in `sequence-repeat-bool.test.ts`; §8.15 docs; validation-ladder sync (1142 Vitest / 158 files).
+
+### Partial
+
+- None.
+
+### Next
+
+1. Further §8.15 gaps only when scoped (remaining niche API).
+2. PEP 3118 out of scope.
+
+---
+
 ## Delta update (2026-06-04, plan 638 merge PR #333)
 
 ### Landed
