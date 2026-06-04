@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-06-04, plan 564 merge PR #296)
+
+### Landed
+
+- [REPO] Plan 564 merged via PR #296 — `tuple.__hash__` evidence in `tuple-hash.test.ts`; validation-ladder sync (1007 Vitest / 137 files).
+
+### Partial
+
+- None.
+
+### Next
+
+1. Further §8.15 gaps only when scoped (None hash or remaining niche API).
+2. PEP 3118 out of scope.
+
+---
+
 ## Delta update (2026-06-04, plan 562 merge PR #295)
 
 ### Landed
