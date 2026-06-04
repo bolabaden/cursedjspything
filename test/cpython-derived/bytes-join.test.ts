@@ -66,6 +66,8 @@ describe("cpython-derived bytes join", () => {
     ]);
     const out = join(new Uint8Array([]), parts);
     expect(Array.from(asBytes(out))).toEqual([97, 98, 99]);
+    const emptyOut = join(new Uint8Array([]), pyList([]));
+    expect(Array.from(asBytes(emptyOut))).toEqual([]);
   });
 
   it("rejects non-bytes sequence items", () => {
