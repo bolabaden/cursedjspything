@@ -1,7 +1,7 @@
 ---
 title: "feat: set intersection_update / difference_update / symmetric_difference_update (plan 594)"
 type: feat
-status: active
+status: completed
 date: 2026-05-24
 origin: plan 592; §8.15 set method surface gap
 ---
