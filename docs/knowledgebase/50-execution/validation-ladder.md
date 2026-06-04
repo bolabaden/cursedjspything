@@ -46,7 +46,7 @@ Emits JSON (`vitest_seconds`, pass gates, `test_count`); use median of several r
 | `test/builtins/list-eq.test.ts` | list __eq__ rich elements; __contains__ hash+eq (plan 622) |
 | `test/cpython-derived/tuple-eq-hash-eq.test.ts` | tuple __eq__ and __contains__ element hash+eq (plans 622, 624) |
 | `test/cpython-derived/sequence-add.test.ts` | list/tuple __add__ + cross-type + rejects (plans 634, 660–662, 674, 678) |
-| `test/cpython-derived/sequence-mul-cross-type.test.ts` | list/tuple __mul__ heterogeneous * + list*list rejects (plans 664–670, 680) |
+| `test/cpython-derived/sequence-mul-cross-type.test.ts` | list/tuple __mul__ heterogeneous * + list*list rejects; int*list/tuple reject (plans 664–670, 680, 709) |
 | `test/cpython-derived/sequence-sub.test.ts` | list/tuple __sub__ + list __isub__ rejects (plans 680, 694–701) |
 | `test/cpython-derived/sequence-eq-cross-type.test.ts` | list/tuple/bytes cross-type eq/ne (plan 682) |
 | `test/cpython-derived/sequence-ordering-cross-type.test.ts` | list/tuple cross-type ordering rejects (plan 684) |
