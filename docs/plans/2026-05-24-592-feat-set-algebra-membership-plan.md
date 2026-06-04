@@ -1,7 +1,7 @@
 ---
 title: "feat: set algebra uses hash+eq membership (plan 592)"
 type: feat
-status: active
+status: completed
 date: 2026-05-24
 origin: plan 590 merge PR #309; exhaustive LFG pass
 ---
