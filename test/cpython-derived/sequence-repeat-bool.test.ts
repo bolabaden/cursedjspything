@@ -91,4 +91,13 @@ describe("cpython-derived bytes repetition with bool", () => {
     const ab = pyBytes(new Uint8Array([97, 98]));
     expect(len(mul(ab, pyInt(-1)) as ReturnType<typeof pyBytes>)).toBe(0);
   });
+
+  it("repeats multi-byte sequences (general path)", () => {
+    const ab = pyBytes(new Uint8Array([1, 2]));
+    const repeated = mul(ab, pyInt(3)) as ReturnType<typeof pyBytes>;
+    expect(len(repeated)).toBe(6);
+    expect(Array.from(unwrap<Uint8Array>(repeated))).toEqual([
+      1, 2, 1, 2, 1, 2,
+    ]);
+  });
 });
