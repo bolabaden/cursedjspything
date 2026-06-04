@@ -88,6 +88,13 @@ describe("cpython-derived bytes partition", () => {
     ).toEqual([[], [120], []]);
   });
 
+  it("handles empty bytes (partition and rpartition)", () => {
+    const empty = new Uint8Array([]);
+    const sep = pyBytes(new Uint8Array([44]));
+    expect(bytesList(asTriple(partition(empty, sep)))).toEqual([[], [], []]);
+    expect(bytesList(asTriple(rpartition(empty, sep)))).toEqual([[], [], []]);
+  });
+
   it("rejects empty separator", () => {
     expect(() => partition(new Uint8Array([120]), pyBytes(new Uint8Array([])))).toThrow(
       PyValueError,
