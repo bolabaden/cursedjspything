@@ -97,7 +97,7 @@ Emits JSON (`vitest_seconds`, pass gates, `test_count`); use median of several r
 | `test/cpython-derived/frozenset-iter.test.ts` | frozenset __iter__ / frozenset_iterator; StopIteration on empty |
 | `test/cpython-derived/frozenset-set-ordering.test.ts` | frozenset ↔ set subset/superset ordering (<=, <, >=, >) cross-type |
 | `test/cpython-derived/set-frozenset-inplace.test.ts` | set |=, &=, -=, ^= mutate in place; frozenset/set operands |
-| `test/cpython-derived/frozenset-set-methods.test.ts` | set/frozenset issubset, issuperset, isdisjoint; cross-type; TypeError on non-set-like |
+| `test/cpython-derived/frozenset-set-methods.test.ts` | set/frozenset issubset, issuperset, isdisjoint; cross-type; hash+eq equal keys (plan 610); TypeError on non-set-like |
 | `test/cpython-derived/set-mutation.test.ts` | set/pySet hash guards on build and mutation paths (plans 580/584); KeyError repr; frozenset.copy |
 | `test/cpython-derived/set-named-update-methods.test.ts` | set intersection_update / difference_update / symmetric_difference_update; hash+eq (plan 594) |
 | `test/cpython-derived/set-membership.test.ts` | set/frozenset hash+eq membership via dictKeysEqual (plan 590); dedupe, contains, remove, inplace &=/-= |
