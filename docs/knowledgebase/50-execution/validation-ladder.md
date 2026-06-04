@@ -49,6 +49,7 @@ Emits JSON (`vitest_seconds`, pass gates, `test_count`); use median of several r
 | `test/cpython-derived/sequence-mul-cross-type.test.ts` | list/tuple __mul__ heterogeneous * + list*list rejects (plans 664–670, 680) |
 | `test/cpython-derived/sequence-sub.test.ts` | list __sub__ list-list reject (plan 680) |
 | `test/cpython-derived/sequence-eq-cross-type.test.ts` | list/tuple/bytes cross-type eq/ne (plan 682) |
+| `test/cpython-derived/sequence-ordering-cross-type.test.ts` | list/tuple cross-type ordering rejects (plan 684) |
 | `test/cpython-derived/sequence-iadd.test.ts` | list __iadd__ extend (list/tuple) + list+= scalar rejects (plans 636, 656–658, 672) |
 | `test/cpython-derived/sequence-imul.test.ts` | list __imul__ cross-type *= rejects (plan 676) |
 | `test/cpython-derived/str-add.test.ts` | str __add__ same-type concat (plan 638) |
