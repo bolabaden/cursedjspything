@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-06-04, plan 676 merge PR #352)
+
+### Landed
+
+- [REPO] Plan 676 merged via PR #352 — `list.__imul__` cross-type `*=` evidence in `sequence-imul.test.ts`; §8.6 docs; validation-ladder sync (1181 Vitest / 161 files).
+
+### Partial
+
+- None.
+
+### Next
+
+1. Further §8.15 gaps only when scoped (remaining niche API).
+2. PEP 3118 out of scope.
+
+---
+
 ## Delta update (2026-06-04, plan 674 merge PR #351)
 
 ### Landed

@@ -1,7 +1,7 @@
 ---
 title: "feat: list __imul__ cross-type TypeError evidence (plan 676)"
 type: feat
-status: active
+status: completed
 date: 2026-05-24
 origin: LIVING-PLAN §8.6; post plan 674 sequence-add list cross-type +
 ---
