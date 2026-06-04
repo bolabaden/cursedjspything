@@ -41,6 +41,10 @@ describe("cpython-derived str rpartition", () => {
     expect(asTriple(rpartition("x", pyStr("x")))).toEqual(["", "x", ""]);
   });
 
+  it("handles empty string", () => {
+    expect(asTriple(rpartition("", pyStr(",")))).toEqual(["", "", ""]);
+  });
+
   it("rejects empty separator", () => {
     expect(() => rpartition("x", pyStr(""))).toThrow(PyValueError);
     expect(() => rpartition("x", pyStr(""))).toThrow(/empty separator/);
