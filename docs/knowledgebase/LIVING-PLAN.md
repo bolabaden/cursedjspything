@@ -13,7 +13,7 @@
 
 ### Landed
 
-- [REPO] Plan 600 merged via PR #314 — `dict.update` / `dict.copy`; `|= ` widened to iterable pairs via `dictUpdateFrom`; `dict-update-copy.test.ts`; §8.5 docs; validation-ladder sync (1083 Vitest / 147 files).
+- [REPO] Plan 600 merged via PR #314 — `dict.update` / `dict.copy`; `|=` widened to iterable pairs via `dictUpdateFrom`; `dict-update-copy.test.ts`; §8.5 docs; validation-ladder sync (1083 Vitest / 147 files).
 
 ### Partial
 
