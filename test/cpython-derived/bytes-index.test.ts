@@ -64,6 +64,12 @@ describe("cpython-derived bytes index rindex", () => {
     expect(() => index(abcabc, missing)).toThrow(/subsection not found/);
     expect(() => rindex(abcabc, missing)).toThrow(PyValueError);
     expect(() => rindex(abcabc, missing)).toThrow(/subsection not found/);
+    const a = pyBytes(new Uint8Array([97]));
+    const empty = new Uint8Array(0);
+    expect(() => index(empty, a)).toThrow(PyValueError);
+    expect(() => index(empty, a)).toThrow(/subsection not found/);
+    expect(() => rindex(empty, a)).toThrow(PyValueError);
+    expect(() => rindex(empty, a)).toThrow(/subsection not found/);
   });
 
   it("respects start and end bounds", () => {

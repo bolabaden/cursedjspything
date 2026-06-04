@@ -60,6 +60,10 @@ describe("cpython-derived str index rindex", () => {
     expect(() => index("abcabc", pyStr("x"))).toThrow(/substring not found/);
     expect(() => rindex("abcabc", pyStr("x"))).toThrow(PyValueError);
     expect(() => rindex("abcabc", pyStr("x"))).toThrow(/substring not found/);
+    expect(() => index("", pyStr("a"))).toThrow(PyValueError);
+    expect(() => index("", pyStr("a"))).toThrow(/substring not found/);
+    expect(() => rindex("", pyStr("a"))).toThrow(PyValueError);
+    expect(() => rindex("", pyStr("a"))).toThrow(/substring not found/);
   });
 
   it("respects start and end bounds", () => {
