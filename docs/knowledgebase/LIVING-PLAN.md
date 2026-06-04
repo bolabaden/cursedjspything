@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-06-04, plan 614 merge PR #321)
+
+### Landed
+
+- [REPO] Plan 614 merged via PR #321 — named algebra hash+eq cross-type evidence in `frozenset-set-named-algebra.test.ts`; §8.5 / §8.15 docs; validation-ladder sync (1106 Vitest / 151 files).
+
+### Partial
+
+- None.
+
+### Next
+
+1. Further §8.15 gaps only when scoped (remaining niche API).
+2. PEP 3118 out of scope.
+
+---
+
 ## Delta update (2026-06-04, plan 612 merge PR #320)
 
 ### Landed

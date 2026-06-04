@@ -1,7 +1,7 @@
 ---
 title: "feat: set named algebra hash+eq evidence (plan 614)"
 type: feat
-status: active
+status: completed
 date: 2026-05-24
 origin: plan 612; §8.15 gap
 ---
