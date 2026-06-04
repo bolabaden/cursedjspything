@@ -1,7 +1,7 @@
 ---
 title: "feat: dict.pop and dict.popitem (plan 604)"
 type: feat
-status: active
+status: completed
 date: 2026-05-24
 origin: plan 602; dict method surface
 ---

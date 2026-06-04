@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-06-04, plan 604 merge PR #316)
+
+### Landed
+
+- [REPO] Plan 604 merged via PR #316 — `dict.pop` / `dict.popitem`; `dict-pop-popitem.test.ts`; §8.5 docs; validation-ladder sync (1093 Vitest / 149 files).
+
+### Partial
+
+- None.
+
+### Next
+
+1. Further §8.15 gaps only when scoped (`keys`/`values`/`items` views or remaining niche API).
+2. PEP 3118 out of scope.
+
+---
+
 ## Delta update (2026-06-04, plan 602 merge PR #315)
 
 ### Landed
