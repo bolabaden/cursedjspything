@@ -1,0 +1,68 @@
+/**
+ * CPython: list and tuple __add__ concatenate same-type sequences (plan 634).
+ */
+import { describe, it, expect } from "vitest";
+import {
+  add,
+  eq,
+  instantiate,
+  len,
+  makeClass,
+  NotImplemented,
+  objectType,
+  PyObject,
+  pyInt,
+  pyList,
+  pyTuple,
+} from "../../src/index.js";
+import { Slot } from "../../src/runtime/core/slots.js";
+
+function equalKeyPair(): [PyObject, PyObject] {
+  const Key = makeClass({
+    name: "Key",
+    bases: [objectType],
+    dict: new Map<string | symbol, unknown>([
+      [
+        Slot.eq,
+        (_self: PyObject, other: PyObject) => {
+          if (other.type.name === "Key") return true;
+          return NotImplemented;
+        },
+      ],
+    ]),
+  });
+  return [instantiate(Key), instantiate(Key)];
+}
+
+describe("list and tuple __add__", () => {
+  it("list + list returns concatenated list", () => {
+    const a = pyList([pyInt(1)]);
+    const b = pyList([pyInt(2), pyInt(3)]);
+    const result = add(a, b) as PyObject;
+    expect(len(result)).toBe(3);
+    expect(eq(result, pyList([pyInt(1), pyInt(2), pyInt(3)]))).toBe(true);
+    expect(result).not.toBe(a);
+    expect(result).not.toBe(b);
+  });
+
+  it("tuple + tuple returns concatenated tuple", () => {
+    const a = pyTuple([pyInt(1)]);
+    const b = pyTuple([pyInt(2)]);
+    const result = add(a, b) as PyObject;
+    expect(eq(result, pyTuple([pyInt(1), pyInt(2)]))).toBe(true);
+    expect(result).not.toBe(a);
+  });
+
+  it("concatenation does not dedupe equal-but-distinct elements", () => {
+    const [k1, k2] = equalKeyPair();
+    const left = pyList([k1]);
+    const right = pyList([k2]);
+    const merged = add(left, right) as PyObject;
+    expect(len(merged)).toBe(2);
+
+    const tLeft = pyTuple([k1]);
+    const tRight = pyTuple([k2]);
+    const tMerged = add(tLeft, tRight) as PyObject;
+    expect(len(tMerged)).toBe(2);
+  });
+});
