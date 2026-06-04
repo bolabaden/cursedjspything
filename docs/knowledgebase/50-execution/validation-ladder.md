@@ -78,7 +78,7 @@ Emits JSON (`vitest_seconds`, pass gates, `test_count`); use median of several r
 
 ---
 
-| `test/cpython-derived/operator-int-str-remaining-binary.test.ts` | int↔str sub/truediv/floordiv/mod/divmod/pow TypeError both orders (ordering in str-scalar; plan 406) |
+| `test/cpython-derived/operator-int-str-remaining-binary.test.ts` | int↔str sub/truediv/floordiv/mod/divmod/pow TypeError both orders; int*str mul reject, str*int repeat (plan 705; ordering in str-scalar) |
 
 ---
 
