@@ -39,6 +39,8 @@ describe("cpython-derived str partition", () => {
 
   it("partitions exact match", () => {
     expect(asTriple(partition("x", pyStr("x")))).toEqual(["", "x", ""]);
+    expect(asTriple(partition("ab", pyStr("ab")))).toEqual(["", "ab", ""]);
+    expect(asTriple(partition("abab", pyStr("ab")))).toEqual(["", "ab", "ab"]);
   });
 
   it("handles empty string", () => {

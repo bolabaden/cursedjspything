@@ -86,12 +86,28 @@ describe("cpython-derived bytes partition", () => {
     expect(
       bytesList(asTriple(partition(new Uint8Array([120]), pyBytes(new Uint8Array([120]))))),
     ).toEqual([[], [120], []]);
+    const ab = new Uint8Array([97, 98]);
+    expect(bytesList(asTriple(partition(ab, pyBytes(ab))))).toEqual([[], [97, 98], []]);
+    const abab = new Uint8Array([97, 98, 97, 98]);
+    expect(bytesList(asTriple(partition(abab, pyBytes(ab))))).toEqual([
+      [],
+      [97, 98],
+      [97, 98],
+    ]);
   });
 
   it("rpartitions exact match", () => {
     expect(
       bytesList(asTriple(rpartition(new Uint8Array([120]), pyBytes(new Uint8Array([120]))))),
     ).toEqual([[], [120], []]);
+    const ab = new Uint8Array([97, 98]);
+    expect(bytesList(asTriple(rpartition(ab, pyBytes(ab))))).toEqual([[], [97, 98], []]);
+    const abab = new Uint8Array([97, 98, 97, 98]);
+    expect(bytesList(asTriple(rpartition(abab, pyBytes(ab))))).toEqual([
+      [97, 98],
+      [97, 98],
+      [],
+    ]);
   });
 
   it("handles empty bytes (partition and rpartition)", () => {
