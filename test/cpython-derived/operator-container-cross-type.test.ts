@@ -5,10 +5,6 @@ import { describe, it, expect } from "vitest";
 import {
   add,
   eq,
-  ge,
-  gt,
-  le,
-  lt,
   mul,
   ne,
   pyBytes,
@@ -22,6 +18,7 @@ import {
   pyTuple,
 } from "../../src/index.js";
 import { PyTypeError } from "../../src/runtime/core/errors.js";
+import { registerCrossTypeOrderingRejects } from "./helpers/cross-type-ordering.js";
 
 describe("cpython-derived dict/list cross-type", () => {
   const d = () => pyDict([[pyStr("a"), pyInt(1)]]);
@@ -54,23 +51,7 @@ describe("cpython-derived dict/list cross-type", () => {
     );
   });
 
-  for (const [name, op] of [
-    ["lt", lt],
-    ["le", le],
-    ["gt", gt],
-    ["ge", ge],
-  ] as const) {
-    it(`${name} raises TypeError for dict and list`, () => {
-      expect(() => op(d(), l())).toThrow(PyTypeError);
-      expect(() => op(d(), l())).toThrow(
-        new RegExp(`'${name}' not supported between instances of 'dict' and 'list'`),
-      );
-      expect(() => op(l(), d())).toThrow(PyTypeError);
-      expect(() => op(l(), d())).toThrow(
-        new RegExp(`'${name}' not supported between instances of 'list' and 'dict'`),
-      );
-    });
-  }
+  registerCrossTypeOrderingRejects("dict", "list", d, l);
 });
 
 describe("cpython-derived dict/tuple cross-type", () => {
@@ -93,23 +74,7 @@ describe("cpython-derived dict/tuple cross-type", () => {
     expect(ne(d(), t())).toBe(true);
   });
 
-  for (const [name, op] of [
-    ["lt", lt],
-    ["le", le],
-    ["gt", gt],
-    ["ge", ge],
-  ] as const) {
-    it(`${name} raises TypeError for dict and tuple`, () => {
-      expect(() => op(d(), t())).toThrow(PyTypeError);
-      expect(() => op(d(), t())).toThrow(
-        new RegExp(`'${name}' not supported between instances of 'dict' and 'tuple'`),
-      );
-      expect(() => op(t(), d())).toThrow(PyTypeError);
-      expect(() => op(t(), d())).toThrow(
-        new RegExp(`'${name}' not supported between instances of 'tuple' and 'dict'`),
-      );
-    });
-  }
+  registerCrossTypeOrderingRejects("dict", "tuple", d, t);
 });
 
 describe("cpython-derived dict/frozenset cross-type", () => {
@@ -132,23 +97,7 @@ describe("cpython-derived dict/frozenset cross-type", () => {
     expect(ne(d(), f())).toBe(true);
   });
 
-  for (const [name, op] of [
-    ["lt", lt],
-    ["le", le],
-    ["gt", gt],
-    ["ge", ge],
-  ] as const) {
-    it(`${name} raises TypeError for dict and frozenset`, () => {
-      expect(() => op(d(), f())).toThrow(PyTypeError);
-      expect(() => op(d(), f())).toThrow(
-        new RegExp(`'${name}' not supported between instances of 'dict' and 'frozenset'`),
-      );
-      expect(() => op(f(), d())).toThrow(PyTypeError);
-      expect(() => op(f(), d())).toThrow(
-        new RegExp(`'${name}' not supported between instances of 'frozenset' and 'dict'`),
-      );
-    });
-  }
+  registerCrossTypeOrderingRejects("dict", "frozenset", d, f);
 });
 
 describe("cpython-derived set/slice cross-type", () => {
@@ -171,23 +120,7 @@ describe("cpython-derived set/slice cross-type", () => {
     expect(ne(s(), sl())).toBe(true);
   });
 
-  for (const [name, op] of [
-    ["lt", lt],
-    ["le", le],
-    ["gt", gt],
-    ["ge", ge],
-  ] as const) {
-    it(`${name} raises TypeError for set and slice`, () => {
-      expect(() => op(s(), sl())).toThrow(PyTypeError);
-      expect(() => op(s(), sl())).toThrow(
-        new RegExp(`'${name}' not supported between instances of 'set' and 'slice'`),
-      );
-      expect(() => op(sl(), s())).toThrow(PyTypeError);
-      expect(() => op(sl(), s())).toThrow(
-        new RegExp(`'${name}' not supported between instances of 'slice' and 'set'`),
-      );
-    });
-  }
+  registerCrossTypeOrderingRejects("set", "slice", s, sl);
 });
 
 describe("cpython-derived set/list cross-type", () => {
@@ -210,23 +143,7 @@ describe("cpython-derived set/list cross-type", () => {
     expect(ne(s(), l())).toBe(true);
   });
 
-  for (const [name, op] of [
-    ["lt", lt],
-    ["le", le],
-    ["gt", gt],
-    ["ge", ge],
-  ] as const) {
-    it(`${name} raises TypeError for set and list`, () => {
-      expect(() => op(s(), l())).toThrow(PyTypeError);
-      expect(() => op(s(), l())).toThrow(
-        new RegExp(`'${name}' not supported between instances of 'set' and 'list'`),
-      );
-      expect(() => op(l(), s())).toThrow(PyTypeError);
-      expect(() => op(l(), s())).toThrow(
-        new RegExp(`'${name}' not supported between instances of 'list' and 'set'`),
-      );
-    });
-  }
+  registerCrossTypeOrderingRejects("set", "list", s, l);
 });
 
 describe("cpython-derived set/bytes cross-type", () => {
@@ -262,23 +179,7 @@ describe("cpython-derived set/bytes cross-type", () => {
     );
   });
 
-  for (const [name, op] of [
-    ["lt", lt],
-    ["le", le],
-    ["gt", gt],
-    ["ge", ge],
-  ] as const) {
-    it(`${name} raises TypeError for set and bytes`, () => {
-      expect(() => op(s(), b())).toThrow(PyTypeError);
-      expect(() => op(s(), b())).toThrow(
-        new RegExp(`'${name}' not supported between instances of 'set' and 'bytes'`),
-      );
-      expect(() => op(b(), s())).toThrow(PyTypeError);
-      expect(() => op(b(), s())).toThrow(
-        new RegExp(`'${name}' not supported between instances of 'bytes' and 'set'`),
-      );
-    });
-  }
+  registerCrossTypeOrderingRejects("set", "bytes", s, b);
 });
 
 describe("cpython-derived frozenset/bytes cross-type", () => {
@@ -314,23 +215,7 @@ describe("cpython-derived frozenset/bytes cross-type", () => {
     );
   });
 
-  for (const [name, op] of [
-    ["lt", lt],
-    ["le", le],
-    ["gt", gt],
-    ["ge", ge],
-  ] as const) {
-    it(`${name} raises TypeError for frozenset and bytes`, () => {
-      expect(() => op(f(), b())).toThrow(PyTypeError);
-      expect(() => op(f(), b())).toThrow(
-        new RegExp(`'${name}' not supported between instances of 'frozenset' and 'bytes'`),
-      );
-      expect(() => op(b(), f())).toThrow(PyTypeError);
-      expect(() => op(b(), f())).toThrow(
-        new RegExp(`'${name}' not supported between instances of 'bytes' and 'frozenset'`),
-      );
-    });
-  }
+  registerCrossTypeOrderingRejects("frozenset", "bytes", f, b);
 });
 
 describe("cpython-derived set/tuple cross-type", () => {
@@ -353,23 +238,7 @@ describe("cpython-derived set/tuple cross-type", () => {
     expect(ne(s(), t())).toBe(true);
   });
 
-  for (const [name, op] of [
-    ["lt", lt],
-    ["le", le],
-    ["gt", gt],
-    ["ge", ge],
-  ] as const) {
-    it(`${name} raises TypeError for set and tuple`, () => {
-      expect(() => op(s(), t())).toThrow(PyTypeError);
-      expect(() => op(s(), t())).toThrow(
-        new RegExp(`'${name}' not supported between instances of 'set' and 'tuple'`),
-      );
-      expect(() => op(t(), s())).toThrow(PyTypeError);
-      expect(() => op(t(), s())).toThrow(
-        new RegExp(`'${name}' not supported between instances of 'tuple' and 'set'`),
-      );
-    });
-  }
+  registerCrossTypeOrderingRejects("set", "tuple", s, t);
 });
 
 describe("cpython-derived dict/set cross-type", () => {
@@ -392,23 +261,7 @@ describe("cpython-derived dict/set cross-type", () => {
     expect(ne(d(), s())).toBe(true);
   });
 
-  for (const [name, op] of [
-    ["lt", lt],
-    ["le", le],
-    ["gt", gt],
-    ["ge", ge],
-  ] as const) {
-    it(`${name} raises TypeError for dict and set`, () => {
-      expect(() => op(d(), s())).toThrow(PyTypeError);
-      expect(() => op(d(), s())).toThrow(
-        new RegExp(`'${name}' not supported between instances of 'dict' and 'set'`),
-      );
-      expect(() => op(s(), d())).toThrow(PyTypeError);
-      expect(() => op(s(), d())).toThrow(
-        new RegExp(`'${name}' not supported between instances of 'set' and 'dict'`),
-      );
-    });
-  }
+  registerCrossTypeOrderingRejects("dict", "set", d, s);
 });
 
 describe("cpython-derived dict/scalar container cross-type", () => {
@@ -438,23 +291,7 @@ describe("cpython-derived dict/scalar container cross-type", () => {
     );
   });
 
-  for (const [name, op] of [
-    ["lt", lt],
-    ["le", le],
-    ["gt", gt],
-    ["ge", ge],
-  ] as const) {
-    it(`${name} raises TypeError for dict and slice`, () => {
-      expect(() => op(d(), sl())).toThrow(PyTypeError);
-      expect(() => op(d(), sl())).toThrow(
-        new RegExp(`'${name}' not supported between instances of 'dict' and 'slice'`),
-      );
-      expect(() => op(sl(), d())).toThrow(PyTypeError);
-      expect(() => op(sl(), d())).toThrow(
-        new RegExp(`'${name}' not supported between instances of 'slice' and 'dict'`),
-      );
-    });
-  }
+  registerCrossTypeOrderingRejects("dict", "slice", d, sl);
 
   it("add rejects dict and bytes", () => {
     expect(() => add(d(), pyBytes([1]))).toThrow(PyTypeError);
@@ -471,6 +308,7 @@ describe("cpython-derived dict/scalar container cross-type", () => {
 describe("cpython-derived slice cross-type", () => {
   const s = () => pySlice(0, 1, 1);
   const l = () => pyList([pyInt(1)]);
+  const t = () => pyTuple([pyInt(1)]);
   const i = () => pyInt(1);
 
   it("add rejects slice and int in both orders", () => {
@@ -489,23 +327,7 @@ describe("cpython-derived slice cross-type", () => {
     expect(ne(s(), i())).toBe(true);
   });
 
-  for (const [name, op] of [
-    ["lt", lt],
-    ["le", le],
-    ["gt", gt],
-    ["ge", ge],
-  ] as const) {
-    it(`${name} raises TypeError for slice and int`, () => {
-      expect(() => op(s(), i())).toThrow(PyTypeError);
-      expect(() => op(s(), i())).toThrow(
-        new RegExp(`'${name}' not supported between instances of 'slice' and 'int'`),
-      );
-      expect(() => op(i(), s())).toThrow(PyTypeError);
-      expect(() => op(i(), s())).toThrow(
-        new RegExp(`'${name}' not supported between instances of 'int' and 'slice'`),
-      );
-    });
-  }
+  registerCrossTypeOrderingRejects("slice", "int", s, i);
 
   it("add rejects slice and list in both orders", () => {
     expect(() => add(s(), l())).toThrow(PyTypeError);
@@ -523,26 +345,9 @@ describe("cpython-derived slice cross-type", () => {
     expect(ne(s(), l())).toBe(true);
   });
 
-  for (const [name, op] of [
-    ["lt", lt],
-    ["le", le],
-    ["gt", gt],
-    ["ge", ge],
-  ] as const) {
-    it(`${name} raises TypeError for slice and list`, () => {
-      expect(() => op(s(), l())).toThrow(PyTypeError);
-      expect(() => op(s(), l())).toThrow(
-        new RegExp(`'${name}' not supported between instances of 'slice' and 'list'`),
-      );
-      expect(() => op(l(), s())).toThrow(PyTypeError);
-      expect(() => op(l(), s())).toThrow(
-        new RegExp(`'${name}' not supported between instances of 'list' and 'slice'`),
-      );
-    });
-  }
+  registerCrossTypeOrderingRejects("slice", "list", s, l);
 
   it("add rejects slice and tuple in both orders", () => {
-    const t = () => pyTuple([pyInt(1)]);
     expect(() => add(s(), t())).toThrow(PyTypeError);
     expect(() => add(s(), t())).toThrow(
       /unsupported operand type\(s\) for \+: 'slice' and 'tuple'/,
@@ -554,27 +359,9 @@ describe("cpython-derived slice cross-type", () => {
   });
 
   it("eq is false for slice and tuple", () => {
-    const t = () => pyTuple([pyInt(1)]);
     expect(eq(s(), t())).toBe(false);
     expect(ne(s(), t())).toBe(true);
   });
 
-  for (const [name, op] of [
-    ["lt", lt],
-    ["le", le],
-    ["gt", gt],
-    ["ge", ge],
-  ] as const) {
-    it(`${name} raises TypeError for slice and tuple`, () => {
-      const t = () => pyTuple([pyInt(1)]);
-      expect(() => op(s(), t())).toThrow(PyTypeError);
-      expect(() => op(s(), t())).toThrow(
-        new RegExp(`'${name}' not supported between instances of 'slice' and 'tuple'`),
-      );
-      expect(() => op(t(), s())).toThrow(PyTypeError);
-      expect(() => op(t(), s())).toThrow(
-        new RegExp(`'${name}' not supported between instances of 'tuple' and 'slice'`),
-      );
-    });
-  }
+  registerCrossTypeOrderingRejects("slice", "tuple", s, t);
 });
