@@ -1,5 +1,5 @@
 /**
- * CPython: list/tuple __sub__ and list __isub__ rejects (plans 680, 694–698).
+ * CPython: list/tuple __sub__ and list __isub__ rejects (plans 680, 694–699).
  */
 import { describe, it, expect } from "vitest";
 import {
@@ -24,6 +24,80 @@ describe("list __sub__", () => {
     expect(() => sub(a, b)).toThrow(PyTypeError);
     expect(() => sub(a, b)).toThrow(
       /unsupported operand type\(s\) for -: 'list' and 'list'/,
+    );
+  });
+
+  it("sub rejects list and tuple in both orders", () => {
+    const l = () => pyList([pyInt(1)]);
+    const t = () => pyTuple([pyInt(2)]);
+    expect(() => sub(l(), t())).toThrow(PyTypeError);
+    expect(() => sub(l(), t())).toThrow(
+      /unsupported operand type\(s\) for -: 'list' and 'tuple'/,
+    );
+    expect(() => sub(t(), l())).toThrow(PyTypeError);
+    expect(() => sub(t(), l())).toThrow(
+      /unsupported operand type\(s\) for -: 'tuple' and 'list'/,
+    );
+  });
+
+  it("sub rejects list and int in both orders", () => {
+    const l = () => pyList([pyInt(1)]);
+    expect(() => sub(l(), pyInt(2))).toThrow(PyTypeError);
+    expect(() => sub(l(), pyInt(2))).toThrow(
+      /unsupported operand type\(s\) for -: 'list' and 'int'/,
+    );
+    expect(() => sub(pyInt(2), l())).toThrow(PyTypeError);
+    expect(() => sub(pyInt(2), l())).toThrow(
+      /unsupported operand type\(s\) for -: 'int' and 'list'/,
+    );
+  });
+
+  it("sub rejects list and str in both orders", () => {
+    const l = () => pyList([pyInt(1)]);
+    expect(() => sub(l(), pyStr("a"))).toThrow(PyTypeError);
+    expect(() => sub(l(), pyStr("a"))).toThrow(
+      /unsupported operand type\(s\) for -: 'list' and 'str'/,
+    );
+    expect(() => sub(pyStr("a"), l())).toThrow(PyTypeError);
+    expect(() => sub(pyStr("a"), l())).toThrow(
+      /unsupported operand type\(s\) for -: 'str' and 'list'/,
+    );
+  });
+
+  it("sub rejects list and bytes in both orders", () => {
+    const l = () => pyList([pyInt(1)]);
+    const b = () => pyBytes(new Uint8Array([1]));
+    expect(() => sub(l(), b())).toThrow(PyTypeError);
+    expect(() => sub(l(), b())).toThrow(
+      /unsupported operand type\(s\) for -: 'list' and 'bytes'/,
+    );
+    expect(() => sub(b(), l())).toThrow(PyTypeError);
+    expect(() => sub(b(), l())).toThrow(
+      /unsupported operand type\(s\) for -: 'bytes' and 'list'/,
+    );
+  });
+
+  it("sub rejects list and float in both orders", () => {
+    const l = () => pyList([pyInt(1)]);
+    expect(() => sub(l(), pyFloat(2))).toThrow(PyTypeError);
+    expect(() => sub(l(), pyFloat(2))).toThrow(
+      /unsupported operand type\(s\) for -: 'list' and 'float'/,
+    );
+    expect(() => sub(pyFloat(2), l())).toThrow(PyTypeError);
+    expect(() => sub(pyFloat(2), l())).toThrow(
+      /unsupported operand type\(s\) for -: 'float' and 'list'/,
+    );
+  });
+
+  it("sub rejects list and bool in both orders", () => {
+    const l = () => pyList([pyInt(1)]);
+    expect(() => sub(l(), pyTrue)).toThrow(PyTypeError);
+    expect(() => sub(l(), pyTrue)).toThrow(
+      /unsupported operand type\(s\) for -: 'list' and 'bool'/,
+    );
+    expect(() => sub(pyTrue, l())).toThrow(PyTypeError);
+    expect(() => sub(pyTrue, l())).toThrow(
+      /unsupported operand type\(s\) for -: 'bool' and 'list'/,
     );
   });
 });
