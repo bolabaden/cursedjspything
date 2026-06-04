@@ -54,6 +54,7 @@ describe("cpython-derived str join", () => {
   it("empty separator concatenates without intervening text", () => {
     const parts = pyList([pyStr("a"), pyStr("b"), pyStr("c")]);
     expect(asStr(join("", parts))).toBe("abc");
+    expect(asStr(join("", pyList([])))).toBe("");
   });
 
   it("rejects non-str sequence items", () => {
