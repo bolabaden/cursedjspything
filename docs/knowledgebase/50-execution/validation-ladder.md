@@ -45,7 +45,7 @@ Emits JSON (`vitest_seconds`, pass gates, `test_count`); use median of several r
 | `test/builtins/dict-keys.test.ts` | Dict key eq/hash; invalid __hash__ and unhashable keys on hash/set/get/del/contains/pyDict ctor (plans 574/576/588) |
 | `test/builtins/list-eq.test.ts` | list __eq__ rich elements; __contains__ hash+eq (plan 622) |
 | `test/cpython-derived/tuple-eq-hash-eq.test.ts` | tuple __eq__ and __contains__ element hash+eq (plans 622, 624) |
-| `test/cpython-derived/sequence-add.test.ts` | list/tuple __add__ same-type concat (plan 634) |
+| `test/cpython-derived/sequence-add.test.ts` | list/tuple __add__ concat + tuple+str/bytes rejects (plans 634, 660) |
 | `test/cpython-derived/sequence-iadd.test.ts` | list __iadd__ extend + list+= scalar rejects (plans 636, 656–658) |
 | `test/cpython-derived/str-add.test.ts` | str __add__ same-type concat (plan 638) |
 | `test/cpython-derived/bytes-add.test.ts` | bytes __add__ same-type concat (plan 654) |
