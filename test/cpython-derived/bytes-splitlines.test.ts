@@ -68,6 +68,10 @@ describe("cpython-derived bytes splitlines", () => {
     expect(asBytesList(splitlines(new Uint8Array([97, 98, 99])))).toEqual([
       [97, 98, 99],
     ]);
+    expect(asBytesList(splitlines(new Uint8Array([97, 98, 99]), pyTrue))).toEqual([
+      [97, 98, 99],
+    ]);
+    expect(asBytesList(splitlines(new Uint8Array([120]), pyTrue))).toEqual([[120]]);
   });
 
   it("does not split on non-newline line break bytes (CPython bytes API)", () => {
