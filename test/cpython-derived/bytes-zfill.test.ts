@@ -58,5 +58,8 @@ describe("cpython-derived bytes zfill", () => {
   it("returns original bytes when width is not wider", () => {
     expect(asBytes(zfill(abc, pyInt(2)))).toEqual(abc);
     expect(asBytes(zfill(minusFortyTwo, pyInt(3)))).toEqual(minusFortyTwo);
+    expect(asBytes(zfill(abc, pyInt(0)))).toEqual(abc);
+    expect(asBytes(zfill(minusFortyTwo, pyInt(0)))).toEqual(minusFortyTwo);
+    expect(asBytes(zfill(new Uint8Array(0), pyInt(0)))).toEqual(new Uint8Array(0));
   });
 });

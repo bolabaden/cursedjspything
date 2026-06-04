@@ -39,6 +39,9 @@ describe("cpython-derived str zfill", () => {
   it("returns original str when width is not wider", () => {
     expect(asStr(zfill("abc", pyInt(2)))).toBe("abc");
     expect(asStr(zfill("-42", pyInt(3)))).toBe("-42");
+    expect(asStr(zfill("abc", pyInt(0)))).toBe("abc");
+    expect(asStr(zfill("-42", pyInt(0)))).toBe("-42");
+    expect(asStr(zfill("", pyInt(0)))).toBe("");
   });
 
   it("zero-pads Unicode body with sign prefix", () => {
