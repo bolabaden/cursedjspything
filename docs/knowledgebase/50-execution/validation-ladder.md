@@ -102,7 +102,7 @@ Emits JSON (`vitest_seconds`, pass gates, `test_count`); use median of several r
 | `test/cpython-derived/set-named-update-methods.test.ts` | set intersection_update / difference_update / symmetric_difference_update; hash+eq (plan 594) |
 | `test/cpython-derived/set-membership.test.ts` | set/frozenset hash+eq membership via dictKeysEqual (plan 590); dedupe, contains, remove, inplace &=/-= |
 | `test/cpython-derived/set-algebra-membership.test.ts` | set/frozenset \|&-^ and named algebra with equal-but-distinct keys (plan 592); unionItems uses setAddMember |
-| `test/cpython-derived/frozenset-set-named-algebra.test.ts` | set/frozenset union/intersection/difference/symmetric_difference; cross-type result-type rules |
+| `test/cpython-derived/frozenset-set-named-algebra.test.ts` | set/frozenset union/intersection/difference/symmetric_difference; cross-type result-type; hash+eq equal keys (plan 614) |
 | `test/cpython-derived/str-encode.test.ts` | str.encode codecs + empty input (plans 478/482/550) |
 | `test/cpython-derived/str-upper-lower.test.ts` | str.upper / str.lower case conversion |
 | `test/cpython-derived/str-capitalize.test.ts` | str.capitalize case conversion |

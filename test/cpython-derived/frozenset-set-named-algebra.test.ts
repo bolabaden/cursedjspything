@@ -3,14 +3,38 @@
  */
 import { describe, it, expect } from "vitest";
 import {
-  PyObject,
   eq,
   getAttr,
+  instantiate,
+  len,
+  makeClass,
+  NotImplemented,
+  objectType,
+  PyObject,
   pyFrozenSet,
   pyInt,
   pySet,
 } from "../../src/index.js";
+import { Slot } from "../../src/runtime/core/slots.js";
 import { PyTypeError } from "../../src/runtime/core/errors.js";
+
+function equalKeyPair(): [PyObject, PyObject] {
+  const Key = makeClass({
+    name: "Key",
+    bases: [objectType],
+    dict: new Map<string | symbol, unknown>([
+      [Slot.hash, () => 63],
+      [
+        Slot.eq,
+        (_self: PyObject, other: PyObject) => {
+          if (other.type.name === "Key") return true;
+          return NotImplemented;
+        },
+      ],
+    ]),
+  });
+  return [instantiate(Key), instantiate(Key)];
+}
 
 type AlgebraMethodFn = (self: PyObject, other: PyObject) => PyObject;
 
@@ -63,5 +87,35 @@ describe("set and frozenset named algebra methods", () => {
     expect(() =>
       call(pyFrozenSet([pyInt(1)]), "intersection", pyInt(2)),
     ).toThrow(PyTypeError);
+  });
+
+  it("named algebra uses hash+eq with cross-type lhs", () => {
+    const [k1, k2] = equalKeyPair();
+    const three = pyInt(3);
+
+    const froUnion = call(pyFrozenSet([k1]), "union", pySet([k2]));
+    expect(froUnion.type.name).toBe("frozenset");
+    expect(len(froUnion)).toBe(1);
+
+    const setUnion = call(pySet([k1]), "union", pyFrozenSet([k2, three]));
+    expect(setUnion.type.name).toBe("set");
+    expect(len(setUnion)).toBe(2);
+    expect(eq(setUnion, pySet([k1, three]))).toBe(true);
+
+    const inter = call(pyFrozenSet([k1, three]), "intersection", pySet([k2]));
+    expect(inter.type.name).toBe("frozenset");
+    expect(eq(inter, pyFrozenSet([k1]))).toBe(true);
+
+    const diff = call(pySet([k1, three]), "difference", pyFrozenSet([k2]));
+    expect(diff.type.name).toBe("set");
+    expect(eq(diff, pySet([three]))).toBe(true);
+
+    const sym = call(
+      pyFrozenSet([k1]),
+      "symmetric_difference",
+      pySet([k2, three]),
+    );
+    expect(sym.type.name).toBe("frozenset");
+    expect(eq(sym, pyFrozenSet([three]))).toBe(true);
   });
 });
