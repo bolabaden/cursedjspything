@@ -9,6 +9,40 @@
 
 ---
 
+## Delta update (2026-05-24, plan 709)
+
+### Landed
+
+- [REPO] Plan 709 — `int * list` / `int * tuple` mul reject via separate `__rmul__`; `list * int` / `tuple * int` unchanged; §8.6 evidence (1200 Vitest / 163 files).
+
+### Partial
+
+- None.
+
+### Next
+
+1. Further §8.15 gaps only when scoped (remaining niche API).
+2. PEP 3118 out of scope.
+
+---
+
+## Delta update (2026-05-24, plan 708 merge PR #376)
+
+### Landed
+
+- [REPO] Plan 708 merged via PR #376 — plan 707 merge record in LIVING-PLAN (1196 Vitest / 163 files).
+
+### Partial
+
+- None.
+
+### Next
+
+1. Plan 709 — `int * list` / `int * tuple` mul reject (mirror plans 705/707).
+2. PEP 3118 out of scope.
+
+---
+
 ## Delta update (2026-05-24, plan 707 merge PR #375)
 
 ### Landed

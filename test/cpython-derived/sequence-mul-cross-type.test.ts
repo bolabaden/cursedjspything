@@ -1,8 +1,16 @@
 /**
- * CPython: sequence __mul__ cross-type TypeError (plans 664, 666, 668, 670, 680).
+ * CPython: sequence __mul__ cross-type TypeError (plans 664, 666, 668, 670, 680, 709).
  */
 import { describe, it, expect } from "vitest";
-import { mul, pyBytes, pyInt, pyList, pyStr, pyTuple } from "../../src/index.js";
+import {
+  len,
+  mul,
+  pyBytes,
+  pyInt,
+  pyList,
+  pyStr,
+  pyTuple,
+} from "../../src/index.js";
 import { PyTypeError } from "../../src/runtime/core/errors.js";
 
 describe("sequence __mul__ cross-type", () => {
@@ -71,5 +79,27 @@ describe("sequence __mul__ cross-type", () => {
     expect(() => mul(oneTuple(), oneList())).toThrow(
       /unsupported operand type\(s\) for \*: 'tuple' and 'list'/,
     );
+  });
+
+  it("mul rejects int and list", () => {
+    expect(() => mul(pyInt(2), oneList())).toThrow(PyTypeError);
+    expect(() => mul(pyInt(2), oneList())).toThrow(
+      /unsupported operand type\(s\) for \*: 'int' and 'list'/,
+    );
+  });
+
+  it("mul rejects int and tuple", () => {
+    expect(() => mul(pyInt(2), oneTuple())).toThrow(PyTypeError);
+    expect(() => mul(pyInt(2), oneTuple())).toThrow(
+      /unsupported operand type\(s\) for \*: 'int' and 'tuple'/,
+    );
+  });
+
+  it("mul allows list and int (repeat)", () => {
+    expect(len(mul(oneList(), pyInt(2)) as ReturnType<typeof pyList>)).toBe(2);
+  });
+
+  it("mul allows tuple and int (repeat)", () => {
+    expect(len(mul(oneTuple(), pyInt(2)) as ReturnType<typeof pyTuple>)).toBe(2);
   });
 });

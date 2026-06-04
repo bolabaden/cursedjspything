@@ -5,7 +5,7 @@ import { PyStopIteration, lookupSpecial } from "../core/lookup.js";
 import { makeReversedIterator } from "../iterators/reversed-iterator.js";
 import { PyTypeError, PyIndexError } from "../core/errors.js";
 import { nativeVal, setNative } from "./native.js";
-import { sequenceRepeatCount } from "./int.js";
+import { intType, sequenceRepeatCount } from "./int.js";
 import { buildRepeatedArray } from "./sequence-repeat.js";
 import { isSlice, sliceFields, sliceIndices } from "../collections/slice.js";
 import { eq, hash as objectHash } from "../dispatch/operators/compare.js";
@@ -40,6 +40,12 @@ function repeatTuple(self: PyObject, other: PyObject) {
   const obj = new PyObject(tupleType);
   setNative(obj, Object.freeze(built));
   return obj;
+}
+
+/** Reflected repeat: CPython rejects int * tuple; tuple * int uses __mul__. */
+function repeatTupleRmul(self: PyObject, other: PyObject) {
+  if (other.type === intType) return NotImplemented;
+  return repeatTuple(self, other);
 }
 
 // ── pyTuple ───────────────────────────────────────────────────────────
@@ -87,7 +93,7 @@ export const tupleType = makeClass({
       return pyTuple([...nativeVal<readonly PyObject[]>(self), ...nativeVal<readonly PyObject[]>(other)]);
     }],
     [Slot.mul, repeatTuple],
-    [Slot.rmul, repeatTuple],
+    [Slot.rmul, repeatTupleRmul],
     [Slot.iter, (self: PyObject) => {
       const arr = nativeVal<readonly PyObject[]>(self);
       let i = 0;

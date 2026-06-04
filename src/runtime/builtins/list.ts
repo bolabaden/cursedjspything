@@ -4,7 +4,7 @@ import { makeClass } from "../class/class.js";
 import { PyStopIteration } from "../core/lookup.js";
 import { PyTypeError, PyIndexError } from "../core/errors.js";
 import { nativeVal, setNative } from "./native.js";
-import { sequenceRepeatCount } from "./int.js";
+import { intType, sequenceRepeatCount } from "./int.js";
 import { buildRepeatedArray } from "./sequence-repeat.js";
 import { isSlice, sliceFields, sliceIndices } from "../collections/slice.js";
 import { eq } from "../dispatch/operators/compare.js";
@@ -35,6 +35,12 @@ function repeatList(self: PyObject, other: PyObject) {
   const obj = new PyObject(listType);
   setNative(obj, built);
   return obj;
+}
+
+/** Reflected repeat: CPython rejects int * list; list * int uses __mul__. */
+function repeatListRmul(self: PyObject, other: PyObject) {
+  if (other.type === intType) return NotImplemented;
+  return repeatList(self, other);
 }
 
 // ── pyList ────────────────────────────────────────────────────────────
@@ -99,7 +105,7 @@ export const listType = makeClass({
       return NotImplemented;
     }],
     [Slot.mul, repeatList],
-    [Slot.rmul, repeatList],
+    [Slot.rmul, repeatListRmul],
     [Slot.iter, (self: PyObject) => {
       const arr = nativeVal<PyObject[]>(self);
       let i = 0;
