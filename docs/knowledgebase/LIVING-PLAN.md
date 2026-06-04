@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 709 merge PR #377)
+
+### Landed
+
+- [REPO] Plan 709 merged via PR #377 — `int * list` / `int * tuple` mul reject; §8.6 evidence (1200 Vitest / 163 files).
+
+### Partial
+
+- None.
+
+### Next
+
+1. Further §8.15 gaps only when scoped (remaining niche API).
+2. PEP 3118 out of scope.
+
+---
+
 ## Delta update (2026-05-24, plan 709)
 
 ### Landed
