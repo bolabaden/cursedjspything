@@ -1,6 +1,6 @@
 /**
  * CPython: list and tuple __add__ concatenate same-type sequences (plan 634);
- * tuple cross-type + rejects for str/bytes (plan 660).
+ * tuple cross-type + rejects for str/bytes (plan 660), float/bool (plan 662).
  */
 import { describe, it, expect } from "vitest";
 import {
@@ -13,9 +13,11 @@ import {
   objectType,
   PyObject,
   pyBytes,
+  pyFloat,
   pyInt,
   pyList,
   pyStr,
+  pyTrue,
   pyTuple,
 } from "../../src/index.js";
 import { PyTypeError } from "../../src/runtime/core/errors.js";
@@ -92,6 +94,30 @@ describe("list and tuple __add__", () => {
     expect(() => add(b(), t())).toThrow(PyTypeError);
     expect(() => add(b(), t())).toThrow(
       /unsupported operand type\(s\) for \+: 'bytes' and 'tuple'/,
+    );
+  });
+
+  it("add rejects tuple and float in both orders", () => {
+    const t = () => pyTuple([pyInt(1)]);
+    expect(() => add(t(), pyFloat(2))).toThrow(PyTypeError);
+    expect(() => add(t(), pyFloat(2))).toThrow(
+      /unsupported operand type\(s\) for \+: 'tuple' and 'float'/,
+    );
+    expect(() => add(pyFloat(2), t())).toThrow(PyTypeError);
+    expect(() => add(pyFloat(2), t())).toThrow(
+      /unsupported operand type\(s\) for \+: 'float' and 'tuple'/,
+    );
+  });
+
+  it("add rejects tuple and bool in both orders", () => {
+    const t = () => pyTuple([pyInt(1)]);
+    expect(() => add(t(), pyTrue)).toThrow(PyTypeError);
+    expect(() => add(t(), pyTrue)).toThrow(
+      /unsupported operand type\(s\) for \+: 'tuple' and 'bool'/,
+    );
+    expect(() => add(pyTrue, t())).toThrow(PyTypeError);
+    expect(() => add(pyTrue, t())).toThrow(
+      /unsupported operand type\(s\) for \+: 'bool' and 'tuple'/,
     );
   });
 });
