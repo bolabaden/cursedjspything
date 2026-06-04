@@ -101,6 +101,11 @@ describe("cpython-derived bytes repetition with bool", () => {
       1, 2, 1, 2, 1, 2,
     ]);
   });
+
+  it("large repeat count builds expected length", () => {
+    const one = pyBytes(new Uint8Array([0]));
+    expect(len(mul(one, pyInt(150_000)) as ReturnType<typeof pyBytes>)).toBe(150_000);
+  });
 });
 
 describe("cpython-derived str repetition with bool", () => {
@@ -132,5 +137,9 @@ describe("cpython-derived str repetition with bool", () => {
     expect(unwrap<string>(mul(pyStr("ab"), pyInt(3)) as ReturnType<typeof pyStr>)).toBe(
       "ababab",
     );
+  });
+
+  it("large repeat count builds expected length", () => {
+    expect(len(mul(pyStr("x"), pyInt(150_000)) as ReturnType<typeof pyStr>)).toBe(150_000);
   });
 });
