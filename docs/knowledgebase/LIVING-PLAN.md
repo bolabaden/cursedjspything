@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-06-04, plan 620 merge PR #324)
+
+### Landed
+
+- [REPO] Plan 620 merged via PR #324 — `dict.__eq__` and set/frozenset cross-type `__eq__` hash+eq evidence (`dict-eq-hash-eq.test.ts`, `frozenset-set-eq.test.ts`, `set-mutation.test.ts`); §8.5 docs; validation-ladder sync (1115 Vitest / 152 files).
+
+### Partial
+
+- None.
+
+### Next
+
+1. Further §8.15 gaps only when scoped (remaining niche API).
+2. PEP 3118 out of scope.
+
+---
+
 ## Delta update (2026-06-04, plan 618 merge PR #323)
 
 ### Landed
