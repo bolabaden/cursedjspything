@@ -115,7 +115,7 @@ Emits JSON (`vitest_seconds`, pass gates, `test_count`); use median of several r
 | `test/cpython-derived/str-format.test.ts` | str.format / format_map including bool/bytes/None/list/tuple/dict/slice/set/frozenset empty-spec fields and conversions with format_spec |
 | `test/cpython-derived/str-reversed.test.ts` | str.__reversed__ yields one-char strings last-to-first; empty StopIteration; iterator __iter__ returns self |
 | `test/cpython-derived/str-bool.test.ts` | str.__bool__ empty falsy; non-empty truthy |
-| `test/cpython-derived/str-strip.test.ts` | str.strip/lstrip/rstrip + empty chars on all three (plan 502) |
+| `test/cpython-derived/str-strip.test.ts` | str.strip/lstrip/rstrip empty input + empty chars (502/506) |
 | `test/cpython-derived/str-split.test.ts` | str.split sep/maxsplit/whitespace + maxsplit=0 empty-str edges (plan 484) |
 | `test/cpython-derived/str-rsplit.test.ts` | str.rsplit sep/maxsplit/whitespace + maxsplit=0 with sep (plan 488) |
 | `test/cpython-derived/str-partition.test.ts` | str.partition first-separator triple |
@@ -127,7 +127,7 @@ Emits JSON (`vitest_seconds`, pass gates, `test_count`); use median of several r
 | `test/cpython-derived/bytes-startswith-endswith.test.ts` | bytes.startswith/endswith affix and bounds |
 | `test/cpython-derived/bytes-partition.test.ts` | bytes.partition/rpartition + empty/exact match (498/504) |
 | `test/cpython-derived/bytes-splitlines.test.ts` | bytes.splitlines `\n`/`\r`/CRLF; lone CR (plan 500); non-LS (492) |
-| `test/cpython-derived/bytes-strip.test.ts` | bytes.strip/lstrip/rstrip whitespace and chars |
+| `test/cpython-derived/bytes-strip.test.ts` | bytes.strip/lstrip/rstrip empty input + empty chars (506) |
 | `test/cpython-derived/bytes-find.test.ts` | bytes.find/rfind subbytes search with bounds |
 | `test/cpython-derived/bytes-index.test.ts` | bytes.index/rindex subbytes search; ValueError on miss |
 | `test/cpython-derived/bytes-count.test.ts` | bytes.count non-overlapping subbytes in slice |

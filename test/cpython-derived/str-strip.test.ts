@@ -36,6 +36,14 @@ describe("cpython-derived str strip", () => {
     return unwrap<string>(fn(self) as PyObject);
   }
 
+  it("returns empty str for empty input", () => {
+    expect(strip("")).toBe("");
+    expect(lstrip("")).toBe("");
+    expect(rstrip("")).toBe("");
+    expect(lstrip("", pyStr("x"))).toBe("");
+    expect(rstrip("", pyStr("x"))).toBe("");
+  });
+
   it("strips whitespace on both sides", () => {
     expect(strip("  abc  ")).toBe("abc");
     expect(strip("\tabc\n")).toBe("abc");
