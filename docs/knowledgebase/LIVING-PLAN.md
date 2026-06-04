@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-06-04, plan 550 merge PR #289)
+
+### Landed
+
+- [REPO] Plan 550 merged via PR #289 — `str.encode` / `bytes.decode` on empty input; validation-ladder sync (977 Vitest / 132 files).
+
+### Partial
+
+- None.
+
+### Next
+
+1. Further §8.15 gaps only when scoped (remaining niche bytes/str API).
+2. PEP 3118 out of scope.
+
+---
+
 ## Delta update (2026-06-04, plan 548 merge PR #288)
 
 ### Landed
