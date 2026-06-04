@@ -31,6 +31,11 @@ describe("cpython-derived str splitlines", () => {
     expect(asStrList(splitlines("a\nb\r\nc"))).toEqual(["a", "b", "c"]);
   });
 
+  it("splits on lone carriage return", () => {
+    expect(asStrList(splitlines("a\rb"))).toEqual(["a", "b"]);
+    expect(asStrList(splitlines("a\rb", pyTrue))).toEqual(["a\r", "b"]);
+  });
+
   it("keeps line breaks when keepends is true", () => {
     expect(asStrList(splitlines("a\nb\r\nc\r\n", pyTrue))).toEqual([
       "a\n",

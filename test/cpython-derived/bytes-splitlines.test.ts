@@ -32,6 +32,12 @@ describe("cpython-derived bytes splitlines", () => {
     expect(asBytesList(splitlines(data))).toEqual([[97], [98], [99]]);
   });
 
+  it("splits on lone carriage return", () => {
+    const data = new Uint8Array([97, 13, 98]);
+    expect(asBytesList(splitlines(data))).toEqual([[97], [98]]);
+    expect(asBytesList(splitlines(data, pyTrue))).toEqual([[97, 13], [98]]);
+  });
+
   it("keeps line breaks when keepends is true", () => {
     const data = new Uint8Array([97, 10, 98, 13, 10, 99, 13, 10]);
     expect(asBytesList(splitlines(data, pyTrue))).toEqual([
