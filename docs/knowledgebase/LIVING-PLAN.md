@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-06-04, plan 526 merge PR #277)
+
+### Landed
+
+- [REPO] Plan 526 merged via PR #277 — `str`/`bytes.join` empty separator + single-element iterable; validation-ladder sync (977 Vitest / 132 files).
+
+### Partial
+
+- None.
+
+### Next
+
+1. Further §8.15 gaps only when scoped (remaining niche bytes/str API).
+2. PEP 3118 out of scope.
+
+---
+
 ## Delta update (2026-06-04, plan 524 merge PR #276)
 
 ### Landed
