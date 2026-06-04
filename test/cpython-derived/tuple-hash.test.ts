@@ -2,7 +2,7 @@
  * CPython: tuple is hashable; empty tuple uses fixed seed; order matters.
  */
 import { describe, it, expect } from "vitest";
-import { hash, pyInt, pyTuple } from "../../src/index.js";
+import { hash, pyInt, pyNone, pyTuple } from "../../src/index.js";
 
 describe("tuple __hash__", () => {
   it("empty tuple hash is stable across instances", () => {
@@ -10,6 +10,10 @@ describe("tuple __hash__", () => {
     const b = pyTuple([]);
     expect(hash(a)).toBe(hash(b));
     expect(hash(a)).toBe(hash(a));
+  });
+
+  it("empty tuple hash matches None sentinel seed", () => {
+    expect(hash(pyTuple([]))).toBe(hash(pyNone));
   });
 
   it("returns a stable hash for the same object", () => {
