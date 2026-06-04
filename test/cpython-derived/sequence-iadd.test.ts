@@ -1,6 +1,6 @@
 /**
  * CPython: list __iadd__ extends in place with same-type list (plan 636);
- * cross-type += rejects for str/bytes (plan 656), float/bool (plan 658);
+ * cross-type += rejects for str/bytes (plan 656), float/bool (plan 658), int (plan 686);
  * list += tuple extend (plan 672).
  */
 import { describe, it, expect } from "vitest";
@@ -80,6 +80,24 @@ describe("list __iadd__", () => {
     expect(len(lst)).toBe(2);
     expect(eq(getItem(lst, 0) as PyObject, k1)).toBe(true);
     expect(eq(getItem(lst, 1) as PyObject, k2)).toBe(true);
+  });
+
+  it("iadd rejects list and int", () => {
+    const lst = pyList([pyInt(1)]);
+    expect(() => iadd(lst, pyInt(2))).toThrow(PyTypeError);
+    expect(() => iadd(lst, pyInt(2))).toThrow(
+      /unsupported operand type\(s\) for \+=: 'list' and 'int'/,
+    );
+    expect(len(lst)).toBe(1);
+  });
+
+  it("iadd rejects int and list", () => {
+    const lst = pyList([pyInt(1)]);
+    expect(() => iadd(pyInt(2), lst)).toThrow(PyTypeError);
+    expect(() => iadd(pyInt(2), lst)).toThrow(
+      /unsupported operand type\(s\) for \+=: 'int' and 'list'/,
+    );
+    expect(len(lst)).toBe(1);
   });
 
   it("iadd rejects list and str", () => {
