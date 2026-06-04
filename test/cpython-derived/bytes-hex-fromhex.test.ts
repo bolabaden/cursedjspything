@@ -49,8 +49,20 @@ describe("cpython-derived bytes hex fromhex", () => {
       /even number of hexadecimal digits/,
     );
     expect(() => fromhex(pyStr("gg"))).toThrow(PyValueError);
+    expect(() => fromhex(pyStr("gg"))).toThrow(
+      /non-hexadecimal number found in fromhex\(\) arg at position/,
+    );
     expect(() => fromhex(pyInt(1))).toThrow(PyTypeError);
+    expect(() => fromhex(pyInt(1))).toThrow(
+      /fromhex\(\) argument must be str or bytes-like, not 'int'/,
+    );
     expect(() => hex(deadbeef, pyInt(1))).toThrow(PyTypeError);
+    expect(() => hex(deadbeef, pyInt(1))).toThrow(
+      /object of type 'int' has no len\(\)/,
+    );
     expect(() => hex(deadbeef, pyBytes(new Uint8Array([])))).toThrow(PyValueError);
+    expect(() => hex(deadbeef, pyBytes(new Uint8Array([])))).toThrow(
+      /sep must be length 1/,
+    );
   });
 });
