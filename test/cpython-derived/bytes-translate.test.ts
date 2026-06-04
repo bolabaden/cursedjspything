@@ -42,6 +42,7 @@ describe("cpython-derived bytes translate", () => {
     const table = maketrans(new Uint8Array([]), new Uint8Array([]));
     const data = new Uint8Array([0, 127, 255]);
     expect(translate(data, table)).toEqual(data);
+    expect(translate(new Uint8Array([]), table)).toEqual(new Uint8Array([]));
   });
 
   it("raises ValueError on length mismatch or bad table size", () => {

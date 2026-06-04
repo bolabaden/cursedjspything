@@ -109,7 +109,7 @@ Emits JSON (`vitest_seconds`, pass gates, `test_count`); use median of several r
 | `test/cpython-derived/str-ljust-rjust.test.ts` | str.ljust/rjust padding + empty width=0 (plans 522/534) |
 | `test/cpython-derived/str-zfill.test.ts` | str.zfill width padding + width=0 no-op (plan 520) |
 | `test/cpython-derived/str-expandtabs.test.ts` | str.expandtabs tab expansion + empty input (plan 530) |
-| `test/cpython-derived/str-translate.test.ts` | str.maketrans / str.translate |
+| `test/cpython-derived/str-translate.test.ts` | str.maketrans / str.translate + empty input (plan 536) |
 | `test/cpython-derived/str-join.test.ts` | str.join empty sep: concat, empty iter, single elt (510/518/526) |
 | `test/cpython-derived/str-casefold.test.ts` | str.casefold |
 | `test/cpython-derived/str-format.test.ts` | str.format / format_map including bool/bytes/None/list/tuple/dict/slice/set/frozenset empty-spec fields and conversions with format_spec |
@@ -143,7 +143,7 @@ Emits JSON (`vitest_seconds`, pass gates, `test_count`); use median of several r
 | `test/cpython-derived/bytes-expandtabs.test.ts` | bytes.expandtabs tab expansion + empty input (plan 530) |
 | `test/cpython-derived/bytes-hex-fromhex.test.ts` | bytes.hex / fromhex + str/bytes arg + error messages (plans 480/482) |
 | `test/cpython-derived/bytes-predicates.test.ts` | bytes ASCII predicate methods |
-| `test/cpython-derived/bytes-translate.test.ts` | bytes.maketrans / bytes.translate |
+| `test/cpython-derived/bytes-translate.test.ts` | bytes.maketrans / bytes.translate + empty input (plan 536) |
 | `test/cpython-derived/bytes-isascii-contains.test.ts` | bytes.isascii / bytes.__contains__ |
 | `test/cpython-derived/bytes-decode.test.ts` | bytes.decode UTF-8/latin-1/ascii errors strict/replace/ignore/backslashreplace/surrogateescape |
 | `test/cpython-derived/bytes-iter.test.ts` | bytes.__iter__ yields int 0–255; empty bytes StopIteration; iterator __iter__ returns self |

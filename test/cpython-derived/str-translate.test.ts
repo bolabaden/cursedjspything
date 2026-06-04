@@ -49,6 +49,7 @@ describe("cpython-derived str translate", () => {
     const fn = strType.typeDict.get("maketrans") as MaketransFn;
     const table = fn(strType, pyStr(""), pyStr("")) as PyObject;
     expect(translate("abc", table)).toBe("abc");
+    expect(translate("", table)).toBe("");
   });
 
   it("pairs Unicode code points in maketrans", () => {
