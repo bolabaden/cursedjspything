@@ -9,11 +9,28 @@
 
 ---
 
-## Delta update (2026-05-24, plan 692 merge PR #360)
+## Delta update (2026-05-24, plan 694)
 
 ### Landed
 
-- [REPO] Plan 692 merged via PR #360 — §8.15 sequence evidence prose sync; KB counts 1170 Vitest / 163 files (`repo-signals`, `runtime-overview`).
+- [REPO] Plan 694 — list cross-type `-=` evidence in `sequence-sub.test.ts`; §8.6 docs; validation-ladder sync (1173 Vitest / 163 files).
+
+### Partial
+
+- None.
+
+### Next
+
+1. Further §8.15 gaps only when scoped (remaining niche API).
+2. PEP 3118 out of scope.
+
+---
+
+## Delta update (2026-05-24, plan 693 merge PR #361)
+
+### Landed
+
+- [REPO] Plan 693 merged via PR #361 — parity-gaps Vitest 1170/163; LIVING-PLAN merge record for plan 692 (PR #360).
 
 ### Partial
 

@@ -1,8 +1,16 @@
 /**
- * CPython: list __sub__ same-type reject (plan 680).
+ * CPython: list __sub__ / __isub__ rejects (plans 680, 694).
  */
 import { describe, it, expect } from "vitest";
-import { pyInt, pyList, sub } from "../../src/index.js";
+import {
+  isub,
+  len,
+  pyInt,
+  pyList,
+  pyStr,
+  pyTuple,
+  sub,
+} from "../../src/index.js";
 import { PyTypeError } from "../../src/runtime/core/errors.js";
 
 describe("list __sub__", () => {
@@ -13,5 +21,34 @@ describe("list __sub__", () => {
     expect(() => sub(a, b)).toThrow(
       /unsupported operand type\(s\) for -: 'list' and 'list'/,
     );
+  });
+});
+
+describe("list __isub__", () => {
+  it("isub rejects list and int", () => {
+    const lst = pyList([pyInt(1)]);
+    expect(() => isub(lst, pyInt(2))).toThrow(PyTypeError);
+    expect(() => isub(lst, pyInt(2))).toThrow(
+      /unsupported operand type\(s\) for -=: 'list' and 'int'/,
+    );
+    expect(len(lst)).toBe(1);
+  });
+
+  it("isub rejects list and str", () => {
+    const lst = pyList([pyInt(1)]);
+    expect(() => isub(lst, pyStr("a"))).toThrow(PyTypeError);
+    expect(() => isub(lst, pyStr("a"))).toThrow(
+      /unsupported operand type\(s\) for -=: 'list' and 'str'/,
+    );
+    expect(len(lst)).toBe(1);
+  });
+
+  it("isub rejects list and tuple", () => {
+    const lst = pyList([pyInt(1)]);
+    expect(() => isub(lst, pyTuple([pyInt(2)]))).toThrow(PyTypeError);
+    expect(() => isub(lst, pyTuple([pyInt(2)]))).toThrow(
+      /unsupported operand type\(s\) for -=: 'list' and 'tuple'/,
+    );
+    expect(len(lst)).toBe(1);
   });
 });
