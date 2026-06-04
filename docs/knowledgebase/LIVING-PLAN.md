@@ -9,11 +9,28 @@
 
 ---
 
+## Delta update (2026-05-24, plan 705 merge PR #373)
+
+### Landed
+
+- [REPO] Plan 705 merged via PR #373 — `int * str` mul reject; §8.15 evidence (1194 Vitest / 163 files).
+
+### Partial
+
+- None.
+
+### Next
+
+1. Further §8.15 gaps only when scoped (remaining niche API).
+2. PEP 3118 out of scope.
+
+---
+
 ## Delta update (2026-05-24, plan 705)
 
 ### Landed
 
-- [REPO] Plan 705 — `int * str` mul reject via `str.__rmul__` guard; Vitest + §8.6 (1194 Vitest / 163 files).
+- [REPO] Plan 705 — `int * str` mul reject via `str.__rmul__` guard; Vitest + §8.15 (1194 Vitest / 163 files).
 
 ### Partial
 
