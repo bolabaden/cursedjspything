@@ -63,10 +63,17 @@ describe("cpython-derived bytes splitlines", () => {
     ]);
   });
 
-  it("does not split on form feed", () => {
+  it("does not split on non-newline line break bytes (CPython bytes API)", () => {
+    expect(asBytesList(splitlines(new Uint8Array([97, 11, 98])))).toEqual([
+      [97, 11, 98],
+    ]);
     expect(asBytesList(splitlines(new Uint8Array([97, 12, 98])))).toEqual([
       [97, 12, 98],
     ]);
+    const lineSep = new Uint8Array([97, 0xe2, 0x80, 0xa8, 98]);
+    expect(asBytesList(splitlines(lineSep))).toEqual([Array.from(lineSep)]);
+    const paraSep = new Uint8Array([97, 0xe2, 0x80, 0xa9, 98]);
+    expect(asBytesList(splitlines(paraSep))).toEqual([Array.from(paraSep)]);
   });
 
   it("rejects non-bool keepends", () => {
