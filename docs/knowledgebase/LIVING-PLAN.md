@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-06-04, plan 468 merge PR #248)
+
+### Landed
+
+- [REPO] Plan 468 merged via PR #248 — str↔int contains + ordering canonical in `operator-str-scalar.test.ts`; removed from int-str-remaining-binary; §8.15 + validation-ladder sync (945 Vitest / 132 files). Cross-type ordering helper consumers now include str-scalar instead of int-str-remaining.
+
+### Partial
+
+- None.
+
+### Next
+
+1. Further §8.15 gaps only when scoped (niche bytes/str API, golden/scripts plain `Error` stubs).
+2. PEP 3118 out of scope.
+
+---
+
 ## Delta update (2026-06-04, plan 466 merge PR #247)
 
 ### Landed
