@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-06-04, plan 590 merge PR #309)
+
+### Landed
+
+- [REPO] Plan 590 merged via PR #309 — `set-membership.ts` (`dictKeysEqual` lookup); set/frozenset contains, mutation, inplace ops, algebra, ordering, `pySet`/`pyFrozenSet` dedupe; `set-membership.test.ts`; §8.5 docs; validation-ladder sync (1059 Vitest / 142 files).
+
+### Partial
+
+- None.
+
+### Next
+
+1. Further §8.15 gaps only when scoped (remaining niche API).
+2. PEP 3118 out of scope.
+
+---
+
 ## Delta update (2026-06-04, plan 588 merge PR #308)
 
 ### Landed
