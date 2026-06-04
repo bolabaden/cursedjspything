@@ -69,6 +69,10 @@ describe("cpython-derived str splitlines", () => {
     expect(asStrList(splitlines("a\u2029b"))).toEqual(["a", "b"]);
   });
 
+  it("splits on next-line (NEL U+0085)", () => {
+    expect(asStrList(splitlines("a\u0085b"))).toEqual(["a", "b"]);
+  });
+
   it("rejects non-bool keepends", () => {
     expect(() => splitlines("a", pyInt(1))).toThrow(PyTypeError);
     expect(() => splitlines("a", pyInt(1))).toThrow(
