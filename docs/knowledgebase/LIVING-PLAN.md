@@ -9,6 +9,40 @@
 
 ---
 
+## Delta update (2026-05-24, plan 698)
+
+### Landed
+
+- [REPO] Plan 698 — tuple `-` str/bytes/float/bool rejects in `sequence-sub.test.ts`; KB 1183/163; §8.6 docs.
+
+### Partial
+
+- None.
+
+### Next
+
+1. Further §8.15 gaps only when scoped (remaining niche API).
+2. PEP 3118 out of scope.
+
+---
+
+## Delta update (2026-05-24, plan 697 merge PR #365)
+
+### Landed
+
+- [REPO] Plan 697 merged via PR #365 — tuple `-` tuple/int evidence; parity-gaps 1179/163.
+
+### Partial
+
+- None.
+
+### Next
+
+1. Further §8.15 gaps only when scoped (remaining niche API).
+2. PEP 3118 out of scope.
+
+---
+
 ## Delta update (2026-05-24, plan 697)
 
 ### Landed

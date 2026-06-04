@@ -74,7 +74,7 @@ Not a full CPython builtins module.
 
 | Artifact | Count / note |
 |----------|----------------|
-| Vitest | 1177 tests, 163 files (`test/core/`, `test/dispatch/`, `test/class/`, `test/cpython-derived/`, `test/golden/`, …) |
+| Vitest | 1183 tests, 163 files (`test/core/`, `test/dispatch/`, `test/class/`, `test/cpython-derived/`, `test/golden/`, …) |
 | Examples | 39 sections in `examples/python-vs-js.ts` |
 | Golden | `npm run golden` — CPython JSON parity + key guard (`npm run golden:keys`) |
 
