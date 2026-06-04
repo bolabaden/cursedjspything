@@ -124,6 +124,38 @@ function dictUpdateFrom(
 
 // ── pyDict ────────────────────────────────────────────────────────────
 
+function dictFromKeys(
+  iterable: unknown,
+  defaultArg?: unknown,
+): PyObject {
+  const value =
+    defaultArg !== undefined ? (defaultArg as PyObject) : pyNone;
+  if (!(iterable instanceof PyObject)) {
+    throw new PyTypeError("fromkeys() argument must be iterable");
+  }
+  const m = new Map<unknown, PyObject>();
+  let it: PyObject;
+  try {
+    it = iter(iterable);
+  } catch (e) {
+    if (e instanceof PyTypeError) {
+      throw new PyTypeError("fromkeys() argument must be iterable");
+    }
+    throw e;
+  }
+  while (true) {
+    try {
+      dictSet(m, next(it), value);
+    } catch (e) {
+      if (e instanceof PyStopIteration) break;
+      throw e;
+    }
+  }
+  const obj = new PyObject(dictType);
+  setNative(obj, m);
+  return obj;
+}
+
 export const dictType = makeClass({
   name: "dict",
   dict: new Map<string | symbol, unknown>([
@@ -257,6 +289,12 @@ export const dictType = makeClass({
     }],
   ]),
 });
+
+dictType.typeDict.set(
+  "fromkeys",
+  (_cls: PyObject, iterable: unknown, defaultArg?: unknown) =>
+    dictFromKeys(iterable, defaultArg),
+);
 
 export function pyDict(entries: [unknown, PyObject][] = []): PyObject {
   const obj = new PyObject(dictType);
