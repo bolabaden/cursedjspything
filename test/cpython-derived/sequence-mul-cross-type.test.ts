@@ -1,5 +1,5 @@
 /**
- * CPython: sequence __mul__ cross-type TypeError (plans 664, 666, 668).
+ * CPython: sequence __mul__ cross-type TypeError (plans 664, 666, 668, 670).
  */
 import { describe, it, expect } from "vitest";
 import { mul, pyBytes, pyInt, pyList, pyStr, pyTuple } from "../../src/index.js";
@@ -52,6 +52,17 @@ describe("sequence __mul__ cross-type", () => {
     expect(() => mul(b(), oneTuple())).toThrow(PyTypeError);
     expect(() => mul(b(), oneTuple())).toThrow(
       /unsupported operand type\(s\) for \*: 'bytes' and 'tuple'/,
+    );
+  });
+
+  it("mul rejects list and tuple in both orders", () => {
+    expect(() => mul(oneList(), oneTuple())).toThrow(PyTypeError);
+    expect(() => mul(oneList(), oneTuple())).toThrow(
+      /unsupported operand type\(s\) for \*: 'list' and 'tuple'/,
+    );
+    expect(() => mul(oneTuple(), oneList())).toThrow(PyTypeError);
+    expect(() => mul(oneTuple(), oneList())).toThrow(
+      /unsupported operand type\(s\) for \*: 'tuple' and 'list'/,
     );
   });
 });
