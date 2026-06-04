@@ -1,7 +1,7 @@
 ---
 title: "feat: list/tuple cross-type ordering evidence (plan 684)"
 type: feat
-status: active
+status: completed
 date: 2026-05-24
 origin: LIVING-PLAN §8.6; post plan 682 sequence-eq cross-type
 ---

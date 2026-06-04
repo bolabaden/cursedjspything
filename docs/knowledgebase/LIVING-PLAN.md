@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-06-04, plan 684 merge PR #356)
+
+### Landed
+
+- [REPO] Plan 684 merged via PR #356 — list↔tuple cross-type ordering in `sequence-ordering-cross-type.test.ts`; §8.6 docs; validation-ladder sync (1191 Vitest / 164 files).
+
+### Partial
+
+- None.
+
+### Next
+
+1. Further §8.15 gaps only when scoped (remaining niche API).
+2. PEP 3118 out of scope.
+
+---
+
 ## Delta update (2026-06-04, plan 682 merge PR #355)
 
 ### Landed
