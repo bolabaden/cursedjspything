@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 702 merge PR #370)
+
+### Landed
+
+- [REPO] Plan 702 merged via PR #370 — plan 701 merge record; §8.6 `sequence-sub` canonical table (1192 Vitest / 163 files).
+
+### Partial
+
+- None.
+
+### Next
+
+1. Further §8.15 gaps only when scoped (remaining niche API).
+2. PEP 3118 out of scope.
+
+---
+
 ## Delta update (2026-05-24, plan 701 merge PR #369)
 
 ### Landed
