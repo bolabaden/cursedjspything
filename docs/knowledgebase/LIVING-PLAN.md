@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-06-04, plan 650 merge PR #339)
+
+### Landed
+
+- [REPO] Plan 650 merged via PR #339 — str bool/negative/multi repeat evidence in `sequence-repeat-bool.test.ts` (four-type matrix); validation-ladder sync (1153 Vitest / 158 files).
+
+### Partial
+
+- None.
+
+### Next
+
+1. Further §8.15 gaps only when scoped (remaining niche API).
+2. PEP 3118 out of scope.
+
+---
+
 ## Delta update (2026-06-04, plan 648 merge PR #338)
 
 ### Landed
