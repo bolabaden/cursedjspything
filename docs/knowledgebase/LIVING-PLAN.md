@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-06-04, plan 458 merge PR #243)
+
+### Landed
+
+- [REPO] Plan 458 merged via PR #243 — str↔bytes ordering canonical in `operator-str-bytes-cross-type.test.ts`; removed from bytes-remaining; §8.15 + validation-ladder sync (941 Vitest / 132 files).
+
+### Partial
+
+- None.
+
+### Next
+
+1. §8.17 embedder/bootstrap plain `Error` paths (e.g. `methodType not initialized`) if a scoped runtime plan is justified.
+2. PEP 3118 out of scope.
+
+---
+
 ## Delta update (2026-06-04, plan 456 merge PR #242)
 
 ### Landed
