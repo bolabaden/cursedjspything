@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-06-04, plan 610 merge PR #319)
+
+### Landed
+
+- [REPO] Plan 610 merged via PR #319 — `issubset`/`issuperset`/`isdisjoint` hash+eq evidence in `frozenset-set-methods.test.ts`; §8.5 / §8.15 docs; validation-ladder sync (1104 Vitest / 151 files).
+
+### Partial
+
+- None.
+
+### Next
+
+1. Further §8.15 gaps only when scoped (remaining niche API).
+2. PEP 3118 out of scope.
+
+---
+
 ## Delta update (2026-06-04, plan 608 merge PR #318)
 
 ### Landed

@@ -1,7 +1,7 @@
 ---
 title: "feat: set subset methods hash+eq evidence (plan 610)"
 type: feat
-status: active
+status: completed
 date: 2026-05-24
 origin: plan 590; §8.15 gap
 ---
