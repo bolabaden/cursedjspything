@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-06-04, plan 520 merge PR #274)
+
+### Landed
+
+- [REPO] Plan 520 merged via PR #274 — `str`/`bytes.zfill(0)` no-op parity; validation-ladder sync (977 Vitest / 132 files).
+
+### Partial
+
+- None.
+
+### Next
+
+1. Further §8.15 gaps only when scoped (remaining niche bytes/str API).
+2. PEP 3118 out of scope.
+
+---
+
 ## Delta update (2026-06-04, plan 518 merge PR #273)
 
 ### Landed
