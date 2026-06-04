@@ -9,6 +9,40 @@
 
 ---
 
+## Delta update (2026-05-24, plan 699)
+
+### Landed
+
+- [REPO] Plan 699 — list cross-type `-` rejects in `sequence-sub.test.ts`; §8.6 docs (1189 Vitest / 163 files).
+
+### Partial
+
+- None.
+
+### Next
+
+1. Further §8.15 gaps only when scoped (remaining niche API).
+2. PEP 3118 out of scope.
+
+---
+
+## Delta update (2026-05-24, plan 698 merge PR #366)
+
+### Landed
+
+- [REPO] Plan 698 merged via PR #366 — tuple `-` scalar rejects; KB 1183/163.
+
+### Partial
+
+- None.
+
+### Next
+
+1. Further §8.15 gaps only when scoped (remaining niche API).
+2. PEP 3118 out of scope.
+
+---
+
 ## Delta update (2026-05-24, plan 698)
 
 ### Landed
