@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-06-04, plan 624 merge PR #326)
+
+### Landed
+
+- [REPO] Plan 624 merged via PR #326 — tuple `__contains__` and `dict_items` view hash+eq evidence; §8.5/§8.6 docs; validation-ladder sync (1122 Vitest / 153 files).
+
+### Partial
+
+- None.
+
+### Next
+
+1. Further §8.15 gaps only when scoped (remaining niche API).
+2. PEP 3118 out of scope.
+
+---
+
 ## Delta update (2026-06-04, plan 622 merge PR #325)
 
 ### Landed
