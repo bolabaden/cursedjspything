@@ -21,12 +21,20 @@ import { registerCrossTypeOrderingRejects } from "./helpers/cross-type-ordering.
 describe("cpython-derived str/scalar comparisons", () => {
   const s = () => pyStr("a");
   const i = () => pyInt(1);
+  const t = () => pyTrue;
 
   it("eq and ne do not coerce str and int", () => {
     expect(eq(pyStr("1"), pyInt(1))).toBe(false);
     expect(eq(pyInt(1), pyStr("1"))).toBe(false);
     expect(ne(pyStr("1"), pyInt(1))).toBe(true);
     expect(ne(pyInt(1), pyStr("1"))).toBe(true);
+  });
+
+  it("eq and ne do not coerce str and bool", () => {
+    expect(eq(pyStr("True"), pyTrue)).toBe(false);
+    expect(eq(pyTrue, pyStr("True"))).toBe(false);
+    expect(ne(pyStr("True"), pyTrue)).toBe(true);
+    expect(ne(pyTrue, pyStr("True"))).toBe(true);
   });
 
   it("contains on str requires str operand not int", () => {
@@ -37,6 +45,7 @@ describe("cpython-derived str/scalar comparisons", () => {
   });
 
   registerCrossTypeOrderingRejects("str", "int", s, i);
+  registerCrossTypeOrderingRejects("str", "bool", s, t);
 });
 
 describe("cpython-derived str/scalar arithmetic", () => {
