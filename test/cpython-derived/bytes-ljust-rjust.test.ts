@@ -64,6 +64,8 @@ describe("cpython-derived bytes ljust rjust", () => {
 
   it("returns original bytes when width is not wider", () => {
     expect(asBytes(ljust(abc, pyInt(2)))).toEqual(abc);
+    expect(asBytes(ljust(abc, pyInt(0)))).toEqual(abc);
+    expect(asBytes(ljust(new Uint8Array(0), pyInt(0)))).toEqual(new Uint8Array(0));
     expect(asBytes(rjust(abc, pyInt(0)))).toEqual(abc);
   });
 
