@@ -9,6 +9,40 @@
 
 ---
 
+## Delta update (2026-05-24, plan 717)
+
+### Landed
+
+- [REPO] Plan 717 — `list.__imul__` in-place int/bool repeat; §8.6 evidence (1201 Vitest / 163 files).
+
+### Partial
+
+- None.
+
+### Next
+
+1. Further §8.15 gaps only when scoped (remaining niche API).
+2. PEP 3118 out of scope.
+
+---
+
+## Delta update (2026-05-24, plan 716 merge PR #384)
+
+### Landed
+
+- [REPO] Plan 716 merged via PR #384 — plan 715 merge record in LIVING-PLAN (1200 Vitest / 163 files).
+
+### Partial
+
+- None.
+
+### Next
+
+1. `list.__imul__` in-place repeat (plan 717).
+2. PEP 3118 out of scope.
+
+---
+
 ## Delta update (2026-05-24, plan 715 merge PR #383)
 
 ### Landed
