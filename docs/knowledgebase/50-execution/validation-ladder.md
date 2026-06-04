@@ -48,6 +48,7 @@ Emits JSON (`vitest_seconds`, pass gates, `test_count`); use median of several r
 | `test/cpython-derived/sequence-add.test.ts` | list/tuple __add__ same-type concat (plan 634) |
 | `test/cpython-derived/sequence-iadd.test.ts` | list __iadd__ in-place extend same-type (plan 636) |
 | `test/cpython-derived/str-add.test.ts` | str __add__ same-type concat (plan 638) |
+| `test/cpython-derived/bytes-add.test.ts` | bytes __add__ same-type concat (plan 654) |
 | `test/cpython-derived/dict-union.test.ts` | dict \| and \|= merge; rhs overwrites; hash+eq key collapse (plan 596) |
 | `test/cpython-derived/dict-get.test.ts` | dict.get present/missing/default; hash+eq probe; unhashable TypeError (plan 598) |
 | `test/cpython-derived/dict-update-copy.test.ts` | dict.update / copy / |= iterable pairs; hash+eq overwrite (plan 600) |
