@@ -1,6 +1,6 @@
 /**
  * CPython: list __iadd__ extends in place with same-type list (plan 636);
- * cross-type += rejects for str/bytes (plan 656).
+ * cross-type += rejects for str/bytes (plan 656), float/bool (plan 658).
  */
 import { describe, it, expect } from "vitest";
 import {
@@ -14,9 +14,11 @@ import {
   objectType,
   PyObject,
   pyBytes,
+  pyFloat,
   pyInt,
   pyList,
   pyStr,
+  pyTrue,
   unwrap,
 } from "../../src/index.js";
 import { PyTypeError } from "../../src/runtime/core/errors.js";
@@ -78,6 +80,24 @@ describe("list __iadd__", () => {
     expect(() => iadd(lst, pyBytes(new Uint8Array([97])))).toThrow(PyTypeError);
     expect(() => iadd(lst, pyBytes(new Uint8Array([97])))).toThrow(
       /unsupported operand type\(s\) for \+=: 'list' and 'bytes'/,
+    );
+    expect(len(lst)).toBe(1);
+  });
+
+  it("iadd rejects list and float", () => {
+    const lst = pyList([pyInt(1)]);
+    expect(() => iadd(lst, pyFloat(2))).toThrow(PyTypeError);
+    expect(() => iadd(lst, pyFloat(2))).toThrow(
+      /unsupported operand type\(s\) for \+=: 'list' and 'float'/,
+    );
+    expect(len(lst)).toBe(1);
+  });
+
+  it("iadd rejects list and bool", () => {
+    const lst = pyList([pyInt(1)]);
+    expect(() => iadd(lst, pyTrue)).toThrow(PyTypeError);
+    expect(() => iadd(lst, pyTrue)).toThrow(
+      /unsupported operand type\(s\) for \+=: 'list' and 'bool'/,
     );
     expect(len(lst)).toBe(1);
   });
