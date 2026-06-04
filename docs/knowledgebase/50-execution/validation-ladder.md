@@ -155,8 +155,8 @@ Emits JSON (`vitest_seconds`, pass gates, `test_count`); use median of several r
 | `test/cpython-derived/bytes-getitem-compare.test.ts` | bytes int index; non-integer subscript TypeError; out-of-range IndexError; lexicographic rich compare |
 | `test/cpython-derived/operator-bytes-conversion.test.ts` | bytes() on str vs int/float TypeError |
 | `test/cpython-derived/operator-bytes-cross-type.test.ts` | bytes+bytes add and bytes*int mul happy paths only (plan 418) |
-| `test/cpython-derived/operator-bytes-remaining-cross-type.test.ts` | bytes↔int/float/str/bool full binary + ordering TypeError both orders (canonical; plan 426) |
-| `test/cpython-derived/operator-str-bytes-cross-type.test.ts` | str↔bytes eq/ne non-coercion (binary in bytes-remaining) |
+| `test/cpython-derived/operator-bytes-remaining-cross-type.test.ts` | bytes↔int/float/str/bool full binary + bytes↔int/float/bool ordering (str↔bytes ordering in str-bytes file; plan 426) |
+| `test/cpython-derived/operator-str-bytes-cross-type.test.ts` | str↔bytes eq/ne + ordering non-coercion (binary in bytes-remaining; plan 458) |
 | `test/cpython-derived/operator-bytes-scalar-cross-type.test.ts` | bytes↔int/float/bool eq/ne non-coercion (plan 430) |
 | `test/cpython-derived/operator-bool-str-remaining-binary.test.ts` | bool↔str add/sub/truediv/floordiv/mod/divmod/pow TypeError both orders (canonical; plan 404) |
 | `test/cpython-derived/sequence-index-type.test.ts` | List/tuple get/set/del non-integer subscript TypeError; list index out of range and delItem |

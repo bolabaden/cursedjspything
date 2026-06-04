@@ -1,5 +1,5 @@
 /**
- * CPython: str↔bytes eq/ne non-coercion (binary/ordering in operator-bytes-remaining-cross-type).
+ * CPython: str↔bytes eq/ne and ordering non-coercion (binary in operator-bytes-remaining-cross-type).
  */
 import { describe, it, expect } from "vitest";
 import {
@@ -9,6 +9,7 @@ import {
   pyBytes,
   pyStr,
 } from "../../src/index.js";
+import { registerCrossTypeOrderingRejects } from "./helpers/cross-type-ordering.js";
 
 describe("cpython-derived str/bytes comparisons", () => {
   const s = () => pyStr("ab");
@@ -20,4 +21,6 @@ describe("cpython-derived str/bytes comparisons", () => {
     expect(ne(s(), b())).toBe(true);
     expect(ne(b(), s())).toBe(true);
   });
+
+  registerCrossTypeOrderingRejects("str", "bytes", s, b);
 });

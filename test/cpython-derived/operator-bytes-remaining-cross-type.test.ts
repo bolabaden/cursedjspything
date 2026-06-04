@@ -362,12 +362,10 @@ describe("cpython-derived bytes/scalar remaining binary ops", () => {
 describe("cpython-derived bytes/scalar ordering", () => {
   const b = () => bytes(pyStr("ab")) as ReturnType<typeof pyBytes>;
   const i = () => pyInt(1);
-  const s = () => pyStr("a");
   const f = () => pyFloat(1.0);
   const t = () => pyTrue;
 
   registerCrossTypeOrderingRejects("bytes", "int", b, i);
-  registerCrossTypeOrderingRejects("bytes", "str", b, s);
   registerCrossTypeOrderingRejects("bytes", "float", b, f);
   registerCrossTypeOrderingRejects("bytes", "bool", b, t);
 });
