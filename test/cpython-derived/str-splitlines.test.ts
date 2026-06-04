@@ -60,6 +60,15 @@ describe("cpython-derived str splitlines", () => {
     expect(asStrList(splitlines("a\u2028b"))).toEqual(["a", "b"]);
   });
 
+  it("splits on vertical tab and form feed", () => {
+    expect(asStrList(splitlines("a\x0bb"))).toEqual(["a", "b"]);
+    expect(asStrList(splitlines("a\x0cb"))).toEqual(["a", "b"]);
+  });
+
+  it("splits on Unicode paragraph separator", () => {
+    expect(asStrList(splitlines("a\u2029b"))).toEqual(["a", "b"]);
+  });
+
   it("rejects non-bool keepends", () => {
     expect(() => splitlines("a", pyInt(1))).toThrow(PyTypeError);
     expect(() => splitlines("a", pyInt(1))).toThrow(
