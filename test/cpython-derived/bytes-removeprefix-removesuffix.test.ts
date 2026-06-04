@@ -54,6 +54,10 @@ describe("cpython-derived bytes removeprefix removesuffix", () => {
     expect(asBytes(removeprefix(new Uint8Array([]), pyBytes(new Uint8Array([]))))).toEqual(
       new Uint8Array([]),
     );
+    const empty = new Uint8Array(0);
+    const a = pyBytes(new Uint8Array([97]));
+    expect(asBytes(removeprefix(empty, a))).toEqual(new Uint8Array(0));
+    expect(asBytes(removesuffix(empty, a))).toEqual(new Uint8Array(0));
   });
 
   it("rejects non-bytes affix", () => {

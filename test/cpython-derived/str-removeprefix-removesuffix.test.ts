@@ -43,6 +43,8 @@ describe("cpython-derived str removeprefix removesuffix", () => {
     expect(asStr(removeprefix("hello", pyStr("")))).toBe("hello");
     expect(asStr(removesuffix("hello", pyStr("")))).toBe("hello");
     expect(asStr(removeprefix("", pyStr("")))).toBe("");
+    expect(asStr(removeprefix("", pyStr("a")))).toBe("");
+    expect(asStr(removesuffix("", pyStr("a")))).toBe("");
   });
 
   it("strips Unicode affixes", () => {

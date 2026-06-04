@@ -104,7 +104,7 @@ Emits JSON (`vitest_seconds`, pass gates, `test_count`); use median of several r
 | `test/cpython-derived/str-count.test.ts` | str.count non-overlapping bounds + empty input (plan 544) |
 | `test/cpython-derived/str-startswith-endswith.test.ts` | str.startswith/endswith tuple, bounds, empty input (plan 542) |
 | `test/cpython-derived/str-replace.test.ts` | str.replace empty input + empty/missing old (plans 512/546) |
-| `test/cpython-derived/str-removeprefix-removesuffix.test.ts` | str.removeprefix / removesuffix affix stripping |
+| `test/cpython-derived/str-removeprefix-removesuffix.test.ts` | str.removeprefix/removesuffix + empty input (plan 548) |
 | `test/cpython-derived/str-center.test.ts` | str.center width padding + empty input width=0 (plan 532) |
 | `test/cpython-derived/str-ljust-rjust.test.ts` | str.ljust/rjust padding + empty width=0 (plans 522/534) |
 | `test/cpython-derived/str-zfill.test.ts` | str.zfill width padding + width=0 no-op (plan 520) |
@@ -139,7 +139,7 @@ Emits JSON (`vitest_seconds`, pass gates, `test_count`); use median of several r
 | `test/cpython-derived/bytes-ljust-rjust.test.ts` | bytes.ljust/rjust padding + empty width=0 (plans 522/534) |
 | `test/cpython-derived/bytes-zfill.test.ts` | bytes.zfill width padding + width=0 no-op (plan 520) |
 | `test/cpython-derived/bytes-title.test.ts` | bytes.title ASCII word title case |
-| `test/cpython-derived/bytes-removeprefix-removesuffix.test.ts` | bytes.removeprefix/removesuffix affix stripping |
+| `test/cpython-derived/bytes-removeprefix-removesuffix.test.ts` | bytes.removeprefix/removesuffix + empty input (plan 548) |
 | `test/cpython-derived/bytes-expandtabs.test.ts` | bytes.expandtabs tab expansion + empty input (plan 530) |
 | `test/cpython-derived/bytes-hex-fromhex.test.ts` | bytes.hex / fromhex + str/bytes arg + error messages (plans 480/482) |
 | `test/cpython-derived/bytes-predicates.test.ts` | bytes ASCII predicate methods |
