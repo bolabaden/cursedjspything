@@ -148,6 +148,19 @@ export const dictType = makeClass({
       if (defaultArg !== undefined) return defaultArg;
       return pyNone;
     }],
+    ["setdefault", (self: PyObject, key: unknown, defaultArg?: unknown) => {
+      const m = nativeVal<Map<unknown, PyObject>>(self);
+      const found = dictGet(m, key);
+      if (found !== undefined) return found;
+      const value =
+        defaultArg !== undefined ? (defaultArg as PyObject) : pyNone;
+      dictSet(m, key, value);
+      return value;
+    }],
+    ["clear", (self: PyObject) => {
+      nativeVal<Map<unknown, PyObject>>(self).clear();
+      return undefined;
+    }],
     [Slot.iter, (self: PyObject) => {
       const keys = [...nativeVal<Map<unknown, PyObject>>(self).keys()];
       let i = 0;
