@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-06-04, plan 616 merge PR #322)
+
+### Landed
+
+- [REPO] Plan 616 merged via PR #322 — set inplace `|=`/`&=`/`-=`/`^=` hash+eq evidence with frozenset rhs in `set-frozenset-inplace.test.ts`; §8.5 / §8.15 docs; validation-ladder sync (1107 Vitest / 151 files).
+
+### Partial
+
+- None.
+
+### Next
+
+1. Further §8.15 gaps only when scoped (remaining niche API).
+2. PEP 3118 out of scope.
+
+---
+
 ## Delta update (2026-06-04, plan 614 merge PR #321)
 
 ### Landed
