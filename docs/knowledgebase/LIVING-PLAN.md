@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-06-04, plan 682 merge PR #355)
+
+### Landed
+
+- [REPO] Plan 682 merged via PR #355 — list/tuple/bytes cross-type `eq`/`ne` in `sequence-eq-cross-type.test.ts`; §8.6 docs; validation-ladder sync (1187 Vitest / 163 files).
+
+### Partial
+
+- None.
+
+### Next
+
+1. Further §8.15 gaps only when scoped (remaining niche API).
+2. PEP 3118 out of scope.
+
+---
+
 ## Delta update (2026-06-04, plan 680 merge PR #354)
 
 ### Landed
