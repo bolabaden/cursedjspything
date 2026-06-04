@@ -1,6 +1,7 @@
 /**
  * CPython: list __iadd__ extends in place with same-type list (plan 636);
- * cross-type += rejects for str/bytes (plan 656), float/bool (plan 658).
+ * cross-type += rejects for str/bytes (plan 656), float/bool (plan 658);
+ * list += tuple extend (plan 672).
  */
 import { describe, it, expect } from "vitest";
 import {
@@ -18,6 +19,7 @@ import {
   pyInt,
   pyList,
   pyStr,
+  pyTuple,
   pyTrue,
   unwrap,
 } from "../../src/index.js";
@@ -55,6 +57,20 @@ describe("list __iadd__", () => {
   it("iadd returns same list instance", () => {
     const lst = pyList([pyInt(1)]);
     expect(iadd(lst, pyList([pyInt(2)]))).toBe(lst);
+  });
+
+  it("iadd extends list with tuple like CPython list += tuple", () => {
+    const lst = pyList([pyInt(1)]);
+    iadd(lst, pyTuple([pyInt(2), pyInt(3)]));
+    expect(len(lst)).toBe(3);
+    expect(unwrap(getItem(lst, 0) as ReturnType<typeof pyInt>)).toBe(1);
+    expect(unwrap(getItem(lst, 1) as ReturnType<typeof pyInt>)).toBe(2);
+    expect(unwrap(getItem(lst, 2) as ReturnType<typeof pyInt>)).toBe(3);
+  });
+
+  it("iadd with tuple returns same list instance", () => {
+    const lst = pyList([pyInt(1)]);
+    expect(iadd(lst, pyTuple([pyInt(2)]))).toBe(lst);
   });
 
   it("in-place extend does not dedupe equal-but-distinct elements", () => {
