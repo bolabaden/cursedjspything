@@ -50,6 +50,19 @@ describe("cpython-derived str split", () => {
     expect(() => split("x", pyStr(""))).toThrow(/empty separator/);
   });
 
+  it("maxsplit zero returns whole string", () => {
+    expect(asStrList(split("a b c", undefined, pyInt(0)))).toEqual(["a b c"]);
+    expect(asStrList(split("a,b,c", pyStr(","), pyInt(0)))).toEqual(["a,b,c"]);
+  });
+
+  it("empty string split on sep returns single empty element", () => {
+    expect(asStrList(split("", pyStr(",")))).toEqual([""]);
+  });
+
+  it("empty string whitespace split returns empty list", () => {
+    expect(asStrList(split(""))).toEqual([]);
+  });
+
   it("rejects non-str separator", () => {
     expect(() => split("x", pyBytes(new Uint8Array([44])))).toThrow(PyTypeError);
     expect(() => split("x", pyBytes(new Uint8Array([44])))).toThrow(

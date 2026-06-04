@@ -116,7 +116,7 @@ Emits JSON (`vitest_seconds`, pass gates, `test_count`); use median of several r
 | `test/cpython-derived/str-reversed.test.ts` | str.__reversed__ yields one-char strings last-to-first; empty StopIteration; iterator __iter__ returns self |
 | `test/cpython-derived/str-bool.test.ts` | str.__bool__ empty falsy; non-empty truthy |
 | `test/cpython-derived/str-strip.test.ts` | str.strip / lstrip / rstrip |
-| `test/cpython-derived/str-split.test.ts` | str.split sep/maxsplit and whitespace |
+| `test/cpython-derived/str-split.test.ts` | str.split sep/maxsplit/whitespace + maxsplit=0 empty-str edges (plan 484) |
 | `test/cpython-derived/str-rsplit.test.ts` | str.rsplit sep/maxsplit and whitespace |
 | `test/cpython-derived/str-partition.test.ts` | str.partition first-separator triple |
 | `test/cpython-derived/str-rpartition.test.ts` | str.rpartition last-separator triple |
