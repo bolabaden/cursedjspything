@@ -1,7 +1,7 @@
 ---
 title: "feat: dict | and |= union operators (plan 596)"
 type: feat
-status: active
+status: completed
 date: 2026-05-24
 origin: plan 594; CPython 3.9+ dict merge
 ---

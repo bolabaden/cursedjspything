@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-06-04, plan 596 merge PR #312)
+
+### Landed
+
+- [REPO] Plan 596 merged via PR #312 — `dict.__or__` / `__ior__` (`|` / `|=`) merge via `dictSet`; `dict-union.test.ts`; §8.5 docs; validation-ladder sync (1072 Vitest / 145 files).
+
+### Partial
+
+- None.
+
+### Next
+
+1. Further §8.15 gaps only when scoped (remaining niche API).
+2. PEP 3118 out of scope.
+
+---
+
 ## Delta update (2026-06-04, plan 594 merge PR #311)
 
 ### Landed
