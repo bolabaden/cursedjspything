@@ -9,6 +9,24 @@
 
 ---
 
+## Delta update (2026-06-04, plan 688 merge PR #358)
+
+### Landed
+
+- [REPO] Plan 688 merged via PR #358 — §8.6 canonical `sequence-*` evidence index in COMPATIBILITY; validation-ladder + operator-list-tuple header mark legacy duplicates (1193 Vitest / 164 files).
+
+### Partial
+
+- None.
+
+### Next
+
+1. Optional: dedupe `operator-list-tuple-cross-type.test.ts` now that §8.6 index is canonical.
+2. Further §8.15 gaps only when scoped.
+3. PEP 3118 out of scope.
+
+---
+
 ## Delta update (2026-06-04, plan 686 merge PR #357)
 
 ### Landed

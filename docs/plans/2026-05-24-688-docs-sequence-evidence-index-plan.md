@@ -1,7 +1,7 @@
 ---
 title: "docs: §8.6 sequence evidence index (plan 688)"
 type: feat
-status: active
+status: completed
 date: 2026-05-24
 origin: LIVING-PLAN §8.6; post plan 686 sequence-iadd int
 ---
