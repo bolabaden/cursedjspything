@@ -44,33 +44,72 @@ function formatSetSpec(self: PyObject, spec: string): string {
   throw new PyTypeError("unsupported format string passed to set.__format__");
 }
 
-function updateSetFrom(other: unknown, target: Set<unknown>): void {
+function forEachSetOperandItem(
+  other: unknown,
+  method: string,
+  visit: (item: unknown) => void,
+): void {
   if (other instanceof PyObject && isSetLikeTypeName(other.type.name)) {
-    for (const item of nativeVal<Set<unknown>>(other)) {
-      setAddMember(target, item);
-    }
+    for (const item of nativeVal<Set<unknown>>(other)) visit(item);
     return;
   }
   if (!(other instanceof PyObject)) {
-    throw new PyTypeError("'update' requires a set-like or iterable operand");
+    throw new PyTypeError(
+      `'${method}' requires a set-like or iterable operand`,
+    );
   }
   let it: PyObject;
   try {
     it = iter(other);
   } catch (e) {
     if (e instanceof PyTypeError) {
-      throw new PyTypeError("'update' requires a set-like or iterable operand");
+      throw new PyTypeError(
+        `'${method}' requires a set-like or iterable operand`,
+      );
     }
     throw e;
   }
   while (true) {
     try {
-      const item = next(it);
-      setAddMember(target, item);
+      visit(next(it));
     } catch (e) {
       if (e instanceof PyStopIteration) break;
       throw e;
     }
+  }
+}
+
+function updateSetFrom(other: unknown, target: Set<unknown>): void {
+  forEachSetOperandItem(other, "update", (item) => setAddMember(target, item));
+}
+
+function intersectionUpdateFrom(other: unknown, target: Set<unknown>): void {
+  const otherItems = new Set<unknown>();
+  forEachSetOperandItem(other, "intersection_update", (item) =>
+    setAddMember(otherItems, item),
+  );
+  for (const item of [...target]) {
+    if (!setMemberHas(otherItems, item)) setDeleteMember(target, item);
+  }
+}
+
+function differenceUpdateFrom(other: unknown, target: Set<unknown>): void {
+  forEachSetOperandItem(other, "difference_update", (item) =>
+    setDeleteMember(target, item),
+  );
+}
+
+function symmetricDifferenceUpdateFrom(
+  other: unknown,
+  target: Set<unknown>,
+): void {
+  const otherItems = new Set<unknown>();
+  forEachSetOperandItem(other, "symmetric_difference_update", (item) =>
+    setAddMember(otherItems, item),
+  );
+  for (const item of otherItems) {
+    if (setMemberHas(target, item)) setDeleteMember(target, item);
+    else setAddMember(target, item);
   }
 }
 
@@ -234,6 +273,18 @@ export const setType = makeClass({
     ["copy", (self: PyObject) => pySet([...nativeVal<Set<unknown>>(self)])],
     ["update", (self: PyObject, other: unknown) => {
       updateSetFrom(other, nativeVal<Set<unknown>>(self));
+      return undefined;
+    }],
+    ["intersection_update", (self: PyObject, other: unknown) => {
+      intersectionUpdateFrom(other, nativeVal<Set<unknown>>(self));
+      return undefined;
+    }],
+    ["difference_update", (self: PyObject, other: unknown) => {
+      differenceUpdateFrom(other, nativeVal<Set<unknown>>(self));
+      return undefined;
+    }],
+    ["symmetric_difference_update", (self: PyObject, other: unknown) => {
+      symmetricDifferenceUpdateFrom(other, nativeVal<Set<unknown>>(self));
       return undefined;
     }],
     ["union", (self: PyObject, other: PyObject) => {
