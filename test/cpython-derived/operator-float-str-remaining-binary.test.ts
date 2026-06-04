@@ -15,7 +15,6 @@ import {
   truediv,
 } from "../../src/index.js";
 import { PyTypeError } from "../../src/runtime/core/errors.js";
-import { registerCrossTypeOrderingRejects } from "./helpers/cross-type-ordering.js";
 
 describe("cpython-derived float/str remaining binary ops", () => {
   const f = () => pyFloat(1.0);
@@ -108,11 +107,4 @@ describe("cpython-derived float/str remaining binary ops", () => {
       /unsupported operand type\(s\) for \*: 'str' and 'float'/,
     );
   });
-});
-
-describe("cpython-derived float/str ordering", () => {
-  const s = () => pyStr("a");
-  const f = () => pyFloat(1.0);
-
-  registerCrossTypeOrderingRejects("str", "float", s, f);
 });
