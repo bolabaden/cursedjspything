@@ -5,14 +5,10 @@ import { describe, it, expect } from "vitest";
 import {
   add,
   eq,
-  ge,
   getItem,
-  gt,
   iadd,
   imul,
-  le,
   len,
-  lt,
   mul,
   ne,
   pyBytes,
@@ -25,6 +21,7 @@ import {
   unwrap,
 } from "../../src/index.js";
 import { PyTypeError } from "../../src/runtime/core/errors.js";
+import { registerCrossTypeOrderingRejects } from "./helpers/cross-type-ordering.js";
 
 describe("cpython-derived list/tuple equality", () => {
   const l = () => pyList([pyInt(1)]);
@@ -64,23 +61,7 @@ describe("cpython-derived list/tuple ordering", () => {
   const l = () => pyList([pyInt(1)]);
   const t = () => pyTuple([pyInt(1)]);
 
-  for (const [name, op] of [
-    ["lt", lt],
-    ["le", le],
-    ["gt", gt],
-    ["ge", ge],
-  ] as const) {
-    it(`${name} raises TypeError for list and tuple`, () => {
-      expect(() => op(l(), t())).toThrow(PyTypeError);
-      expect(() => op(l(), t())).toThrow(
-        new RegExp(`'${name}' not supported between instances of 'list' and 'tuple'`),
-      );
-      expect(() => op(t(), l())).toThrow(PyTypeError);
-      expect(() => op(t(), l())).toThrow(
-        new RegExp(`'${name}' not supported between instances of 'tuple' and 'list'`),
-      );
-    });
-  }
+  registerCrossTypeOrderingRejects("list", "tuple", l, t);
 });
 
 describe("cpython-derived list/tuple binary ops", () => {
