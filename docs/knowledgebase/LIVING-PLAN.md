@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-06-04, plan 588 merge PR #308)
+
+### Landed
+
+- [REPO] Plan 588 merged via PR #308 — hash strictness matrix: `pyDict` via `dictSet`, `dictKeysEqual` propagates hash errors, `hash-strictness-matrix.test.ts` (24 cases), §8.5 docs; validation-ladder sync (1053 Vitest / 141 files).
+
+### Partial
+
+- None.
+
+### Next
+
+1. Further §8.15 gaps only when scoped (remaining niche API outside hash series).
+2. PEP 3118 out of scope.
+
+---
+
 ## Delta update (2026-06-04, plan 586 merge PR #307)
 
 ### Landed
