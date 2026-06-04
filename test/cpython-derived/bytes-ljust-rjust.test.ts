@@ -67,6 +67,12 @@ describe("cpython-derived bytes ljust rjust", () => {
     expect(asBytes(ljust(abc, pyInt(0)))).toEqual(abc);
     expect(asBytes(ljust(new Uint8Array(0), pyInt(0)))).toEqual(new Uint8Array(0));
     expect(asBytes(rjust(abc, pyInt(0)))).toEqual(abc);
+    expect(asBytes(rjust(new Uint8Array(0), pyInt(0)))).toEqual(new Uint8Array(0));
+    expect(
+      asBytes(
+        rjust(new Uint8Array(0), pyInt(0), pyBytes(new Uint8Array([120]))),
+      ),
+    ).toEqual(new Uint8Array(0));
   });
 
   it("rejects fill byte string not of length 1", () => {
