@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-06-04, plan 454 merge PR #241)
+
+### Landed
+
+- [REPO] Plan 454 merged via PR #241 — ordering helper extended to int/str, float/str, and bytes/scalar operator tests (~43 lines deduped; 941 Vitest / 132 files). Operator `for` ordering loops in §8.15 evidence files are now fully on the helper except `richcmp-incomparable.test.ts`.
+
+### Partial
+
+- None.
+
+### Next
+
+1. §8.15 — optional COMPATIBILITY note that ordering helper coverage is complete for operator-* cross-type files; `richcmp-incomparable` stays bespoke.
+2. PEP 3118 out of scope.
+
+---
+
 ## Delta update (2026-05-24, plan 452 merge PR #240)
 
 ### Landed
