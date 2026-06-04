@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-06-04, plan 492 merge PR #260)
+
+### Landed
+
+- [REPO] Plan 492 merged via PR #260 — `bytes.splitlines` CPython evidence that vt/ff and UTF-8 U+2028/U+2029 do not split (contrast plan 490 `str`); validation-ladder sync (960 Vitest / 132 files).
+
+### Partial
+
+- None.
+
+### Next
+
+1. Further §8.15 gaps only when scoped (remaining niche bytes/str API).
+2. PEP 3118 out of scope.
+
+---
+
 ## Delta update (2026-06-04, plan 490 merge PR #259)
 
 ### Landed
