@@ -42,7 +42,8 @@ Emits JSON (`vitest_seconds`, pass gates, `test_count`); use median of several r
 | `test/class/pipeline.test.ts` | `__prepare__` / namespace merge |
 | `test/class/instantiate.test.ts` | Type `__call__` on instantiate |
 | `test/class/version-gates.test.ts` | `__match_args__`, `__annotate__`, buffer |
-| `test/builtins/dict-keys.test.ts` | Dict key eq/hash; invalid __hash__ and unhashable keys on hash/set/get/del/contains (plans 574/576) |
+| `test/builtins/dict-keys.test.ts` | Dict key eq/hash; invalid __hash__ and unhashable keys on hash/set/get/del/contains/pyDict ctor (plans 574/576/588) |
+| `test/cpython-derived/hash-strictness-matrix.test.ts` | Cross-cutting hash strictness matrix dict/set/frozenset/tuple (plan 588) |
 | `test/collections/slice-with.test.ts` | `pySlice`, `withObject` |
 | `test/cpython-derived/compare-ne.test.ts` | CPython `test_compare.py` `__ne__` delegation |
 | `test/cpython-derived/richcmp-number.test.ts` | CPython `test_richcmp.py` number ordering |

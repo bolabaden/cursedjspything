@@ -53,12 +53,8 @@ function dictKeyEq(a: PyObject, b: PyObject): boolean {
 export function dictKeysEqual(a: unknown, b: unknown): boolean {
   if (Object.is(a, b)) return true;
   if (a instanceof PyObject && b instanceof PyObject) {
-    try {
-      if (dictKeyHash(a) !== dictKeyHash(b)) return false;
-      return dictKeyEq(a, b);
-    } catch {
-      return false;
-    }
+    if (dictKeyHash(a) !== dictKeyHash(b)) return false;
+    return dictKeyEq(a, b);
   }
   return false;
 }
