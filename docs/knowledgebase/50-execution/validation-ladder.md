@@ -180,6 +180,7 @@ Emits JSON (`vitest_seconds`, pass gates, `test_count`); use median of several r
 | `test/cpython-derived/bool-bool.test.ts` | bool.__bool__ False falsy; True truthy |
 | `test/cpython-derived/bool-hash.test.ts` | bool.__hash__ False 0 / True 1; stable singletons (plan 560) |
 | `test/cpython-derived/none-bool.test.ts` | NoneType.__bool__ None always falsy |
+| `test/cpython-derived/none-hash.test.ts` | NoneType.__hash__ fixed sentinel 0x345678; stable (plan 566) |
 | `test/cpython-derived/slice-bool.test.ts` | slice.__bool__ all slice objects truthy |
 | `test/cpython-derived/operator-zerodivision.test.ts` | Int/float division by zero raises ZeroDivisionError |
 | `test/golden/key-parity.test.ts` | Golden case key snapshot parity |
