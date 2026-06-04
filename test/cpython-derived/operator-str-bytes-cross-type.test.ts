@@ -1,5 +1,5 @@
 /**
- * CPython: str↔bytes eq/ne and ordering non-coercion (binary in operator-bytes-remaining-cross-type).
+ * CPython: str↔bytes eq/ne, contains, and ordering (binary in operator-bytes-remaining-cross-type).
  */
 import { describe, it, expect } from "vitest";
 import {
@@ -28,6 +28,13 @@ describe("cpython-derived str/bytes comparisons", () => {
     expect(() => contains(s(), b())).toThrow(PyTypeError);
     expect(() => contains(s(), b())).toThrow(
       /'in <string>' requires string as left operand, not bytes/,
+    );
+  });
+
+  it("contains on bytes requires bytes-like operand not str", () => {
+    expect(() => contains(b(), s())).toThrow(PyTypeError);
+    expect(() => contains(b(), s())).toThrow(
+      /a bytes-like object is required, not 'str'/,
     );
   });
 
