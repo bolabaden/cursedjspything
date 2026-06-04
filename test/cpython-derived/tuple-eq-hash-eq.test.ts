@@ -3,6 +3,7 @@
  */
 import { describe, it, expect } from "vitest";
 import {
+  contains,
   eq,
   instantiate,
   makeClass,
@@ -49,5 +50,13 @@ describe("tuple __eq__ hash+eq elements", () => {
 
   it("returns false for non-tuple rhs", () => {
     expect(eq(pyTuple([pyInt(1)]), pyInt(1))).toBe(false);
+  });
+
+  it("__contains__ matches equal-but-distinct elements", () => {
+    const [k1, k2] = equalKeyPair();
+    const t = pyTuple([k1, pyInt(9)]);
+    expect(contains(t, k2)).toBe(true);
+    expect(contains(t, pyInt(9))).toBe(true);
+    expect(contains(t, pyInt(0))).toBe(false);
   });
 });
