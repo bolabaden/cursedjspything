@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-06-04, plan 554 merge PR #291)
+
+### Landed
+
+- [REPO] Plan 554 merged via PR #291 — `str.__contains__` on empty haystack in `operator-str-scalar.test.ts`; validation-ladder sync (978 Vitest / 132 files).
+
+### Partial
+
+- None.
+
+### Next
+
+1. Further §8.15 gaps only when scoped (remaining niche bytes/str API).
+2. PEP 3118 out of scope.
+
+---
+
 ## Delta update (2026-06-04, plan 552 merge PR #290)
 
 ### Landed
