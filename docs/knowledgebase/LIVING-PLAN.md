@@ -9,6 +9,40 @@
 
 ---
 
+## Delta update (2026-05-24, plan 696)
+
+### Landed
+
+- [REPO] Plan 696 — list `-=` dict reject in `sequence-sub.test.ts`; KB counts 1177/163; §8.6 docs.
+
+### Partial
+
+- None.
+
+### Next
+
+1. Further §8.15 gaps only when scoped (remaining niche API).
+2. PEP 3118 out of scope.
+
+---
+
+## Delta update (2026-05-24, plan 695 merge PR #363)
+
+### Landed
+
+- [REPO] Plan 695 merged via PR #363 — list `-=` bytes/float/bool in `sequence-sub.test.ts` (1176 Vitest / 163 files).
+
+### Partial
+
+- None.
+
+### Next
+
+1. Further §8.15 gaps only when scoped (remaining niche API).
+2. PEP 3118 out of scope.
+
+---
+
 ## Delta update (2026-05-24, plan 695)
 
 ### Landed

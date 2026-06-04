@@ -1,11 +1,12 @@
 /**
- * CPython: list __sub__ / __isub__ rejects (plans 680, 694, 695).
+ * CPython: list __sub__ / __isub__ rejects (plans 680, 694–696).
  */
 import { describe, it, expect } from "vitest";
 import {
   isub,
   len,
   pyBytes,
+  pyDict,
   pyFloat,
   pyInt,
   pyList,
@@ -78,6 +79,15 @@ describe("list __isub__", () => {
     expect(() => isub(lst, pyTrue)).toThrow(PyTypeError);
     expect(() => isub(lst, pyTrue)).toThrow(
       /unsupported operand type\(s\) for -=: 'list' and 'bool'/,
+    );
+    expect(len(lst)).toBe(1);
+  });
+
+  it("isub rejects list and dict", () => {
+    const lst = pyList([pyInt(1)]);
+    expect(() => isub(lst, pyDict([]))).toThrow(PyTypeError);
+    expect(() => isub(lst, pyDict([]))).toThrow(
+      /unsupported operand type\(s\) for -=: 'list' and 'dict'/,
     );
     expect(len(lst)).toBe(1);
   });
