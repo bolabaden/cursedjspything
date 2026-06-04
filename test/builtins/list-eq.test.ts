@@ -1,13 +1,34 @@
 import { describe, it, expect } from "vitest";
 import {
   PyObject,
+  contains,
+  instantiate,
   makeClass,
+  objectType,
   Slot,
   NotImplemented,
   eq,
   pyList,
   pyInt,
 } from "../../src/index.js";
+
+function equalKeyPair(): [PyObject, PyObject] {
+  const Key = makeClass({
+    name: "Key",
+    bases: [objectType],
+    dict: new Map<string | symbol, unknown>([
+      [Slot.hash, () => 55],
+      [
+        Slot.eq,
+        (_self: PyObject, other: PyObject) => {
+          if (other.type.name === "Key") return true;
+          return NotImplemented;
+        },
+      ],
+    ]),
+  });
+  return [instantiate(Key), instantiate(Key)];
+}
 
 describe("list __eq__", () => {
   it("returns NotImplemented for non-list rhs", () => {
@@ -33,5 +54,22 @@ describe("list __eq__", () => {
     expect(eq(pyList([pyInt(1), pyInt(2)]), pyList([pyInt(1), pyInt(2)]))).toBe(
       true,
     );
+  });
+
+  it("compares equal-but-distinct elements at each index", () => {
+    const [k1, k2] = equalKeyPair();
+    expect(eq(pyList([k1]), pyList([k2]))).toBe(true);
+    expect(
+      eq(pyList([k1, pyInt(1)]), pyList([k2, pyInt(1)])),
+    ).toBe(true);
+    expect(eq(pyList([k1, pyInt(1)]), pyList([k2, pyInt(2)]))).toBe(false);
+    expect(eq(pyList([k1]), pyList([]))).toBe(false);
+  });
+
+  it("__contains__ matches equal-but-distinct elements", () => {
+    const [k1, k2] = equalKeyPair();
+    const lst = pyList([k1]);
+    expect(contains(lst, k2)).toBe(true);
+    expect(contains(lst, pyInt(0))).toBe(false);
   });
 });

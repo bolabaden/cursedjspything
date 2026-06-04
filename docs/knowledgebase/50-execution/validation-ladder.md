@@ -43,6 +43,8 @@ Emits JSON (`vitest_seconds`, pass gates, `test_count`); use median of several r
 | `test/class/instantiate.test.ts` | Type `__call__` on instantiate |
 | `test/class/version-gates.test.ts` | `__match_args__`, `__annotate__`, buffer |
 | `test/builtins/dict-keys.test.ts` | Dict key eq/hash; invalid __hash__ and unhashable keys on hash/set/get/del/contains/pyDict ctor (plans 574/576/588) |
+| `test/builtins/list-eq.test.ts` | list __eq__ rich elements; __contains__ hash+eq (plan 622) |
+| `test/cpython-derived/tuple-eq-hash-eq.test.ts` | tuple __eq__ per-element rich eq (plan 622) |
 | `test/cpython-derived/dict-union.test.ts` | dict \| and \|= merge; rhs overwrites; hash+eq key collapse (plan 596) |
 | `test/cpython-derived/dict-get.test.ts` | dict.get present/missing/default; hash+eq probe; unhashable TypeError (plan 598) |
 | `test/cpython-derived/dict-update-copy.test.ts` | dict.update / copy / |= iterable pairs; hash+eq overwrite (plan 600) |
