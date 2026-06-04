@@ -103,6 +103,7 @@ describe("cpython-derived str encode", () => {
 
   it("unknown encoding raises LookupError", () => {
     expect(() => encoded("x", pyStr("nope"))).toThrow(PyLookupError);
+    expect(() => encoded("x", pyStr("nope"))).toThrow(/unknown encoding: nope/);
   });
 
   it("unknown errors handler raises ValueError", () => {
