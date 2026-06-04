@@ -2,7 +2,11 @@ import { PyObject, NotImplemented } from "../core/object.js";
 import { Slot, Hook } from "../core/slots.js";
 import { makeClass } from "../class/class.js";
 import { PyTypeError, PyKeyError } from "../core/errors.js";
-import { requireHashableElement } from "./hashable-element.js";
+import {
+  setAddMember,
+  setDeleteMember,
+  setMemberHas,
+} from "./set-membership.js";
 import { iter, next } from "../dispatch/protocols.js";
 import { PyStopIteration } from "../core/lookup.js";
 import { nativeVal, setNative } from "./native.js";
@@ -43,8 +47,7 @@ function formatSetSpec(self: PyObject, spec: string): string {
 function updateSetFrom(other: unknown, target: Set<unknown>): void {
   if (other instanceof PyObject && isSetLikeTypeName(other.type.name)) {
     for (const item of nativeVal<Set<unknown>>(other)) {
-      requireHashableElement(item);
-      target.add(item);
+      setAddMember(target, item);
     }
     return;
   }
@@ -63,8 +66,7 @@ function updateSetFrom(other: unknown, target: Set<unknown>): void {
   while (true) {
     try {
       const item = next(it);
-      requireHashableElement(item);
-      target.add(item);
+      setAddMember(target, item);
     } catch (e) {
       if (e instanceof PyStopIteration) break;
       throw e;
@@ -82,8 +84,7 @@ export const setType = makeClass({
     [Slot.len, (self: PyObject) => nativeVal<Set<unknown>>(self).size],
     [Slot.bool, (self: PyObject) => nativeVal<Set<unknown>>(self).size > 0],
     [Slot.contains, (self: PyObject, value: unknown) => {
-      requireHashableElement(value);
-      return nativeVal<Set<unknown>>(self).has(value);
+      return setMemberHas(nativeVal<Set<unknown>>(self), value);
     }],
     [Slot.iter, (self: PyObject) => {
       const vals = [...nativeVal<Set<unknown>>(self)];
@@ -156,21 +157,23 @@ export const setType = makeClass({
       if (!isSetLikeTypeName(other.type.name)) return NotImplemented;
       const a = nativeVal<Set<unknown>>(self);
       const b = nativeVal<Set<unknown>>(other);
-      for (const item of b) a.add(item);
+      for (const item of b) setAddMember(a, item);
       return self;
     }],
     [Slot.iand, (self: PyObject, other: PyObject) => {
       if (!isSetLikeTypeName(other.type.name)) return NotImplemented;
       const a = nativeVal<Set<unknown>>(self);
       const b = nativeVal<Set<unknown>>(other);
-      for (const item of [...a]) if (!b.has(item)) a.delete(item);
+      for (const item of [...a]) {
+        if (!setMemberHas(b, item)) setDeleteMember(a, item);
+      }
       return self;
     }],
     [Slot.isub, (self: PyObject, other: PyObject) => {
       if (!isSetLikeTypeName(other.type.name)) return NotImplemented;
       const a = nativeVal<Set<unknown>>(self);
       const b = nativeVal<Set<unknown>>(other);
-      for (const item of b) a.delete(item);
+      for (const item of b) setDeleteMember(a, item);
       return self;
     }],
     [Slot.ixor, (self: PyObject, other: PyObject) => {
@@ -178,8 +181,8 @@ export const setType = makeClass({
       const a = nativeVal<Set<unknown>>(self);
       const b = nativeVal<Set<unknown>>(other);
       for (const item of b) {
-        if (a.has(item)) a.delete(item);
-        else a.add(item);
+        if (setMemberHas(a, item)) setDeleteMember(a, item);
+        else setAddMember(a, item);
       }
       return self;
     }],
@@ -205,20 +208,16 @@ export const setType = makeClass({
       );
     }],
     ["add", (self: PyObject, item: unknown) => {
-      requireHashableElement(item);
-      nativeVal<Set<unknown>>(self).add(item);
+      setAddMember(nativeVal<Set<unknown>>(self), item);
       return undefined;
     }],
     ["remove", (self: PyObject, item: unknown) => {
-      requireHashableElement(item);
       const s = nativeVal<Set<unknown>>(self);
-      if (!s.has(item)) throw new PyKeyError(keyErrorArg(item));
-      s.delete(item);
+      if (!setDeleteMember(s, item)) throw new PyKeyError(keyErrorArg(item));
       return undefined;
     }],
     ["discard", (self: PyObject, item: unknown) => {
-      requireHashableElement(item);
-      nativeVal<Set<unknown>>(self).delete(item);
+      setDeleteMember(nativeVal<Set<unknown>>(self), item);
       return undefined;
     }],
     ["pop", (self: PyObject) => {
@@ -265,11 +264,12 @@ export const setType = makeClass({
 });
 
 export function pySet(items: unknown[]): PyObject {
-  for (const item of items) {
-    requireHashableElement(item);
-  }
   const obj = new PyObject(setType);
-  setNative(obj, new Set(items));
+  const s = new Set<unknown>();
+  for (const item of items) {
+    setAddMember(s, item);
+  }
+  setNative(obj, s);
   return obj;
 }
 

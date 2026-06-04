@@ -1,7 +1,9 @@
 /** Subset/superset helpers for set and frozenset ordering comparisons. */
 
+import { setMemberHas } from "./set-membership.js";
+
 export function isSubsetOf(a: Set<unknown>, b: Set<unknown>): boolean {
-  for (const item of a) if (!b.has(item)) return false;
+  for (const item of a) if (!setMemberHas(b, item)) return false;
   return true;
 }
 
@@ -19,6 +21,6 @@ export function isProperSupersetOf(a: Set<unknown>, b: Set<unknown>): boolean {
 
 export function areDisjoint(a: Set<unknown>, b: Set<unknown>): boolean {
   const [small, large] = a.size <= b.size ? [a, b] : [b, a];
-  for (const item of small) if (large.has(item)) return false;
+  for (const item of small) if (setMemberHas(large, item)) return false;
   return true;
 }
