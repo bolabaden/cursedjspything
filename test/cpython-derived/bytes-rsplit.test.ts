@@ -89,6 +89,11 @@ describe("cpython-derived bytes rsplit", () => {
     expect(asBytesList(out).map((part) => Array.from(part))).toEqual([
       Array.from(data),
     ]);
+    const commaData = new Uint8Array([97, 44, 98, 44, 99]);
+    const sepOut = rsplit(commaData, pyBytes(new Uint8Array([44])), pyInt(0));
+    expect(asBytesList(sepOut).map((part) => Array.from(part))).toEqual([
+      Array.from(commaData),
+    ]);
   });
 
   it("rejects non-bytes separator", () => {
