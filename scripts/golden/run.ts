@@ -6,6 +6,7 @@ import { spawnSync } from "node:child_process";
 import { readFileSync, writeFileSync, existsSync, mkdirSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
+import { GoldenHarnessError } from "./errors.js";
 import { assertGoldenKeyParity } from "./keys.js";
 import { buildPyrtCases } from "./pyrt-cases.js";
 
@@ -51,8 +52,9 @@ function expectedPathFor(version: string): string {
 function runCasesPy(pythonBin: string): Record<string, unknown> {
   const r = spawnSync(pythonBin, [casesPy], { encoding: "utf8" });
   if (r.status !== 0) {
-    console.error(r.stderr || r.stdout);
-    throw new Error(`cases.py failed for ${pythonBin}`);
+    const detail = (r.stderr || r.stdout || "").trim();
+    console.error(detail);
+    throw GoldenHarnessError.casesPyFailed(pythonBin, detail);
   }
   return JSON.parse(r.stdout) as Record<string, unknown>;
 }
@@ -91,7 +93,7 @@ function compareCases(
 function main(): void {
   const pythons = findAvailablePythons();
   if (pythons.length === 0) {
-    throw new Error("No Python interpreter found for golden tests");
+    throw GoldenHarnessError.noPython();
   }
 
   const failures: string[] = [];

@@ -212,7 +212,7 @@ After doc or slot changes:
 npm run golden
 ```
 
-Runs `scripts/golden/run.ts` against `scripts/golden/cases.py` (CPython reference) and `scripts/golden/pyrt-cases.ts` (`buildPyrtCases`) and compares to `scripts/golden/expected/{version}.json` for each available Python 3.9–3.14. **Key parity** (symmetric case keys between CPython and `buildPyrtCases`) runs before value comparison. CI runs this after L2.
+Runs `scripts/golden/run.ts` against `scripts/golden/cases.py` (CPython reference) and `scripts/golden/pyrt-cases.ts` (`buildPyrtCases`) and compares to `scripts/golden/expected/{version}.json` for each available Python 3.9–3.14. **Key parity** (symmetric case keys between CPython and `buildPyrtCases`) runs before value comparison; harness failures use `GoldenHarnessError` / `KeyParityError` (`scripts/golden/errors.ts`, plan 472). CI runs this after L2.
 
 When adding or renaming case keys, update both `cases.py` and `scripts/golden/pyrt-cases.ts`, then:
 
