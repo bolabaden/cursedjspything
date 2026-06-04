@@ -2,7 +2,8 @@ import { PyObject, NotImplemented } from "../core/object.js";
 import { Slot, Hook } from "../core/slots.js";
 import { makeClass } from "../class/class.js";
 import { PyKeyError, PyStopIteration } from "../core/lookup.js";
-import { PyTypeError } from "../core/errors.js";
+import { PyTypeError, PyValueError } from "../core/errors.js";
+import { iter, next } from "../dispatch/protocols.js";
 import { eq } from "../dispatch/operators/index.js";
 import {
   dictDelete,
@@ -14,6 +15,8 @@ import {
 import { nativeVal, setNative } from "./native.js";
 import { keyErrorArg } from "./key-error-arg.js";
 import { pyNone } from "./none.js";
+import { listType } from "./list.js";
+import { tupleType } from "./tuple.js";
 
 function dictRepr(self: PyObject): string {
   const m = nativeVal<Map<unknown, PyObject>>(self);
@@ -49,6 +52,69 @@ function mergeDictMaps(
   for (const [k, v] of base) dictSet(out, k, v);
   for (const [k, v] of overlay) dictSet(out, k, v);
   return out;
+}
+
+function dictApplyPair(
+  target: Map<unknown, PyObject>,
+  pair: unknown,
+  index: number,
+): void {
+  if (!(pair instanceof PyObject)) {
+    throw new PyTypeError(
+      `dictionary update sequence element #${index} is not a sequence`,
+    );
+  }
+  const t = pair.type;
+  if (t !== tupleType && t !== listType) {
+    throw new PyTypeError(
+      `dictionary update sequence element #${index} is not a sequence`,
+    );
+  }
+  const seq = nativeVal<readonly PyObject[]>(pair);
+  if (seq.length !== 2) {
+    throw new PyValueError(
+      `dictionary update sequence element #${index} has length ${seq.length}; 2 is required`,
+    );
+  }
+  dictSet(target, seq[0], seq[1]);
+}
+
+function dictUpdateFrom(
+  other: unknown,
+  target: Map<unknown, PyObject>,
+  method: string,
+): void {
+  if (other instanceof PyObject && other.type === dictType) {
+    for (const [k, v] of nativeVal<Map<unknown, PyObject>>(other)) {
+      dictSet(target, k, v);
+    }
+    return;
+  }
+  if (!(other instanceof PyObject)) {
+    throw new PyTypeError(
+      `'${method}' requires a dict or iterable of key/value pairs`,
+    );
+  }
+  let it: PyObject;
+  try {
+    it = iter(other);
+  } catch (e) {
+    if (e instanceof PyTypeError) {
+      throw new PyTypeError(
+        `'${method}' requires a dict or iterable of key/value pairs`,
+      );
+    }
+    throw e;
+  }
+  let i = 0;
+  while (true) {
+    try {
+      dictApplyPair(target, next(it), i++);
+    } catch (e) {
+      if (e instanceof PyStopIteration) break;
+      throw e;
+    }
+  }
 }
 
 // ── pyDict ────────────────────────────────────────────────────────────
@@ -125,12 +191,21 @@ export const dictType = makeClass({
       setNative(obj, merged);
       return obj;
     }],
-    [Slot.ior, (self: PyObject, other: PyObject) => {
-      if (other.type !== dictType) return NotImplemented;
-      const target = nativeVal<Map<unknown, PyObject>>(self);
-      for (const [k, v] of nativeVal<Map<unknown, PyObject>>(other)) {
-        dictSet(target, k, v);
-      }
+    ["update", (self: PyObject, other: unknown) => {
+      dictUpdateFrom(other, nativeVal<Map<unknown, PyObject>>(self), "update");
+      return undefined;
+    }],
+    ["copy", (self: PyObject) => {
+      const obj = new PyObject(dictType);
+      setNative(
+        obj,
+        mergeDictMaps(new Map(), nativeVal<Map<unknown, PyObject>>(self)),
+      );
+      return obj;
+    }],
+    [Slot.ior, (self: PyObject, other: unknown) => {
+      if (!(other instanceof PyObject)) return NotImplemented;
+      dictUpdateFrom(other, nativeVal<Map<unknown, PyObject>>(self), "__ior__");
       return self;
     }],
   ]),
