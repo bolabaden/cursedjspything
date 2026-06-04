@@ -55,6 +55,7 @@ describe("cpython-derived str join", () => {
     const parts = pyList([pyStr("a"), pyStr("b"), pyStr("c")]);
     expect(asStr(join("", parts))).toBe("abc");
     expect(asStr(join("", pyList([])))).toBe("");
+    expect(asStr(join("", pyList([pyStr("a")])))).toBe("a");
   });
 
   it("rejects non-str sequence items", () => {

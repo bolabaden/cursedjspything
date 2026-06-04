@@ -110,7 +110,7 @@ Emits JSON (`vitest_seconds`, pass gates, `test_count`); use median of several r
 | `test/cpython-derived/str-zfill.test.ts` | str.zfill width padding + width=0 no-op (plan 520) |
 | `test/cpython-derived/str-expandtabs.test.ts` | str.expandtabs tab expansion |
 | `test/cpython-derived/str-translate.test.ts` | str.maketrans / str.translate |
-| `test/cpython-derived/str-join.test.ts` | str.join empty separator + empty iterable (plans 510/518) |
+| `test/cpython-derived/str-join.test.ts` | str.join empty sep: concat, empty iter, single elt (510/518/526) |
 | `test/cpython-derived/str-casefold.test.ts` | str.casefold |
 | `test/cpython-derived/str-format.test.ts` | str.format / format_map including bool/bytes/None/list/tuple/dict/slice/set/frozenset empty-spec fields and conversions with format_spec |
 | `test/cpython-derived/str-reversed.test.ts` | str.__reversed__ yields one-char strings last-to-first; empty StopIteration; iterator __iter__ returns self |
@@ -121,7 +121,7 @@ Emits JSON (`vitest_seconds`, pass gates, `test_count`); use median of several r
 | `test/cpython-derived/str-partition.test.ts` | str.partition triple + multi-byte exact match (plan 524) |
 | `test/cpython-derived/str-rpartition.test.ts` | str.rpartition triple; empty str (496); multi-byte exact (524) |
 | `test/cpython-derived/str-splitlines.test.ts` | str.splitlines breaks + keepends; empty input + keepends (plans 490/494/500/508/514) |
-| `test/cpython-derived/bytes-join.test.ts` | bytes.join empty separator + empty iterable (plans 510/518) |
+| `test/cpython-derived/bytes-join.test.ts` | bytes.join empty sep: concat, empty iter, single elt (510/518/526) |
 | `test/cpython-derived/bytes-split.test.ts` | bytes.split sep/maxsplit/whitespace; maxsplit=0 whitespace-only (plans 486/516) |
 | `test/cpython-derived/bytes-rsplit.test.ts` | bytes.rsplit from the right; maxsplit=0 whitespace-only (plans 486/516) |
 | `test/cpython-derived/bytes-startswith-endswith.test.ts` | bytes.startswith/endswith affix and bounds |
