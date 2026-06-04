@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-06-04, plan 498 merge PR #263)
+
+### Landed
+
+- [REPO] Plan 498 merged via PR #263 — `bytes.partition` / `bytes.rpartition` empty-bytes triple parity with plan 496 `str`; validation-ladder sync (963 Vitest / 132 files).
+
+### Partial
+
+- None.
+
+### Next
+
+1. Further §8.15 gaps only when scoped (remaining niche bytes/str API).
+2. PEP 3118 out of scope.
+
+---
+
 ## Delta update (2026-06-04, plan 496 merge PR #262)
 
 ### Landed
