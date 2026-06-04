@@ -83,6 +83,13 @@ describe("cpython-derived str startswith endswith", () => {
     expect(endswith("hello", pyStr(""))).toBe(pyTrue);
   });
 
+  it("handles empty haystack", () => {
+    expect(startswith("", pyStr("a"))).toBe(pyFalse);
+    expect(endswith("", pyStr("a"))).toBe(pyFalse);
+    expect(startswith("", pyStr(""))).toBe(pyTrue);
+    expect(endswith("", pyStr(""))).toBe(pyTrue);
+  });
+
   it("matches Unicode affixes", () => {
     expect(startswith("café", pyStr("caf"))).toBe(pyTrue);
     expect(endswith("café", pyStr("fé"))).toBe(pyTrue);
