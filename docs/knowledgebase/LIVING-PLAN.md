@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-06-04, plan 582 merge PR #305)
+
+### Landed
+
+- [REPO] Plan 582 merged via PR #305 — shared `requireHashableElement`; `pyFrozenSet` build and frozenset `__contains__` hash guards; `frozenset-hash.test.ts`; validation-ladder sync (1025 Vitest / 140 files).
+
+### Partial
+
+- None.
+
+### Next
+
+1. Further §8.15 gaps only when scoped (remaining niche API).
+2. PEP 3118 out of scope.
+
+---
+
 ## Delta update (2026-06-04, plan 580 merge PR #304)
 
 ### Landed
