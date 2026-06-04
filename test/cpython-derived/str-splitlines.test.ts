@@ -78,6 +78,14 @@ describe("cpython-derived str splitlines", () => {
     expect(asStrList(splitlines("a\u0085b"))).toEqual(["a", "b"]);
   });
 
+  it("keeps line breaks when keepends is true (Unicode/NEL)", () => {
+    expect(asStrList(splitlines("a\x0bb", pyTrue))).toEqual(["a\x0b", "b"]);
+    expect(asStrList(splitlines("a\x0cb", pyTrue))).toEqual(["a\x0c", "b"]);
+    expect(asStrList(splitlines("a\u0085b", pyTrue))).toEqual(["a\u0085", "b"]);
+    expect(asStrList(splitlines("a\u2028b", pyTrue))).toEqual(["a\u2028", "b"]);
+    expect(asStrList(splitlines("a\u2029b", pyTrue))).toEqual(["a\u2029", "b"]);
+  });
+
   it("rejects non-bool keepends", () => {
     expect(() => splitlines("a", pyInt(1))).toThrow(PyTypeError);
     expect(() => splitlines("a", pyInt(1))).toThrow(
