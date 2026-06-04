@@ -49,6 +49,8 @@ describe("cpython-derived str strip", () => {
   it("strips custom characters", () => {
     expect(strip("xxabcxx", pyStr("x"))).toBe("abc");
     expect(strip("abc", pyStr(""))).toBe("abc");
+    expect(lstrip("abc", pyStr(""))).toBe("abc");
+    expect(rstrip("abc", pyStr(""))).toBe("abc");
   });
 
   it("rejects non-str chars", () => {
