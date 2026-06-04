@@ -8,10 +8,6 @@ import {
   divmod,
   pyBytes,
   floordiv,
-  ge,
-  gt,
-  le,
-  lt,
   mod,
   mul,
   pow,
@@ -23,6 +19,7 @@ import {
   truediv,
 } from "../../src/index.js";
 import { PyTypeError } from "../../src/runtime/core/errors.js";
+import { registerCrossTypeOrderingRejects } from "./helpers/cross-type-ordering.js";
 
 describe("cpython-derived bytes/scalar remaining binary ops", () => {
   const b = () => bytes(pyStr("ab")) as ReturnType<typeof pyBytes>;
@@ -369,54 +366,8 @@ describe("cpython-derived bytes/scalar ordering", () => {
   const f = () => pyFloat(1.0);
   const t = () => pyTrue;
 
-  for (const [name, op] of [
-    ["lt", lt],
-    ["le", le],
-    ["gt", gt],
-    ["ge", ge],
-  ] as const) {
-    it(`${name} raises TypeError for bytes and int in both orders`, () => {
-      expect(() => op(b(), i())).toThrow(PyTypeError);
-      expect(() => op(b(), i())).toThrow(
-        new RegExp(`'${name}' not supported between instances of 'bytes' and 'int'`),
-      );
-      expect(() => op(i(), b())).toThrow(PyTypeError);
-      expect(() => op(i(), b())).toThrow(
-        new RegExp(`'${name}' not supported between instances of 'int' and 'bytes'`),
-      );
-    });
-
-    it(`${name} raises TypeError for bytes and str in both orders`, () => {
-      expect(() => op(b(), s())).toThrow(PyTypeError);
-      expect(() => op(b(), s())).toThrow(
-        new RegExp(`'${name}' not supported between instances of 'bytes' and 'str'`),
-      );
-      expect(() => op(s(), b())).toThrow(PyTypeError);
-      expect(() => op(s(), b())).toThrow(
-        new RegExp(`'${name}' not supported between instances of 'str' and 'bytes'`),
-      );
-    });
-
-    it(`${name} raises TypeError for bytes and float in both orders`, () => {
-      expect(() => op(b(), f())).toThrow(PyTypeError);
-      expect(() => op(b(), f())).toThrow(
-        new RegExp(`'${name}' not supported between instances of 'bytes' and 'float'`),
-      );
-      expect(() => op(f(), b())).toThrow(PyTypeError);
-      expect(() => op(f(), b())).toThrow(
-        new RegExp(`'${name}' not supported between instances of 'float' and 'bytes'`),
-      );
-    });
-
-    it(`${name} raises TypeError for bytes and bool in both orders`, () => {
-      expect(() => op(b(), t())).toThrow(PyTypeError);
-      expect(() => op(b(), t())).toThrow(
-        new RegExp(`'${name}' not supported between instances of 'bytes' and 'bool'`),
-      );
-      expect(() => op(t(), b())).toThrow(PyTypeError);
-      expect(() => op(t(), b())).toThrow(
-        new RegExp(`'${name}' not supported between instances of 'bool' and 'bytes'`),
-      );
-    });
-  }
+  registerCrossTypeOrderingRejects("bytes", "int", b, i);
+  registerCrossTypeOrderingRejects("bytes", "str", b, s);
+  registerCrossTypeOrderingRejects("bytes", "float", b, f);
+  registerCrossTypeOrderingRejects("bytes", "bool", b, t);
 });

@@ -5,10 +5,6 @@ import { describe, it, expect } from "vitest";
 import {
   divmod,
   floordiv,
-  ge,
-  gt,
-  le,
-  lt,
   mod,
   pow,
   pyInt,
@@ -17,6 +13,7 @@ import {
   truediv,
 } from "../../src/index.js";
 import { PyTypeError } from "../../src/runtime/core/errors.js";
+import { registerCrossTypeOrderingRejects } from "./helpers/cross-type-ordering.js";
 
 describe("cpython-derived int/str remaining binary ops", () => {
   const i = () => pyInt(1);
@@ -93,21 +90,5 @@ describe("cpython-derived int/str ordering", () => {
   const s = () => pyStr("a");
   const i = () => pyInt(1);
 
-  for (const [name, op] of [
-    ["lt", lt],
-    ["le", le],
-    ["gt", gt],
-    ["ge", ge],
-  ] as const) {
-    it(`${name} raises TypeError for str and int in both orders`, () => {
-      expect(() => op(s(), i())).toThrow(PyTypeError);
-      expect(() => op(s(), i())).toThrow(
-        new RegExp(`'${name}' not supported between instances of 'str' and 'int'`),
-      );
-      expect(() => op(i(), s())).toThrow(PyTypeError);
-      expect(() => op(i(), s())).toThrow(
-        new RegExp(`'${name}' not supported between instances of 'int' and 'str'`),
-      );
-    });
-  }
+  registerCrossTypeOrderingRejects("str", "int", s, i);
 });
