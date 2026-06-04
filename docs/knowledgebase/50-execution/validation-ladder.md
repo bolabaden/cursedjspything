@@ -44,13 +44,13 @@ Emits JSON (`vitest_seconds`, pass gates, `test_count`); use median of several r
 | `test/class/version-gates.test.ts` | `__match_args__`, `__annotate__`, buffer |
 | `test/builtins/dict-keys.test.ts` | Dict key eq/hash; invalid __hash__ and unhashable keys on hash/set/get/del/contains/pyDict ctor (plans 574/576/588) |
 | `test/builtins/list-eq.test.ts` | list __eq__ rich elements; __contains__ hash+eq (plan 622) |
-| `test/cpython-derived/tuple-eq-hash-eq.test.ts` | tuple __eq__ per-element rich eq (plan 622) |
+| `test/cpython-derived/tuple-eq-hash-eq.test.ts` | tuple __eq__ and __contains__ element hash+eq (plans 622, 624) |
 | `test/cpython-derived/dict-union.test.ts` | dict \| and \|= merge; rhs overwrites; hash+eq key collapse (plan 596) |
 | `test/cpython-derived/dict-get.test.ts` | dict.get present/missing/default; hash+eq probe; unhashable TypeError (plan 598) |
 | `test/cpython-derived/dict-update-copy.test.ts` | dict.update / copy / |= iterable pairs; hash+eq overwrite (plan 600) |
 | `test/cpython-derived/dict-setdefault-clear.test.ts` | dict.setdefault insert/lookup; dict.clear (plan 602) |
 | `test/cpython-derived/dict-pop-popitem.test.ts` | dict.pop / popitem; hash+eq pop; LIFO popitem (plan 604) |
-| `test/cpython-derived/dict-keys-values-items-views.test.ts` | dict.keys / values / items live views (plan 606) |
+| `test/cpython-derived/dict-keys-values-items-views.test.ts` | dict keys/values/items views; items contains hash+eq (606, 624) |
 | `test/cpython-derived/dict-fromkeys.test.ts` | dict.fromkeys iterable; default None; hash+eq dedupe (plan 608) |
 | `test/cpython-derived/dict-eq-hash-eq.test.ts` | dict.__eq__ hash+eq keys and values (plan 620) |
 | `test/cpython-derived/hash-strictness-matrix.test.ts` | Cross-cutting hash strictness matrix dict/set/frozenset/tuple (plan 588) |

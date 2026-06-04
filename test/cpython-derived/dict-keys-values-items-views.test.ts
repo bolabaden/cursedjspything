@@ -114,4 +114,13 @@ describe("dict keys values items views", () => {
     expect(eq(pairs[0], pyTuple([a, pyInt(5)]))).toBe(true);
     expect(contains(iv, pyTuple([a, pyInt(5)]))).toBe(true);
   });
+
+  it("items view contains uses hash+eq on keys", () => {
+    const [k1, k2] = equalKeyPair();
+    const v = pyInt(7);
+    const d = pyDict([[k1, v]]);
+    const iv = (getAttr(d, "items") as (self: PyObject) => PyObject)(d);
+    expect(contains(iv, pyTuple([k2, v]))).toBe(true);
+    expect(contains(iv, pyTuple([k2, pyInt(8)]))).toBe(false);
+  });
 });

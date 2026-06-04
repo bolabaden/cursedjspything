@@ -352,7 +352,7 @@ Python dict keys use **rich equality** + **consistent hashing** rules. `[REPO]` 
 
 ### 8.6 `list` / `tuple` containment and equality paths
 
-`list` / `tuple` `__contains__` and the `contains()` protocol fallback use `eq()` for `PyObject` pairs (`src/runtime/builtins/list.ts`, `tuple.ts`, `dispatch/protocols.ts`). Sequence `__eq__` compares elements with `eq()` (rich-compare semantics per item); element-level `NotImplemented` is treated as unequal, matching CPython list/tuple equality. Hash+eq element evidence: `list-eq.test.ts` and `tuple-eq-hash-eq.test.ts` (plan 622). Cross-type builtin delegation may still return `NotImplemented` where CPython coerces further.
+`list` / `tuple` `__contains__` and the `contains()` protocol fallback use `eq()` for `PyObject` pairs (`src/runtime/builtins/list.ts`, `tuple.ts`, `dispatch/protocols.ts`). Sequence `__eq__` compares elements with `eq()` (rich-compare semantics per item); element-level `NotImplemented` is treated as unequal, matching CPython list/tuple equality. Hash+eq element evidence: `list-eq.test.ts` and `tuple-eq-hash-eq.test.ts` (plans 622, 624 — includes tuple `__contains__`). **`dict_items`** view `__contains__` probes keys via `dictGet` (plan 624; `dict-keys-values-items-views.test.ts`). Cross-type builtin delegation may still return `NotImplemented` where CPython coerces further.
 
 ### 8.7 Slicing
 
