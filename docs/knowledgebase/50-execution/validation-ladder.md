@@ -100,7 +100,7 @@ Emits JSON (`vitest_seconds`, pass gates, `test_count`); use median of several r
 | `test/cpython-derived/str-isascii.test.ts` | str.isascii predicate |
 | `test/cpython-derived/str-predicates.test.ts` | str isalpha/isdigit/isalnum/islower/isupper/istitle/isspace |
 | `test/cpython-derived/str-find.test.ts` | str.find / rfind bounds, Unicode, empty input (plan 538) |
-| `test/cpython-derived/str-index.test.ts` | str.index / rindex ValueError on miss |
+| `test/cpython-derived/str-index.test.ts` | str.index / rindex ValueError on miss + empty input (plan 540) |
 | `test/cpython-derived/str-count.test.ts` | str.count non-overlapping bounds |
 | `test/cpython-derived/str-startswith-endswith.test.ts` | str.startswith / endswith tuple and bounds |
 | `test/cpython-derived/str-replace.test.ts` | str.replace empty-old + empty input (plan 512) |
@@ -129,7 +129,7 @@ Emits JSON (`vitest_seconds`, pass gates, `test_count`); use median of several r
 | `test/cpython-derived/bytes-splitlines.test.ts` | bytes.splitlines breaks; empty + keepends (514); no breaks + keepends (528) |
 | `test/cpython-derived/bytes-strip.test.ts` | bytes.strip/lstrip/rstrip empty input + empty chars (506) |
 | `test/cpython-derived/bytes-find.test.ts` | bytes.find/rfind bounds + empty input (plan 538) |
-| `test/cpython-derived/bytes-index.test.ts` | bytes.index/rindex subbytes search; ValueError on miss |
+| `test/cpython-derived/bytes-index.test.ts` | bytes.index/rindex ValueError on miss + empty input (plan 540) |
 | `test/cpython-derived/bytes-count.test.ts` | bytes.count non-overlapping subbytes in slice |
 | `test/cpython-derived/bytes-replace.test.ts` | bytes.replace + empty input (plan 512) |
 | `test/cpython-derived/bytes-upper-lower.test.ts` | bytes.upper/lower ASCII case conversion |
