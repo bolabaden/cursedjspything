@@ -58,6 +58,8 @@ describe("cpython-derived str find rfind", () => {
   it("returns -1 when substring is missing", () => {
     expect(asInt(find("abcabc", pyStr("x")))).toBe(-1);
     expect(asInt(rfind("abcabc", pyStr("x")))).toBe(-1);
+    expect(asInt(find("", pyStr("a")))).toBe(-1);
+    expect(asInt(rfind("", pyStr("a")))).toBe(-1);
   });
 
   it("respects start and end bounds", () => {

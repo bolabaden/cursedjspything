@@ -61,6 +61,9 @@ describe("cpython-derived bytes find rfind", () => {
   it("returns -1 when subbytes is missing", () => {
     expect(asInt(find(abcabc, pyBytes(new Uint8Array([120]))))).toBe(-1);
     expect(asInt(rfind(abcabc, pyBytes(new Uint8Array([120]))))).toBe(-1);
+    const a = pyBytes(new Uint8Array([97]));
+    expect(asInt(find(new Uint8Array(0), a))).toBe(-1);
+    expect(asInt(rfind(new Uint8Array(0), a))).toBe(-1);
   });
 
   it("respects start and end bounds", () => {
