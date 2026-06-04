@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-06-04, plan 536 merge PR #282)
+
+### Landed
+
+- [REPO] Plan 536 merged via PR #282 — `str`/`bytes.translate` on empty input with identity table; validation-ladder sync (977 Vitest / 132 files).
+
+### Partial
+
+- None.
+
+### Next
+
+1. Further §8.15 gaps only when scoped (remaining niche bytes/str API).
+2. PEP 3118 out of scope.
+
+---
+
 ## Delta update (2026-06-04, plan 534 merge PR #281)
 
 ### Landed
