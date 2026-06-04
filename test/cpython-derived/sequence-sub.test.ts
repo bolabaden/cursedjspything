@@ -1,5 +1,5 @@
 /**
- * CPython: list/tuple __sub__ and list __isub__ rejects (plans 680, 694–699).
+ * CPython: list/tuple __sub__ and list __isub__ rejects (plans 680, 694–700).
  */
 import { describe, it, expect } from "vitest";
 import {
@@ -100,6 +100,19 @@ describe("list __sub__", () => {
       /unsupported operand type\(s\) for -: 'bool' and 'list'/,
     );
   });
+
+  it("sub rejects list and dict in both orders", () => {
+    const l = () => pyList([pyInt(1)]);
+    const d = () => pyDict([]);
+    expect(() => sub(l(), d())).toThrow(PyTypeError);
+    expect(() => sub(l(), d())).toThrow(
+      /unsupported operand type\(s\) for -: 'list' and 'dict'/,
+    );
+    expect(() => sub(d(), l())).toThrow(PyTypeError);
+    expect(() => sub(d(), l())).toThrow(
+      /unsupported operand type\(s\) for -: 'dict' and 'list'/,
+    );
+  });
 });
 
 describe("tuple __sub__", () => {
@@ -172,6 +185,19 @@ describe("tuple __sub__", () => {
     expect(() => sub(pyTrue, t())).toThrow(PyTypeError);
     expect(() => sub(pyTrue, t())).toThrow(
       /unsupported operand type\(s\) for -: 'bool' and 'tuple'/,
+    );
+  });
+
+  it("sub rejects tuple and dict in both orders", () => {
+    const t = oneTuple;
+    const d = () => pyDict([]);
+    expect(() => sub(t(), d())).toThrow(PyTypeError);
+    expect(() => sub(t(), d())).toThrow(
+      /unsupported operand type\(s\) for -: 'tuple' and 'dict'/,
+    );
+    expect(() => sub(d(), t())).toThrow(PyTypeError);
+    expect(() => sub(d(), t())).toThrow(
+      /unsupported operand type\(s\) for -: 'dict' and 'tuple'/,
     );
   });
 });
