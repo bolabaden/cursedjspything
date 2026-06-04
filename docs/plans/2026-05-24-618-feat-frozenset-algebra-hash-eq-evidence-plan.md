@@ -1,7 +1,7 @@
 ---
 title: "feat: frozenset/set operator algebra hash+eq evidence (plan 618)"
 type: feat
-status: active
+status: completed
 date: 2026-05-24
 origin: plan 616; §8.15 gap
 ---

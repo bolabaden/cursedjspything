@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-06-04, plan 618 merge PR #323)
+
+### Landed
+
+- [REPO] Plan 618 merged via PR #323 — frozenset/set `|&-^` hash+eq cross-type evidence in `frozenset-set-algebra.test.ts`; §8.5 / §8.15 docs; validation-ladder sync (1108 Vitest / 151 files). Set/frozenset hash+eq evidence stack (592, 610–618) complete for documented surfaces.
+
+### Partial
+
+- None.
+
+### Next
+
+1. Further §8.15 gaps only when scoped (remaining niche API).
+2. PEP 3118 out of scope.
+
+---
+
 ## Delta update (2026-06-04, plan 616 merge PR #322)
 
 ### Landed
