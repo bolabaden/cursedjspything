@@ -1,5 +1,6 @@
 /**
- * CPython: list __iadd__ extends in place with same-type list (plan 636).
+ * CPython: list __iadd__ extends in place with same-type list (plan 636);
+ * cross-type += rejects for str/bytes (plan 656).
  */
 import { describe, it, expect } from "vitest";
 import {
@@ -12,10 +13,13 @@ import {
   NotImplemented,
   objectType,
   PyObject,
+  pyBytes,
   pyInt,
   pyList,
+  pyStr,
   unwrap,
 } from "../../src/index.js";
+import { PyTypeError } from "../../src/runtime/core/errors.js";
 import { Slot } from "../../src/runtime/core/slots.js";
 
 function equalKeyPair(): [PyObject, PyObject] {
@@ -58,5 +62,23 @@ describe("list __iadd__", () => {
     expect(len(lst)).toBe(2);
     expect(eq(getItem(lst, 0) as PyObject, k1)).toBe(true);
     expect(eq(getItem(lst, 1) as PyObject, k2)).toBe(true);
+  });
+
+  it("iadd rejects list and str", () => {
+    const lst = pyList([pyInt(1)]);
+    expect(() => iadd(lst, pyStr("a"))).toThrow(PyTypeError);
+    expect(() => iadd(lst, pyStr("a"))).toThrow(
+      /unsupported operand type\(s\) for \+=: 'list' and 'str'/,
+    );
+    expect(len(lst)).toBe(1);
+  });
+
+  it("iadd rejects list and bytes", () => {
+    const lst = pyList([pyInt(1)]);
+    expect(() => iadd(lst, pyBytes(new Uint8Array([97])))).toThrow(PyTypeError);
+    expect(() => iadd(lst, pyBytes(new Uint8Array([97])))).toThrow(
+      /unsupported operand type\(s\) for \+=: 'list' and 'bytes'/,
+    );
+    expect(len(lst)).toBe(1);
   });
 });

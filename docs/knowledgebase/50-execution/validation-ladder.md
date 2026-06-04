@@ -46,7 +46,7 @@ Emits JSON (`vitest_seconds`, pass gates, `test_count`); use median of several r
 | `test/builtins/list-eq.test.ts` | list __eq__ rich elements; __contains__ hash+eq (plan 622) |
 | `test/cpython-derived/tuple-eq-hash-eq.test.ts` | tuple __eq__ and __contains__ element hash+eq (plans 622, 624) |
 | `test/cpython-derived/sequence-add.test.ts` | list/tuple __add__ same-type concat (plan 634) |
-| `test/cpython-derived/sequence-iadd.test.ts` | list __iadd__ in-place extend same-type (plan 636) |
+| `test/cpython-derived/sequence-iadd.test.ts` | list __iadd__ same-type extend + list+=str/bytes rejects (plans 636, 656) |
 | `test/cpython-derived/str-add.test.ts` | str __add__ same-type concat (plan 638) |
 | `test/cpython-derived/bytes-add.test.ts` | bytes __add__ same-type concat (plan 654) |
 | `test/cpython-derived/dict-union.test.ts` | dict \| and \|= merge; rhs overwrites; hash+eq key collapse (plan 596) |
