@@ -34,6 +34,8 @@ describe("cpython-derived str expandtabs", () => {
   it("returns unchanged str when there are no tabs or tabsize is zero", () => {
     expect(asStr(expandtabs("hello", pyInt(8)))).toBe("hello");
     expect(asStr(expandtabs("x\ty", pyInt(0)))).toBe("xy");
+    expect(asStr(expandtabs(""))).toBe("");
+    expect(asStr(expandtabs("", pyInt(4)))).toBe("");
   });
 
   it("counts Unicode code points for tab stops", () => {
