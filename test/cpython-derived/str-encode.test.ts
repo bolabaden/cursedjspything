@@ -46,6 +46,11 @@ describe("cpython-derived str encode", () => {
     expect(Array.from(asBytes(out))).toEqual([97, 98]);
   });
 
+  it("encodes empty str to empty bytes", () => {
+    expect(Array.from(asBytes(encoded("")))).toEqual([]);
+    expect(Array.from(asBytes(encoded("", pyStr("utf-8"))))).toEqual([]);
+  });
+
   it("ascii strict rejects non-ascii", () => {
     expect(() => encoded("caf\u00e9", pyStr("ascii"))).toThrow(
       PyUnicodeEncodeError,

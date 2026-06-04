@@ -92,7 +92,7 @@ Emits JSON (`vitest_seconds`, pass gates, `test_count`); use median of several r
 | `test/cpython-derived/frozenset-set-methods.test.ts` | set/frozenset issubset, issuperset, isdisjoint; cross-type; TypeError on non-set-like |
 | `test/cpython-derived/set-mutation.test.ts` | set add/remove/discard/pop/clear/copy/update; remove KeyError repr-shaped item text; frozenset.copy; iterable update |
 | `test/cpython-derived/frozenset-set-named-algebra.test.ts` | set/frozenset union/intersection/difference/symmetric_difference; cross-type result-type rules |
-| `test/cpython-derived/str-encode.test.ts` | str.encode codecs + encoding/errors guards + LookupError messages (plans 478/482) |
+| `test/cpython-derived/str-encode.test.ts` | str.encode codecs + empty input (plans 478/482/550) |
 | `test/cpython-derived/str-upper-lower.test.ts` | str.upper / str.lower case conversion |
 | `test/cpython-derived/str-capitalize.test.ts` | str.capitalize case conversion |
 | `test/cpython-derived/str-title.test.ts` | str.title word boundaries and Unicode |
@@ -145,7 +145,7 @@ Emits JSON (`vitest_seconds`, pass gates, `test_count`); use median of several r
 | `test/cpython-derived/bytes-predicates.test.ts` | bytes ASCII predicate methods |
 | `test/cpython-derived/bytes-translate.test.ts` | bytes.maketrans / bytes.translate + empty input (plan 536) |
 | `test/cpython-derived/bytes-isascii-contains.test.ts` | bytes.isascii / bytes.__contains__ |
-| `test/cpython-derived/bytes-decode.test.ts` | bytes.decode UTF-8/latin-1/ascii errors strict/replace/ignore/backslashreplace/surrogateescape |
+| `test/cpython-derived/bytes-decode.test.ts` | bytes.decode codecs + empty input (plan 550) |
 | `test/cpython-derived/bytes-iter.test.ts` | bytes.__iter__ yields int 0–255; empty bytes StopIteration; iterator __iter__ returns self |
 | `test/cpython-derived/bytes-hash.test.ts` | bytes.__hash__ stable; empty bytes hash 0; equal content matches |
 | `test/cpython-derived/bytes-bytes.test.ts` | bytes.__bytes__ returns self; bytes() on bytes is identity |

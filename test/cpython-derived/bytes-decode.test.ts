@@ -44,6 +44,15 @@ describe("cpython-derived bytes decode", () => {
     expect(unwrap<string>(s as ReturnType<typeof pyStr>)).toBe("hello");
   });
 
+  it("decodes empty bytes to empty str", () => {
+    expect(unwrap<string>(decoded(new Uint8Array([])) as ReturnType<typeof pyStr>)).toBe(
+      "",
+    );
+    expect(unwrap<string>(decoded(new Uint8Array([]), pyStr("utf-8")) as ReturnType<typeof pyStr>)).toBe(
+      "",
+    );
+  });
+
   it("decode explicit utf-8", () => {
     const s = decoded(new Uint8Array([97, 98]), pyStr("utf-8"));
     expect(unwrap<string>(s as ReturnType<typeof pyStr>)).toBe("ab");
