@@ -17,6 +17,11 @@ import { keyErrorArg } from "./key-error-arg.js";
 import { pyNone } from "./none.js";
 import { listType } from "./list.js";
 import { pyTuple, tupleType } from "./tuple.js";
+import {
+  dictItemsView,
+  dictKeysView,
+  dictValuesView,
+} from "./dict-views.js";
 
 function dictRepr(self: PyObject): string {
   const m = nativeVal<Map<unknown, PyObject>>(self);
@@ -171,6 +176,9 @@ export const dictType = makeClass({
       if (defaultArg !== undefined) return defaultArg;
       throw new PyKeyError(keyErrorArg(key));
     }],
+    ["keys", (self: PyObject) => dictKeysView(self)],
+    ["values", (self: PyObject) => dictValuesView(self)],
+    ["items", (self: PyObject) => dictItemsView(self)],
     ["popitem", (self: PyObject) => {
       const m = nativeVal<Map<unknown, PyObject>>(self);
       if (m.size === 0) {
