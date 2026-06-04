@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-06-04, plan 460 merge PR #244)
+
+### Landed
+
+- [REPO] Plan 460 merged via PR #244 — `PyRuntimeError` for `getMethodType()` bootstrap; barrel export; `test/core/method.test.ts`; §8.17 gap narrowed (942 Vitest / 132 files).
+
+### Partial
+
+- None.
+
+### Next
+
+1. Further COMPATIBILITY **Remaining gap** items (niche bytes/str API, golden/scripts plain `Error`) only when scoped.
+2. PEP 3118 out of scope.
+
+---
+
 ## Delta update (2026-06-04, plan 458 merge PR #243)
 
 ### Landed
