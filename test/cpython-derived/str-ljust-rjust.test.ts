@@ -49,6 +49,8 @@ describe("cpython-derived str ljust rjust", () => {
     expect(asStr(ljust("abc", pyInt(0)))).toBe("abc");
     expect(asStr(ljust("", pyInt(0)))).toBe("");
     expect(asStr(rjust("abc", pyInt(0)))).toBe("abc");
+    expect(asStr(rjust("", pyInt(0)))).toBe("");
+    expect(asStr(rjust("", pyInt(0), pyStr("x")))).toBe("");
   });
 
   it("pads by Unicode code-point width", () => {
