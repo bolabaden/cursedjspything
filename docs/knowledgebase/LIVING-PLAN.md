@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-06-04, plan 560 merge PR #294)
+
+### Landed
+
+- [REPO] Plan 560 merged via PR #294 — `bool.__hash__` evidence in `bool-hash.test.ts`; validation-ladder sync (997 Vitest / 135 files).
+
+### Partial
+
+- None.
+
+### Next
+
+1. Further §8.15 gaps only when scoped (float hash or remaining niche API).
+2. PEP 3118 out of scope.
+
+---
+
 ## Delta update (2026-06-04, plan 558 merge PR #293)
 
 ### Landed
