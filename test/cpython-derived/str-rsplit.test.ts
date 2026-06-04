@@ -51,6 +51,7 @@ describe("cpython-derived str rsplit", () => {
 
   it("maxsplit zero returns whole string", () => {
     expect(asStrList(rsplit("a b c", undefined, pyInt(0)))).toEqual(["a b c"]);
+    expect(asStrList(rsplit("a,b,c", pyStr(","), pyInt(0)))).toEqual(["a,b,c"]);
   });
 
   it("rejects non-str separator", () => {
