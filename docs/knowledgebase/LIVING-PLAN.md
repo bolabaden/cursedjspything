@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-06-04, plan 466 merge PR #247)
+
+### Landed
+
+- [REPO] Plan 466 merged via PR #247 — str↔float contains + ordering canonical in `operator-str-float.test.ts`; removed from float-str-remaining; §8.15 + validation-ladder sync (945 Vitest / 132 files).
+
+### Partial
+
+- None.
+
+### Next
+
+1. Apply same canonical pattern to str↔int (ordering in int-str-remaining → `operator-str-scalar` or dedicated file) when scoped.
+2. PEP 3118 out of scope.
+
+---
+
 ## Delta update (2026-06-04, plan 464 merge PR #246)
 
 ### Landed
