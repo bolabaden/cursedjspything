@@ -125,4 +125,9 @@ describe("set mutation methods", () => {
       UNHASHABLE_LIST_MSG,
     );
   });
+
+  it("rejects unhashable elements at pySet construction", () => {
+    expect(() => pySet([pyList([])])).toThrow(UNHASHABLE_LIST_MSG);
+    expect(() => pySet([badHashElement()])).toThrow(INVALID_HASH_MSG);
+  });
 });
