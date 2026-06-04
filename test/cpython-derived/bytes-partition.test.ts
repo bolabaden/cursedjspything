@@ -88,6 +88,12 @@ describe("cpython-derived bytes partition", () => {
     ).toEqual([[], [120], []]);
   });
 
+  it("rpartitions exact match", () => {
+    expect(
+      bytesList(asTriple(rpartition(new Uint8Array([120]), pyBytes(new Uint8Array([120]))))),
+    ).toEqual([[], [120], []]);
+  });
+
   it("handles empty bytes (partition and rpartition)", () => {
     const empty = new Uint8Array([]);
     const sep = pyBytes(new Uint8Array([44]));
