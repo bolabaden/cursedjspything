@@ -1,5 +1,5 @@
 /**
- * CPython: list/tuple __sub__ and list __isub__ rejects (plans 680, 694–700).
+ * CPython: list/tuple __sub__ and list __isub__ rejects (plans 680, 694–701).
  */
 import { describe, it, expect } from "vitest";
 import {
@@ -203,6 +203,16 @@ describe("tuple __sub__", () => {
 });
 
 describe("list __isub__", () => {
+  it("isub rejects list and list", () => {
+    const lst = pyList([pyInt(1)]);
+    const other = pyList([pyInt(2)]);
+    expect(() => isub(lst, other)).toThrow(PyTypeError);
+    expect(() => isub(lst, other)).toThrow(
+      /unsupported operand type\(s\) for -=: 'list' and 'list'/,
+    );
+    expect(len(lst)).toBe(1);
+  });
+
   it("isub rejects list and int", () => {
     const lst = pyList([pyInt(1)]);
     expect(() => isub(lst, pyInt(2))).toThrow(PyTypeError);
