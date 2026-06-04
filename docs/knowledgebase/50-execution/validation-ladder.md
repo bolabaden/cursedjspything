@@ -106,7 +106,7 @@ Emits JSON (`vitest_seconds`, pass gates, `test_count`); use median of several r
 | `test/cpython-derived/str-replace.test.ts` | str.replace empty-old + empty input (plan 512) |
 | `test/cpython-derived/str-removeprefix-removesuffix.test.ts` | str.removeprefix / removesuffix affix stripping |
 | `test/cpython-derived/str-center.test.ts` | str.center width padding with fill character |
-| `test/cpython-derived/str-ljust-rjust.test.ts` | str.ljust / rjust width padding |
+| `test/cpython-derived/str-ljust-rjust.test.ts` | str.ljust/rjust padding + ljust width=0 (plan 522) |
 | `test/cpython-derived/str-zfill.test.ts` | str.zfill width padding + width=0 no-op (plan 520) |
 | `test/cpython-derived/str-expandtabs.test.ts` | str.expandtabs tab expansion |
 | `test/cpython-derived/str-translate.test.ts` | str.maketrans / str.translate |
@@ -136,7 +136,7 @@ Emits JSON (`vitest_seconds`, pass gates, `test_count`); use median of several r
 | `test/cpython-derived/bytes-capitalize.test.ts` | bytes.capitalize first upper rest lower |
 | `test/cpython-derived/bytes-swapcase.test.ts` | bytes.swapcase ASCII case inversion |
 | `test/cpython-derived/bytes-center.test.ts` | bytes.center width padding with fill byte |
-| `test/cpython-derived/bytes-ljust-rjust.test.ts` | bytes.ljust/rjust width padding |
+| `test/cpython-derived/bytes-ljust-rjust.test.ts` | bytes.ljust/rjust padding + ljust width=0 (plan 522) |
 | `test/cpython-derived/bytes-zfill.test.ts` | bytes.zfill width padding + width=0 no-op (plan 520) |
 | `test/cpython-derived/bytes-title.test.ts` | bytes.title ASCII word title case |
 | `test/cpython-derived/bytes-removeprefix-removesuffix.test.ts` | bytes.removeprefix/removesuffix affix stripping |

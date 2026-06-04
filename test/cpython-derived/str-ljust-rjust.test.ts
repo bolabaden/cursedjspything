@@ -46,6 +46,8 @@ describe("cpython-derived str ljust rjust", () => {
 
   it("returns original str when width is not wider", () => {
     expect(asStr(ljust("abc", pyInt(2)))).toBe("abc");
+    expect(asStr(ljust("abc", pyInt(0)))).toBe("abc");
+    expect(asStr(ljust("", pyInt(0)))).toBe("");
     expect(asStr(rjust("abc", pyInt(0)))).toBe("abc");
   });
 
