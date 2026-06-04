@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-06-04, plan 652 merge PR #340)
+
+### Landed
+
+- [REPO] Plan 652 merged via PR #340 — str/bytes 150k int repeat length in `sequence-repeat-bool.test.ts`; validation-ladder sync (1155 Vitest / 158 files).
+
+### Partial
+
+- None.
+
+### Next
+
+1. Further §8.15 gaps only when scoped (remaining niche API).
+2. PEP 3118 out of scope.
+
+---
+
 ## Delta update (2026-06-04, plan 650 merge PR #339)
 
 ### Landed
