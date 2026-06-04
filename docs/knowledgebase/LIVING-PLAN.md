@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-06-04, plan 654 merge PR #341)
+
+### Landed
+
+- [REPO] Plan 654 merged via PR #341 — `bytes.__add__` same-type concatenation evidence (`bytes-add.test.ts`); §8.15 docs; validation-ladder sync (1157 Vitest / 159 files).
+
+### Partial
+
+- None.
+
+### Next
+
+1. Further §8.15 gaps only when scoped (remaining niche API).
+2. PEP 3118 out of scope.
+
+---
+
 ## Delta update (2026-06-04, plan 652 merge PR #340)
 
 ### Landed
