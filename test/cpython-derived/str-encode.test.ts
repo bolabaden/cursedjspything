@@ -109,11 +109,26 @@ describe("cpython-derived str encode", () => {
     expect(() => encoded("x", pyStr("ascii"), pyStr("nope"))).toThrow(
       PyValueError,
     );
+    expect(() => encoded("x", pyStr("ascii"), pyStr("nope"))).toThrow(
+      /unknown errors handler: 'nope'/,
+    );
   });
 
   it("non-str encoding raises TypeError", () => {
     const s = pyStr("ab");
     const encodeFn = encodeMethod(s);
     expect(() => encodeFn(s, pyInt(1))).toThrow(PyTypeError);
+    expect(() => encodeFn(s, pyInt(1))).toThrow(
+      /encode\(\) argument 'encoding' must be str, not int/,
+    );
+  });
+
+  it("non-str errors raises TypeError", () => {
+    const s = pyStr("ab");
+    const encodeFn = encodeMethod(s);
+    expect(() => encodeFn(s, pyStr("utf-8"), pyInt(1))).toThrow(PyTypeError);
+    expect(() => encodeFn(s, pyStr("utf-8"), pyInt(1))).toThrow(
+      /encode\(\) argument 'errors' must be str, not int/,
+    );
   });
 });
