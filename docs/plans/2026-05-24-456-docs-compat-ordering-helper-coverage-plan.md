@@ -1,7 +1,7 @@
 ---
 title: "docs: §8.15 ordering helper coverage note (plan 456)"
 type: docs
-status: active
+status: completed
 date: 2026-05-24
 origin: docs/knowledgebase/LIVING-PLAN.md plan 454
 ---

@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-06-04, plan 456 merge PR #242)
+
+### Landed
+
+- [REPO] Plan 456 merged via PR #242 — COMPATIBILITY §8.15 documents `helpers/cross-type-ordering.ts`, six consumer operator files (plans 452–454), and bespoke `richcmp-incomparable.test.ts` (941 Vitest / 132 files; docs-only).
+
+### Partial
+
+- None.
+
+### Next
+
+1. Pick next §8.15 or runtime slice from COMPATIBILITY **Remaining gap** (bytes/str edge cases, embedder plain `Error` paths) — scope via new plan.
+2. PEP 3118 out of scope.
+
+---
+
 ## Delta update (2026-06-04, plan 454 merge PR #241)
 
 ### Landed
