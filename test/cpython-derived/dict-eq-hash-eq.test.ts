@@ -4,6 +4,7 @@
 import { describe, it, expect } from "vitest";
 import {
   eq,
+  ne,
   instantiate,
   len,
   makeClass,
@@ -60,5 +61,15 @@ describe("dict __eq__ hash+eq keys", () => {
     const d = pyDict([[pyStr("a"), pyInt(1)]]);
     expect(eq(d, pyInt(1))).toBe(false);
     expect(len(d)).toBe(1);
+  });
+
+  it("ne negates eq for equal-but-distinct keys", () => {
+    const [k1, k2] = equalKeyPair();
+    const v = pyInt(1);
+    const a = pyDict([[k1, v]]);
+    const b = pyDict([[k2, v]]);
+    expect(ne(a, b)).toBe(false);
+    expect(ne(a, pyDict([[k1, pyInt(2)]]))).toBe(true);
+    expect(ne(a, pyDict([]))).toBe(true);
   });
 });
