@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-06-04, plan 602 merge PR #315)
+
+### Landed
+
+- [REPO] Plan 602 merged via PR #315 — `dict.setdefault` / `dict.clear`; `dict-setdefault-clear.test.ts`; §8.5 docs; validation-ladder sync (1087 Vitest / 148 files).
+
+### Partial
+
+- None.
+
+### Next
+
+1. Further §8.15 gaps only when scoped (remaining dict methods: `pop`/`popitem`, views).
+2. PEP 3118 out of scope.
+
+---
+
 ## Delta update (2026-06-04, plan 600 merge PR #314)
 
 ### Landed

@@ -1,7 +1,7 @@
 ---
 title: "feat: dict.setdefault and dict.clear (plan 602)"
 type: feat
-status: active
+status: completed
 date: 2026-05-24
 origin: plan 600; dict method surface
 ---
