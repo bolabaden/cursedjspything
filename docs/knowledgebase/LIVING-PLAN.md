@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-06-04, plan 516 merge PR #272)
+
+### Landed
+
+- [REPO] Plan 516 merged via PR #272 — `str`/`bytes` `split`/`rsplit` whitespace-only `maxsplit=0` returns `[]`; validation-ladder sync (977 Vitest / 132 files).
+
+### Partial
+
+- None.
+
+### Next
+
+1. Further §8.15 gaps only when scoped (remaining niche bytes/str API).
+2. PEP 3118 out of scope.
+
+---
+
 ## Delta update (2026-06-04, plan 514 merge PR #271)
 
 ### Landed
