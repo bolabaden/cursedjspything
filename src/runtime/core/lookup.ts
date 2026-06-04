@@ -153,11 +153,12 @@ export function getAttr(obj: PyObject, name: string | symbol): unknown {
 /** Default attribute resolution without a custom __getattribute__. */
 export function defaultGetAttr(obj: PyObject, name: string | symbol): unknown {
   const type = obj.type;
+  const ownerType = obj instanceof PyType ? obj : type;
 
   // Walk MRO for a descriptor or plain class attr.
   let metaAttr: unknown;
   let isData = false;
-  for (const base of type.mro) {
+  for (const base of ownerType.mro) {
     const val = base.typeDict.get(name);
     if (val !== undefined) {
       metaAttr = val;
