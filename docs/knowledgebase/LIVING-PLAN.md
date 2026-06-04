@@ -9,6 +9,40 @@
 
 ---
 
+## Delta update (2026-05-24, plan 697)
+
+### Landed
+
+- [REPO] Plan 697 — tuple `-` rejects in `sequence-sub.test.ts`; parity-gaps 1179/163; §8.6 docs.
+
+### Partial
+
+- None.
+
+### Next
+
+1. Further §8.15 gaps only when scoped (remaining niche API).
+2. PEP 3118 out of scope.
+
+---
+
+## Delta update (2026-05-24, plan 696 merge PR #364)
+
+### Landed
+
+- [REPO] Plan 696 merged via PR #364 — list `-=` dict reject; KB counts 1177/163.
+
+### Partial
+
+- None.
+
+### Next
+
+1. Further §8.15 gaps only when scoped (remaining niche API).
+2. PEP 3118 out of scope.
+
+---
+
 ## Delta update (2026-05-24, plan 696)
 
 ### Landed

@@ -1,5 +1,5 @@
 /**
- * CPython: list __sub__ / __isub__ rejects (plans 680, 694–696).
+ * CPython: list/tuple __sub__ and list __isub__ rejects (plans 680, 694–697).
  */
 import { describe, it, expect } from "vitest";
 import {
@@ -24,6 +24,31 @@ describe("list __sub__", () => {
     expect(() => sub(a, b)).toThrow(PyTypeError);
     expect(() => sub(a, b)).toThrow(
       /unsupported operand type\(s\) for -: 'list' and 'list'/,
+    );
+  });
+});
+
+describe("tuple __sub__", () => {
+  const oneTuple = () => pyTuple([pyInt(1)]);
+
+  it("sub rejects tuple and tuple", () => {
+    const a = oneTuple();
+    const b = pyTuple([pyInt(2)]);
+    expect(() => sub(a, b)).toThrow(PyTypeError);
+    expect(() => sub(a, b)).toThrow(
+      /unsupported operand type\(s\) for -: 'tuple' and 'tuple'/,
+    );
+  });
+
+  it("sub rejects tuple and int in both orders", () => {
+    const t = oneTuple;
+    expect(() => sub(t(), pyInt(2))).toThrow(PyTypeError);
+    expect(() => sub(t(), pyInt(2))).toThrow(
+      /unsupported operand type\(s\) for -: 'tuple' and 'int'/,
+    );
+    expect(() => sub(pyInt(2), t())).toThrow(PyTypeError);
+    expect(() => sub(pyInt(2), t())).toThrow(
+      /unsupported operand type\(s\) for -: 'int' and 'tuple'/,
     );
   });
 });
