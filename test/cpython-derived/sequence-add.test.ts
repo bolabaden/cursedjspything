@@ -1,5 +1,6 @@
 /**
- * CPython: list and tuple __add__ concatenate same-type sequences (plan 634).
+ * CPython: list and tuple __add__ concatenate same-type sequences (plan 634);
+ * tuple cross-type + rejects for str/bytes (plan 660).
  */
 import { describe, it, expect } from "vitest";
 import {
@@ -11,10 +12,13 @@ import {
   NotImplemented,
   objectType,
   PyObject,
+  pyBytes,
   pyInt,
   pyList,
+  pyStr,
   pyTuple,
 } from "../../src/index.js";
+import { PyTypeError } from "../../src/runtime/core/errors.js";
 import { Slot } from "../../src/runtime/core/slots.js";
 
 function equalKeyPair(): [PyObject, PyObject] {
@@ -64,5 +68,30 @@ describe("list and tuple __add__", () => {
     const tRight = pyTuple([k2]);
     const tMerged = add(tLeft, tRight) as PyObject;
     expect(len(tMerged)).toBe(2);
+  });
+
+  it("add rejects tuple and str in both orders", () => {
+    const t = () => pyTuple([pyInt(1)]);
+    expect(() => add(t(), pyStr("a"))).toThrow(PyTypeError);
+    expect(() => add(t(), pyStr("a"))).toThrow(
+      /unsupported operand type\(s\) for \+: 'tuple' and 'str'/,
+    );
+    expect(() => add(pyStr("a"), t())).toThrow(PyTypeError);
+    expect(() => add(pyStr("a"), t())).toThrow(
+      /unsupported operand type\(s\) for \+: 'str' and 'tuple'/,
+    );
+  });
+
+  it("add rejects tuple and bytes in both orders", () => {
+    const t = () => pyTuple([pyInt(1)]);
+    const b = () => pyBytes(new Uint8Array([1]));
+    expect(() => add(t(), b())).toThrow(PyTypeError);
+    expect(() => add(t(), b())).toThrow(
+      /unsupported operand type\(s\) for \+: 'tuple' and 'bytes'/,
+    );
+    expect(() => add(b(), t())).toThrow(PyTypeError);
+    expect(() => add(b(), t())).toThrow(
+      /unsupported operand type\(s\) for \+: 'bytes' and 'tuple'/,
+    );
   });
 });
