@@ -31,6 +31,7 @@ import {
   PyLookupError,
   PyUnicodeDecodeError,
   PyUnicodeEncodeError,
+  PyRuntimeError,
 } from "./errors.js";
 
 export {
@@ -44,6 +45,7 @@ export {
   PyLookupError,
   PyUnicodeDecodeError,
   PyUnicodeEncodeError,
+  PyRuntimeError,
 } from "./errors.js";
 
 // ── helpers ───────────────────────────────────────────────────────────

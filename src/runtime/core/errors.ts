@@ -71,3 +71,10 @@ export class PyUnicodeEncodeError extends Error {
     this.name = "UnicodeEncodeError";
   }
 }
+
+export class PyRuntimeError extends Error {
+  constructor(msg: string) {
+    super(msg);
+    this.name = "RuntimeError";
+  }
+}
