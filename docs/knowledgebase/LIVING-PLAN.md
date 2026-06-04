@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-06-04, plan 514 merge PR #271)
+
+### Landed
+
+- [REPO] Plan 514 merged via PR #271 — `str`/`bytes.splitlines` `keepends=True` on empty input returns `[]`; validation-ladder sync (973 Vitest / 132 files).
+
+### Partial
+
+- None.
+
+### Next
+
+1. Further §8.15 gaps only when scoped (remaining niche bytes/str API).
+2. PEP 3118 out of scope.
+
+---
+
 ## Delta update (2026-06-04, plan 512 merge PR #270)
 
 ### Landed
