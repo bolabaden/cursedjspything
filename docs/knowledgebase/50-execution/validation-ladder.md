@@ -60,7 +60,7 @@ Emits JSON (`vitest_seconds`, pass gates, `test_count`); use median of several r
 
 ---
 
-| `test/cpython-derived/operator-str-float.test.ts` | str↔float eq/ne non-coercion (arithmetic in float-str-remaining) |
+| `test/cpython-derived/operator-str-float.test.ts` | str↔float eq/ne, contains, ordering (binary in float-str-remaining; plan 466) |
 
 ---
 
