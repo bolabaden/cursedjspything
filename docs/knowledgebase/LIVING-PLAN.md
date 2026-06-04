@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-06-04, plan 482 merge PR #255)
+
+### Landed
+
+- [REPO] Plan 482 merged via PR #255 — `str.encode` unknown encoding `LookupError` message; `bytes.fromhex` bytes-like arg; §8.15 + validation-ladder sync (955 Vitest / 132 files).
+
+### Partial
+
+- None.
+
+### Next
+
+1. Further §8.15 gaps only when scoped (remaining niche bytes/str API).
+2. PEP 3118 out of scope.
+
+---
+
 ## Delta update (2026-06-04, plan 480 merge PR #254)
 
 ### Landed
