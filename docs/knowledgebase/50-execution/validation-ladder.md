@@ -110,7 +110,7 @@ Emits JSON (`vitest_seconds`, pass gates, `test_count`); use median of several r
 | `test/cpython-derived/str-zfill.test.ts` | str.zfill width zero-padding |
 | `test/cpython-derived/str-expandtabs.test.ts` | str.expandtabs tab expansion |
 | `test/cpython-derived/str-translate.test.ts` | str.maketrans / str.translate |
-| `test/cpython-derived/str-join.test.ts` | str.join |
+| `test/cpython-derived/str-join.test.ts` | str.join + empty separator (plan 510) |
 | `test/cpython-derived/str-casefold.test.ts` | str.casefold |
 | `test/cpython-derived/str-format.test.ts` | str.format / format_map including bool/bytes/None/list/tuple/dict/slice/set/frozenset empty-spec fields and conversions with format_spec |
 | `test/cpython-derived/str-reversed.test.ts` | str.__reversed__ yields one-char strings last-to-first; empty StopIteration; iterator __iter__ returns self |
@@ -121,7 +121,7 @@ Emits JSON (`vitest_seconds`, pass gates, `test_count`); use median of several r
 | `test/cpython-derived/str-partition.test.ts` | str.partition first-separator triple |
 | `test/cpython-derived/str-rpartition.test.ts` | str.rpartition last-separator triple + empty str (plan 496) |
 | `test/cpython-derived/str-splitlines.test.ts` | str.splitlines breaks + keepends (plans 490/494/500/508) |
-| `test/cpython-derived/bytes-join.test.ts` | bytes.join separator concatenation |
+| `test/cpython-derived/bytes-join.test.ts` | bytes.join + empty separator (plan 510) |
 | `test/cpython-derived/bytes-split.test.ts` | bytes.split sep/maxsplit/whitespace + maxsplit=0 with sep (plan 486) |
 | `test/cpython-derived/bytes-rsplit.test.ts` | bytes.rsplit from the right + maxsplit=0 with sep (plan 486) |
 | `test/cpython-derived/bytes-startswith-endswith.test.ts` | bytes.startswith/endswith affix and bounds |
