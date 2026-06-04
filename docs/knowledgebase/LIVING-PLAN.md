@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-06-04, plan 480 merge PR #254)
+
+### Landed
+
+- [REPO] Plan 480 merged via PR #254 — `bytes.hex` / `bytes.fromhex` TypeError/ValueError message evidence in `bytes-hex-fromhex.test.ts`; §8.15 + validation-ladder sync (954 Vitest / 132 files).
+
+### Partial
+
+- None.
+
+### Next
+
+1. Further §8.15 gaps only when scoped (remaining niche bytes/str API).
+2. PEP 3118 out of scope.
+
+---
+
 ## Delta update (2026-06-04, plan 478 merge PR #253)
 
 ### Landed
