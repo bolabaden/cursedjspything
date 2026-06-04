@@ -3,6 +3,7 @@
  */
 
 import { PyObject, PyType, objectType, NotImplemented } from "../core/object.js";
+import { PyRuntimeError } from "../core/errors.js";
 import { Slot } from "../core/slots.js";
 import type { makeClass as MakeClassFn } from "./class.js";
 
@@ -45,7 +46,7 @@ export function initMethodType(makeClassFn: typeof MakeClassFn): void {
 
 export function getMethodType(): PyType {
   if (!methodType) {
-    throw new Error("methodType not initialized; import class module first");
+    throw new PyRuntimeError("methodType not initialized; import class module first");
   }
   return methodType;
 }

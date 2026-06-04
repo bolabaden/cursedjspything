@@ -1,4 +1,4 @@
-import { describe, it, expect } from "vitest";
+import { describe, it, expect, vi } from "vitest";
 import {
   makeClass,
   objectType,
@@ -67,5 +67,14 @@ describe("bound method (MethodType shape)", () => {
     const fn = lookupSpecial(inst, Slot.len);
     expect(fn).toBeDefined();
     expect(fn!()).toBe(1);
+  });
+
+  it("getMethodType before init raises RuntimeError", async () => {
+    vi.resetModules();
+    const { getMethodType } = await import("../../src/runtime/class/method.js");
+    const { PyRuntimeError } = await import("../../src/runtime/core/errors.js");
+    expect(() => getMethodType()).toThrow(PyRuntimeError);
+    expect(() => getMethodType()).toThrow(/methodType not initialized/);
+    await import("../../src/runtime/class/class.js");
   });
 });

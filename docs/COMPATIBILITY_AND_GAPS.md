@@ -423,7 +423,7 @@ CPython exposes **readonly mapping views** on class and instance namespaces — 
 
 Int and float `__truediv__`, `__floordiv__`, and `__mod__` (plus int/float `__divmod__`) raise **`PyZeroDivisionError`** with CPython message text on zero divisors (float `divmod` uses `division by zero`; plan 350). Int three-arg `pow` with `mod == 0` raises **`PyValueError`** (`pow() 3rd argument cannot be 0`). Int `__lshift__` / `__rshift__` with negative shift count raise **`PyValueError`** (`negative shift count`).
 
-**Evidence:** `test/cpython-derived/operator-str-scalar.test.ts`, `test/cpython-derived/bytes-getitem-compare.test.ts`, `test/cpython-derived/sequence-index-type.test.ts`, `test/cpython-derived/dict-keyerror.test.ts`, `test/cpython-derived/operator-zerodivision.test.ts`, `test/cpython-derived/operator-pow-mod.test.ts`, `test/cpython-derived/operator-int-shift.test.ts`. **Remaining gap:** embedder/bootstrap paths may still throw plain `Error` (e.g. `methodType not initialized`); user-facing builtin slots otherwise use `PyTypeError` / `PyIndexError` / `PyValueError` / `PyKeyError` where evidenced.
+**Evidence:** `test/cpython-derived/operator-str-scalar.test.ts`, `test/cpython-derived/bytes-getitem-compare.test.ts`, `test/cpython-derived/sequence-index-type.test.ts`, `test/cpython-derived/dict-keyerror.test.ts`, `test/cpython-derived/operator-zerodivision.test.ts`, `test/cpython-derived/operator-pow-mod.test.ts`, `test/cpython-derived/operator-int-shift.test.ts`, `test/core/method.test.ts` (pre-init `getMethodType` → **`PyRuntimeError`**, plan 460). **Remaining gap:** golden/scripts and test stubs may still use plain JS `Error`; user-facing builtin slots and `getMethodType()` bootstrap use typed `Py*` exceptions where evidenced.
 
 ---
 
