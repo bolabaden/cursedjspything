@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-06-04, plan 568 merge PR #298)
+
+### Landed
+
+- [REPO] Plan 568 merged via PR #298 — `list`/`dict` unhashable `hash()` evidence in `list-dict-unhashable.test.ts`; validation-ladder sync (1012 Vitest / 139 files).
+
+### Partial
+
+- None.
+
+### Next
+
+1. Further §8.15 gaps only when scoped (remaining niche API beyond hash series).
+2. PEP 3118 out of scope.
+
+---
+
 ## Delta update (2026-06-04, plan 566 merge PR #297)
 
 ### Landed
