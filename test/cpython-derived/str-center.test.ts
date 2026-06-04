@@ -40,6 +40,8 @@ describe("cpython-derived str center", () => {
     expect(asStr(center("abc", pyInt(2)))).toBe("abc");
     expect(asStr(center("abc", pyInt(0)))).toBe("abc");
     expect(asStr(center("abc", pyInt(-1)))).toBe("abc");
+    expect(asStr(center("", pyInt(0)))).toBe("");
+    expect(asStr(center("", pyInt(0), pyStr("x")))).toBe("");
   });
 
   it("centers empty str", () => {
