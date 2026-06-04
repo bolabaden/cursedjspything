@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 719 merge PR #387)
+
+### Landed
+
+- [REPO] Plan 719 merged via PR #387 — `list.__imul__` bool repeat Vitest; §8.6 evidence (1202 Vitest / 163 files).
+
+### Partial
+
+- None.
+
+### Next
+
+1. Further §8.15 gaps only when scoped (remaining niche API).
+2. PEP 3118 out of scope.
+
+---
+
 ## Delta update (2026-05-24, plan 719)
 
 ### Landed
