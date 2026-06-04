@@ -70,6 +70,15 @@ describe("cpython-derived bytes replace", () => {
     ).toEqual(new Uint8Array([]));
   });
 
+  it("returns empty bytes when haystack is empty and old is non-empty", () => {
+    const a = pyBytes(new Uint8Array([97]));
+    const b = pyBytes(new Uint8Array([98]));
+    expect(asBytes(replace(new Uint8Array([]), a, b))).toEqual(new Uint8Array([]));
+    expect(asBytes(replace(new Uint8Array([]), a, b, pyInt(0)))).toEqual(
+      new Uint8Array([]),
+    );
+  });
+
   it("handles empty old bytes insertion", () => {
     expect(asBytes(replace(abcabc, pyBytes(empty), pyBytes(pipe)))).toEqual(
       new Uint8Array([124, 97, 124, 98, 124, 99, 124, 97, 124, 98, 124, 99, 124]),

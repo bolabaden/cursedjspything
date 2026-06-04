@@ -103,7 +103,7 @@ Emits JSON (`vitest_seconds`, pass gates, `test_count`); use median of several r
 | `test/cpython-derived/str-index.test.ts` | str.index / rindex ValueError on miss + empty input (plan 540) |
 | `test/cpython-derived/str-count.test.ts` | str.count non-overlapping bounds + empty input (plan 544) |
 | `test/cpython-derived/str-startswith-endswith.test.ts` | str.startswith/endswith tuple, bounds, empty input (plan 542) |
-| `test/cpython-derived/str-replace.test.ts` | str.replace empty-old + empty input (plan 512) |
+| `test/cpython-derived/str-replace.test.ts` | str.replace empty input + empty/missing old (plans 512/546) |
 | `test/cpython-derived/str-removeprefix-removesuffix.test.ts` | str.removeprefix / removesuffix affix stripping |
 | `test/cpython-derived/str-center.test.ts` | str.center width padding + empty input width=0 (plan 532) |
 | `test/cpython-derived/str-ljust-rjust.test.ts` | str.ljust/rjust padding + empty width=0 (plans 522/534) |
@@ -131,7 +131,7 @@ Emits JSON (`vitest_seconds`, pass gates, `test_count`); use median of several r
 | `test/cpython-derived/bytes-find.test.ts` | bytes.find/rfind bounds + empty input (plan 538) |
 | `test/cpython-derived/bytes-index.test.ts` | bytes.index/rindex ValueError on miss + empty input (plan 540) |
 | `test/cpython-derived/bytes-count.test.ts` | bytes.count non-overlapping subbytes + empty input (plan 544) |
-| `test/cpython-derived/bytes-replace.test.ts` | bytes.replace + empty input (plan 512) |
+| `test/cpython-derived/bytes-replace.test.ts` | bytes.replace empty input + empty/missing old (plans 512/546) |
 | `test/cpython-derived/bytes-upper-lower.test.ts` | bytes.upper/lower ASCII case conversion |
 | `test/cpython-derived/bytes-capitalize.test.ts` | bytes.capitalize first upper rest lower |
 | `test/cpython-derived/bytes-swapcase.test.ts` | bytes.swapcase ASCII case inversion |

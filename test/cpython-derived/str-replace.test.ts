@@ -55,6 +55,11 @@ describe("cpython-derived str replace", () => {
     expect(asStr(replace("", pyStr(""), pyStr("|"), pyInt(0)))).toBe("");
   });
 
+  it("returns empty str when haystack is empty and old is non-empty", () => {
+    expect(asStr(replace("", pyStr("a"), pyStr("b")))).toBe("");
+    expect(asStr(replace("", pyStr("a"), pyStr("b"), pyInt(0)))).toBe("");
+  });
+
   it("handles empty old string insertion", () => {
     expect(asStr(replace("abcabc", pyStr(""), pyStr("|")))).toBe(
       "|a|b|c|a|b|c|",
