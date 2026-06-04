@@ -13,6 +13,7 @@ import {
 } from "../collections/dict-keys.js";
 import { nativeVal, setNative } from "./native.js";
 import { keyErrorArg } from "./key-error-arg.js";
+import { pyNone } from "./none.js";
 
 function dictRepr(self: PyObject): string {
   const m = nativeVal<Map<unknown, PyObject>>(self);
@@ -74,6 +75,12 @@ export const dictType = makeClass({
     }],
     [Slot.contains, (self: PyObject, key: unknown) => {
       return dictHas(nativeVal<Map<unknown, PyObject>>(self), key);
+    }],
+    ["get", (self: PyObject, key: unknown, defaultArg?: unknown) => {
+      const found = dictGet(nativeVal<Map<unknown, PyObject>>(self), key);
+      if (found !== undefined) return found;
+      if (defaultArg !== undefined) return defaultArg;
+      return pyNone;
     }],
     [Slot.iter, (self: PyObject) => {
       const keys = [...nativeVal<Map<unknown, PyObject>>(self).keys()];
