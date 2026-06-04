@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-06-04, plan 656 merge PR #342)
+
+### Landed
+
+- [REPO] Plan 656 merged via PR #342 — `list.__iadd__` cross-type `+=` rejects for str/bytes in `sequence-iadd.test.ts`; §8.6 docs; validation-ladder sync (1159 Vitest / 159 files).
+
+### Partial
+
+- None.
+
+### Next
+
+1. Further §8.15 gaps only when scoped (remaining niche API).
+2. PEP 3118 out of scope.
+
+---
+
 ## Delta update (2026-06-04, plan 654 merge PR #341)
 
 ### Landed
