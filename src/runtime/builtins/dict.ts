@@ -40,6 +40,16 @@ function formatDictSpec(self: PyObject, spec: string): string {
   throw new PyTypeError("unsupported format string passed to dict.__format__");
 }
 
+function mergeDictMaps(
+  base: Map<unknown, PyObject>,
+  overlay: Map<unknown, PyObject>,
+): Map<unknown, PyObject> {
+  const out = new Map<unknown, PyObject>();
+  for (const [k, v] of base) dictSet(out, k, v);
+  for (const [k, v] of overlay) dictSet(out, k, v);
+  return out;
+}
+
 // ── pyDict ────────────────────────────────────────────────────────────
 
 export const dictType = makeClass({
@@ -97,6 +107,24 @@ export const dictType = makeClass({
     }],
     [Hook.missing, (self: PyObject, key: unknown) => {
       throw new PyKeyError(keyErrorArg(key));
+    }],
+    [Slot.or, (self: PyObject, other: PyObject) => {
+      if (other.type !== dictType) return NotImplemented;
+      const merged = mergeDictMaps(
+        nativeVal<Map<unknown, PyObject>>(self),
+        nativeVal<Map<unknown, PyObject>>(other),
+      );
+      const obj = new PyObject(dictType);
+      setNative(obj, merged);
+      return obj;
+    }],
+    [Slot.ior, (self: PyObject, other: PyObject) => {
+      if (other.type !== dictType) return NotImplemented;
+      const target = nativeVal<Map<unknown, PyObject>>(self);
+      for (const [k, v] of nativeVal<Map<unknown, PyObject>>(other)) {
+        dictSet(target, k, v);
+      }
+      return self;
     }],
   ]),
 });
