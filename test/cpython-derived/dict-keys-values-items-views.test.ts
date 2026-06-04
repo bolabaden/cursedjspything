@@ -41,6 +41,23 @@ function equalKeyPair(): [PyObject, PyObject] {
   return [instantiate(Key), instantiate(Key)];
 }
 
+function equalValuePair(): [PyObject, PyObject] {
+  const Val = makeClass({
+    name: "Val",
+    bases: [objectType],
+    dict: new Map<string | symbol, unknown>([
+      [
+        Slot.eq,
+        (_self: PyObject, other: PyObject) => {
+          if (other.type.name === "Val") return true;
+          return NotImplemented;
+        },
+      ],
+    ]),
+  });
+  return [instantiate(Val), instantiate(Val)];
+}
+
 function collectIter(view: PyObject): PyObject[] {
   const out: PyObject[] = [];
   const it = iter(view);
@@ -103,6 +120,14 @@ describe("dict keys values items views", () => {
     const nums = collectIter(vv).map((o) => unwrap(o) as number);
     expect(nums).toEqual([10, 20]);
     expect(contains(vv, pyInt(10))).toBe(true);
+  });
+
+  it("values view contains uses rich eq on values", () => {
+    const [v1, v2] = equalValuePair();
+    const d = pyDict([[pyStr("k"), v1]]);
+    const vv = (getAttr(d, "values") as (self: PyObject) => PyObject)(d);
+    expect(contains(vv, v2)).toBe(true);
+    expect(contains(vv, pyInt(0))).toBe(false);
   });
 
   it("items view yields key-value tuples", () => {
