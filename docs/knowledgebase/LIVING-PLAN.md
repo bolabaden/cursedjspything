@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-06-04, plan 470 merge PR #249)
+
+### Landed
+
+- [REPO] Plan 470 merged via PR #249 — str↔bool eq/ne non-coercion + ordering in `operator-str-scalar.test.ts`; §8.15 + validation-ladder sync (950 Vitest / 132 files).
+
+### Partial
+
+- None.
+
+### Next
+
+1. Further §8.15 gaps only when scoped (niche bytes/str API, golden/scripts plain `Error` stubs).
+2. PEP 3118 out of scope.
+
+---
+
 ## Delta update (2026-06-04, plan 468 merge PR #248)
 
 ### Landed
