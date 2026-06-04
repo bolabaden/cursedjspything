@@ -50,6 +50,7 @@ Emits JSON (`vitest_seconds`, pass gates, `test_count`); use median of several r
 | `test/cpython-derived/dict-pop-popitem.test.ts` | dict.pop / popitem; hash+eq pop; LIFO popitem (plan 604) |
 | `test/cpython-derived/dict-keys-values-items-views.test.ts` | dict.keys / values / items live views (plan 606) |
 | `test/cpython-derived/dict-fromkeys.test.ts` | dict.fromkeys iterable; default None; hash+eq dedupe (plan 608) |
+| `test/cpython-derived/dict-eq-hash-eq.test.ts` | dict.__eq__ hash+eq keys and values (plan 620) |
 | `test/cpython-derived/hash-strictness-matrix.test.ts` | Cross-cutting hash strictness matrix dict/set/frozenset/tuple (plan 588) |
 | `test/collections/slice-with.test.ts` | `pySlice`, `withObject` |
 | `test/cpython-derived/compare-ne.test.ts` | CPython `test_compare.py` `__ne__` delegation |
@@ -91,14 +92,14 @@ Emits JSON (`vitest_seconds`, pass gates, `test_count`); use median of several r
 | `test/cpython-derived/operator-numeric-conversion-evidence.test.ts` | toInt/toFloat/index/toComplex reject list |
 | `test/cpython-derived/operator-matmul-evidence.test.ts` | matmul @ rejects builtins without __matmul__ |
 | `test/cpython-derived/operator-format-evidence.test.ts` | format() __format__ on int/str/float/bool/bytes/None/list/tuple/dict/slice/set/frozenset; empty-spec repr; non-empty TypeError; repr-only fallback class |
-| `test/cpython-derived/frozenset-set-eq.test.ts` | frozenset ↔ set cross-type __eq__ with element-wise eq() |
+| `test/cpython-derived/frozenset-set-eq.test.ts` | frozenset ↔ set cross-type __eq__; equal-but-distinct keys (plan 620) |
 | `test/cpython-derived/frozenset-hash.test.ts` | frozenset __hash__; build/contains hash guards (plans 578/582); set unhashable |
 | `test/cpython-derived/frozenset-set-algebra.test.ts` | frozenset |&-^ and cross-type set↔frozenset result-type; hash+eq equal keys (plan 618) |
 | `test/cpython-derived/frozenset-iter.test.ts` | frozenset __iter__ / frozenset_iterator; StopIteration on empty |
 | `test/cpython-derived/frozenset-set-ordering.test.ts` | frozenset ↔ set subset/superset ordering (<=, <, >=, >) cross-type; hash+eq equal keys (plan 612) |
 | `test/cpython-derived/set-frozenset-inplace.test.ts` | set |=, &=, -=, ^= mutate in place; frozenset/set operands; hash+eq equal keys (plan 616) |
 | `test/cpython-derived/frozenset-set-methods.test.ts` | set/frozenset issubset, issuperset, isdisjoint; cross-type; hash+eq equal keys (plan 610); TypeError on non-set-like |
-| `test/cpython-derived/set-mutation.test.ts` | set/pySet hash guards on build and mutation paths (plans 580/584); KeyError repr; frozenset.copy |
+| `test/cpython-derived/set-mutation.test.ts` | set/pySet hash guards; pop/remove hash+eq (plan 620); KeyError repr; frozenset.copy |
 | `test/cpython-derived/set-named-update-methods.test.ts` | set intersection_update / difference_update / symmetric_difference_update; hash+eq (plan 594) |
 | `test/cpython-derived/set-membership.test.ts` | set/frozenset hash+eq membership via dictKeysEqual (plan 590); dedupe, contains, remove, inplace &=/-= |
 | `test/cpython-derived/set-algebra-membership.test.ts` | set/frozenset \|&-^ and named algebra with equal-but-distinct keys (plan 592); unionItems uses setAddMember |
