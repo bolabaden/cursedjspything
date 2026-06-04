@@ -9,6 +9,40 @@
 
 ---
 
+## Delta update (2026-05-24, plan 695)
+
+### Landed
+
+- [REPO] Plan 695 — list `-=` bytes/float/bool rejects in `sequence-sub.test.ts`; §8.6 docs (1176 Vitest / 163 files).
+
+### Partial
+
+- None.
+
+### Next
+
+1. Further §8.15 gaps only when scoped (remaining niche API).
+2. PEP 3118 out of scope.
+
+---
+
+## Delta update (2026-05-24, plan 694 merge PR #362)
+
+### Landed
+
+- [REPO] Plan 694 merged via PR #362 — list `-=` int/str/tuple evidence in `sequence-sub.test.ts` (1173 Vitest / 163 files).
+
+### Partial
+
+- None.
+
+### Next
+
+1. Further §8.15 gaps only when scoped (remaining niche API).
+2. PEP 3118 out of scope.
+
+---
+
 ## Delta update (2026-05-24, plan 694)
 
 ### Landed
