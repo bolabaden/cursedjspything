@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-06-04, plan 566 merge PR #297)
+
+### Landed
+
+- [REPO] Plan 566 merged via PR #297 — `None.__hash__` sentinel evidence in `none-hash.test.ts`; validation-ladder sync (1010 Vitest / 138 files). Hash evidence series complete for builtins in scope.
+
+### Partial
+
+- None.
+
+### Next
+
+1. Further §8.15 gaps only when scoped (list/dict hash unhashable guards, remaining niche API).
+2. PEP 3118 out of scope.
+
+---
+
 ## Delta update (2026-06-04, plan 564 merge PR #296)
 
 ### Landed
