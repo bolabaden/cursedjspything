@@ -52,7 +52,7 @@ Emits JSON (`vitest_seconds`, pass gates, `test_count`); use median of several r
 | `test/cpython-derived/operator-bool-float.test.ts` | CPython `test_operator.py` bool/float cross-type |
 | `test/cpython-derived/sequence-repeat-bool.test.ts` | List/tuple bool/negative repeat; multi-element and spread-safe large repeat |
 | `test/cpython-derived/operator-str-scalar.test.ts` | str↔int/bool eq/ne/add/contains/ordering; bool str repeat (remaining binary in int-str/bool-str files; plan 468/470/474) |
-| `test/cpython-derived/operator-float-str-remaining-binary.test.ts` | float↔str add/sub/mul/truediv/floordiv/mod/divmod/pow + ordering lt/le/gt/ge both orders (canonical; plan 408) |
+| `test/cpython-derived/operator-float-str-remaining-binary.test.ts` | float↔str sub/mul/truediv/floordiv/mod/divmod/pow TypeError both orders (add in str-float; plan 408/476) |
 
 ---
 
@@ -60,7 +60,7 @@ Emits JSON (`vitest_seconds`, pass gates, `test_count`); use median of several r
 
 ---
 
-| `test/cpython-derived/operator-str-float.test.ts` | str↔float eq/ne, contains, ordering (binary in float-str-remaining; plan 466) |
+| `test/cpython-derived/operator-str-float.test.ts` | str↔float eq/ne/add/contains/ordering (remaining binary in float-str-remaining; plan 466/476) |
 
 ---
 

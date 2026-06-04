@@ -2,7 +2,7 @@
  * CPython: str↔float eq/ne, contains, and ordering (binary in operator-float-str-remaining-binary).
  */
 import { describe, it, expect } from "vitest";
-import { contains, eq, ne, pyFloat, pyStr } from "../../src/index.js";
+import { add, contains, eq, ne, pyFloat, pyStr } from "../../src/index.js";
 import { PyTypeError } from "../../src/runtime/core/errors.js";
 import { registerCrossTypeOrderingRejects } from "./helpers/cross-type-ordering.js";
 
@@ -25,4 +25,20 @@ describe("cpython-derived str/float comparisons", () => {
   });
 
   registerCrossTypeOrderingRejects("str", "float", s, f);
+});
+
+describe("cpython-derived str/float arithmetic", () => {
+  it("add str + float raises TypeError", () => {
+    expect(() => add(pyStr("a"), pyFloat(1.0))).toThrow(PyTypeError);
+    expect(() => add(pyStr("a"), pyFloat(1.0))).toThrow(
+      /unsupported operand type\(s\) for \+: 'str' and 'float'/,
+    );
+  });
+
+  it("add float + str raises TypeError", () => {
+    expect(() => add(pyFloat(1.0), pyStr("a"))).toThrow(PyTypeError);
+    expect(() => add(pyFloat(1.0), pyStr("a"))).toThrow(
+      /unsupported operand type\(s\) for \+: 'float' and 'str'/,
+    );
+  });
 });
