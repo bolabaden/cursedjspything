@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-06-04, plan 622 merge PR #325)
+
+### Landed
+
+- [REPO] Plan 622 merged via PR #325 — list/tuple `__eq__` element hash+eq evidence (`list-eq.test.ts`, `tuple-eq-hash-eq.test.ts`); §8.6 docs; validation-ladder sync (1120 Vitest / 153 files).
+
+### Partial
+
+- None.
+
+### Next
+
+1. Further §8.15 gaps only when scoped (remaining niche API).
+2. PEP 3118 out of scope.
+
+---
+
 ## Delta update (2026-06-04, plan 620 merge PR #324)
 
 ### Landed
