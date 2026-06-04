@@ -53,6 +53,7 @@ Emits JSON (`vitest_seconds`, pass gates, `test_count`); use median of several r
 | `test/cpython-derived/dict-keys-values-items-views.test.ts` | dict keys/values/items views; items contains hash+eq (606, 624) |
 | `test/cpython-derived/dict-fromkeys.test.ts` | dict.fromkeys iterable; default None; hash+eq dedupe (plan 608) |
 | `test/cpython-derived/dict-eq-hash-eq.test.ts` | dict __eq__ / ne hash+eq keys (plans 620, 626) |
+| `test/cpython-derived/dict-contains-hash-eq.test.ts` | dict __contains__ and __getitem__ hash+eq keys (plan 628) |
 | `test/cpython-derived/hash-strictness-matrix.test.ts` | Cross-cutting hash strictness matrix dict/set/frozenset/tuple (plan 588) |
 | `test/collections/slice-with.test.ts` | `pySlice`, `withObject` |
 | `test/cpython-derived/compare-ne.test.ts` | CPython `test_compare.py` `__ne__` delegation |
