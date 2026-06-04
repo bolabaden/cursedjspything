@@ -1,7 +1,7 @@
 ---
 title: "feat: list __iadd__ tuple extend evidence (plan 672)"
 type: feat
-status: active
+status: completed
 date: 2026-05-24
 origin: LIVING-PLAN §8.6; post plan 670 sequence-mul matrix
 ---
