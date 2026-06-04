@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-06-04, plan 472 merge PR #250)
+
+### Landed
+
+- [REPO] Plan 472 merged via PR #250 — `GoldenHarnessError` in `scripts/golden/errors.ts` for `run.ts`; §8.17 + validation-ladder sync (950 Vitest / 132 files). Golden harness now uses typed `GoldenHarnessError` / `KeyParityError`; Vitest protocol mocks still use plain `Error`.
+
+### Partial
+
+- None.
+
+### Next
+
+1. Further §8.15 gaps only when scoped (niche bytes/str API edge cases).
+2. PEP 3118 out of scope.
+
+---
+
 ## Delta update (2026-06-04, plan 470 merge PR #249)
 
 ### Landed
