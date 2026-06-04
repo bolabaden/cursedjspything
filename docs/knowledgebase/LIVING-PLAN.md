@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-06-04, plan 648 merge PR #338)
+
+### Landed
+
+- [REPO] Plan 648 merged via PR #338 — reflected `float * seq` repeat `TypeError` for list/tuple/str/bytes in `sequence-repeat-nonint.test.ts`; validation-ladder sync (1149 Vitest / 158 files).
+
+### Partial
+
+- None.
+
+### Next
+
+1. Further §8.15 gaps only when scoped (remaining niche API).
+2. PEP 3118 out of scope.
+
+---
+
 ## Delta update (2026-06-04, plan 646 merge PR #337)
 
 ### Landed
