@@ -43,6 +43,7 @@ describe("cpython-derived str count", () => {
 
   it("returns zero when substring is missing", () => {
     expect(asInt(count("abcabcabc", pyStr("x")))).toBe(0);
+    expect(asInt(count("", pyStr("a")))).toBe(0);
   });
 
   it("uses non-overlapping semantics", () => {

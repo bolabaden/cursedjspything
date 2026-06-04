@@ -49,6 +49,7 @@ describe("cpython-derived bytes count", () => {
 
   it("returns zero when subbytes is missing", () => {
     expect(asInt(count(abcabcabc, pyBytes(new Uint8Array([120]))))).toBe(0);
+    expect(asInt(count(new Uint8Array(0), pyBytes(new Uint8Array([97]))))).toBe(0);
   });
 
   it("uses non-overlapping semantics", () => {
