@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-06-04, plan 478 merge PR #253)
+
+### Landed
+
+- [REPO] Plan 478 merged via PR #253 — `str.encode` encoding/errors `TypeError` guard parity with `bytes.decode`; §8.15 codec guards bullet + validation-ladder sync (954 Vitest / 132 files).
+
+### Partial
+
+- None.
+
+### Next
+
+1. Further §8.15 gaps only when scoped (remaining niche bytes/str API).
+2. PEP 3118 out of scope.
+
+---
+
 ## Delta update (2026-06-04, plan 476 merge PR #252)
 
 ### Landed
