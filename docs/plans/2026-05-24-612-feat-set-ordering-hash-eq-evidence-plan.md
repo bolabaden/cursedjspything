@@ -1,7 +1,7 @@
 ---
 title: "feat: set ordering hash+eq evidence (plan 612)"
 type: feat
-status: active
+status: completed
 date: 2026-05-24
 origin: plan 610; §8.15 gap
 ---

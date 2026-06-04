@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-06-04, plan 612 merge PR #320)
+
+### Landed
+
+- [REPO] Plan 612 merged via PR #320 — set/frozenset `<=`/`<`/`>=`/`>` hash+eq evidence in `frozenset-set-ordering.test.ts`; §8.5 / §8.15 docs; validation-ladder sync (1105 Vitest / 151 files).
+
+### Partial
+
+- None.
+
+### Next
+
+1. Further §8.15 gaps only when scoped (remaining niche API).
+2. PEP 3118 out of scope.
+
+---
+
 ## Delta update (2026-06-04, plan 610 merge PR #319)
 
 ### Landed
