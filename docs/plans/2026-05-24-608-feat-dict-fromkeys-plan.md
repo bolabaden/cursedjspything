@@ -1,7 +1,7 @@
 ---
 title: "feat: dict.fromkeys (plan 608)"
 type: feat
-status: active
+status: completed
 date: 2026-05-24
 origin: plan 606; dict method surface
 ---

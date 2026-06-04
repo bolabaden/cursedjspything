@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-06-04, plan 608 merge PR #318)
+
+### Landed
+
+- [REPO] Plan 608 merged via PR #318 — `dict.fromkeys`; `defaultGetAttr` PyType MRO fix; `dict-fromkeys.test.ts`; §8.5 docs; validation-ladder sync (1102 Vitest / 151 files).
+
+### Partial
+
+- None.
+
+### Next
+
+1. Further §8.15 gaps only when scoped (remaining niche API).
+2. PEP 3118 out of scope.
+
+---
+
 ## Delta update (2026-06-04, plan 606 merge PR #317)
 
 ### Landed
