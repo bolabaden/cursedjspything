@@ -4,11 +4,13 @@
 import { describe, it, expect } from "vitest";
 import {
   bytes,
+  contains,
   eq,
   ne,
   pyBytes,
   pyStr,
 } from "../../src/index.js";
+import { PyTypeError } from "../../src/runtime/core/errors.js";
 import { registerCrossTypeOrderingRejects } from "./helpers/cross-type-ordering.js";
 
 describe("cpython-derived str/bytes comparisons", () => {
@@ -20,6 +22,13 @@ describe("cpython-derived str/bytes comparisons", () => {
     expect(eq(b(), s())).toBe(false);
     expect(ne(s(), b())).toBe(true);
     expect(ne(b(), s())).toBe(true);
+  });
+
+  it("contains on str requires str operand not bytes", () => {
+    expect(() => contains(s(), b())).toThrow(PyTypeError);
+    expect(() => contains(s(), b())).toThrow(
+      /'in <string>' requires string as left operand, not bytes/,
+    );
   });
 
   registerCrossTypeOrderingRejects("str", "bytes", s, b);
