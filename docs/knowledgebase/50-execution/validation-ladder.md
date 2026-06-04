@@ -108,7 +108,7 @@ Emits JSON (`vitest_seconds`, pass gates, `test_count`); use median of several r
 | `test/cpython-derived/str-center.test.ts` | str.center width padding with fill character |
 | `test/cpython-derived/str-ljust-rjust.test.ts` | str.ljust/rjust padding + ljust width=0 (plan 522) |
 | `test/cpython-derived/str-zfill.test.ts` | str.zfill width padding + width=0 no-op (plan 520) |
-| `test/cpython-derived/str-expandtabs.test.ts` | str.expandtabs tab expansion |
+| `test/cpython-derived/str-expandtabs.test.ts` | str.expandtabs tab expansion + empty input (plan 530) |
 | `test/cpython-derived/str-translate.test.ts` | str.maketrans / str.translate |
 | `test/cpython-derived/str-join.test.ts` | str.join empty sep: concat, empty iter, single elt (510/518/526) |
 | `test/cpython-derived/str-casefold.test.ts` | str.casefold |
@@ -140,7 +140,7 @@ Emits JSON (`vitest_seconds`, pass gates, `test_count`); use median of several r
 | `test/cpython-derived/bytes-zfill.test.ts` | bytes.zfill width padding + width=0 no-op (plan 520) |
 | `test/cpython-derived/bytes-title.test.ts` | bytes.title ASCII word title case |
 | `test/cpython-derived/bytes-removeprefix-removesuffix.test.ts` | bytes.removeprefix/removesuffix affix stripping |
-| `test/cpython-derived/bytes-expandtabs.test.ts` | bytes.expandtabs tab expansion |
+| `test/cpython-derived/bytes-expandtabs.test.ts` | bytes.expandtabs tab expansion + empty input (plan 530) |
 | `test/cpython-derived/bytes-hex-fromhex.test.ts` | bytes.hex / fromhex + str/bytes arg + error messages (plans 480/482) |
 | `test/cpython-derived/bytes-predicates.test.ts` | bytes ASCII predicate methods |
 | `test/cpython-derived/bytes-translate.test.ts` | bytes.maketrans / bytes.translate |

@@ -46,6 +46,8 @@ describe("cpython-derived bytes expandtabs", () => {
       new Uint8Array([104, 101, 108, 108, 111]),
     );
     expect(asBytes(expandtabs(xy, pyInt(0)))).toEqual(new Uint8Array([120, 121]));
+    expect(asBytes(expandtabs(new Uint8Array(0)))).toEqual(new Uint8Array(0));
+    expect(asBytes(expandtabs(new Uint8Array(0), pyInt(4)))).toEqual(new Uint8Array(0));
   });
 
   it("rejects non-integer tabsize", () => {
