@@ -9,6 +9,40 @@
 
 ---
 
+## Delta update (2026-05-24, plan 719)
+
+### Landed
+
+- [REPO] Plan 719 — `list.__imul__` bool repeat Vitest (`sequence-imul.test.ts`) (1202 Vitest / 163 files).
+
+### Partial
+
+- None.
+
+### Next
+
+1. Further §8.15 gaps only when scoped (remaining niche API).
+2. PEP 3118 out of scope.
+
+---
+
+## Delta update (2026-05-24, plan 718 merge PR #386)
+
+### Landed
+
+- [REPO] Plan 718 merged via PR #386 — plan 717 merge record in LIVING-PLAN (1201 Vitest / 163 files).
+
+### Partial
+
+- None.
+
+### Next
+
+1. `list.__imul__` bool evidence (plan 719).
+2. PEP 3118 out of scope.
+
+---
+
 ## Delta update (2026-05-24, plan 717 merge PR #385)
 
 ### Landed
