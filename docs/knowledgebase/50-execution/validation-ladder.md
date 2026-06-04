@@ -126,7 +126,7 @@ Emits JSON (`vitest_seconds`, pass gates, `test_count`); use median of several r
 | `test/cpython-derived/bytes-rsplit.test.ts` | bytes.rsplit from the right + maxsplit=0 with sep (plan 486) |
 | `test/cpython-derived/bytes-startswith-endswith.test.ts` | bytes.startswith/endswith affix and bounds |
 | `test/cpython-derived/bytes-partition.test.ts` | bytes.partition/rpartition triple split |
-| `test/cpython-derived/bytes-splitlines.test.ts` | bytes.splitlines keepends and line breaks |
+| `test/cpython-derived/bytes-splitlines.test.ts` | bytes.splitlines `\n`/`\r` only; non-newline breaks (plan 492) |
 | `test/cpython-derived/bytes-strip.test.ts` | bytes.strip/lstrip/rstrip whitespace and chars |
 | `test/cpython-derived/bytes-find.test.ts` | bytes.find/rfind subbytes search with bounds |
 | `test/cpython-derived/bytes-index.test.ts` | bytes.index/rindex subbytes search; ValueError on miss |
