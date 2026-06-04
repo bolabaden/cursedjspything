@@ -7,6 +7,7 @@ import {
   hash,
   instantiate,
   makeClass,
+  NotImplemented,
   objectType,
   pyFrozenSet,
   pyInt,
@@ -16,6 +17,24 @@ import {
 } from "../../src/index.js";
 import { Slot } from "../../src/runtime/core/slots.js";
 import { PyTypeError } from "../../src/runtime/core/errors.js";
+
+function equalKeyPair(): [PyObject, PyObject] {
+  const Key = makeClass({
+    name: "Key",
+    bases: [objectType],
+    dict: new Map<string | symbol, unknown>([
+      [Slot.hash, () => 60],
+      [
+        Slot.eq,
+        (_self: PyObject, other: PyObject) => {
+          if (other.type.name === "Key") return true;
+          return NotImplemented;
+        },
+      ],
+    ]),
+  });
+  return [instantiate(Key), instantiate(Key)];
+}
 
 function badHashElement(): PyObject {
   const BadHash = makeClass({
@@ -40,6 +59,14 @@ describe("frozenset __hash__", () => {
 
   it("matches for equal frozensets built separately", () => {
     expect(hash(pyFrozenSet([pyInt(1)]))).toBe(hash(pyFrozenSet([pyInt(1)])));
+  });
+
+  it("matches for frozensets with equal-but-distinct elements", () => {
+    const [k1, k2] = equalKeyPair();
+    expect(hash(pyFrozenSet([k1]))).toBe(hash(pyFrozenSet([k2])));
+    const ab = pyFrozenSet([k1, k2]);
+    const ba = pyFrozenSet([k2, k1]);
+    expect(hash(ab)).toBe(hash(ba));
   });
 
   it("leaves set unhashable", () => {
