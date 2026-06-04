@@ -265,6 +265,9 @@ export const setType = makeClass({
 });
 
 export function pySet(items: unknown[]): PyObject {
+  for (const item of items) {
+    requireHashableElement(item);
+  }
   const obj = new PyObject(setType);
   setNative(obj, new Set(items));
   return obj;
