@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 713 merge PR #381)
+
+### Landed
+
+- [REPO] Plan 713 merged via PR #381 — §8.15 int*list/tuple mul evidence (1200 Vitest / 163 files).
+
+### Partial
+
+- None.
+
+### Next
+
+1. Further §8.15 gaps only when scoped (remaining niche API).
+2. PEP 3118 out of scope.
+
+---
+
 ## Delta update (2026-05-24, plan 713)
 
 ### Landed
