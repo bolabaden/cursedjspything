@@ -1,10 +1,13 @@
 import { describe, it, expect } from "vitest";
 import {
+  contains,
+  delItem,
   makeClass,
   hash,
   instantiate,
   pyDict,
   pyInt,
+  pyList,
   getItem,
   setItem,
   PyObject,
@@ -23,6 +26,7 @@ function badHashKey(): PyObject {
 }
 
 const INVALID_HASH_MSG = /__hash__ method should return an integer/;
+const UNHASHABLE_LIST_MSG = /unhashable type: 'list'/;
 
 describe("dict key equality", () => {
   it("finds keys by eq/hash for PyObject keys", () => {
@@ -71,5 +75,37 @@ describe("dict key hash strictness", () => {
     const probe = badHashKey();
     expect(() => getItem(d, probe)).toThrow(PyTypeError);
     expect(() => getItem(d, probe)).toThrow(INVALID_HASH_MSG);
+  });
+
+  it("delItem rejects probe keys with invalid __hash__", () => {
+    const Key = makeClass({
+      name: "Key",
+      bases: [objectType],
+      dict: new Map([
+        [Slot.eq, (a: PyObject, b: PyObject) => a.id === b.id],
+        [Slot.hash, (a: PyObject) => a.id | 0],
+      ]),
+    });
+    const stored = instantiate(Key);
+    const d = pyDict([[stored, pyInt(1)]]);
+    const probe = badHashKey();
+    expect(() => delItem(d, probe)).toThrow(PyTypeError);
+    expect(() => delItem(d, probe)).toThrow(INVALID_HASH_MSG);
+  });
+
+  it("contains rejects probe keys with invalid __hash__", () => {
+    const d = pyDict([[pyInt(0), pyInt(1)]]);
+    const probe = badHashKey();
+    expect(() => contains(d, probe)).toThrow(PyTypeError);
+    expect(() => contains(d, probe)).toThrow(INVALID_HASH_MSG);
+  });
+
+  it("rejects unhashable list keys on insert and lookup paths", () => {
+    const d = () => pyDict([[pyInt(0), pyInt(1)]]);
+    const key = pyList([]);
+    expect(() => setItem(pyDict(), key, pyInt(1))).toThrow(UNHASHABLE_LIST_MSG);
+    expect(() => getItem(d(), key)).toThrow(UNHASHABLE_LIST_MSG);
+    expect(() => delItem(d(), key)).toThrow(UNHASHABLE_LIST_MSG);
+    expect(() => contains(d(), key)).toThrow(UNHASHABLE_LIST_MSG);
   });
 });
