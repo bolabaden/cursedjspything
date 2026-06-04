@@ -1,5 +1,6 @@
 /**
  * CPython: list↔tuple cross-type equality, ordering, and binary/in-place rejects.
+ * §8.15 legacy duplicate — canonical §8.6 evidence is in `sequence-*.test.ts` (plan 688).
  */
 import { describe, it, expect } from "vitest";
 import {
