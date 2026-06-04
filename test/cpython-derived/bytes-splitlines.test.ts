@@ -49,6 +49,7 @@ describe("cpython-derived bytes splitlines", () => {
 
   it("returns empty list for empty bytes", () => {
     expect(asBytesList(splitlines(new Uint8Array([])))).toEqual([]);
+    expect(asBytesList(splitlines(new Uint8Array([]), pyTrue))).toEqual([]);
   });
 
   it("treats lone newline as empty line", () => {
