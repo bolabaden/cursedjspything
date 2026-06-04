@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-06-04, plan 572 merge PR #300)
+
+### Landed
+
+- [REPO] Plan 572 merged via PR #300 — empty `tuple` hash matches `None` sentinel in `tuple-hash.test.ts`; validation-ladder sync (1014 Vitest / 140 files).
+
+### Partial
+
+- None.
+
+### Next
+
+1. Further §8.15 gaps only when scoped (remaining niche API outside hash series).
+2. PEP 3118 out of scope.
+
+---
+
 ## Delta update (2026-06-04, plan 570 merge PR #299)
 
 ### Landed
