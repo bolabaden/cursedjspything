@@ -2,7 +2,7 @@ import { PyObject, NotImplemented } from "../core/object.js";
 import { Slot, Hook } from "../core/slots.js";
 import { makeClass } from "../class/class.js";
 import { PyTypeError, PyKeyError } from "../core/errors.js";
-import { hash as hashSetElement } from "../dispatch/operators/compare.js";
+import { requireHashableElement } from "./hashable-element.js";
 import { iter, next } from "../dispatch/protocols.js";
 import { PyStopIteration } from "../core/lookup.js";
 import { nativeVal, setNative } from "./native.js";
@@ -40,17 +40,10 @@ function formatSetSpec(self: PyObject, spec: string): string {
   throw new PyTypeError("unsupported format string passed to set.__format__");
 }
 
-/** CPython hashes set elements on insert and membership probes. */
-function requireHashableSetElement(item: unknown): void {
-  if (item instanceof PyObject) {
-    hashSetElement(item);
-  }
-}
-
 function updateSetFrom(other: unknown, target: Set<unknown>): void {
   if (other instanceof PyObject && isSetLikeTypeName(other.type.name)) {
     for (const item of nativeVal<Set<unknown>>(other)) {
-      requireHashableSetElement(item);
+      requireHashableElement(item);
       target.add(item);
     }
     return;
@@ -70,7 +63,7 @@ function updateSetFrom(other: unknown, target: Set<unknown>): void {
   while (true) {
     try {
       const item = next(it);
-      requireHashableSetElement(item);
+      requireHashableElement(item);
       target.add(item);
     } catch (e) {
       if (e instanceof PyStopIteration) break;
@@ -89,7 +82,7 @@ export const setType = makeClass({
     [Slot.len, (self: PyObject) => nativeVal<Set<unknown>>(self).size],
     [Slot.bool, (self: PyObject) => nativeVal<Set<unknown>>(self).size > 0],
     [Slot.contains, (self: PyObject, value: unknown) => {
-      requireHashableSetElement(value);
+      requireHashableElement(value);
       return nativeVal<Set<unknown>>(self).has(value);
     }],
     [Slot.iter, (self: PyObject) => {
@@ -212,19 +205,19 @@ export const setType = makeClass({
       );
     }],
     ["add", (self: PyObject, item: unknown) => {
-      requireHashableSetElement(item);
+      requireHashableElement(item);
       nativeVal<Set<unknown>>(self).add(item);
       return undefined;
     }],
     ["remove", (self: PyObject, item: unknown) => {
-      requireHashableSetElement(item);
+      requireHashableElement(item);
       const s = nativeVal<Set<unknown>>(self);
       if (!s.has(item)) throw new PyKeyError(keyErrorArg(item));
       s.delete(item);
       return undefined;
     }],
     ["discard", (self: PyObject, item: unknown) => {
-      requireHashableSetElement(item);
+      requireHashableElement(item);
       nativeVal<Set<unknown>>(self).delete(item);
       return undefined;
     }],

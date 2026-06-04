@@ -3,6 +3,7 @@
  */
 import { describe, it, expect } from "vitest";
 import {
+  contains,
   hash,
   instantiate,
   makeClass,
@@ -46,16 +47,20 @@ describe("frozenset __hash__", () => {
     expect(() => hash(pySet([]))).toThrow(/unhashable type: 'set'/);
   });
 
-  it("rejects unhashable elements when hashing frozenset", () => {
-    expect(() => hash(pyFrozenSet([pyList([])]))).toThrow(PyTypeError);
-    expect(() => hash(pyFrozenSet([pyList([])]))).toThrow(
-      /unhashable type: 'list'/,
-    );
+  it("rejects unhashable elements at construction and on contains", () => {
+    expect(() => pyFrozenSet([pyList([])])).toThrow(PyTypeError);
+    expect(() => pyFrozenSet([pyList([])])).toThrow(/unhashable type: 'list'/);
+    const fs = pyFrozenSet([pyInt(1)]);
+    expect(() => contains(fs, pyList([]))).toThrow(/unhashable type: 'list'/);
   });
 
-  it("rejects elements with invalid __hash__ when hashing frozenset", () => {
-    expect(() => hash(pyFrozenSet([badHashElement()]))).toThrow(PyTypeError);
-    expect(() => hash(pyFrozenSet([badHashElement()]))).toThrow(
+  it("rejects invalid __hash__ at construction and on contains", () => {
+    const bad = badHashElement();
+    expect(() => pyFrozenSet([bad])).toThrow(
+      /__hash__ method should return an integer/,
+    );
+    const fs = pyFrozenSet([pyInt(1)]);
+    expect(() => contains(fs, bad)).toThrow(
       /__hash__ method should return an integer/,
     );
   });

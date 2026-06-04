@@ -84,7 +84,7 @@ Emits JSON (`vitest_seconds`, pass gates, `test_count`); use median of several r
 | `test/cpython-derived/operator-matmul-evidence.test.ts` | matmul @ rejects builtins without __matmul__ |
 | `test/cpython-derived/operator-format-evidence.test.ts` | format() __format__ on int/str/float/bool/bytes/None/list/tuple/dict/slice/set/frozenset; empty-spec repr; non-empty TypeError; repr-only fallback class |
 | `test/cpython-derived/frozenset-set-eq.test.ts` | frozenset ↔ set cross-type __eq__ with element-wise eq() |
-| `test/cpython-derived/frozenset-hash.test.ts` | frozenset __hash__ order-independent; unhashable/invalid-hash elements (plan 578); set unhashable |
+| `test/cpython-derived/frozenset-hash.test.ts` | frozenset __hash__; build/contains hash guards (plans 578/582); set unhashable |
 | `test/cpython-derived/frozenset-set-algebra.test.ts` | frozenset |&-^ and cross-type set↔frozenset result-type rules |
 | `test/cpython-derived/frozenset-iter.test.ts` | frozenset __iter__ / frozenset_iterator; StopIteration on empty |
 | `test/cpython-derived/frozenset-set-ordering.test.ts` | frozenset ↔ set subset/superset ordering (<=, <, >=, >) cross-type |

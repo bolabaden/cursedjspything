@@ -4,6 +4,7 @@ import { makeClass } from "../class/class.js";
 import { PyStopIteration } from "../core/lookup.js";
 import { PyTypeError } from "../core/errors.js";
 import { hash as objectHash } from "../dispatch/operators/compare.js";
+import { requireHashableElement } from "./hashable-element.js";
 import { nativeVal, setNative } from "./native.js";
 import { isSetLikeTypeName, requireSetLikeOperand, setLikeContentsEqual } from "./set-equality.js";
 import {
@@ -64,8 +65,10 @@ export const frozensetType = makeClass({
     [Slot.bool, (self: PyObject) => nativeVal<Set<unknown>>(self).size > 0],
     [
       Slot.contains,
-      (self: PyObject, value: unknown) =>
-        nativeVal<Set<unknown>>(self).has(value),
+      (self: PyObject, value: unknown) => {
+        requireHashableElement(value);
+        return nativeVal<Set<unknown>>(self).has(value);
+      },
     ],
     [Slot.iter, (self: PyObject) => {
       const vals = [...nativeVal<Set<unknown>>(self)];
@@ -188,6 +191,9 @@ export const frozensetType = makeClass({
 });
 
 export function pyFrozenSet(items: unknown[]): PyObject {
+  for (const item of items) {
+    requireHashableElement(item);
+  }
   const obj = new PyObject(frozensetType);
   setNative(obj, new Set(items));
   return obj;
