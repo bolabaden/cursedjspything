@@ -1,0 +1,62 @@
+/**
+ * CPython: list __iadd__ extends in place with same-type list (plan 636).
+ */
+import { describe, it, expect } from "vitest";
+import {
+  eq,
+  getItem,
+  iadd,
+  instantiate,
+  len,
+  makeClass,
+  NotImplemented,
+  objectType,
+  PyObject,
+  pyInt,
+  pyList,
+  unwrap,
+} from "../../src/index.js";
+import { Slot } from "../../src/runtime/core/slots.js";
+
+function equalKeyPair(): [PyObject, PyObject] {
+  const Key = makeClass({
+    name: "Key",
+    bases: [objectType],
+    dict: new Map<string | symbol, unknown>([
+      [
+        Slot.eq,
+        (_self: PyObject, other: PyObject) => {
+          if (other.type.name === "Key") return true;
+          return NotImplemented;
+        },
+      ],
+    ]),
+  });
+  return [instantiate(Key), instantiate(Key)];
+}
+
+describe("list __iadd__", () => {
+  it("iadd extends list with list in place", () => {
+    const lst = pyList([pyInt(1)]);
+    const extra = pyList([pyInt(2), pyInt(3)]);
+    iadd(lst, extra);
+    expect(len(lst)).toBe(3);
+    expect(unwrap(getItem(lst, 0) as ReturnType<typeof pyInt>)).toBe(1);
+    expect(unwrap(getItem(lst, 1) as ReturnType<typeof pyInt>)).toBe(2);
+    expect(unwrap(getItem(lst, 2) as ReturnType<typeof pyInt>)).toBe(3);
+  });
+
+  it("iadd returns same list instance", () => {
+    const lst = pyList([pyInt(1)]);
+    expect(iadd(lst, pyList([pyInt(2)]))).toBe(lst);
+  });
+
+  it("in-place extend does not dedupe equal-but-distinct elements", () => {
+    const [k1, k2] = equalKeyPair();
+    const lst = pyList([k1]);
+    iadd(lst, pyList([k2]));
+    expect(len(lst)).toBe(2);
+    expect(eq(getItem(lst, 0) as PyObject, k1)).toBe(true);
+    expect(eq(getItem(lst, 1) as PyObject, k2)).toBe(true);
+  });
+});
