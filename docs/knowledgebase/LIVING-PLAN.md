@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 785 merge PR #453)
+
+### Landed
+
+- [REPO] Plan 785 merged via PR #453 — plan 784 merge record in LIVING-PLAN (1202 Vitest / 163 files).
+
+### Partial
+
+- None.
+
+### Next
+
+1. Further §8.15 gaps only when scoped (remaining niche API).
+2. PEP 3118 out of scope.
+
+---
+
 ## Delta update (2026-05-24, plan 784 merge PR #452)
 
 ### Landed
