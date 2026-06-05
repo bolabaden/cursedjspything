@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 803 merge PR #471)
+
+### Landed
+
+- [REPO] Plan 803 merged via PR #471 — plan 802 merge record in LIVING-PLAN (1202 Vitest / 163 files).
+
+### Partial
+
+- None.
+
+### Next
+
+1. Further §8.15 gaps only when scoped (remaining niche API).
+2. PEP 3118 out of scope.
+
+---
+
 ## Delta update (2026-05-24, plan 802 merge PR #470)
 
 ### Landed
