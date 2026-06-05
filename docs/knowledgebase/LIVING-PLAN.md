@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 837 merge PR #505)
+
+### Landed
+
+- [REPO] Plan 837 merged via PR #505 — plan 836 merge record in LIVING-PLAN (1202 Vitest / 163 files).
+
+### Partial
+
+- None.
+
+### Next
+
+1. Further §8.15 gaps only when scoped (remaining niche API).
+2. PEP 3118 out of scope.
+
+---
+
 ## Delta update (2026-05-24, plan 836 merge PR #504)
 
 ### Landed
