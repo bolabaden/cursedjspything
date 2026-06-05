@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 822 merge PR #490)
+
+### Landed
+
+- [REPO] Plan 822 merged via PR #490 — plan 821 merge record in LIVING-PLAN (1202 Vitest / 163 files).
+
+### Partial
+
+- None.
+
+### Next
+
+1. Further §8.15 gaps only when scoped (remaining niche API).
+2. PEP 3118 out of scope.
+
+---
+
 ## Delta update (2026-05-24, plan 821 merge PR #489)
 
 ### Landed
