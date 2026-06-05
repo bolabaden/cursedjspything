@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 781 merge PR #449)
+
+### Landed
+
+- [REPO] Plan 781 merged via PR #449 — plan 780 merge record in LIVING-PLAN (1202 Vitest / 163 files).
+
+### Partial
+
+- None.
+
+### Next
+
+1. Further §8.15 gaps only when scoped (remaining niche API).
+2. PEP 3118 out of scope.
+
+---
+
 ## Delta update (2026-05-24, plan 780 merge PR #448)
 
 ### Landed
