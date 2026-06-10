@@ -58,12 +58,6 @@ function repeatStr(self: PyObject, other: PyObject) {
   return pyStr(nativeVal<string>(self).repeat(n));
 }
 
-/** Reflected repeat: CPython rejects int * str (no int→str rmul); str * int uses __mul__. */
-function repeatStrRmul(self: PyObject, other: PyObject) {
-  if (other.type === intType) return NotImplemented;
-  return repeatStr(self, other);
-}
-
 function normalizeEncodingName(raw: string): string {
   return raw.toLowerCase().replace(/_/g, "-");
 }
@@ -1408,7 +1402,7 @@ export const strType = makeClass({
       return pyStr(nativeVal<string>(self) + nativeVal<string>(other));
     }],
     [Slot.mul, repeatStr],
-    [Slot.rmul, repeatStrRmul],
+    [Slot.rmul, repeatStr],
     [Slot.contains, (self: PyObject, item: unknown) => {
       if (!(item instanceof PyObject) || item.type !== strType) {
         const kind =

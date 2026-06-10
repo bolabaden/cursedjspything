@@ -7,6 +7,21 @@
 
 ---
 
+## Delta update (2026-05-24, plan 845 int * sequence rmul parity)
+
+### Landed
+
+- [REPO] Plan 845 — restore CPython **`int * str`**, **`int * bytes`**, **`int * list`**, **`int * tuple`** via reflected `__rmul__` (reverts incorrect reject guards from plans 705/707/709); Vitest + §8.15 sync (1202 Vitest / 163 files).
+
+### Partial
+
+- None.
+
+### Next
+
+1. Further §8.15 niche API gaps when scoped (ordering canonicalization, float↔str edges).
+2. PEP 3118 out of scope.
+
 ---
 
 ## Delta update (2026-05-24, plan 842 merge PR #510)

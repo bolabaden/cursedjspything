@@ -86,11 +86,9 @@ describe("cpython-derived int/str remaining binary ops", () => {
     );
   });
 
-  it("mul rejects int and str", () => {
-    expect(() => mul(i(), s())).toThrow(PyTypeError);
-    expect(() => mul(i(), s())).toThrow(
-      /unsupported operand type\(s\) for \*: 'int' and 'str'/,
-    );
+  it("mul allows int and str via reflected repeat", () => {
+    expect(unwrap(mul(i(), s()) as ReturnType<typeof pyStr>)).toBe("a");
+    expect(unwrap(mul(pyInt(2), s()) as ReturnType<typeof pyStr>)).toBe("aa");
   });
 
   it("mul allows str and int (repeat)", () => {
