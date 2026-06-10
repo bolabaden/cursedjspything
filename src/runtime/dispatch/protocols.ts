@@ -23,6 +23,8 @@ import { makeReversedIterator } from "../iterators/reversed-iterator.js";
 import { makeEnumerateIterator } from "../iterators/enumerate-iterator.js";
 import { makeZipIterator } from "../iterators/zip-iterator.js";
 import { makeMapIterator } from "../iterators/map-iterator.js";
+import { makeFilterIterator } from "../iterators/filter-iterator.js";
+import { pyNone } from "../builtins/none.js";
 import { pyIndexAsInteger } from "../builtins/int.js";
 import {
   comparePyObjectsForOrder,
@@ -410,6 +412,34 @@ export function map(...args: unknown[]): PyObject {
     iters.push(iter(arg));
   }
   return makeMapIterator(func, iters);
+}
+
+export function filter(...args: unknown[]): PyObject {
+  if (args.length !== 2) {
+    throw new PyTypeError(`filter expected 2 arguments, got ${args.length}`);
+  }
+  const func = args[0];
+  const iterable = args[1];
+  if (!(iterable instanceof PyObject)) {
+    const kind = typeof iterable;
+    throw new PyTypeError(`filter() iterable must be PyObject, not ${kind}`);
+  }
+  const identity = func === pyNone;
+  if (!identity) {
+    if (!(func instanceof PyObject)) {
+      const kind = typeof func;
+      throw new PyTypeError(`filter() func must be PyObject, not ${kind}`);
+    }
+    if (lookupSpecial(func, Slot.call) === undefined) {
+      throw new PyTypeError(`'${func.type.name}' object is not callable`);
+    }
+  }
+  const inner = iter(iterable);
+  return makeFilterIterator(
+    identity ? null : (func as PyObject),
+    inner,
+    identity,
+  );
 }
 
 export function zip(...args: unknown[]): PyObject {

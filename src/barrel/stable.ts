@@ -122,6 +122,7 @@ export {
   enumerate,
   zip,
   map,
+  filter,
   enter,
   exit,
   pyAwait,

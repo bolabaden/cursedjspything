@@ -7,6 +7,24 @@
 
 ---
 
+## Delta update (2026-05-24, plan 869 filter builtin)
+
+### Landed
+
+- [REPO] Plan 869 — builtin `filter`; `filter-iterator.ts`; `filter-builtin.test.ts`.
+
+### Partial
+
+- None.
+
+### Next
+
+1. Further iterable builtins when scoped.
+2. Further str/bytes API niche gaps when scoped.
+3. PEP 3118 out of scope.
+
+---
+
 ## Delta update (2026-05-24, plan 868 map builtin)
 
 ### Landed
