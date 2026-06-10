@@ -7,6 +7,7 @@ import { makeClass } from "../class/class.js";
 import { Slot, Hook } from "../core/slots.js";
 import { setNative, nativeVal } from "../builtins/native.js";
 import { pyIndexAsInteger, pyInt } from "../builtins/int.js";
+import { pyNone } from "../builtins/none.js";
 import { pyTuple } from "../builtins/tuple.js";
 import { PyTypeError, PyValueError } from "../core/errors.js";
 
@@ -62,6 +63,12 @@ function formatSliceSpec(self: PyObject, spec: string): string {
   throw new PyTypeError("unsupported format string passed to slice.__format__");
 }
 
+function sliceBoundAttr(value: SliceBound): PyObject {
+  if (value === null) return pyNone;
+  if (typeof value === "number") return pyInt(value);
+  return value;
+}
+
 function sliceLengthArg(length: unknown): number {
   let n: number | null = null;
   if (typeof length === "number") {
@@ -104,6 +111,9 @@ export function pySlice(
 ): PyObject {
   const obj = new PyObject(sliceType);
   setNative(obj, { start, stop, step });
+  obj.dict.set("start", sliceBoundAttr(start));
+  obj.dict.set("stop", sliceBoundAttr(stop));
+  obj.dict.set("step", sliceBoundAttr(step));
   return obj;
 }
 

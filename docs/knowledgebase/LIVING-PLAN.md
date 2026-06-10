@@ -7,6 +7,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 853 slice attributes)
+
+### Landed
+
+- [REPO] Plan 853 — `slice.start`/`stop`/`step` attributes; `slice-attributes.test.ts` (1232 Vitest / 167 files).
+
+### Partial
+
+- None.
+
+### Next
+
+1. Further str/bytes API niche gaps when scoped.
+2. PEP 3118 out of scope.
+
+---
+
 ## Delta update (2026-05-24, plan 852 slice.indices method)
 
 ### Landed
