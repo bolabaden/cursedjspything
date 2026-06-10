@@ -21,6 +21,7 @@ import { attachBufferView, type PyBufferView } from "../buffer/buffer.js";
 import { makeSequenceIterator } from "../iterators/sequence-iterator.js";
 import { makeReversedIterator } from "../iterators/reversed-iterator.js";
 import { makeEnumerateIterator } from "../iterators/enumerate-iterator.js";
+import { makeZipIterator } from "../iterators/zip-iterator.js";
 import { pyIndexAsInteger } from "../builtins/int.js";
 import {
   pyList,
@@ -312,6 +313,21 @@ export function enumerate(...args: unknown[]): PyObject {
   }
   const inner = iter(iterable);
   return makeEnumerateIterator(inner, startIndex);
+}
+
+export function zip(...args: unknown[]): PyObject {
+  if (args.length === 0) {
+    throw new PyTypeError("zip() expected at least 1 argument, got 0");
+  }
+  const iters: PyObject[] = [];
+  for (const arg of args) {
+    if (!(arg instanceof PyObject)) {
+      const kind = typeof arg;
+      throw new PyTypeError(`zip() argument must be PyObject, not ${kind}`);
+    }
+    iters.push(iter(arg));
+  }
+  return makeZipIterator(iters);
 }
 
 export function sum(...args: unknown[]): PyObject {

@@ -120,6 +120,7 @@ export {
   all,
   sum,
   enumerate,
+  zip,
   enter,
   exit,
   pyAwait,

@@ -7,6 +7,25 @@
 
 ---
 
+## Delta update (2026-05-24, plan 866 zip builtin)
+
+### Landed
+
+- [REPO] Plan 866 — builtin `zip`; `zip-iterator.ts`; `zip-builtin.test.ts`.
+
+### Partial
+
+- `zip(strict=True)` deferred.
+
+### Next
+
+1. `min`/`max` `key=` and `default=` when scoped.
+2. Further iterable builtins when scoped.
+3. Further str/bytes API niche gaps when scoped.
+4. PEP 3118 out of scope.
+
+---
+
 ## Delta update (2026-05-24, plan 865 enumerate builtin)
 
 ### Landed
