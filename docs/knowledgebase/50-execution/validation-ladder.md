@@ -46,7 +46,7 @@ Emits JSON (`vitest_seconds`, pass gates, `test_count`); use median of several r
 | `test/builtins/list-eq.test.ts` | list __eq__ rich elements; __contains__ hash+eq (plan 622) |
 | `test/cpython-derived/tuple-eq-hash-eq.test.ts` | tuple __eq__ and __contains__ element hash+eq (plans 622, 624) |
 | `test/cpython-derived/sequence-add.test.ts` | list/tuple __add__ + cross-type + rejects (plans 634, 660–662, 674, 678) |
-| `test/cpython-derived/sequence-mul-cross-type.test.ts` | list/tuple __mul__ heterogeneous * + list*list rejects; int*list/tuple reject (plans 664–670, 680, 709) |
+| `test/cpython-derived/sequence-mul-cross-type.test.ts` | list/tuple __mul__ heterogeneous * + list*list rejects; int*list/tuple reflected repeat (plans 664–670, 680, 845) |
 | `test/cpython-derived/sequence-sub.test.ts` | list/tuple __sub__ + list __isub__ rejects (plans 680, 694–701) |
 | `test/cpython-derived/sequence-eq-cross-type.test.ts` | list/tuple/bytes cross-type eq/ne (plan 682) |
 | `test/cpython-derived/sequence-ordering-cross-type.test.ts` | list/tuple cross-type ordering rejects (plan 684) |
@@ -78,7 +78,7 @@ Emits JSON (`vitest_seconds`, pass gates, `test_count`); use median of several r
 
 ---
 
-| `test/cpython-derived/operator-int-str-remaining-binary.test.ts` | int↔str sub/truediv/floordiv/mod/divmod/pow TypeError both orders; int*str mul reject, str*int repeat (plan 705; ordering in str-scalar) |
+| `test/cpython-derived/operator-int-str-remaining-binary.test.ts` | int↔str sub/truediv/floordiv/mod/divmod/pow TypeError both orders; int*str and str*int repeat (plan 845; ordering in str-scalar) |
 
 ---
 
@@ -182,7 +182,7 @@ Emits JSON (`vitest_seconds`, pass gates, `test_count`); use median of several r
 | `test/cpython-derived/operator-bytes-cross-type.test.ts` | bytes+bytes add and bytes*int mul happy paths only (plan 418) |
 | `test/cpython-derived/operator-bytes-remaining-cross-type.test.ts` | bytes↔int/float/str/bool full binary + bytes↔int/float/bool ordering (str↔bytes ordering in str-bytes file; plan 426) |
 | `test/cpython-derived/operator-str-bytes-cross-type.test.ts` | str↔bytes eq/ne, contains, ordering (binary in bytes-remaining; plans 458/462/464) |
-| `test/cpython-derived/operator-bytes-scalar-cross-type.test.ts` | bytes↔int/float/bool eq/ne; int*bytes mul reject, bytes*int repeat (plans 430/707) |
+| `test/cpython-derived/operator-bytes-scalar-cross-type.test.ts` | bytes↔int/float/bool eq/ne; int*bytes and bytes*int mul repeat (plans 430/845) |
 | `test/cpython-derived/operator-bool-str-remaining-binary.test.ts` | bool↔str sub/truediv/floordiv/mod/divmod/pow TypeError both orders (add in str-scalar; plan 404/474) |
 | `test/cpython-derived/sequence-index-type.test.ts` | List/tuple get/set/del non-integer subscript TypeError; list index out of range and delItem |
 | `test/cpython-derived/contains-protocol.test.ts` | CPython `test_contains.py` membership protocol |

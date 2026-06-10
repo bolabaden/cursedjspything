@@ -47,12 +47,6 @@ function repeatBytesSlot(self: PyObject, other: PyObject) {
   return pyBytes(repeatBytes(bytesData(self), n));
 }
 
-/** Reflected repeat: CPython rejects int * bytes; bytes * int uses __mul__. */
-function repeatBytesRmul(self: PyObject, other: PyObject) {
-  if (other.type === intType) return NotImplemented;
-  return repeatBytesSlot(self, other);
-}
-
 function bytesRepr(data: Uint8Array): string {
   let inner = "";
   for (const byte of data) {
@@ -1504,7 +1498,7 @@ export const bytesType = makeClass({
       return pyBytes(concatBytes(bytesData(self), bytesData(other)));
     }],
     [Slot.mul, repeatBytesSlot],
-    [Slot.rmul, repeatBytesRmul],
+    [Slot.rmul, repeatBytesSlot],
     ["decode", (self: PyObject, encoding?: unknown, errors?: unknown) => {
       const enc = decodeEncodingArg(encoding);
       const errMode = decodeErrorsArg(errors);

@@ -44,11 +44,13 @@ describe("cpython-derived bytes/scalar comparisons", () => {
 describe("cpython-derived bytes/int mul", () => {
   const b = () => bytes(pyStr("ab")) as ReturnType<typeof pyBytes>;
 
-  it("mul rejects int and bytes", () => {
-    expect(() => mul(pyInt(1), b())).toThrow(PyTypeError);
-    expect(() => mul(pyInt(1), b())).toThrow(
-      /unsupported operand type\(s\) for \*: 'int' and 'bytes'/,
-    );
+  it("mul allows int and bytes via reflected repeat", () => {
+    expect(
+      Array.from(unwrap<Uint8Array>(mul(pyInt(1), b()) as ReturnType<typeof pyBytes>)),
+    ).toEqual([97, 98]);
+    expect(
+      Array.from(unwrap<Uint8Array>(mul(pyInt(2), b()) as ReturnType<typeof pyBytes>)),
+    ).toEqual([97, 98, 97, 98]);
   });
 
   it("mul allows bytes and int (repeat)", () => {

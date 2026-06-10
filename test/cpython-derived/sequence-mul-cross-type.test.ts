@@ -81,18 +81,12 @@ describe("sequence __mul__ cross-type", () => {
     );
   });
 
-  it("mul rejects int and list", () => {
-    expect(() => mul(pyInt(2), oneList())).toThrow(PyTypeError);
-    expect(() => mul(pyInt(2), oneList())).toThrow(
-      /unsupported operand type\(s\) for \*: 'int' and 'list'/,
-    );
+  it("mul allows int and list via reflected repeat", () => {
+    expect(len(mul(pyInt(2), oneList()) as ReturnType<typeof pyList>)).toBe(2);
   });
 
-  it("mul rejects int and tuple", () => {
-    expect(() => mul(pyInt(2), oneTuple())).toThrow(PyTypeError);
-    expect(() => mul(pyInt(2), oneTuple())).toThrow(
-      /unsupported operand type\(s\) for \*: 'int' and 'tuple'/,
-    );
+  it("mul allows int and tuple via reflected repeat", () => {
+    expect(len(mul(pyInt(2), oneTuple()) as ReturnType<typeof pyTuple>)).toBe(2);
   });
 
   it("mul allows list and int (repeat)", () => {
