@@ -178,6 +178,8 @@ export {
   setType,
   pyFrozenSet,
   frozensetType,
+  range,
+  rangeType,
   pyBytes,
   bytesType,
   unwrap,

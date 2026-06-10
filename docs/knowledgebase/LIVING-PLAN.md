@@ -7,6 +7,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 875 range builtin)
+
+### Landed
+
+- [REPO] Plan 875 — builtin `range()`; `range-builtin.test.ts`.
+
+### Partial
+
+- `reversed(range)` / range equality deferred.
+
+### Next
+
+1. Further str/bytes API niche gaps when scoped.
+2. PEP 3118 out of scope.
+
+---
+
 ## Delta update (2026-05-24, plan 874 dict builtin)
 
 ### Landed
