@@ -7,6 +7,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 879 bin oct hex)
+
+### Landed
+
+- [REPO] Plan 879 — builtin `bin`/`oct`/`hex`; `bin-oct-hex-builtin.test.ts`.
+
+### Partial
+
+- None.
+
+### Next
+
+1. Further str/bytes/int API niche gaps when scoped (e.g. export `ascii` builtin).
+2. PEP 3118 out of scope.
+
+---
+
 ## Delta update (2026-05-24, plan 878 chr ord)
 
 ### Landed
