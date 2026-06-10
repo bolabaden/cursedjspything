@@ -407,6 +407,53 @@ function strIsspace(text: string): PyObject {
   return pyTrue;
 }
 
+function strIsidentifier(text: string): PyObject {
+  if (text.length === 0) return pyFalse;
+  let i = 0;
+  const firstCp = text.codePointAt(i)!;
+  const first = String.fromCodePoint(firstCp);
+  if (first !== "_" && !/^\p{ID_Start}$/u.test(first)) return pyFalse;
+  i += first.length;
+  while (i < text.length) {
+    const cp = text.codePointAt(i)!;
+    const ch = String.fromCodePoint(cp);
+    if (!/^\p{ID_Continue}$/u.test(ch)) return pyFalse;
+    i += ch.length;
+  }
+  return pyTrue;
+}
+
+function strIsdecimal(text: string): PyObject {
+  if (text.length === 0) return pyFalse;
+  for (let i = 0; i < text.length; ) {
+    const cp = text.codePointAt(i)!;
+    if (!/^\p{Nd}$/u.test(String.fromCodePoint(cp))) return pyFalse;
+    i += cp > 0xffff ? 2 : 1;
+  }
+  return pyTrue;
+}
+
+function strIsnumeric(text: string): PyObject {
+  if (text.length === 0) return pyFalse;
+  for (let i = 0; i < text.length; ) {
+    const cp = text.codePointAt(i)!;
+    if (!/^\p{Number}$/u.test(String.fromCodePoint(cp))) return pyFalse;
+    i += cp > 0xffff ? 2 : 1;
+  }
+  return pyTrue;
+}
+
+function strIsprintable(text: string): PyObject {
+  if (text.length === 0) return pyTrue;
+  for (let i = 0; i < text.length; ) {
+    const cp = text.codePointAt(i)!;
+    const ch = String.fromCodePoint(cp);
+    if (/^\p{Cc}$/u.test(ch) || /^\p{Cf}$/u.test(ch)) return pyFalse;
+    i += ch.length;
+  }
+  return pyTrue;
+}
+
 function strStripPredicate(chars: unknown): (cp: number) => boolean {
   if (chars === undefined || chars === null) {
     return (cp) => /^\s$/u.test(String.fromCodePoint(cp));
@@ -1486,6 +1533,10 @@ export const strType = makeClass({
     ["isupper", (self: PyObject) => strIsupper(nativeVal<string>(self))],
     ["istitle", (self: PyObject) => strIstitle(nativeVal<string>(self))],
     ["isspace", (self: PyObject) => strIsspace(nativeVal<string>(self))],
+    ["isidentifier", (self: PyObject) => strIsidentifier(nativeVal<string>(self))],
+    ["isdecimal", (self: PyObject) => strIsdecimal(nativeVal<string>(self))],
+    ["isnumeric", (self: PyObject) => strIsnumeric(nativeVal<string>(self))],
+    ["isprintable", (self: PyObject) => strIsprintable(nativeVal<string>(self))],
     ["strip", (self: PyObject, chars?: unknown) =>
       pyStr(stripStr(nativeVal<string>(self), chars, "both"))],
     ["lstrip", (self: PyObject, chars?: unknown) =>
