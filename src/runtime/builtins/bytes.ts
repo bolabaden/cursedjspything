@@ -264,6 +264,17 @@ function decodeAscii(data: Uint8Array, errors: DecodeErrors): string {
   return out;
 }
 
+export function pyBytesDecode(
+  self: PyObject,
+  encoding?: unknown,
+  errors?: unknown,
+): PyObject {
+  const enc = decodeEncodingArg(encoding);
+  const errMode = decodeErrorsArg(errors);
+  const text = decodeBytesPayload(bytesData(self), enc, errMode);
+  return pyStr(text);
+}
+
 function decodeBytesPayload(
   data: Uint8Array,
   encoding: string,
@@ -1507,12 +1518,8 @@ export const bytesType = makeClass({
     }],
     [Slot.mul, repeatBytesSlot],
     [Slot.rmul, repeatBytesSlot],
-    ["decode", (self: PyObject, encoding?: unknown, errors?: unknown) => {
-      const enc = decodeEncodingArg(encoding);
-      const errMode = decodeErrorsArg(errors);
-      const text = decodeBytesPayload(bytesData(self), enc, errMode);
-      return pyStr(text);
-    }],
+    ["decode", (self: PyObject, encoding?: unknown, errors?: unknown) =>
+      pyBytesDecode(self, encoding, errors)],
     ["fromhex", (_cls: unknown, string: unknown) => {
       return bytesFromhex(string);
     }],

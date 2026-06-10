@@ -7,6 +7,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 883 str bytes decode)
+
+### Landed
+
+- [REPO] Plan 883 — `str(bytes, encoding[, errors])`; shared `pyBytesDecode`; extended `str-builtin.test.ts`.
+
+### Partial
+
+- None.
+
+### Next
+
+1. Further str/bytes/int API niche gaps when scoped (e.g. `bytes()` constructor).
+2. PEP 3118 out of scope.
+
+---
+
 ## Delta update (2026-05-24, plan 882 str builtin)
 
 ### Landed
@@ -15,7 +32,7 @@
 
 ### Partial
 
-- `str(bytes, encoding)` decode form deferred.
+- `str(bytes, encoding)` decode form deferred (plan 883).
 
 ### Next
 
