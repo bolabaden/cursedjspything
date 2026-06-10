@@ -10,9 +10,10 @@ import {
   PyTypeError,
   PyKeyError,
   PyStopIteration,
+  PyValueError,
 } from "../core/errors.js";
 import { callSlotOrThrow, lengthOf } from "./dispatch.js";
-import { eq } from "./operators/compare.js";
+import { eq, gt, lt } from "./operators/compare.js";
 import { attachBufferView, type PyBufferView } from "../buffer/buffer.js";
 import { makeSequenceIterator } from "../iterators/sequence-iterator.js";
 import { makeReversedIterator } from "../iterators/reversed-iterator.js";
@@ -154,18 +155,17 @@ export function reversed(obj: PyObject): PyObject {
   throw new PyTypeError(`'${obj.type.name}' object is not reversible`);
 }
 
-export function sorted(
+function materializeIterable(
   iterable: PyObject,
-  key?: unknown,
-  reverse?: unknown,
-): PyObject {
+  context: string,
+): PyObject[] {
   const items: PyObject[] = [];
   const it = iter(iterable);
   while (true) {
     try {
       const item = next(it);
       if (!(item instanceof PyObject)) {
-        throw new PyTypeError("sorted() expects iterator items to be PyObject");
+        throw new PyTypeError(`${context}() expects iterator items to be PyObject`);
       }
       items.push(item);
     } catch (e) {
@@ -173,6 +173,61 @@ export function sorted(
       throw e;
     }
   }
+  return items;
+}
+
+function requirePyObjectArgs(args: unknown[], fn: "min" | "max"): PyObject[] {
+  const out: PyObject[] = [];
+  for (const arg of args) {
+    if (!(arg instanceof PyObject)) {
+      const kind = typeof arg;
+      throw new PyTypeError(`${fn}() argument must be PyObject, not ${kind}`);
+    }
+    out.push(arg);
+  }
+  return out;
+}
+
+function minMaxCandidates(args: unknown[], fn: "min" | "max"): PyObject[] {
+  if (args.length === 0) {
+    throw new PyTypeError(`${fn} expected at least 1 argument, got 0`);
+  }
+  if (args.length === 1 && args[0] instanceof PyObject) {
+    const items = materializeIterable(args[0], fn);
+    if (items.length === 0) {
+      throw new PyValueError(`${fn}() arg is an empty sequence`);
+    }
+    return items;
+  }
+  return requirePyObjectArgs(args, fn);
+}
+
+export function min(...args: unknown[]): PyObject {
+  const candidates = minMaxCandidates(args, "min");
+  let best = candidates[0]!;
+  for (let i = 1; i < candidates.length; i++) {
+    const item = candidates[i]!;
+    if (lt(item, best) === true) best = item;
+  }
+  return best;
+}
+
+export function max(...args: unknown[]): PyObject {
+  const candidates = minMaxCandidates(args, "max");
+  let best = candidates[0]!;
+  for (let i = 1; i < candidates.length; i++) {
+    const item = candidates[i]!;
+    if (gt(item, best) === true) best = item;
+  }
+  return best;
+}
+
+export function sorted(
+  iterable: PyObject,
+  key?: unknown,
+  reverse?: unknown,
+): PyObject {
+  const items = materializeIterable(iterable, "sorted");
   const opts = resolveSortOptions(key, reverse, "sorted");
   sortPyObjectsInPlace(items, opts.reverse, opts.keyFn, "sorted");
   return pyList(items);

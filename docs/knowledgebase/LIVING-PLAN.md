@@ -7,6 +7,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 862 min/max builtins)
+
+### Landed
+
+- [REPO] Plan 862 — builtin `min`/`max`; `min-max-builtin.test.ts`.
+
+### Partial
+
+- `key=` / `default=` deferred.
+
+### Next
+
+1. Further str/bytes API niche gaps when scoped.
+2. PEP 3118 out of scope.
+
+---
+
 ## Delta update (2026-05-24, plan 861 tuple index/count)
 
 ### Landed

@@ -114,6 +114,8 @@ export {
   next,
   reversed,
   sorted,
+  min,
+  max,
   enter,
   exit,
   pyAwait,

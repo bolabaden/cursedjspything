@@ -195,6 +195,7 @@ Emits JSON (`vitest_seconds`, pass gates, `test_count`); use median of several r
 | `test/cpython-derived/list-remove-reverse.test.ts` | list `remove`/`reverse` (plan 857) |
 | `test/cpython-derived/list-sort.test.ts` | list `sort` with `key`/`reverse` (plans 858/860) |
 | `test/cpython-derived/sorted-builtin.test.ts` | builtin `sorted(iterable, key=, reverse=)` (plans 859/860) |
+| `test/cpython-derived/min-max-builtin.test.ts` | builtin `min`/`max` (plan 862) |
 | `test/cpython-derived/contains-protocol.test.ts` | CPython `test_contains.py` membership protocol |
 | `test/cpython-derived/isinstance-protocol.test.ts` | CPython `test_isinstance.py` MRO / tuple checks |
 | `test/cpython-derived/sequence-repeat-nonint.test.ts` | seq*float and float*seq reject float repeat (plans 642/648) |
