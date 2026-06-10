@@ -306,3 +306,32 @@ export function pyDict(entries: [unknown, PyObject][] = []): PyObject {
   return obj;
 }
 
+export function pyDictFromArg(arg: PyObject): PyObject {
+  if (arg.type === dictType) {
+    const obj = new PyObject(dictType);
+    setNative(
+      obj,
+      mergeDictMaps(new Map(), nativeVal<Map<unknown, PyObject>>(arg)),
+    );
+    return obj;
+  }
+  const obj = pyDict([]);
+  dictUpdateFrom(arg, nativeVal<Map<unknown, PyObject>>(obj), "dict");
+  return obj;
+}
+
+export function dict(...args: unknown[]): PyObject {
+  if (args.length === 0) return pyDict([]);
+  if (args.length > 1) {
+    throw new PyTypeError(
+      `dict expected at most 1 argument, got ${args.length}`,
+    );
+  }
+  const arg = args[0];
+  if (!(arg instanceof PyObject)) {
+    const kind = typeof arg;
+    throw new PyTypeError(`dict() argument must be PyObject, not ${kind}`);
+  }
+  return pyDictFromArg(arg);
+}
+

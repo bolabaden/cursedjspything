@@ -172,6 +172,7 @@ export {
   pyTuple,
   tupleType,
   pyDict,
+  dict,
   dictType,
   pySet,
   setType,
