@@ -9,6 +9,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 842 merge PR #510)
+
+### Landed
+
+- [REPO] Plan 842 merged via PR #510 — plan 841 merge record in LIVING-PLAN (1202 Vitest / 163 files).
+
+### Partial
+
+- None.
+
+### Next
+
+1. Further §8.15 gaps only when scoped (remaining niche API).
+2. PEP 3118 out of scope.
+
+---
+
 ## Delta update (2026-05-24, plan 841 merge PR #509)
 
 ### Landed
