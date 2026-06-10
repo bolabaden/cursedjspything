@@ -1,4 +1,4 @@
-import { PyObject } from "../core/object.js";
+import { NotImplemented, PyObject } from "../core/object.js";
 import { Hook, Slot } from "../core/slots.js";
 import { makeClass } from "../class/class.js";
 import { PyIndexError, PyStopIteration, PyTypeError, PyValueError } from "../core/errors.js";
@@ -48,6 +48,10 @@ function rangeContains(fields: RangeFields, key: unknown): boolean {
   }
   if (n > start || n <= stop) return false;
   return (start - n) % -step === 0;
+}
+
+function rangesEqual(a: RangeFields, b: RangeFields): boolean {
+  return a.start === b.start && a.stop === b.stop && a.step === b.step;
 }
 
 function rangeGetItem(fields: RangeFields, key: unknown): PyObject {
@@ -130,6 +134,13 @@ export const rangeType = makeClass({
     }],
     [Slot.contains, (self: PyObject, key: unknown) => {
       return rangeContains(self.dict.get("_fields") as RangeFields, key);
+    }],
+    [Slot.eq, (self: PyObject, other: PyObject) => {
+      if (other.type !== rangeType) return NotImplemented;
+      return rangesEqual(
+        self.dict.get("_fields") as RangeFields,
+        other.dict.get("_fields") as RangeFields,
+      );
     }],
     [Hook.reversed, (self: PyObject) => {
       const fields = self.dict.get("_fields") as RangeFields;

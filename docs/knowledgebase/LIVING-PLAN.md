@@ -7,6 +7,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 877 range eq)
+
+### Landed
+
+- [REPO] Plan 877 — `range.__eq__` + unhashable evidence; extended `range-builtin.test.ts`.
+
+### Partial
+
+- None.
+
+### Next
+
+1. Further str/bytes API niche gaps when scoped.
+2. PEP 3118 out of scope.
+
+---
+
 ## Delta update (2026-05-24, plan 876 range reversed)
 
 ### Landed

@@ -206,7 +206,7 @@ Emits JSON (`vitest_seconds`, pass gates, `test_count`); use median of several r
 | `test/cpython-derived/set-builtin.test.ts` | builtin `set` (plan 871) |
 | `test/cpython-derived/frozenset-builtin.test.ts` | builtin `frozenset` (plan 872) |
 | `test/cpython-derived/dict-builtin.test.ts` | builtin `dict` (plan 874) |
-| `test/cpython-derived/range-builtin.test.ts` | builtin `range` + `reversed(range)` (plans 875/876) |
+| `test/cpython-derived/range-builtin.test.ts` | builtin `range`, `reversed(range)`, `__eq__`/unhashable (plans 875–877) |
 | `test/cpython-derived/contains-protocol.test.ts` | CPython `test_contains.py` membership protocol |
 | `test/cpython-derived/isinstance-protocol.test.ts` | CPython `test_isinstance.py` MRO / tuple checks |
 | `test/cpython-derived/sequence-repeat-nonint.test.ts` | seq*float and float*seq reject float repeat (plans 642/648) |

@@ -4,11 +4,15 @@
 import { describe, it, expect } from "vitest";
 import {
   contains,
+  eq,
   getItem,
+  hash,
   iter,
   len,
+  ne,
   next,
   pyInt,
+  pyList,
   pyStr,
   range,
   rangeType,
@@ -140,5 +144,30 @@ describe("cpython-derived range builtin", () => {
   it("reversed iterator __iter__ returns self", () => {
     const it = reversed(range(pyInt(2)));
     expect(iter(it)).toBe(it);
+  });
+
+  it("equal ranges compare true across equivalent constructors", () => {
+    expect(eq(range(pyInt(5)), range(pyInt(0), pyInt(5)))).toBe(true);
+    expect(eq(range(pyInt(0), pyInt(5)), range(pyInt(0), pyInt(5), pyInt(1)))).toBe(
+      true,
+    );
+  });
+
+  it("unequal ranges compare false", () => {
+    expect(eq(range(pyInt(5)), range(pyInt(4)))).toBe(false);
+    expect(ne(range(pyInt(5)), range(pyInt(4)))).toBe(true);
+    expect(eq(range(pyInt(0), pyInt(10), pyInt(2)), range(pyInt(0), pyInt(10)))).toBe(
+      false,
+    );
+  });
+
+  it("range does not compare equal to other types", () => {
+    expect(eq(range(pyInt(3)), pyList([pyInt(0), pyInt(1), pyInt(2)]))).toBe(false);
+    expect(eq(range(pyInt(3)), pyInt(3))).toBe(false);
+  });
+
+  it("range is unhashable", () => {
+    expect(() => hash(range(pyInt(5)))).toThrow(PyTypeError);
+    expect(() => hash(range(pyInt(5)))).toThrow(/unhashable type: 'range'/);
   });
 });
