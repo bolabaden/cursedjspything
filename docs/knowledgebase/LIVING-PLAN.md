@@ -7,6 +7,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 859 sorted builtin)
+
+### Landed
+
+- [REPO] Plan 859 — builtin `sorted(iterable, reverse=)`; `sorted-builtin.test.ts`.
+
+### Partial
+
+- `sorted(key=)` / `list.sort(key=)` deferred.
+
+### Next
+
+1. Further str/bytes API niche gaps when scoped.
+2. PEP 3118 out of scope.
+
+---
+
 ## Delta update (2026-05-24, plan 858 list sort)
 
 ### Landed

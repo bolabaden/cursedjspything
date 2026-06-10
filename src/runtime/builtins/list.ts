@@ -174,14 +174,17 @@ function removeList(arr: PyObject[], value: unknown): void {
   throw new PyValueError("list.remove(x): x not in list");
 }
 
-function parseSortReverse(reverse: unknown): boolean {
+export function parseSortReverse(
+  reverse: unknown,
+  context: "sort" | "sorted" = "sort",
+): boolean {
   if (reverse === undefined || reverse === null) return false;
   if (typeof reverse === "boolean") return reverse;
   if (reverse instanceof PyObject && reverse.type === boolType) {
     return nativeVal<boolean>(reverse);
   }
   const kind = reverse instanceof PyObject ? reverse.type.name : typeof reverse;
-  throw new PyTypeError(`sort() argument must be bool, not ${kind}`);
+  throw new PyTypeError(`${context}() argument must be bool, not ${kind}`);
 }
 
 function listSortCompare(a: PyObject, b: PyObject): number {
@@ -190,7 +193,7 @@ function listSortCompare(a: PyObject, b: PyObject): number {
   return 0;
 }
 
-function sortList(arr: PyObject[], reverse: boolean): void {
+export function sortPyObjectsInPlace(arr: PyObject[], reverse: boolean): void {
   arr.sort((a, b) => {
     const cmp = listSortCompare(a, b);
     return reverse ? -cmp : cmp;
@@ -377,7 +380,10 @@ export const listType = makeClass({
       return pyNone;
     }],
     ["sort", (self: PyObject, reverse?: unknown) => {
-      sortList(nativeVal<PyObject[]>(self), parseSortReverse(reverse));
+      sortPyObjectsInPlace(
+        nativeVal<PyObject[]>(self),
+        parseSortReverse(reverse),
+      );
       return pyNone;
     }],
   ]),

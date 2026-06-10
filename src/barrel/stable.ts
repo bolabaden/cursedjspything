@@ -113,6 +113,7 @@ export {
   iter,
   next,
   reversed,
+  sorted,
   enter,
   exit,
   pyAwait,
