@@ -163,6 +163,16 @@ function countList(
   return pyInt(n);
 }
 
+function removeList(arr: PyObject[], value: unknown): void {
+  for (let i = 0; i < arr.length; i++) {
+    if (listItemEq(arr[i]!, value)) {
+      arr.splice(i, 1);
+      return;
+    }
+  }
+  throw new PyValueError("list.remove(x): x not in list");
+}
+
 function setListSlice(arr: PyObject[], key: PyObject, value: unknown): void {
   const items = listItemsFromIterable(value);
   const { start, stop, step } = resolvedSliceFields(key);
@@ -333,6 +343,14 @@ export const listType = makeClass({
     }],
     ["copy", (self: PyObject) => {
       return pyList([...nativeVal<PyObject[]>(self)]);
+    }],
+    ["remove", (self: PyObject, value: unknown) => {
+      removeList(nativeVal<PyObject[]>(self), value);
+      return pyNone;
+    }],
+    ["reverse", (self: PyObject) => {
+      nativeVal<PyObject[]>(self).reverse();
+      return pyNone;
     }],
   ]),
 });
