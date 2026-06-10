@@ -119,6 +119,7 @@ export {
   any,
   all,
   sum,
+  enumerate,
   enter,
   exit,
   pyAwait,

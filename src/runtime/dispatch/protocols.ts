@@ -20,6 +20,8 @@ import { pyInt } from "../builtins/int.js";
 import { attachBufferView, type PyBufferView } from "../buffer/buffer.js";
 import { makeSequenceIterator } from "../iterators/sequence-iterator.js";
 import { makeReversedIterator } from "../iterators/reversed-iterator.js";
+import { makeEnumerateIterator } from "../iterators/enumerate-iterator.js";
+import { pyIndexAsInteger } from "../builtins/int.js";
 import {
   pyList,
   resolveSortOptions,
@@ -277,6 +279,39 @@ export function all(...args: unknown[]): PyObject {
       throw e;
     }
   }
+}
+
+export function enumerate(...args: unknown[]): PyObject {
+  if (args.length === 0) {
+    throw new PyTypeError("enumerate() expected at least 1 argument, got 0");
+  }
+  if (args.length > 2) {
+    throw new PyTypeError(
+      `enumerate() takes from 1 to 2 positional arguments but ${args.length} were given`,
+    );
+  }
+  const iterable = args[0];
+  if (!(iterable instanceof PyObject)) {
+    const kind = typeof iterable;
+    throw new PyTypeError(`enumerate() argument must be PyObject, not ${kind}`);
+  }
+  let startIndex = 0;
+  if (args.length === 2) {
+    const start = args[1];
+    if (!(start instanceof PyObject)) {
+      const kind = typeof start;
+      throw new PyTypeError(`enumerate() start must be PyObject, not ${kind}`);
+    }
+    const n = pyIndexAsInteger(start);
+    if (n === null) {
+      throw new PyTypeError(
+        `'${start.type.name}' object cannot be interpreted as an integer`,
+      );
+    }
+    startIndex = n;
+  }
+  const inner = iter(iterable);
+  return makeEnumerateIterator(inner, startIndex);
 }
 
 export function sum(...args: unknown[]): PyObject {

@@ -7,6 +7,25 @@
 
 ---
 
+## Delta update (2026-05-24, plan 865 enumerate builtin)
+
+### Landed
+
+- [REPO] Plan 865 — builtin `enumerate`; `enumerate-iterator.ts`; `enumerate-builtin.test.ts`.
+
+### Partial
+
+- None.
+
+### Next
+
+1. `min`/`max` `key=` and `default=` when scoped.
+2. `zip()` / further iterable builtins when scoped.
+3. Further str/bytes API niche gaps when scoped.
+4. PEP 3118 out of scope.
+
+---
+
 ## Delta update (2026-05-24, plan 864 sum builtin)
 
 ### Landed
