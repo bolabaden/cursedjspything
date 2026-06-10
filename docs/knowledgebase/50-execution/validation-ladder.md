@@ -186,7 +186,7 @@ Emits JSON (`vitest_seconds`, pass gates, `test_count`); use median of several r
 | `test/cpython-derived/operator-str-bytes-cross-type.test.ts` | str↔bytes eq/ne, contains, ordering (binary in bytes-remaining; plans 458/462/464) |
 | `test/cpython-derived/operator-bytes-scalar-cross-type.test.ts` | bytes↔int/float/bool eq/ne; int*bytes and bytes*int mul repeat (plans 430/845) |
 | `test/cpython-derived/operator-bool-str-remaining-binary.test.ts` | bool↔str sub/truediv/floordiv/mod/divmod/pow TypeError both orders (add in str-scalar; plan 404/474) |
-| `test/cpython-derived/sequence-index-type.test.ts` | List/tuple get/set/del non-integer subscript TypeError; list index out of range and delItem |
+| `test/cpython-derived/sequence-index-type.test.ts` | List/tuple get/set/del non-integer subscript TypeError; `pyInt`/`__index__`/`bool` integer subscripts (plan 850); list index out of range and delItem |
 | `test/cpython-derived/contains-protocol.test.ts` | CPython `test_contains.py` membership protocol |
 | `test/cpython-derived/isinstance-protocol.test.ts` | CPython `test_isinstance.py` MRO / tuple checks |
 | `test/cpython-derived/sequence-repeat-nonint.test.ts` | seq*float and float*seq reject float repeat (plans 642/648) |

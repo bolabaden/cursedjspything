@@ -4,10 +4,32 @@ import { makeClass } from "../class/class.js";
 import { PyStopIteration } from "../core/lookup.js";
 import { PyTypeError, PyIndexError } from "../core/errors.js";
 import { nativeVal, setNative } from "./native.js";
-import { sequenceRepeatCount } from "./int.js";
+import { pyIndexAsInteger, sequenceRepeatCount } from "./int.js";
 import { buildRepeatedArray } from "./sequence-repeat.js";
 import { isSlice, sliceFields, sliceIndices } from "../collections/slice.js";
 import { eq } from "../dispatch/operators/compare.js";
+
+function listIndexKey(key: unknown): number {
+  let n: number | null = null;
+  if (typeof key === "number") {
+    n = key;
+  } else if (key instanceof PyObject) {
+    n = pyIndexAsInteger(key);
+  }
+  if (n === null) {
+    throw new PyTypeError("list indices must be integers");
+  }
+  return n;
+}
+
+function resolveListIndex(key: unknown, length: number, rangeMsg: string): number {
+  const n = listIndexKey(key);
+  const idx = n < 0 ? length + n : n;
+  if (idx < 0 || idx >= length) {
+    throw new PyIndexError(rangeMsg);
+  }
+  return idx;
+}
 
 function listRepr(self: PyObject): string {
   const items = nativeVal<PyObject[]>(self);
@@ -60,23 +82,25 @@ export const listType = makeClass({
         const indices = sliceIndices(arr.length, start, stop, step);
         return pyList(indices.map((i) => arr[i]));
       }
-      if (typeof key !== "number") throw new PyTypeError("list indices must be integers");
-      const idx = key < 0 ? arr.length + key : key;
-      if (idx < 0 || idx >= arr.length) throw new PyIndexError("list index out of range");
+      const idx = resolveListIndex(key, arr.length, "list index out of range");
       return arr[idx];
     }],
     [Slot.setitem, (self: PyObject, key: unknown, value: unknown) => {
       const arr = nativeVal<PyObject[]>(self);
-      if (typeof key !== "number") throw new PyTypeError("list indices must be integers");
-      const idx = key < 0 ? arr.length + key : key;
-      if (idx < 0 || idx >= arr.length) throw new PyIndexError("list assignment index out of range");
+      const idx = resolveListIndex(
+        key,
+        arr.length,
+        "list assignment index out of range",
+      );
       arr[idx] = value as PyObject;
     }],
     [Slot.delitem, (self: PyObject, key: unknown) => {
       const arr = nativeVal<PyObject[]>(self);
-      if (typeof key !== "number") throw new PyTypeError("list indices must be integers");
-      const idx = key < 0 ? arr.length + key : key;
-      if (idx < 0 || idx >= arr.length) throw new PyIndexError("list deletion index out of range");
+      const idx = resolveListIndex(
+        key,
+        arr.length,
+        "list deletion index out of range",
+      );
       arr.splice(idx, 1);
     }],
     [Slot.contains, (self: PyObject, value: unknown) => {

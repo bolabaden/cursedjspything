@@ -5,10 +5,27 @@ import { PyStopIteration, lookupSpecial } from "../core/lookup.js";
 import { makeReversedIterator } from "../iterators/reversed-iterator.js";
 import { PyTypeError, PyIndexError } from "../core/errors.js";
 import { nativeVal, setNative } from "./native.js";
-import { sequenceRepeatCount } from "./int.js";
+import { pyIndexAsInteger, sequenceRepeatCount } from "./int.js";
 import { buildRepeatedArray } from "./sequence-repeat.js";
 import { isSlice, sliceFields, sliceIndices } from "../collections/slice.js";
 import { eq, hash as objectHash } from "../dispatch/operators/compare.js";
+
+function resolveTupleIndex(key: unknown, length: number): number {
+  let n: number | null = null;
+  if (typeof key === "number") {
+    n = key;
+  } else if (key instanceof PyObject) {
+    n = pyIndexAsInteger(key);
+  }
+  if (n === null) {
+    throw new PyTypeError("tuple indices must be integers");
+  }
+  const idx = n < 0 ? length + n : n;
+  if (idx < 0 || idx >= length) {
+    throw new PyIndexError("tuple index out of range");
+  }
+  return idx;
+}
 
 function tupleRepr(self: PyObject): string {
   const items = nativeVal<readonly PyObject[]>(self);
@@ -67,9 +84,7 @@ export const tupleType = makeClass({
         const indices = sliceIndices(arr.length, start, stop, step);
         return pyTuple(indices.map((i) => arr[i]));
       }
-      if (typeof key !== "number") throw new PyTypeError("tuple indices must be integers");
-      const idx = key < 0 ? arr.length + key : key;
-      if (idx < 0 || idx >= arr.length) throw new PyIndexError("tuple index out of range");
+      const idx = resolveTupleIndex(key, arr.length);
       return arr[idx];
     }],
     [Slot.contains, (self: PyObject, value: unknown) => {

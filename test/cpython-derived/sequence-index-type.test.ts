@@ -6,15 +6,31 @@ import { describe, it, expect } from "vitest";
 import {
   delItem,
   getItem,
+  instantiate,
   len,
+  makeClass,
+  objectType,
   setItem,
   pyInt,
   pyList,
   pyStr,
+  pyTrue,
   pyTuple,
   unwrap,
 } from "../../src/index.js";
 import { PyTypeError, PyIndexError } from "../../src/runtime/core/errors.js";
+import { Slot } from "../../src/runtime/core/slots.js";
+
+function indexOne() {
+  const IndexOne = makeClass({
+    name: "IndexOne",
+    bases: [objectType],
+    dict: new Map<string | symbol, unknown>([
+      [Slot.index, () => pyInt(1)],
+    ]),
+  });
+  return instantiate(IndexOne);
+}
 
 describe("cpython-derived sequence index types", () => {
   it("list getItem rejects non-integer keys", () => {
@@ -44,6 +60,32 @@ describe("cpython-derived sequence index types", () => {
   it("int index getItem still works", () => {
     const lst = pyList([pyInt(10), pyInt(20)]);
     expect(unwrap(getItem(lst, 0) as ReturnType<typeof pyInt>)).toBe(10);
+  });
+
+  it("list getItem accepts pyInt, __index__, and bool", () => {
+    const lst = pyList([pyInt(10), pyInt(20), pyInt(30)]);
+    expect(unwrap(getItem(lst, pyInt(0)) as ReturnType<typeof pyInt>)).toBe(10);
+    expect(unwrap(getItem(lst, pyInt(-1)) as ReturnType<typeof pyInt>)).toBe(30);
+    expect(unwrap(getItem(lst, indexOne()) as ReturnType<typeof pyInt>)).toBe(20);
+    expect(unwrap(getItem(lst, pyTrue) as ReturnType<typeof pyInt>)).toBe(20);
+  });
+
+  it("tuple getItem accepts pyInt, __index__, and bool", () => {
+    const tup = pyTuple([pyInt(10), pyInt(20), pyInt(30)]);
+    expect(unwrap(getItem(tup, pyInt(0)) as ReturnType<typeof pyInt>)).toBe(10);
+    expect(unwrap(getItem(tup, pyInt(-2)) as ReturnType<typeof pyInt>)).toBe(20);
+    expect(unwrap(getItem(tup, indexOne()) as ReturnType<typeof pyInt>)).toBe(20);
+    expect(unwrap(getItem(tup, pyTrue) as ReturnType<typeof pyInt>)).toBe(20);
+  });
+
+  it("list setItem and delItem accept pyInt and __index__", () => {
+    const lst = pyList([pyInt(1), pyInt(2), pyInt(3)]);
+    setItem(lst, pyInt(1), pyInt(99));
+    expect(unwrap(getItem(lst, 1) as ReturnType<typeof pyInt>)).toBe(99);
+    delItem(lst, indexOne());
+    expect(len(lst)).toBe(2);
+    expect(unwrap(getItem(lst, 0) as ReturnType<typeof pyInt>)).toBe(1);
+    expect(unwrap(getItem(lst, 1) as ReturnType<typeof pyInt>)).toBe(3);
   });
 });
 

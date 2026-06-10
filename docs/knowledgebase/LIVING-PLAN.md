@@ -7,6 +7,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 850 list/tuple index parity)
+
+### Landed
+
+- [REPO] Plan 850 — `list`/`tuple` `__getitem__` and list `__setitem__`/`__delitem__` accept `pyInt`/`__index__`/`bool` via `pyIndexAsInteger`; extended `sequence-index-type.test.ts` (1220 Vitest / 165 files).
+
+### Partial
+
+- None.
+
+### Next
+
+1. Further str/bytes API niche gaps when scoped.
+2. PEP 3118 out of scope.
+
+---
+
 ## Delta update (2026-05-24, plan 849 str getitem slice/index)
 
 ### Landed
