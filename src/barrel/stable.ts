@@ -185,6 +185,7 @@ export {
   bin,
   oct,
   hex,
+  ascii,
   pyBytes,
   bytesType,
   unwrap,
