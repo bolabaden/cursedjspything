@@ -7,6 +7,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 846 sequence repeat __index__)
+
+### Landed
+
+- [REPO] Plan 846 — `sequenceRepeatCount` consults **`__index__`** for str/bytes/list/tuple repetition (CPython `sequence_repeat` parity); `sequence-repeat-index.test.ts`; §8.15 sync (1207 Vitest / 164 files).
+
+### Partial
+
+- None.
+
+### Next
+
+1. Further §8.15 niche API gaps when scoped.
+2. PEP 3118 out of scope.
+
+---
+
 ## Delta update (2026-05-24, plan 845 int * sequence rmul parity)
 
 ### Landed

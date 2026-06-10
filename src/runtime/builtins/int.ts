@@ -1,7 +1,9 @@
 import { PyObject, NotImplemented } from "../core/object.js";
 import { Slot, Hook } from "../core/slots.js";
+import { lookupSpecial } from "../core/lookup.js";
 import { makeClass } from "../class/class.js";
 import { nativeVal, setNative } from "./native.js";
+import { PyTypeError } from "../core/errors.js";
 import { floatType, pyFloat } from "./float.js";
 import { pyTuple } from "./tuple.js";
 import { PyZeroDivisionError, PyValueError } from "../core/errors.js";
@@ -31,12 +33,22 @@ function numericOperand(other: PyObject): number {
   return nativeVal<number>(other);
 }
 
-/** Repeat count for str/list/tuple `__mul__`: int or bool (0/1), non-negative. */
+function repeatCountFromIndexResult(result: unknown): number {
+  if (typeof result === "number") return result | 0;
+  if (result instanceof PyObject && result.type === intType) {
+    return nativeVal<number>(result);
+  }
+  throw new PyTypeError("__index__ returned non-int");
+}
+
+/** Repeat count for str/list/tuple/bytes `__mul__`: int, bool, or `__index__`. */
 export function sequenceRepeatCount(other: PyObject): number | null {
   if (other.type === intType || isBoolOperand(other)) {
     return Math.max(0, numericOperand(other));
   }
-  return null;
+  const indexFn = lookupSpecial(other, Slot.index);
+  if (!indexFn) return null;
+  return Math.max(0, repeatCountFromIndexResult(indexFn()));
 }
 
 export { isNumericOperand, numericOperand };
