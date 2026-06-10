@@ -12,6 +12,7 @@ import {
   sliceAdjustIndices,
   sliceIndices,
 } from "../collections/slice.js";
+import { pyNone } from "./none.js";
 import { tupleType } from "./tuple.js";
 import { eq } from "../dispatch/operators/compare.js";
 
@@ -91,6 +92,14 @@ function delListSlice(arr: PyObject[], key: PyObject): void {
   for (let i = indices.length - 1; i >= 0; i--) {
     arr.splice(indices[i]!, 1);
   }
+}
+
+function listInsertIndex(key: unknown, length: number): number {
+  let n = listIndexKey(key);
+  if (n < 0) n += length;
+  if (n < 0) n = 0;
+  if (n > length) n = length;
+  return n;
 }
 
 function setListSlice(arr: PyObject[], key: PyObject, value: unknown): void {
@@ -226,6 +235,30 @@ export const listType = makeClass({
         if (eq(a[i], b[i]) !== true) return false;
       }
       return true;
+    }],
+    ["append", (self: PyObject, item: unknown) => {
+      nativeVal<PyObject[]>(self).push(item as PyObject);
+      return pyNone;
+    }],
+    ["extend", (self: PyObject, iterable: unknown) => {
+      nativeVal<PyObject[]>(self).push(...listItemsFromIterable(iterable));
+      return pyNone;
+    }],
+    ["insert", (self: PyObject, index: unknown, item: unknown) => {
+      const arr = nativeVal<PyObject[]>(self);
+      arr.splice(listInsertIndex(index, arr.length), 0, item as PyObject);
+      return pyNone;
+    }],
+    ["pop", (self: PyObject, index?: unknown) => {
+      const arr = nativeVal<PyObject[]>(self);
+      if (arr.length === 0) {
+        throw new PyIndexError("pop from empty list");
+      }
+      const idx =
+        index === undefined || index === null
+          ? arr.length - 1
+          : resolveListIndex(index, arr.length, "pop index out of range");
+      return arr.splice(idx, 1)[0]!;
     }],
   ]),
 });

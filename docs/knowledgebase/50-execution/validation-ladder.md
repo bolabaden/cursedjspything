@@ -190,6 +190,7 @@ Emits JSON (`vitest_seconds`, pass gates, `test_count`); use median of several r
 | `test/cpython-derived/operator-bool-str-remaining-binary.test.ts` | bool↔str sub/truediv/floordiv/mod/divmod/pow TypeError both orders (add in str-scalar; plan 404/474) |
 | `test/cpython-derived/sequence-index-type.test.ts` | List/tuple get/set/del non-integer subscript TypeError; `pyInt`/`__index__`/`bool` integer subscripts (plan 850); list index out of range and delItem |
 | `test/cpython-derived/list-slice-mutation.test.ts` | list slice `__setitem__`/`__delitem__` (plan 854) |
+| `test/cpython-derived/list-mutation-methods.test.ts` | list `append`/`extend`/`insert`/`pop` (plan 855) |
 | `test/cpython-derived/contains-protocol.test.ts` | CPython `test_contains.py` membership protocol |
 | `test/cpython-derived/isinstance-protocol.test.ts` | CPython `test_isinstance.py` MRO / tuple checks |
 | `test/cpython-derived/sequence-repeat-nonint.test.ts` | seq*float and float*seq reject float repeat (plans 642/648) |

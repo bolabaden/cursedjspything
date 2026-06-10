@@ -7,6 +7,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 855 list mutation methods)
+
+### Landed
+
+- [REPO] Plan 855 — `list.append`/`extend`/`insert`/`pop`; `list-mutation-methods.test.ts` (1244 Vitest / 169 files).
+
+### Partial
+
+- None.
+
+### Next
+
+1. Further str/bytes API niche gaps when scoped.
+2. PEP 3118 out of scope.
+
+---
+
 ## Delta update (2026-05-24, plan 854 list slice mutation)
 
 ### Landed
