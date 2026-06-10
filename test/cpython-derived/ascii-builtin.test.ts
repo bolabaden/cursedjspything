@@ -18,6 +18,7 @@ describe("cpython-derived ascii builtin", () => {
 
   it("passes through ASCII repr", () => {
     expect(unwrap(ascii(pyStr("A")))).toBe("'A'");
+    expect(unwrap(ascii(pyStr("\n")))).toBe("'\\n'");
   });
 
   it("uses repr for bytes", () => {

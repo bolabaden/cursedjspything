@@ -1450,12 +1450,45 @@ function formatStrSpec(value: string, spec: string): string {
   return body;
 }
 
+const STR_REPR_NON_PRINTABLE =
+  /\p{General_Category=Control}|\p{General_Category=Surrogate}|\p{General_Category=Unassigned}|\p{General_Category=Line_Separator}|\p{General_Category=Paragraph_Separator}|\p{General_Category=Format}/u;
+
+function isStrReprPrintable(cp: number): boolean {
+  if (cp === 0x09 || cp === 0x0a || cp === 0x0d) return false;
+  if (cp < 0x20 || cp === 0x7f) return false;
+  return !STR_REPR_NON_PRINTABLE.test(String.fromCodePoint(cp));
+}
+
+function escapeStrReprCodePoint(cp: number): string {
+  if (cp === 0x27) return "\\'";
+  if (cp === 0x5c) return "\\\\";
+  if (cp === 0x0a) return "\\n";
+  if (cp === 0x0d) return "\\r";
+  if (cp === 0x09) return "\\t";
+  if (!isStrReprPrintable(cp)) {
+    if (cp <= 0xff) return `\\x${cp.toString(16).padStart(2, "0")}`;
+    if (cp <= 0xffff) return `\\u${cp.toString(16).padStart(4, "0")}`;
+    return `\\U${cp.toString(16).padStart(8, "0")}`;
+  }
+  return String.fromCodePoint(cp);
+}
+
+export function strRepr(text: string): string {
+  let inner = "";
+  for (let i = 0; i < text.length; ) {
+    const cp = text.codePointAt(i)!;
+    inner += escapeStrReprCodePoint(cp);
+    i += cp > 0xffff ? 2 : 1;
+  }
+  return `'${inner}'`;
+}
+
 // ── pyStr ─────────────────────────────────────────────────────────────
 
 export const strType = makeClass({
   name: "str",
   dict: new Map<string | symbol, unknown>([
-    [Slot.repr, (self: PyObject) => `'${nativeVal<string>(self)}'`],
+    [Slot.repr, (self: PyObject) => strRepr(nativeVal<string>(self))],
     [Slot.str, (self: PyObject) => nativeVal<string>(self)],
     [Slot.hash, (self: PyObject) => {
       const s = nativeVal<string>(self);

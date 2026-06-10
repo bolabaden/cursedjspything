@@ -7,6 +7,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 881 str repr)
+
+### Landed
+
+- [REPO] Plan 881 — `str.__repr__` CPython escapes; `str-repr.test.ts`; `ascii` newline case.
+
+### Partial
+
+- None.
+
+### Next
+
+1. Further str/bytes/int API niche gaps when scoped.
+2. PEP 3118 out of scope.
+
+---
+
 ## Delta update (2026-05-24, plan 880 ascii)
 
 ### Landed
@@ -15,7 +32,7 @@
 
 ### Partial
 
-- None.
+- `str.__repr__` control-char gap (plan 881).
 
 ### Next
 
