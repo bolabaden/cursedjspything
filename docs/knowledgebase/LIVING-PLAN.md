@@ -7,6 +7,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 876 range reversed)
+
+### Landed
+
+- [REPO] Plan 876 — `range.__reversed__` / `reversed(range)`; extended `range-builtin.test.ts`.
+
+### Partial
+
+- `range` equality / hashing deferred.
+
+### Next
+
+1. Further str/bytes API niche gaps when scoped.
+2. PEP 3118 out of scope.
+
+---
+
 ## Delta update (2026-05-24, plan 875 range builtin)
 
 ### Landed

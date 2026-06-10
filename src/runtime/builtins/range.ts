@@ -1,5 +1,5 @@
 import { PyObject } from "../core/object.js";
-import { Slot } from "../core/slots.js";
+import { Hook, Slot } from "../core/slots.js";
 import { makeClass } from "../class/class.js";
 import { PyIndexError, PyStopIteration, PyTypeError, PyValueError } from "../core/errors.js";
 import { pyIndexAsInteger, pyInt } from "./int.js";
@@ -72,6 +72,21 @@ function rangeGetItem(fields: RangeFields, key: unknown): PyObject {
   return pyInt(fields.start + index * fields.step);
 }
 
+const rangeReverseIterType = makeClass({
+  name: "range_iterator",
+  dict: new Map<string | symbol, unknown>([
+    [Slot.iter, (self: PyObject) => self],
+    [Slot.next, (self: PyObject) => {
+      const index = self.dict.get("_index") as number;
+      if (index < 0) throw new PyStopIteration();
+      const fields = self.dict.get("_fields") as RangeFields;
+      const out = pyInt(fields.start + index * fields.step);
+      self.dict.set("_index", index - 1);
+      return out;
+    }],
+  ]),
+});
+
 const rangeIterType = makeClass({
   name: "range_iterator",
   dict: new Map<string | symbol, unknown>([
@@ -115,6 +130,13 @@ export const rangeType = makeClass({
     }],
     [Slot.contains, (self: PyObject, key: unknown) => {
       return rangeContains(self.dict.get("_fields") as RangeFields, key);
+    }],
+    [Hook.reversed, (self: PyObject) => {
+      const fields = self.dict.get("_fields") as RangeFields;
+      const it = new PyObject(rangeReverseIterType);
+      it.dict.set("_fields", fields);
+      it.dict.set("_index", rangeLength(fields) - 1);
+      return it;
     }],
   ]),
 });

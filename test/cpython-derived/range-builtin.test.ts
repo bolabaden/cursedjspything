@@ -12,6 +12,7 @@ import {
   pyStr,
   range,
   rangeType,
+  reversed,
   unwrap,
 } from "../../src/index.js";
 import {
@@ -114,5 +115,30 @@ describe("cpython-derived range builtin", () => {
     expect(() => getItem(range(pyInt(3)), pyInt(10))).toThrow(
       /range object index out of range/,
     );
+  });
+
+  it("reversed(range(stop)) yields stop-1 down to 0", () => {
+    expect(collectInts(reversed(range(pyInt(5))))).toEqual([4, 3, 2, 1, 0]);
+  });
+
+  it("reversed(range with negative step) walks forward", () => {
+    expect(collectInts(reversed(range(pyInt(5), pyInt(0), pyInt(-1))))).toEqual(
+      [1, 2, 3, 4, 5],
+    );
+  });
+
+  it("reversed(range with step > 1) honors stride", () => {
+    expect(collectInts(reversed(range(pyInt(0), pyInt(10), pyInt(2))))).toEqual(
+      [8, 6, 4, 2, 0],
+    );
+  });
+
+  it("reversed empty range raises StopIteration immediately", () => {
+    expect(() => next(reversed(range(pyInt(0))))).toThrow(PyStopIteration);
+  });
+
+  it("reversed iterator __iter__ returns self", () => {
+    const it = reversed(range(pyInt(2)));
+    expect(iter(it)).toBe(it);
   });
 });
