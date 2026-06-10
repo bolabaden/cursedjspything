@@ -123,7 +123,7 @@ Emits JSON (`vitest_seconds`, pass gates, `test_count`); use median of several r
 | `test/cpython-derived/str-title.test.ts` | str.title word boundaries and Unicode |
 | `test/cpython-derived/str-swapcase.test.ts` | str.swapcase case inversion |
 | `test/cpython-derived/str-isascii.test.ts` | str.isascii predicate |
-| `test/cpython-derived/str-predicates.test.ts` | str isalpha/isdigit/isalnum/islower/isupper/istitle/isspace |
+| `test/cpython-derived/str-predicates.test.ts` | str isalpha/isdigit/isalnum/islower/isupper/istitle/isspace + isidentifier/isdecimal/isnumeric/isprintable (plan 847) |
 | `test/cpython-derived/str-find.test.ts` | str.find / rfind bounds, Unicode, empty input (plan 538) |
 | `test/cpython-derived/str-index.test.ts` | str.index / rindex ValueError on miss + empty input (plan 540) |
 | `test/cpython-derived/str-count.test.ts` | str.count non-overlapping bounds + empty input (plan 544) |

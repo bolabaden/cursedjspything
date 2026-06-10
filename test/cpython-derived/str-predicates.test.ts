@@ -58,4 +58,39 @@ describe("cpython-derived str predicates", () => {
     expect(isalpha(self)).toBe(pyTrue);
     expect(isdigit(self)).toBe(pyFalse);
   });
+
+  it("classifies identifiers (PEP 3131 + leading underscore)", () => {
+    expect(call("hello", "isidentifier")).toBe(true);
+    expect(call("class", "isidentifier")).toBe(true);
+    expect(call("_", "isidentifier")).toBe(true);
+    expect(call("x_y", "isidentifier")).toBe(true);
+    expect(call("α", "isidentifier")).toBe(true);
+    expect(call("3hello", "isidentifier")).toBe(false);
+    expect(call("", "isidentifier")).toBe(false);
+  });
+
+  it("classifies decimal and numeric strings", () => {
+    expect(call("3", "isdecimal")).toBe(true);
+    expect(call("³", "isdecimal")).toBe(false);
+    expect(call("½", "isdecimal")).toBe(false);
+    expect(call("", "isdecimal")).toBe(false);
+
+    expect(call("3", "isnumeric")).toBe(true);
+    expect(call("³", "isnumeric")).toBe(true);
+    expect(call("½", "isnumeric")).toBe(true);
+    expect(call("Ⅷ", "isnumeric")).toBe(true);
+    expect(call("a", "isnumeric")).toBe(false);
+    expect(call("", "isnumeric")).toBe(false);
+  });
+
+  it("classifies printable strings", () => {
+    expect(call("", "isprintable")).toBe(true);
+    expect(call("hello", "isprintable")).toBe(true);
+    expect(call(" café ", "isprintable")).toBe(true);
+    expect(call(" ", "isprintable")).toBe(true);
+    expect(call("\n", "isprintable")).toBe(false);
+    expect(call("\t", "isprintable")).toBe(false);
+    expect(call("\u0007", "isprintable")).toBe(false);
+    expect(call("\u200b", "isprintable")).toBe(false);
+  });
 });

@@ -7,6 +7,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 847 str extended predicates)
+
+### Landed
+
+- [REPO] Plan 847 — `str.isidentifier`, `isdecimal`, `isnumeric`, `isprintable` (Unicode predicate parity); extended `str-predicates.test.ts`; §8 str API sync (1210 Vitest / 164 files).
+
+### Partial
+
+- None.
+
+### Next
+
+1. Further §8.15 / str API niche gaps when scoped (`isdigit` vs CPython superscript digits, etc.).
+2. PEP 3118 out of scope.
+
+---
+
 ## Delta update (2026-05-24, plan 846 sequence repeat __index__)
 
 ### Landed
