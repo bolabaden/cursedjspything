@@ -11,11 +11,12 @@ import {
   pyInt,
   pyList,
   pyStr,
+  pyTrue,
   pyTuple,
   unwrap,
   zip,
 } from "../../src/index.js";
-import { PyStopIteration, PyTypeError } from "../../src/runtime/core/errors.js";
+import { PyStopIteration, PyTypeError, PyValueError } from "../../src/runtime/core/errors.js";
 
 function collectZipRows(it: PyObject): unknown[][] {
   const out: unknown[][] = [];
@@ -75,5 +76,41 @@ describe("cpython-derived zip builtin", () => {
 
   it("raises TypeError for non-iterable argument", () => {
     expect(() => zip(pyInt(1))).toThrow(PyTypeError);
+  });
+
+  it("strict mode raises ValueError when an iterable is shorter", () => {
+    const it = zip(
+      pyList([pyInt(1), pyInt(2), pyInt(3)]),
+      pyList([pyStr("x")]),
+      pyTrue,
+    );
+    const first = next(it) as PyObject;
+    expect(unwrap(getItem(first, pyInt(0)) as PyObject)).toBe(1);
+    expect(unwrap(getItem(first, pyInt(1)) as PyObject)).toBe("x");
+    expect(() => next(it)).toThrow(PyValueError);
+    expect(() => next(it)).toThrow(/argument 2 is shorter than argument 1/);
+  });
+
+  it("strict mode raises ValueError when an iterable is longer", () => {
+    const it = zip(
+      pyList([pyInt(1), pyInt(2)]),
+      pyList([pyInt(10), pyInt(20), pyInt(30)]),
+      pyTrue,
+    );
+    next(it);
+    next(it);
+    expect(() => next(it)).toThrow(/argument 2 is longer than argument 1/);
+  });
+
+  it("strict mode succeeds for equal-length iterables", () => {
+    const it = zip(
+      pyList([pyInt(1), pyInt(2)]),
+      pyList([pyInt(10), pyInt(20)]),
+      pyTrue,
+    );
+    expect(collectZipRows(it)).toEqual([
+      [1, 10],
+      [2, 20],
+    ]);
   });
 });

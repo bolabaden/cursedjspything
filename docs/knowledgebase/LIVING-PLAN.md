@@ -7,6 +7,24 @@
 
 ---
 
+## Delta update (2026-05-24, plan 873 zip strict)
+
+### Landed
+
+- [REPO] Plan 873 — `zip(*iterables, strict)`; extended `zip-builtin.test.ts`.
+
+### Partial
+
+- Python keyword-only `strict` deferred.
+
+### Next
+
+1. `dict()` / `range` builtins when scoped.
+2. Further str/bytes API niche gaps when scoped.
+3. PEP 3118 out of scope.
+
+---
+
 ## Delta update (2026-05-24, plan 872 frozenset builtin)
 
 ### Landed

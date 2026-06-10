@@ -15,7 +15,8 @@ import {
 import { callSlotOrThrow, lengthOf } from "./dispatch.js";
 import { bool, eq, gt, lt } from "./operators/compare.js";
 import { add } from "./operators/numeric.js";
-import { pyFalse, pyTrue } from "../builtins/bool.js";
+import { boolType, pyFalse, pyTrue } from "../builtins/bool.js";
+import { nativeVal } from "../builtins/native.js";
 import { pyInt } from "../builtins/int.js";
 import { attachBufferView, type PyBufferView } from "../buffer/buffer.js";
 import { makeSequenceIterator } from "../iterators/sequence-iterator.js";
@@ -486,19 +487,40 @@ export function frozenset(...args: unknown[]): PyObject {
   );
 }
 
+function isZipStrictArg(value: unknown): boolean {
+  return (
+    typeof value === "boolean" ||
+    (value instanceof PyObject && value.type === boolType)
+  );
+}
+
+function parseZipStrict(value: unknown): boolean {
+  if (typeof value === "boolean") return value;
+  if (value instanceof PyObject && value.type === boolType) {
+    return nativeVal<boolean>(value);
+  }
+  const kind = value instanceof PyObject ? value.type.name : typeof value;
+  throw new PyTypeError(`zip() argument must be bool, not ${kind}`);
+}
+
 export function zip(...args: unknown[]): PyObject {
-  if (args.length === 0) {
+  const positional = [...args];
+  let strict = false;
+  if (positional.length >= 2 && isZipStrictArg(positional[positional.length - 1])) {
+    strict = parseZipStrict(positional.pop());
+  }
+  if (positional.length === 0) {
     throw new PyTypeError("zip() expected at least 1 argument, got 0");
   }
   const iters: PyObject[] = [];
-  for (const arg of args) {
+  for (const arg of positional) {
     if (!(arg instanceof PyObject)) {
       const kind = typeof arg;
       throw new PyTypeError(`zip() argument must be PyObject, not ${kind}`);
     }
     iters.push(iter(arg));
   }
-  return makeZipIterator(iters);
+  return makeZipIterator(iters, strict);
 }
 
 export function sum(...args: unknown[]): PyObject {

@@ -199,7 +199,7 @@ Emits JSON (`vitest_seconds`, pass gates, `test_count`); use median of several r
 | `test/cpython-derived/any-all-builtin.test.ts` | builtin `any`/`all` (plan 863) |
 | `test/cpython-derived/sum-builtin.test.ts` | builtin `sum` (plan 864) |
 | `test/cpython-derived/enumerate-builtin.test.ts` | builtin `enumerate` (plan 865) |
-| `test/cpython-derived/zip-builtin.test.ts` | builtin `zip` (plan 866) |
+| `test/cpython-derived/zip-builtin.test.ts` | builtin `zip` with `strict` (plans 866/873) |
 | `test/cpython-derived/map-builtin.test.ts` | builtin `map` (plan 868) |
 | `test/cpython-derived/filter-builtin.test.ts` | builtin `filter` (plan 869) |
 | `test/cpython-derived/list-tuple-builtin.test.ts` | builtin `list`/`tuple` (plan 870) |
