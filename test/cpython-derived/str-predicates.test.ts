@@ -33,6 +33,17 @@ describe("cpython-derived str predicates", () => {
     expect(call("café", "isalpha")).toBe(true);
   });
 
+  it("isdigit accepts compatibility digits but not fractions", () => {
+    expect(call("³", "isdigit")).toBe(true);
+    expect(call("²", "isdigit")).toBe(true);
+    expect(call("①", "isdigit")).toBe(true);
+    expect(call("½", "isdigit")).toBe(false);
+    expect(call("Ⅷ", "isdigit")).toBe(false);
+    expect(call("³", "isdecimal")).toBe(false);
+    expect(call("³", "isalnum")).toBe(true);
+    expect(call("a³", "isalnum")).toBe(true);
+  });
+
   it("classifies lower, upper, and title case", () => {
     expect(call("abc", "islower")).toBe(true);
     expect(call("abc", "isupper")).toBe(false);

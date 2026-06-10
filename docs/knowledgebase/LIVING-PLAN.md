@@ -7,6 +7,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 848 str.isdigit Unicode parity)
+
+### Landed
+
+- [REPO] Plan 848 — `str.isdigit` / `isalnum` accept CPython compatibility digit codepoints (superscripts, circled digits, etc.); `str-predicates.test.ts`; validation-ladder sync (1211 Vitest / 164 files).
+
+### Partial
+
+- None.
+
+### Next
+
+1. Further str/bytes API niche gaps when scoped.
+2. PEP 3118 out of scope.
+
+---
+
 ## Delta update (2026-05-24, plan 847 str extended predicates)
 
 ### Landed
