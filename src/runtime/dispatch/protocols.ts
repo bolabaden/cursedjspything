@@ -24,6 +24,7 @@ import { makeEnumerateIterator } from "../iterators/enumerate-iterator.js";
 import { makeZipIterator } from "../iterators/zip-iterator.js";
 import { pyIndexAsInteger } from "../builtins/int.js";
 import {
+  comparePyObjectsForOrder,
   pyList,
   resolveSortOptions,
   sortPyObjectsInPlace,
@@ -194,38 +195,109 @@ function requirePyObjectArgs(args: unknown[], fn: "min" | "max"): PyObject[] {
   return out;
 }
 
-function minMaxCandidates(args: unknown[], fn: "min" | "max"): PyObject[] {
+function isMinMaxKeyCallable(value: unknown): value is PyObject {
+  return (
+    value instanceof PyObject && lookupSpecial(value, Slot.call) !== undefined
+  );
+}
+
+type MinMaxParsed = {
+  candidates: PyObject[];
+  keyFn: PyObject | null;
+  defaultVal: PyObject | null;
+};
+
+function parseMinMaxArgs(args: unknown[], fn: "min" | "max"): MinMaxParsed {
   if (args.length === 0) {
     throw new PyTypeError(`${fn} expected at least 1 argument, got 0`);
   }
-  if (args.length === 1 && args[0] instanceof PyObject) {
-    const items = materializeIterable(args[0], fn);
+
+  const positional = [...args];
+  let keyFn: PyObject | null = null;
+  let defaultVal: PyObject | null = null;
+
+  if (positional.length >= 2) {
+    const last = positional[positional.length - 1];
+    const prev = positional[positional.length - 2];
+    if (
+      last instanceof PyObject &&
+      prev instanceof PyObject &&
+      isMinMaxKeyCallable(prev)
+    ) {
+      defaultVal = last;
+      keyFn = prev;
+      positional.length -= 2;
+    }
+  }
+  if (positional.length >= 1 && keyFn === null) {
+    const last = positional[positional.length - 1];
+    if (last instanceof PyObject && isMinMaxKeyCallable(last)) {
+      keyFn = last;
+      positional.length -= 1;
+    }
+  }
+  if (positional.length === 2 && keyFn === null && defaultVal === null) {
+    const last = positional[positional.length - 1];
+    if (last instanceof PyObject && !isMinMaxKeyCallable(last)) {
+      defaultVal = last;
+      positional.length -= 1;
+    }
+  }
+
+  const iterableForm =
+    positional.length === 1 && positional[0] instanceof PyObject;
+
+  if (iterableForm) {
+    const items = materializeIterable(positional[0] as PyObject, fn);
     if (items.length === 0) {
+      if (defaultVal !== null) {
+        return { candidates: [], keyFn, defaultVal };
+      }
       throw new PyValueError(`${fn}() arg is an empty sequence`);
     }
-    return items;
+    return { candidates: items, keyFn, defaultVal: null };
   }
-  return requirePyObjectArgs(args, fn);
+
+  if (defaultVal !== null) {
+    throw new PyTypeError(
+      `Cannot specify a default for ${fn}() with multiple positional arguments`,
+    );
+  }
+  if (positional.length === 0) {
+    throw new PyTypeError(`${fn} expected at least 1 argument, got 0`);
+  }
+  return {
+    candidates: requirePyObjectArgs(positional, fn),
+    keyFn,
+    defaultVal: null,
+  };
+}
+
+function selectMinMax(
+  candidates: PyObject[],
+  keyFn: PyObject | null,
+  fn: "min" | "max",
+): PyObject {
+  let best = candidates[0]!;
+  for (let i = 1; i < candidates.length; i++) {
+    const item = candidates[i]!;
+    const cmp = comparePyObjectsForOrder(item, best, keyFn, fn);
+    if (fn === "min" && cmp < 0) best = item;
+    if (fn === "max" && cmp > 0) best = item;
+  }
+  return best;
 }
 
 export function min(...args: unknown[]): PyObject {
-  const candidates = minMaxCandidates(args, "min");
-  let best = candidates[0]!;
-  for (let i = 1; i < candidates.length; i++) {
-    const item = candidates[i]!;
-    if (lt(item, best) === true) best = item;
-  }
-  return best;
+  const { candidates, keyFn, defaultVal } = parseMinMaxArgs(args, "min");
+  if (candidates.length === 0) return defaultVal!;
+  return selectMinMax(candidates, keyFn, "min");
 }
 
 export function max(...args: unknown[]): PyObject {
-  const candidates = minMaxCandidates(args, "max");
-  let best = candidates[0]!;
-  for (let i = 1; i < candidates.length; i++) {
-    const item = candidates[i]!;
-    if (gt(item, best) === true) best = item;
-  }
-  return best;
+  const { candidates, keyFn, defaultVal } = parseMinMaxArgs(args, "max");
+  if (candidates.length === 0) return defaultVal!;
+  return selectMinMax(candidates, keyFn, "max");
 }
 
 function requireSingleIterableArg(

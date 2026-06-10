@@ -7,6 +7,24 @@
 
 ---
 
+## Delta update (2026-05-24, plan 867 min/max key default)
+
+### Landed
+
+- [REPO] Plan 867 — `min`/`max` callable `key` + empty `default`; extended `min-max-builtin.test.ts`.
+
+### Partial
+
+- Python-syntax keyword-only `key`/`default` deferred.
+
+### Next
+
+1. Further iterable builtins when scoped.
+2. Further str/bytes API niche gaps when scoped.
+3. PEP 3118 out of scope.
+
+---
+
 ## Delta update (2026-05-24, plan 866 zip builtin)
 
 ### Landed

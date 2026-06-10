@@ -3,8 +3,11 @@
  */
 import { describe, it, expect } from "vitest";
 import {
+  instantiate,
+  makeClass,
   max,
   min,
+  objectType,
   pyInt,
   pyList,
   pyStr,
@@ -12,6 +15,19 @@ import {
   unwrap,
 } from "../../src/index.js";
 import { PyTypeError, PyValueError } from "../../src/runtime/core/errors.js";
+import { Slot } from "../../src/runtime/core/slots.js";
+
+function negKey() {
+  const NegKey = makeClass({
+    name: "NegKey",
+    bases: [objectType],
+    dict: new Map<string | symbol, unknown>([
+      [Slot.call, (_self: unknown, x: unknown) =>
+        pyInt(-unwrap(x as ReturnType<typeof pyInt>))],
+    ]),
+  });
+  return instantiate(NegKey);
+}
 
 describe("cpython-derived min / max builtins", () => {
   it("min and max compare multiple positional values", () => {
@@ -46,5 +62,34 @@ describe("cpython-derived min / max builtins", () => {
   it("raises TypeError when elements are not orderable", () => {
     expect(() => min(pyInt(1), pyStr("a"))).toThrow(PyTypeError);
     expect(() => max(pyList([pyInt(1), pyStr("a")]))).toThrow(PyTypeError);
+  });
+
+  it("min and max honor callable key", () => {
+    const items = pyList([pyInt(1), pyInt(3), pyInt(2)]);
+    const key = negKey();
+    expect(unwrap(min(items, key))).toBe(3);
+    expect(unwrap(max(items, key))).toBe(1);
+    expect(unwrap(min(pyInt(1), pyInt(3), key))).toBe(3);
+  });
+
+  it("empty iterable returns default when provided", () => {
+    expect(unwrap(min(pyList([]), pyInt(99)))).toBe(99);
+    expect(unwrap(max(pyTuple([]), pyStr("fallback")))).toBe("fallback");
+  });
+
+  it("empty iterable with key and default returns default", () => {
+    expect(unwrap(min(pyList([]), negKey(), pyInt(42)))).toBe(42);
+  });
+
+  it("raises TypeError when default is used with multiple positional values", () => {
+    const key = negKey();
+    expect(() => min(pyInt(1), pyInt(2), key, pyInt(99))).toThrow(PyTypeError);
+    expect(() => min(pyInt(1), pyInt(2), key, pyInt(99))).toThrow(
+      /Cannot specify a default/,
+    );
+  });
+
+  it("non-empty iterable ignores default", () => {
+    expect(unwrap(min(pyList([pyInt(1), pyInt(2)]), pyInt(99)))).toBe(1);
   });
 });

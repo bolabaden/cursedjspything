@@ -222,7 +222,7 @@ function isSortKeyCallable(value: unknown): value is PyObject {
 function sortKeyResult(
   keyFn: PyObject,
   item: PyObject,
-  context: "sort" | "sorted",
+  context: "sort" | "sorted" | "min" | "max",
 ): PyObject {
   const result = callSlotOrThrow(
     keyFn,
@@ -236,11 +236,11 @@ function sortKeyResult(
   return result;
 }
 
-function listSortCompareKeys(
+export function comparePyObjectsForOrder(
   a: PyObject,
   b: PyObject,
   keyFn: PyObject | null,
-  context: "sort" | "sorted",
+  context: "sort" | "sorted" | "min" | "max",
 ): number {
   const ka = keyFn ? sortKeyResult(keyFn, a, context) : a;
   const kb = keyFn ? sortKeyResult(keyFn, b, context) : b;
@@ -284,7 +284,7 @@ export function sortPyObjectsInPlace(
   context: "sort" | "sorted" = "sort",
 ): void {
   arr.sort((a, b) => {
-    const cmp = listSortCompareKeys(a, b, keyFn, context);
+    const cmp = comparePyObjectsForOrder(a, b, keyFn, context);
     return reverse ? -cmp : cmp;
   });
 }
