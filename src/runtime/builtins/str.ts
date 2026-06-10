@@ -13,7 +13,7 @@ import {
 } from "../core/errors.js";
 import { nativeVal, setNative } from "./native.js";
 import { pyIndexAsInteger, sequenceRepeatCount, intType, pyInt } from "./int.js";
-import { isSlice, sliceFields, sliceIndices } from "../collections/slice.js";
+import { isSlice, resolvedSliceFields, sliceIndices } from "../collections/slice.js";
 import { pyBytes } from "./bytes.js";
 import { pyFalse, pyTrue, boolType } from "./bool.js";
 import { pyList } from "./list.js";
@@ -1510,7 +1510,7 @@ export const strType = makeClass({
     [Slot.getitem, (self: PyObject, key: unknown) => {
       const s = nativeVal<string>(self);
       if (isSlice(key)) {
-        const { start, stop, step } = sliceFields(key);
+        const { start, stop, step } = resolvedSliceFields(key);
         const indices = sliceIndices(s.length, start, stop, step);
         let out = "";
         for (const i of indices) {

@@ -6,7 +6,7 @@ import { PyTypeError, PyIndexError } from "../core/errors.js";
 import { nativeVal, setNative } from "./native.js";
 import { pyIndexAsInteger, sequenceRepeatCount } from "./int.js";
 import { buildRepeatedArray } from "./sequence-repeat.js";
-import { isSlice, sliceFields, sliceIndices } from "../collections/slice.js";
+import { isSlice, resolvedSliceFields, sliceIndices } from "../collections/slice.js";
 import { eq } from "../dispatch/operators/compare.js";
 
 function listIndexKey(key: unknown): number {
@@ -78,7 +78,7 @@ export const listType = makeClass({
     [Slot.getitem, (self: PyObject, key: unknown) => {
       const arr = nativeVal<PyObject[]>(self);
       if (isSlice(key)) {
-        const { start, stop, step } = sliceFields(key);
+        const { start, stop, step } = resolvedSliceFields(key);
         const indices = sliceIndices(arr.length, start, stop, step);
         return pyList(indices.map((i) => arr[i]));
       }

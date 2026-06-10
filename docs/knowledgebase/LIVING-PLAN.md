@@ -7,6 +7,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 851 slice pyInt bounds)
+
+### Landed
+
+- [REPO] Plan 851 — `slice` `start`/`stop`/`step` accept `pyInt`/`__index__`/`bool`; `resolvedSliceFields` at subscript; extended `slice-with.test.ts` (1223 Vitest / 165 files).
+
+### Partial
+
+- None.
+
+### Next
+
+1. Further str/bytes API niche gaps when scoped.
+2. PEP 3118 out of scope.
+
+---
+
 ## Delta update (2026-05-24, plan 850 list/tuple index parity)
 
 ### Landed

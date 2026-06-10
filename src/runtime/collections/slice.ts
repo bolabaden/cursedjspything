@@ -6,16 +6,49 @@ import { PyObject } from "../core/object.js";
 import { makeClass } from "../class/class.js";
 import { Slot, Hook } from "../core/slots.js";
 import { setNative, nativeVal } from "../builtins/native.js";
+import { pyIndexAsInteger } from "../builtins/int.js";
 import { PyTypeError, PyValueError } from "../core/errors.js";
 
+export type SliceBound = number | null | PyObject;
+
 export interface SliceFields {
+  start: SliceBound;
+  stop: SliceBound;
+  step: SliceBound;
+}
+
+export interface ResolvedSliceFields {
   start: number | null;
   stop: number | null;
   step: number | null;
 }
 
-function sliceFmt(v: number | null): string {
-  return v === null ? "None" : String(v);
+function resolveSliceBound(value: SliceBound): number | null {
+  if (value === null) return null;
+  if (typeof value === "number") return value;
+  const n = pyIndexAsInteger(value);
+  if (n !== null) return n;
+  throw new PyTypeError(
+    "slice indices must be integers or None or have an __index__ method",
+  );
+}
+
+export function resolvedSliceFields(obj: PyObject): ResolvedSliceFields {
+  const { start, stop, step } = nativeVal<SliceFields>(obj);
+  return {
+    start: start === null ? null : resolveSliceBound(start),
+    stop: stop === null ? null : resolveSliceBound(stop),
+    step: step === null ? null : resolveSliceBound(step),
+  };
+}
+
+function sliceFmt(v: SliceBound): string {
+  if (v === null) return "None";
+  if (typeof v === "number") return String(v);
+  const n = pyIndexAsInteger(v);
+  if (n !== null) return String(n);
+  const reprFn = v.type.typeDict.get(Slot.repr);
+  return typeof reprFn === "function" ? (reprFn as (o: PyObject) => string)(v) : "<object>";
 }
 
 function sliceRepr(self: PyObject): string {
@@ -38,9 +71,9 @@ export const sliceType = makeClass({
 });
 
 export function pySlice(
-  start: number | null = null,
-  stop: number | null = null,
-  step: number | null = null,
+  start: SliceBound = null,
+  stop: SliceBound = null,
+  step: SliceBound = null,
 ): PyObject {
   const obj = new PyObject(sliceType);
   setNative(obj, { start, stop, step });

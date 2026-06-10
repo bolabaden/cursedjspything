@@ -14,7 +14,7 @@ import { pyIndexAsInteger, pyInt, sequenceRepeatCount, intType } from "./int.js"
 import { pyList } from "./list.js";
 import { pyTrue, pyFalse, boolType } from "./bool.js";
 import { tupleType, pyTuple } from "./tuple.js";
-import { isSlice, sliceFields, sliceIndices } from "../collections/slice.js";
+import { isSlice, resolvedSliceFields, sliceIndices } from "../collections/slice.js";
 import { pyStr, strType } from "./str.js";
 import { iter, next } from "../dispatch/protocols.js";
 import { lookupSpecial } from "../core/lookup.js";
@@ -1478,7 +1478,7 @@ export const bytesType = makeClass({
     [Slot.getitem, (self: PyObject, key: unknown) => {
       const data = bytesData(self);
       if (isSlice(key)) {
-        const { start, stop, step } = sliceFields(key);
+        const { start, stop, step } = resolvedSliceFields(key);
         const indices = sliceIndices(data.length, start, stop, step);
         const out = new Uint8Array(indices.length);
         for (let i = 0; i < indices.length; i++) {
