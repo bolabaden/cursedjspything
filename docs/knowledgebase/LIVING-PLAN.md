@@ -7,6 +7,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 878 chr ord)
+
+### Landed
+
+- [REPO] Plan 878 — builtin `chr`/`ord`; `chr-ord-builtin.test.ts`.
+
+### Partial
+
+- None.
+
+### Next
+
+1. Further str/bytes API niche gaps when scoped.
+2. PEP 3118 out of scope.
+
+---
+
 ## Delta update (2026-05-24, plan 877 range eq)
 
 ### Landed

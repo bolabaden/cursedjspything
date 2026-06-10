@@ -10,5 +10,6 @@ export * from "./dict.js";
 export * from "./set.js";
 export * from "./frozenset.js";
 export * from "./range.js";
+export * from "./chr-ord.js";
 export * from "./bytes.js";
 export { unwrap } from "./native.js";

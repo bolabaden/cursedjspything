@@ -180,6 +180,8 @@ export {
   frozensetType,
   range,
   rangeType,
+  chr,
+  ord,
   pyBytes,
   bytesType,
   unwrap,
