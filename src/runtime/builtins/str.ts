@@ -316,6 +316,38 @@ function strIsascii(text: string): PyObject {
   return pyTrue;
 }
 
+/** Non-Nd codepoints where CPython 3.14 str.isdigit is true (compatibility digits). */
+const UNICODE_DIGIT_EXTRA_RANGES: readonly [number, number][] = [
+  [0x00b2, 0x00b3],
+  [0x00b9, 0x00b9],
+  [0x1369, 0x1371],
+  [0x19da, 0x19da],
+  [0x2070, 0x2070],
+  [0x2074, 0x2079],
+  [0x2080, 0x2089],
+  [0x2460, 0x2468],
+  [0x2474, 0x247c],
+  [0x2488, 0x2490],
+  [0x24ea, 0x24ea],
+  [0x24f5, 0x24fd],
+  [0x24ff, 0x24ff],
+  [0x2776, 0x277e],
+  [0x2780, 0x2788],
+  [0x278a, 0x2792],
+  [0x10a40, 0x10a43],
+  [0x10e60, 0x10e68],
+  [0x11052, 0x1105a],
+  [0x1f100, 0x1f10a],
+];
+
+function isUnicodeDigitCodePoint(cp: number): boolean {
+  if (/^\p{Nd}$/u.test(String.fromCodePoint(cp))) return true;
+  for (const [lo, hi] of UNICODE_DIGIT_EXTRA_RANGES) {
+    if (cp >= lo && cp <= hi) return true;
+  }
+  return false;
+}
+
 function strIsalpha(text: string): PyObject {
   if (text.length === 0) return pyFalse;
   for (let i = 0; i < text.length; ) {
@@ -330,7 +362,7 @@ function strIsdigit(text: string): PyObject {
   if (text.length === 0) return pyFalse;
   for (let i = 0; i < text.length; ) {
     const cp = text.codePointAt(i)!;
-    if (!/^\p{Nd}$/u.test(String.fromCodePoint(cp))) return pyFalse;
+    if (!isUnicodeDigitCodePoint(cp)) return pyFalse;
     i += cp > 0xffff ? 2 : 1;
   }
   return pyTrue;
@@ -341,7 +373,7 @@ function strIsalnum(text: string): PyObject {
   for (let i = 0; i < text.length; ) {
     const cp = text.codePointAt(i)!;
     const ch = String.fromCodePoint(cp);
-    if (!/^\p{L}$/u.test(ch) && !/^\p{Nd}$/u.test(ch)) return pyFalse;
+    if (!/^\p{L}$/u.test(ch) && !isUnicodeDigitCodePoint(cp)) return pyFalse;
     i += cp > 0xffff ? 2 : 1;
   }
   return pyTrue;
