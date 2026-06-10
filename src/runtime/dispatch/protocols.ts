@@ -34,6 +34,7 @@ import {
 } from "../builtins/list.js";
 import { pyTuple } from "../builtins/tuple.js";
 import { pySet } from "../builtins/set.js";
+import { pyFrozenSet } from "../builtins/frozenset.js";
 
 export function call(obj: PyObject, ...args: unknown[]): unknown {
   return callSlotOrThrow(
@@ -446,7 +447,7 @@ export function filter(...args: unknown[]): PyObject {
 
 function sequenceConstructor(
   args: unknown[],
-  fn: "list" | "tuple" | "set",
+  fn: "list" | "tuple" | "set" | "frozenset",
   empty: () => PyObject,
   fromItems: (items: PyObject[]) => PyObject,
 ): PyObject {
@@ -474,6 +475,15 @@ export function tuple(...args: unknown[]): PyObject {
 
 export function set(...args: unknown[]): PyObject {
   return sequenceConstructor(args, "set", () => pySet([]), pySet);
+}
+
+export function frozenset(...args: unknown[]): PyObject {
+  return sequenceConstructor(
+    args,
+    "frozenset",
+    () => pyFrozenSet([]),
+    pyFrozenSet,
+  );
 }
 
 export function zip(...args: unknown[]): PyObject {

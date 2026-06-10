@@ -126,6 +126,7 @@ export {
   list,
   tuple,
   set,
+  frozenset,
   enter,
   exit,
   pyAwait,
