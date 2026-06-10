@@ -84,7 +84,7 @@ export {
   floor,
   ceil,
   repr,
-  str,
+  str as strProtocol,
   format,
   bytes,
 } from "../runtime/dispatch/operators/index.js";
@@ -166,6 +166,7 @@ export {
   pyFloat,
   floatType,
   pyStr,
+  str,
   strType,
   pyList,
   listType,

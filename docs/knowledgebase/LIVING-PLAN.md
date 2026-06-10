@@ -7,6 +7,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 882 str builtin)
+
+### Landed
+
+- [REPO] Plan 882 — builtin `str()` / `str(obj)`; `str-builtin.test.ts`; protocol `strProtocol` export.
+
+### Partial
+
+- `str(bytes, encoding)` decode form deferred.
+
+### Next
+
+1. Further str/bytes/int API niche gaps when scoped.
+2. PEP 3118 out of scope.
+
+---
+
 ## Delta update (2026-05-24, plan 881 str repr)
 
 ### Landed
