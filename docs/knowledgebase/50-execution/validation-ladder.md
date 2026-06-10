@@ -66,6 +66,7 @@ Emits JSON (`vitest_seconds`, pass gates, `test_count`); use median of several r
 | `test/cpython-derived/dict-delitem-hash-eq.test.ts` | dict __delitem__ hash+eq keys (plan 632) |
 | `test/cpython-derived/hash-strictness-matrix.test.ts` | Cross-cutting hash strictness matrix dict/set/frozenset/tuple (plan 588) |
 | `test/collections/slice-with.test.ts` | `pySlice`, `withObject`; slice `pyInt`/`__index__` bounds on sequences (plan 851) |
+| `test/cpython-derived/slice-indices.test.ts` | `slice.indices(length)` normalized bounds (plan 852) |
 | `test/cpython-derived/compare-ne.test.ts` | CPython `test_compare.py` `__ne__` delegation |
 | `test/cpython-derived/richcmp-number.test.ts` | CPython `test_richcmp.py` number ordering |
 | `test/cpython-derived/richcmp-incomparable.test.ts` | CPython `test_richcmp.py` Rev/Incomparable |

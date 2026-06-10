@@ -6,7 +6,8 @@ import { PyObject } from "../core/object.js";
 import { makeClass } from "../class/class.js";
 import { Slot, Hook } from "../core/slots.js";
 import { setNative, nativeVal } from "../builtins/native.js";
-import { pyIndexAsInteger } from "../builtins/int.js";
+import { pyIndexAsInteger, pyInt } from "../builtins/int.js";
+import { pyTuple } from "../builtins/tuple.js";
 import { PyTypeError, PyValueError } from "../core/errors.js";
 
 export type SliceBound = number | null | PyObject;
@@ -61,12 +62,38 @@ function formatSliceSpec(self: PyObject, spec: string): string {
   throw new PyTypeError("unsupported format string passed to slice.__format__");
 }
 
+function sliceLengthArg(length: unknown): number {
+  let n: number | null = null;
+  if (typeof length === "number") {
+    n = length;
+  } else if (length instanceof PyObject) {
+    n = pyIndexAsInteger(length);
+  }
+  if (n === null) {
+    const kind = length instanceof PyObject ? length.type.name : typeof length;
+    throw new PyTypeError(`'${kind}' object cannot be interpreted as an integer`);
+  }
+  if (n < 0) {
+    throw new PyValueError("length should not be negative");
+  }
+  return n;
+}
+
 export const sliceType = makeClass({
   name: "slice",
   dict: new Map<string | symbol, unknown>([
     [Slot.repr, (self: PyObject) => sliceRepr(self)],
     [Slot.bool, (_self: PyObject) => true],
     [Hook.format, (self: PyObject, spec: string) => formatSliceSpec(self, spec)],
+    [
+      "indices",
+      (self: PyObject, length: unknown) => {
+        const len = sliceLengthArg(length);
+        const { start, stop, step } = resolvedSliceFields(self);
+        const [a, b, s] = sliceAdjustIndices(len, start, stop, step);
+        return pyTuple([pyInt(a), pyInt(b), pyInt(s)]);
+      },
+    ],
   ]),
 });
 
@@ -88,17 +115,17 @@ export function sliceFields(obj: PyObject): SliceFields {
   return nativeVal<SliceFields>(obj);
 }
 
-/** Normalize slice indices for a sequence of given length. */
-export function sliceIndices(
+/** Normalized (start, stop, step) for a sequence of given length (CPython slice.indices). */
+export function sliceAdjustIndices(
   length: number,
   start: number | null,
   stop: number | null,
   step: number | null,
-): number[] {
+): [number, number, number] {
   const s = step ?? 1;
   if (s === 0) throw new PyValueError("slice step cannot be zero");
+  if (length < 0) throw new PyValueError("length should not be negative");
 
-  const out: number[] = [];
   if (s > 0) {
     let a = start ?? 0;
     let b = stop ?? length;
@@ -106,24 +133,39 @@ export function sliceIndices(
     if (b < 0) b += length;
     a = Math.max(0, Math.min(a, length));
     b = Math.max(0, Math.min(b, length));
+    return [a, b, s];
+  }
+  let a = start ?? length - 1;
+  let b: number;
+  if (stop === null) {
+    b = -1;
+  } else {
+    b = stop;
+    if (b < 0) {
+      b += length;
+      if (b < 0) b = -1;
+    }
+  }
+  if (a < 0) {
+    a += length;
+    if (a < 0) a = -1;
+  }
+  if (a >= length) a = length - 1;
+  return [a, b, s];
+}
+
+/** Normalize slice indices for a sequence of given length. */
+export function sliceIndices(
+  length: number,
+  start: number | null,
+  stop: number | null,
+  step: number | null,
+): number[] {
+  const [a, b, s] = sliceAdjustIndices(length, start, stop, step);
+  const out: number[] = [];
+  if (s > 0) {
     for (let i = a; i < b; i += s) out.push(i);
   } else {
-    let a = start ?? length - 1;
-    let b: number;
-    if (stop === null) {
-      b = -1;
-    } else {
-      b = stop;
-      if (b < 0) {
-        b += length;
-        if (b < 0) b = -1;
-      }
-    }
-    if (a < 0) {
-      a += length;
-      if (a < 0) a = -1;
-    }
-    if (a >= length) a = length - 1;
     for (let i = a; i > b; i += s) {
       if (i >= 0 && i < length) out.push(i);
     }
