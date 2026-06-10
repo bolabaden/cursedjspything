@@ -123,6 +123,8 @@ export {
   zip,
   map,
   filter,
+  list,
+  tuple,
   enter,
   exit,
   pyAwait,

@@ -32,6 +32,7 @@ import {
   resolveSortOptions,
   sortPyObjectsInPlace,
 } from "../builtins/list.js";
+import { pyTuple } from "../builtins/tuple.js";
 
 export function call(obj: PyObject, ...args: unknown[]): unknown {
   return callSlotOrThrow(
@@ -440,6 +441,34 @@ export function filter(...args: unknown[]): PyObject {
     inner,
     identity,
   );
+}
+
+function sequenceConstructor(
+  args: unknown[],
+  fn: "list" | "tuple",
+  empty: () => PyObject,
+  fromItems: (items: PyObject[]) => PyObject,
+): PyObject {
+  if (args.length === 0) return empty();
+  if (args.length > 1) {
+    throw new PyTypeError(
+      `${fn} expected at most 1 argument, got ${args.length}`,
+    );
+  }
+  const iterable = args[0];
+  if (!(iterable instanceof PyObject)) {
+    const kind = typeof iterable;
+    throw new PyTypeError(`${fn}() argument must be PyObject, not ${kind}`);
+  }
+  return fromItems(materializeIterable(iterable, fn));
+}
+
+export function list(...args: unknown[]): PyObject {
+  return sequenceConstructor(args, "list", () => pyList([]), pyList);
+}
+
+export function tuple(...args: unknown[]): PyObject {
+  return sequenceConstructor(args, "tuple", () => pyTuple([]), pyTuple);
 }
 
 export function zip(...args: unknown[]): PyObject {

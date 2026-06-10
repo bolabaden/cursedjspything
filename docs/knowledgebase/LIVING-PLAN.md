@@ -7,6 +7,25 @@
 
 ---
 
+## Delta update (2026-05-24, plan 870 list/tuple builtins)
+
+### Landed
+
+- [REPO] Plan 870 — builtin `list()`/`tuple()`; `list-tuple-builtin.test.ts`.
+
+### Partial
+
+- `dict()` / `set()` constructors deferred.
+
+### Next
+
+1. `range` / further builtins when scoped.
+2. `zip(strict=True)` when scoped.
+3. Further str/bytes API niche gaps when scoped.
+4. PEP 3118 out of scope.
+
+---
+
 ## Delta update (2026-05-24, plan 869 filter builtin)
 
 ### Landed
