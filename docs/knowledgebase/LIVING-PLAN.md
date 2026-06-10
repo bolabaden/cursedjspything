@@ -7,6 +7,25 @@
 
 ---
 
+## Delta update (2026-05-24, plan 864 sum builtin)
+
+### Landed
+
+- [REPO] Plan 864 — builtin `sum`; `sum-builtin.test.ts`.
+
+### Partial
+
+- None.
+
+### Next
+
+1. `min`/`max` `key=` and `default=` when scoped.
+2. `enumerate()` / further iterable builtins when scoped.
+3. Further str/bytes API niche gaps when scoped.
+4. PEP 3118 out of scope.
+
+---
+
 ## Delta update (2026-05-24, plan 863 any/all builtins)
 
 ### Landed

@@ -14,7 +14,9 @@ import {
 } from "../core/errors.js";
 import { callSlotOrThrow, lengthOf } from "./dispatch.js";
 import { bool, eq, gt, lt } from "./operators/compare.js";
+import { add } from "./operators/numeric.js";
 import { pyFalse, pyTrue } from "../builtins/bool.js";
+import { pyInt } from "../builtins/int.js";
 import { attachBufferView, type PyBufferView } from "../buffer/buffer.js";
 import { makeSequenceIterator } from "../iterators/sequence-iterator.js";
 import { makeReversedIterator } from "../iterators/reversed-iterator.js";
@@ -272,6 +274,50 @@ export function all(...args: unknown[]): PyObject {
       if (!bool(item)) return pyFalse;
     } catch (e) {
       if (e instanceof PyStopIteration) return pyTrue;
+      throw e;
+    }
+  }
+}
+
+export function sum(...args: unknown[]): PyObject {
+  if (args.length === 0) {
+    throw new PyTypeError("sum() expected at least 1 argument, got 0");
+  }
+  if (args.length > 2) {
+    throw new PyTypeError(
+      `sum() takes from 1 to 2 positional arguments but ${args.length} were given`,
+    );
+  }
+  const iterable = args[0];
+  if (!(iterable instanceof PyObject)) {
+    const kind = typeof iterable;
+    throw new PyTypeError(`sum() argument must be PyObject, not ${kind}`);
+  }
+  let total: PyObject;
+  if (args.length === 1) {
+    total = pyInt(0);
+  } else {
+    const start = args[1];
+    if (!(start instanceof PyObject)) {
+      const kind = typeof start;
+      throw new PyTypeError(`sum() start must be PyObject, not ${kind}`);
+    }
+    total = start;
+  }
+  const it = iter(iterable);
+  while (true) {
+    try {
+      const item = next(it);
+      if (!(item instanceof PyObject)) {
+        throw new PyTypeError("sum() expects iterator items to be PyObject");
+      }
+      const nextTotal = add(total, item);
+      if (!(nextTotal instanceof PyObject)) {
+        throw new PyTypeError("sum() add must return PyObject");
+      }
+      total = nextTotal;
+    } catch (e) {
+      if (e instanceof PyStopIteration) return total;
       throw e;
     }
   }
