@@ -33,6 +33,7 @@ import {
   sortPyObjectsInPlace,
 } from "../builtins/list.js";
 import { pyTuple } from "../builtins/tuple.js";
+import { pySet } from "../builtins/set.js";
 
 export function call(obj: PyObject, ...args: unknown[]): unknown {
   return callSlotOrThrow(
@@ -445,7 +446,7 @@ export function filter(...args: unknown[]): PyObject {
 
 function sequenceConstructor(
   args: unknown[],
-  fn: "list" | "tuple",
+  fn: "list" | "tuple" | "set",
   empty: () => PyObject,
   fromItems: (items: PyObject[]) => PyObject,
 ): PyObject {
@@ -469,6 +470,10 @@ export function list(...args: unknown[]): PyObject {
 
 export function tuple(...args: unknown[]): PyObject {
   return sequenceConstructor(args, "tuple", () => pyTuple([]), pyTuple);
+}
+
+export function set(...args: unknown[]): PyObject {
+  return sequenceConstructor(args, "set", () => pySet([]), pySet);
 }
 
 export function zip(...args: unknown[]): PyObject {

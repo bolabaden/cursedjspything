@@ -7,6 +7,25 @@
 
 ---
 
+## Delta update (2026-05-24, plan 871 set builtin)
+
+### Landed
+
+- [REPO] Plan 871 — builtin `set()`; `set-builtin.test.ts`.
+
+### Partial
+
+- `frozenset()` / `dict()` deferred.
+
+### Next
+
+1. `range` / further builtins when scoped.
+2. `zip(strict=True)` when scoped.
+3. Further str/bytes API niche gaps when scoped.
+4. PEP 3118 out of scope.
+
+---
+
 ## Delta update (2026-05-24, plan 870 list/tuple builtins)
 
 ### Landed
