@@ -13,7 +13,8 @@ import {
   PyValueError,
 } from "../core/errors.js";
 import { callSlotOrThrow, lengthOf } from "./dispatch.js";
-import { eq, gt, lt } from "./operators/compare.js";
+import { bool, eq, gt, lt } from "./operators/compare.js";
+import { pyFalse, pyTrue } from "../builtins/bool.js";
 import { attachBufferView, type PyBufferView } from "../buffer/buffer.js";
 import { makeSequenceIterator } from "../iterators/sequence-iterator.js";
 import { makeReversedIterator } from "../iterators/reversed-iterator.js";
@@ -220,6 +221,60 @@ export function max(...args: unknown[]): PyObject {
     if (gt(item, best) === true) best = item;
   }
   return best;
+}
+
+function requireSingleIterableArg(
+  args: unknown[],
+  fn: "any" | "all",
+): PyObject {
+  if (args.length === 0) {
+    throw new PyTypeError(`${fn}() expected at least 1 argument, got 0`);
+  }
+  if (args.length > 1) {
+    throw new PyTypeError(
+      `${fn}() takes exactly one argument (${args.length} given)`,
+    );
+  }
+  const iterable = args[0];
+  if (!(iterable instanceof PyObject)) {
+    const kind = typeof iterable;
+    throw new PyTypeError(`${fn}() argument must be PyObject, not ${kind}`);
+  }
+  return iterable;
+}
+
+export function any(...args: unknown[]): PyObject {
+  const iterable = requireSingleIterableArg(args, "any");
+  const it = iter(iterable);
+  while (true) {
+    try {
+      const item = next(it);
+      if (!(item instanceof PyObject)) {
+        throw new PyTypeError("any() expects iterator items to be PyObject");
+      }
+      if (bool(item)) return pyTrue;
+    } catch (e) {
+      if (e instanceof PyStopIteration) return pyFalse;
+      throw e;
+    }
+  }
+}
+
+export function all(...args: unknown[]): PyObject {
+  const iterable = requireSingleIterableArg(args, "all");
+  const it = iter(iterable);
+  while (true) {
+    try {
+      const item = next(it);
+      if (!(item instanceof PyObject)) {
+        throw new PyTypeError("all() expects iterator items to be PyObject");
+      }
+      if (!bool(item)) return pyFalse;
+    } catch (e) {
+      if (e instanceof PyStopIteration) return pyTrue;
+      throw e;
+    }
+  }
 }
 
 export function sorted(

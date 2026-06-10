@@ -7,6 +7,24 @@
 
 ---
 
+## Delta update (2026-05-24, plan 863 any/all builtins)
+
+### Landed
+
+- [REPO] Plan 863 — builtin `any`/`all`; `any-all-builtin.test.ts`.
+
+### Partial
+
+- None.
+
+### Next
+
+1. `min`/`max` `key=` and `default=` when scoped.
+2. Further str/bytes API niche gaps when scoped.
+3. PEP 3118 out of scope.
+
+---
+
 ## Delta update (2026-05-24, plan 862 min/max builtins)
 
 ### Landed
