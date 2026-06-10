@@ -14,7 +14,8 @@ import {
 } from "../collections/slice.js";
 import { pyNone } from "./none.js";
 import { tupleType } from "./tuple.js";
-import { eq } from "../dispatch/operators/compare.js";
+import { eq, gt, lt } from "../dispatch/operators/compare.js";
+import { boolType } from "./bool.js";
 
 function listIndexKey(key: unknown): number {
   let n: number | null = null;
@@ -171,6 +172,29 @@ function removeList(arr: PyObject[], value: unknown): void {
     }
   }
   throw new PyValueError("list.remove(x): x not in list");
+}
+
+function parseSortReverse(reverse: unknown): boolean {
+  if (reverse === undefined || reverse === null) return false;
+  if (typeof reverse === "boolean") return reverse;
+  if (reverse instanceof PyObject && reverse.type === boolType) {
+    return nativeVal<boolean>(reverse);
+  }
+  const kind = reverse instanceof PyObject ? reverse.type.name : typeof reverse;
+  throw new PyTypeError(`sort() argument must be bool, not ${kind}`);
+}
+
+function listSortCompare(a: PyObject, b: PyObject): number {
+  if (lt(a, b) === true) return -1;
+  if (gt(a, b) === true) return 1;
+  return 0;
+}
+
+function sortList(arr: PyObject[], reverse: boolean): void {
+  arr.sort((a, b) => {
+    const cmp = listSortCompare(a, b);
+    return reverse ? -cmp : cmp;
+  });
 }
 
 function setListSlice(arr: PyObject[], key: PyObject, value: unknown): void {
@@ -350,6 +374,10 @@ export const listType = makeClass({
     }],
     ["reverse", (self: PyObject) => {
       nativeVal<PyObject[]>(self).reverse();
+      return pyNone;
+    }],
+    ["sort", (self: PyObject, reverse?: unknown) => {
+      sortList(nativeVal<PyObject[]>(self), parseSortReverse(reverse));
       return pyNone;
     }],
   ]),
