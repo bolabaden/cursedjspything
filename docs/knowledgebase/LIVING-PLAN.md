@@ -7,6 +7,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 861 tuple index/count)
+
+### Landed
+
+- [REPO] Plan 861 — `tuple.index`/`count`; shared `sequenceIndex`/`sequenceCount`; `tuple-index-count.test.ts`.
+
+### Partial
+
+- None.
+
+### Next
+
+1. Further str/bytes API niche gaps when scoped.
+2. PEP 3118 out of scope.
+
+---
+
 ## Delta update (2026-05-24, plan 860 sort key)
 
 ### Landed

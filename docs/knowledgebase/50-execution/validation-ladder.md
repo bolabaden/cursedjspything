@@ -206,6 +206,7 @@ Emits JSON (`vitest_seconds`, pass gates, `test_count`); use median of several r
 | `test/cpython-derived/set-bool.test.ts` | set.__bool__ empty falsy; non-empty truthy |
 | `test/cpython-derived/frozenset-bool.test.ts` | frozenset.__bool__ empty falsy; non-empty truthy |
 | `test/cpython-derived/tuple-reversed.test.ts` | tuple.__reversed__ yields elements last-to-first; empty StopIteration; iterator __iter__ returns self |
+| `test/cpython-derived/tuple-index-count.test.ts` | tuple `index`/`count` (plan 861) |
 | `test/cpython-derived/tuple-bool.test.ts` | tuple.__bool__ empty falsy; non-empty truthy |
 | `test/cpython-derived/tuple-hash.test.ts` | tuple __hash__; equal-key element hash (plan 630); empty/order/guards (586, 564/572) |
 | `test/cpython-derived/int-bool.test.ts` | int.__bool__ 0 falsy; non-zero truthy |

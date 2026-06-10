@@ -6,6 +6,7 @@ import { makeReversedIterator } from "../iterators/reversed-iterator.js";
 import { PyTypeError, PyIndexError } from "../core/errors.js";
 import { nativeVal, setNative } from "./native.js";
 import { pyIndexAsInteger, sequenceRepeatCount } from "./int.js";
+import { sequenceCount, sequenceIndex } from "./list.js";
 import { buildRepeatedArray } from "./sequence-repeat.js";
 import { isSlice, resolvedSliceFields, sliceIndices } from "../collections/slice.js";
 import { eq, hash as objectHash } from "../dispatch/operators/compare.js";
@@ -135,6 +136,18 @@ export const tupleType = makeClass({
         if (eq(a[i], b[i]) !== true) return false;
       }
       return true;
+    }],
+    ["index", (self: PyObject, value: unknown, start?: unknown, end?: unknown) => {
+      return sequenceIndex(
+        nativeVal<readonly PyObject[]>(self),
+        value,
+        "tuple.index(x): x not in tuple",
+        start,
+        end,
+      );
+    }],
+    ["count", (self: PyObject, value: unknown, start?: unknown, end?: unknown) => {
+      return sequenceCount(nativeVal<readonly PyObject[]>(self), value, start, end);
     }],
   ]),
 });

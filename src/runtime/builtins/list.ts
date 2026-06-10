@@ -138,9 +138,10 @@ function listItemEq(item: PyObject, value: unknown): boolean {
   return item === value;
 }
 
-function indexList(
-  arr: PyObject[],
+export function sequenceIndex(
+  arr: readonly PyObject[],
   value: unknown,
+  notFoundMsg: string,
   start?: unknown,
   end?: unknown,
 ): PyObject {
@@ -148,11 +149,11 @@ function indexList(
   for (let i = a; i < b; i++) {
     if (listItemEq(arr[i]!, value)) return pyInt(i);
   }
-  throw new PyValueError("list.index(x): x not in list");
+  throw new PyValueError(notFoundMsg);
 }
 
-function countList(
-  arr: PyObject[],
+export function sequenceCount(
+  arr: readonly PyObject[],
   value: unknown,
   start?: unknown,
   end?: unknown,
@@ -163,6 +164,30 @@ function countList(
     if (listItemEq(arr[i]!, value)) n++;
   }
   return pyInt(n);
+}
+
+function indexList(
+  arr: PyObject[],
+  value: unknown,
+  start?: unknown,
+  end?: unknown,
+): PyObject {
+  return sequenceIndex(
+    arr,
+    value,
+    "list.index(x): x not in list",
+    start,
+    end,
+  );
+}
+
+function countList(
+  arr: PyObject[],
+  value: unknown,
+  start?: unknown,
+  end?: unknown,
+): PyObject {
+  return sequenceCount(arr, value, start, end);
 }
 
 function removeList(arr: PyObject[], value: unknown): void {
