@@ -22,6 +22,7 @@ import { makeSequenceIterator } from "../iterators/sequence-iterator.js";
 import { makeReversedIterator } from "../iterators/reversed-iterator.js";
 import { makeEnumerateIterator } from "../iterators/enumerate-iterator.js";
 import { makeZipIterator } from "../iterators/zip-iterator.js";
+import { makeMapIterator } from "../iterators/map-iterator.js";
 import { pyIndexAsInteger } from "../builtins/int.js";
 import {
   comparePyObjectsForOrder,
@@ -385,6 +386,30 @@ export function enumerate(...args: unknown[]): PyObject {
   }
   const inner = iter(iterable);
   return makeEnumerateIterator(inner, startIndex);
+}
+
+export function map(...args: unknown[]): PyObject {
+  if (args.length < 2) {
+    throw new PyTypeError("map() must have at least two arguments.");
+  }
+  const func = args[0];
+  if (!(func instanceof PyObject)) {
+    const kind = typeof func;
+    throw new PyTypeError(`map() func must be PyObject, not ${kind}`);
+  }
+  if (lookupSpecial(func, Slot.call) === undefined) {
+    throw new PyTypeError(`'${func.type.name}' object is not callable`);
+  }
+  const iters: PyObject[] = [];
+  for (let i = 1; i < args.length; i++) {
+    const arg = args[i];
+    if (!(arg instanceof PyObject)) {
+      const kind = typeof arg;
+      throw new PyTypeError(`map() argument must be PyObject, not ${kind}`);
+    }
+    iters.push(iter(arg));
+  }
+  return makeMapIterator(func, iters);
 }
 
 export function zip(...args: unknown[]): PyObject {

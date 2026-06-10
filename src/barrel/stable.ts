@@ -121,6 +121,7 @@ export {
   sum,
   enumerate,
   zip,
+  map,
   enter,
   exit,
   pyAwait,

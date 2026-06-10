@@ -7,6 +7,24 @@
 
 ---
 
+## Delta update (2026-05-24, plan 868 map builtin)
+
+### Landed
+
+- [REPO] Plan 868 — builtin `map`; `map-iterator.ts`; `map-builtin.test.ts`.
+
+### Partial
+
+- `filter()` deferred.
+
+### Next
+
+1. `filter()` builtin when scoped.
+2. Further str/bytes API niche gaps when scoped.
+3. PEP 3118 out of scope.
+
+---
+
 ## Delta update (2026-05-24, plan 867 min/max key default)
 
 ### Landed
