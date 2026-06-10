@@ -7,6 +7,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 860 sort key)
+
+### Landed
+
+- [REPO] Plan 860 — `list.sort`/`sorted` callable `key` + `reverse`; extended sort tests.
+
+### Partial
+
+- Python-syntax keyword-only `key`/`reverse` deferred.
+
+### Next
+
+1. Further str/bytes API niche gaps when scoped.
+2. PEP 3118 out of scope.
+
+---
+
 ## Delta update (2026-05-24, plan 859 sorted builtin)
 
 ### Landed

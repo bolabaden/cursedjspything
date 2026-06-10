@@ -1,7 +1,8 @@
 import { PyObject, NotImplemented } from "../core/object.js";
 import { Slot, Hook } from "../core/slots.js";
 import { makeClass } from "../class/class.js";
-import { PyStopIteration } from "../core/lookup.js";
+import { PyStopIteration, lookupSpecial } from "../core/lookup.js";
+import { callSlotOrThrow } from "../dispatch/dispatch.js";
 import { PyTypeError, PyIndexError, PyValueError } from "../core/errors.js";
 import { nativeVal, setNative } from "./native.js";
 import { pyIndexAsInteger, pyInt, sequenceRepeatCount } from "./int.js";
@@ -187,15 +188,78 @@ export function parseSortReverse(
   throw new PyTypeError(`${context}() argument must be bool, not ${kind}`);
 }
 
-function listSortCompare(a: PyObject, b: PyObject): number {
-  if (lt(a, b) === true) return -1;
-  if (gt(a, b) === true) return 1;
+function isSortKeyCallable(value: unknown): value is PyObject {
+  return (
+    value instanceof PyObject && lookupSpecial(value, Slot.call) !== undefined
+  );
+}
+
+function sortKeyResult(
+  keyFn: PyObject,
+  item: PyObject,
+  context: "sort" | "sorted",
+): PyObject {
+  const result = callSlotOrThrow(
+    keyFn,
+    Slot.call,
+    `'${keyFn.type.name}' object is not callable`,
+    item,
+  );
+  if (!(result instanceof PyObject)) {
+    throw new PyTypeError(`${context}() key function must return PyObject`);
+  }
+  return result;
+}
+
+function listSortCompareKeys(
+  a: PyObject,
+  b: PyObject,
+  keyFn: PyObject | null,
+  context: "sort" | "sorted",
+): number {
+  const ka = keyFn ? sortKeyResult(keyFn, a, context) : a;
+  const kb = keyFn ? sortKeyResult(keyFn, b, context) : b;
+  if (lt(ka, kb) === true) return -1;
+  if (gt(ka, kb) === true) return 1;
   return 0;
 }
 
-export function sortPyObjectsInPlace(arr: PyObject[], reverse: boolean): void {
+export function resolveSortOptions(
+  key: unknown,
+  reverse: unknown,
+  context: "sort" | "sorted",
+): { keyFn: PyObject | null; reverse: boolean } {
+  let keyFn: PyObject | null = null;
+  let reverseArg = reverse;
+
+  if (key !== undefined && key !== null && key !== pyNone) {
+    if (isSortKeyCallable(key)) {
+      keyFn = key;
+    } else if (
+      reverseArg === undefined &&
+      (typeof key === "boolean" ||
+        (key instanceof PyObject && key.type === boolType))
+    ) {
+      reverseArg = key;
+    } else {
+      throw new PyTypeError(`${context}() key must be callable or None`);
+    }
+  }
+
+  return {
+    keyFn,
+    reverse: parseSortReverse(reverseArg, context),
+  };
+}
+
+export function sortPyObjectsInPlace(
+  arr: PyObject[],
+  reverse: boolean,
+  keyFn: PyObject | null = null,
+  context: "sort" | "sorted" = "sort",
+): void {
   arr.sort((a, b) => {
-    const cmp = listSortCompare(a, b);
+    const cmp = listSortCompareKeys(a, b, keyFn, context);
     return reverse ? -cmp : cmp;
   });
 }
@@ -379,10 +443,13 @@ export const listType = makeClass({
       nativeVal<PyObject[]>(self).reverse();
       return pyNone;
     }],
-    ["sort", (self: PyObject, reverse?: unknown) => {
+    ["sort", (self: PyObject, key?: unknown, reverse?: unknown) => {
+      const opts = resolveSortOptions(key, reverse, "sort");
       sortPyObjectsInPlace(
         nativeVal<PyObject[]>(self),
-        parseSortReverse(reverse),
+        opts.reverse,
+        opts.keyFn,
+        "sort",
       );
       return pyNone;
     }],

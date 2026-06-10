@@ -5,8 +5,11 @@ import { describe, it, expect } from "vitest";
 import {
   getAttr,
   getItem,
+  instantiate,
   len,
+  makeClass,
   noneType,
+  objectType,
   pyFalse,
   pyInt,
   pyList,
@@ -16,6 +19,7 @@ import {
   unwrap,
 } from "../../src/index.js";
 import { PyTypeError } from "../../src/runtime/core/errors.js";
+import { Slot } from "../../src/runtime/core/slots.js";
 
 type ListMethod = (...args: unknown[]) => unknown;
 
@@ -35,6 +39,30 @@ function strItems(lst: ReturnType<typeof pyList>): string[] {
     out.push(unwrap(getItem(lst, i) as ReturnType<typeof pyStr>));
   }
   return out;
+}
+
+function negKey() {
+  const NegKey = makeClass({
+    name: "NegKey",
+    bases: [objectType],
+    dict: new Map<string | symbol, unknown>([
+      [Slot.call, (_self: unknown, x: unknown) =>
+        pyInt(-unwrap(x as ReturnType<typeof pyInt>))],
+    ]),
+  });
+  return instantiate(NegKey);
+}
+
+function strLenKey() {
+  const StrLenKey = makeClass({
+    name: "StrLenKey",
+    bases: [objectType],
+    dict: new Map<string | symbol, unknown>([
+      [Slot.call, (_self: unknown, x: unknown) =>
+        pyInt(unwrap(x as ReturnType<typeof pyStr>).length)],
+    ]),
+  });
+  return instantiate(StrLenKey);
 }
 
 describe("cpython-derived list sort", () => {
@@ -81,9 +109,22 @@ describe("cpython-derived list sort", () => {
     expect(getItem(lst, 2)).toBe(oneB);
   });
 
-  it("rejects non-bool reverse argument", () => {
+  it("sorts by callable key", () => {
+    const lst = pyList([pyInt(1), pyInt(3), pyInt(2)]);
+    call(lst, "sort", negKey());
+    expect(intItems(lst)).toEqual([3, 2, 1]);
+  });
+
+  it("sorts by key with reverse", () => {
+    const lst = pyList([pyStr("aaa"), pyStr("b"), pyStr("cc")]);
+    call(lst, "sort", strLenKey(), pyTrue);
+    expect(strItems(lst)).toEqual(["aaa", "cc", "b"]);
+  });
+
+  it("rejects non-callable key argument", () => {
     const lst = pyList([pyInt(1)]);
     expect(() => call(lst, "sort", pyInt(1))).toThrow(PyTypeError);
+    expect(() => call(lst, "sort", pyInt(1))).toThrow(/key must be callable/);
   });
 
   it("raises TypeError when elements are not orderable", () => {

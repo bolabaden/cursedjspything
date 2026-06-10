@@ -17,8 +17,8 @@ import { attachBufferView, type PyBufferView } from "../buffer/buffer.js";
 import { makeSequenceIterator } from "../iterators/sequence-iterator.js";
 import { makeReversedIterator } from "../iterators/reversed-iterator.js";
 import {
-  parseSortReverse,
   pyList,
+  resolveSortOptions,
   sortPyObjectsInPlace,
 } from "../builtins/list.js";
 
@@ -154,7 +154,11 @@ export function reversed(obj: PyObject): PyObject {
   throw new PyTypeError(`'${obj.type.name}' object is not reversible`);
 }
 
-export function sorted(iterable: PyObject, reverse?: unknown): PyObject {
+export function sorted(
+  iterable: PyObject,
+  key?: unknown,
+  reverse?: unknown,
+): PyObject {
   const items: PyObject[] = [];
   const it = iter(iterable);
   while (true) {
@@ -169,7 +173,8 @@ export function sorted(iterable: PyObject, reverse?: unknown): PyObject {
       throw e;
     }
   }
-  sortPyObjectsInPlace(items, parseSortReverse(reverse, "sorted"));
+  const opts = resolveSortOptions(key, reverse, "sorted");
+  sortPyObjectsInPlace(items, opts.reverse, opts.keyFn, "sorted");
   return pyList(items);
 }
 

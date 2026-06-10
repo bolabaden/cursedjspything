@@ -4,8 +4,11 @@
 import { describe, it, expect } from "vitest";
 import {
   getItem,
+  instantiate,
   len,
   listType,
+  makeClass,
+  objectType,
   pyInt,
   pyList,
   pyStr,
@@ -15,6 +18,7 @@ import {
   unwrap,
 } from "../../src/index.js";
 import { PyTypeError } from "../../src/runtime/core/errors.js";
+import { Slot } from "../../src/runtime/core/slots.js";
 
 function intItems(lst: ReturnType<typeof pyList>): number[] {
   const n = len(lst);
@@ -23,6 +27,18 @@ function intItems(lst: ReturnType<typeof pyList>): number[] {
     out.push(unwrap(getItem(lst, i) as ReturnType<typeof pyInt>));
   }
   return out;
+}
+
+function negKey() {
+  const NegKey = makeClass({
+    name: "NegKey",
+    bases: [objectType],
+    dict: new Map<string | symbol, unknown>([
+      [Slot.call, (_self: unknown, x: unknown) =>
+        pyInt(-unwrap(x as ReturnType<typeof pyInt>))],
+    ]),
+  });
+  return instantiate(NegKey);
 }
 
 describe("cpython-derived sorted builtin", () => {
@@ -52,6 +68,13 @@ describe("cpython-derived sorted builtin", () => {
   it("returns empty list for empty iterable", () => {
     const out = sorted(pyList([])) as ReturnType<typeof pyList>;
     expect(len(out)).toBe(0);
+  });
+
+  it("sorts by callable key without mutating source", () => {
+    const src = pyList([pyInt(1), pyInt(3), pyInt(2)]);
+    const out = sorted(src, negKey()) as ReturnType<typeof pyList>;
+    expect(intItems(out)).toEqual([3, 2, 1]);
+    expect(intItems(src)).toEqual([1, 3, 2]);
   });
 
   it("raises TypeError for non-iterable", () => {
