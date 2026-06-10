@@ -7,6 +7,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 854 list slice mutation)
+
+### Landed
+
+- [REPO] Plan 854 — `list` slice `__setitem__`/`__delitem__` (contiguous + extended); `list-slice-mutation.test.ts` (1239 Vitest / 168 files).
+
+### Partial
+
+- None.
+
+### Next
+
+1. Further str/bytes API niche gaps when scoped.
+2. PEP 3118 out of scope.
+
+---
+
 ## Delta update (2026-05-24, plan 853 slice attributes)
 
 ### Landed

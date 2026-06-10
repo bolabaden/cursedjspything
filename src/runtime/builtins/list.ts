@@ -2,11 +2,17 @@ import { PyObject, NotImplemented } from "../core/object.js";
 import { Slot, Hook } from "../core/slots.js";
 import { makeClass } from "../class/class.js";
 import { PyStopIteration } from "../core/lookup.js";
-import { PyTypeError, PyIndexError } from "../core/errors.js";
+import { PyTypeError, PyIndexError, PyValueError } from "../core/errors.js";
 import { nativeVal, setNative } from "./native.js";
 import { pyIndexAsInteger, sequenceRepeatCount } from "./int.js";
 import { buildRepeatedArray } from "./sequence-repeat.js";
-import { isSlice, resolvedSliceFields, sliceIndices } from "../collections/slice.js";
+import {
+  isSlice,
+  resolvedSliceFields,
+  sliceAdjustIndices,
+  sliceIndices,
+} from "../collections/slice.js";
+import { tupleType } from "./tuple.js";
 import { eq } from "../dispatch/operators/compare.js";
 
 function listIndexKey(key: unknown): number {
@@ -66,6 +72,47 @@ function imulList(self: PyObject, other: PyObject) {
   return self;
 }
 
+function listItemsFromIterable(value: unknown): PyObject[] {
+  if (value instanceof PyObject) {
+    if (value.type === listType) {
+      return [...nativeVal<PyObject[]>(value)];
+    }
+    if (value.type === tupleType) {
+      return [...nativeVal<readonly PyObject[]>(value)];
+    }
+  }
+  const kind = value instanceof PyObject ? value.type.name : typeof value;
+  throw new PyTypeError("can only assign an iterable");
+}
+
+function delListSlice(arr: PyObject[], key: PyObject): void {
+  const { start, stop, step } = resolvedSliceFields(key);
+  const indices = sliceIndices(arr.length, start, stop, step);
+  for (let i = indices.length - 1; i >= 0; i--) {
+    arr.splice(indices[i]!, 1);
+  }
+}
+
+function setListSlice(arr: PyObject[], key: PyObject, value: unknown): void {
+  const items = listItemsFromIterable(value);
+  const { start, stop, step } = resolvedSliceFields(key);
+  const s = step ?? 1;
+  if (s === 1) {
+    const [a, b] = sliceAdjustIndices(arr.length, start, stop, step);
+    arr.splice(a, b - a, ...items);
+    return;
+  }
+  const indices = sliceIndices(arr.length, start, stop, step);
+  if (items.length !== indices.length) {
+    throw new PyValueError(
+      `attempt to assign sequence of size ${items.length} to extended slice of size ${indices.length}`,
+    );
+  }
+  for (let i = 0; i < indices.length; i++) {
+    arr[indices[i]!] = items[i]!;
+  }
+}
+
 // ── pyList ────────────────────────────────────────────────────────────
 
 export const listType = makeClass({
@@ -87,6 +134,10 @@ export const listType = makeClass({
     }],
     [Slot.setitem, (self: PyObject, key: unknown, value: unknown) => {
       const arr = nativeVal<PyObject[]>(self);
+      if (isSlice(key)) {
+        setListSlice(arr, key, value);
+        return;
+      }
       const idx = resolveListIndex(
         key,
         arr.length,
@@ -96,6 +147,10 @@ export const listType = makeClass({
     }],
     [Slot.delitem, (self: PyObject, key: unknown) => {
       const arr = nativeVal<PyObject[]>(self);
+      if (isSlice(key)) {
+        delListSlice(arr, key);
+        return;
+      }
       const idx = resolveListIndex(
         key,
         arr.length,
