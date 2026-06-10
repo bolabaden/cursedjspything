@@ -7,6 +7,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 856 list index/clear/copy)
+
+### Landed
+
+- [REPO] Plan 856 — `list.index`/`count`/`clear`/`copy`; `list-index-clear-copy.test.ts`.
+
+### Partial
+
+- None.
+
+### Next
+
+1. Further str/bytes API niche gaps when scoped.
+2. PEP 3118 out of scope.
+
+---
+
 ## Delta update (2026-05-24, plan 855 list mutation methods)
 
 ### Landed

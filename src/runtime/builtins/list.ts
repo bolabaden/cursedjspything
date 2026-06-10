@@ -4,7 +4,7 @@ import { makeClass } from "../class/class.js";
 import { PyStopIteration } from "../core/lookup.js";
 import { PyTypeError, PyIndexError, PyValueError } from "../core/errors.js";
 import { nativeVal, setNative } from "./native.js";
-import { pyIndexAsInteger, sequenceRepeatCount } from "./int.js";
+import { pyIndexAsInteger, pyInt, sequenceRepeatCount } from "./int.js";
 import { buildRepeatedArray } from "./sequence-repeat.js";
 import {
   isSlice,
@@ -100,6 +100,67 @@ function listInsertIndex(key: unknown, length: number): number {
   if (n < 0) n = 0;
   if (n > length) n = length;
   return n;
+}
+
+function parseListBoundIndex(value: unknown): number {
+  if (typeof value === "number") return value;
+  if (value instanceof PyObject) {
+    const n = pyIndexAsInteger(value);
+    if (n !== null) return n;
+  }
+  const kind = value instanceof PyObject ? value.type.name : typeof value;
+  throw new PyTypeError(
+    "slice indices must be integers or None or have an __index__ method",
+  );
+}
+
+function listSearchBounds(
+  length: number,
+  start?: unknown,
+  end?: unknown,
+): [number, number] {
+  let a =
+    start === undefined || start === null ? 0 : parseListBoundIndex(start);
+  let b = end === undefined || end === null ? length : parseListBoundIndex(end);
+  if (a < 0) a += length;
+  if (b < 0) b += length;
+  a = Math.max(0, Math.min(a, length));
+  b = Math.max(0, Math.min(b, length));
+  return [a, b];
+}
+
+function listItemEq(item: PyObject, value: unknown): boolean {
+  if (item instanceof PyObject && value instanceof PyObject) {
+    return eq(item, value) === true;
+  }
+  return item === value;
+}
+
+function indexList(
+  arr: PyObject[],
+  value: unknown,
+  start?: unknown,
+  end?: unknown,
+): PyObject {
+  const [a, b] = listSearchBounds(arr.length, start, end);
+  for (let i = a; i < b; i++) {
+    if (listItemEq(arr[i]!, value)) return pyInt(i);
+  }
+  throw new PyValueError("list.index(x): x not in list");
+}
+
+function countList(
+  arr: PyObject[],
+  value: unknown,
+  start?: unknown,
+  end?: unknown,
+): PyObject {
+  const [a, b] = listSearchBounds(arr.length, start, end);
+  let n = 0;
+  for (let i = a; i < b; i++) {
+    if (listItemEq(arr[i]!, value)) n++;
+  }
+  return pyInt(n);
 }
 
 function setListSlice(arr: PyObject[], key: PyObject, value: unknown): void {
@@ -259,6 +320,19 @@ export const listType = makeClass({
           ? arr.length - 1
           : resolveListIndex(index, arr.length, "pop index out of range");
       return arr.splice(idx, 1)[0]!;
+    }],
+    ["index", (self: PyObject, value: unknown, start?: unknown, end?: unknown) => {
+      return indexList(nativeVal<PyObject[]>(self), value, start, end);
+    }],
+    ["count", (self: PyObject, value: unknown, start?: unknown, end?: unknown) => {
+      return countList(nativeVal<PyObject[]>(self), value, start, end);
+    }],
+    ["clear", (self: PyObject) => {
+      nativeVal<PyObject[]>(self).length = 0;
+      return pyNone;
+    }],
+    ["copy", (self: PyObject) => {
+      return pyList([...nativeVal<PyObject[]>(self)]);
     }],
   ]),
 });
