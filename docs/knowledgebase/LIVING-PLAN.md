@@ -7,6 +7,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 849 str getitem slice/index)
+
+### Landed
+
+- [REPO] Plan 849 — `str.__getitem__` slice + `pyInt`/`__index__`/`bool` index; `pyIndexAsInteger`; bytes `pyInt` index; `str-getitem-slice.test.ts` (1217 Vitest / 165 files).
+
+### Partial
+
+- None.
+
+### Next
+
+1. Further str/bytes API niche gaps when scoped.
+2. PEP 3118 out of scope.
+
+---
+
 ## Delta update (2026-05-24, plan 848 str.isdigit Unicode parity)
 
 ### Landed

@@ -7,6 +7,7 @@ import {
   bytesType,
   getItem,
   pyBytes,
+  pyInt,
   pySlice,
   pyStr,
   unwrap,
@@ -41,5 +42,10 @@ describe("cpython-derived bytes slice indexing", () => {
     expect(() => getItem(abcd(), pySlice(null, null, 0))).toThrow(
       /slice step cannot be zero/,
     );
+  });
+
+  it("single-byte index accepts pyInt", () => {
+    expect(unwrap(getItem(abcd(), pyInt(0)) as ReturnType<typeof pyInt>)).toBe(97);
+    expect(unwrap(getItem(abcd(), pyInt(-1)) as ReturnType<typeof pyInt>)).toBe(100);
   });
 });

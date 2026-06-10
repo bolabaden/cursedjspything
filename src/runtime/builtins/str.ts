@@ -12,7 +12,8 @@ import {
   PyValueError,
 } from "../core/errors.js";
 import { nativeVal, setNative } from "./native.js";
-import { sequenceRepeatCount, intType, pyInt } from "./int.js";
+import { pyIndexAsInteger, sequenceRepeatCount, intType, pyInt } from "./int.js";
+import { isSlice, sliceFields, sliceIndices } from "../collections/slice.js";
 import { pyBytes } from "./bytes.js";
 import { pyFalse, pyTrue, boolType } from "./bool.js";
 import { pyList } from "./list.js";
@@ -742,14 +743,28 @@ function findStrSepIndex(text: string, sep: string, fromRight: boolean): number 
 function parseBoundIndex(value: unknown, length: number): number {
   if (typeof value === "number") return value;
   if (value instanceof PyObject) {
-    if (value.type === intType) {
-      return nativeVal<number>(value);
-    }
-    const n = sequenceRepeatCount(value);
+    const n = pyIndexAsInteger(value);
     if (n !== null) return n;
   }
   const kind = value instanceof PyObject ? value.type.name : typeof value;
   throw new PyTypeError(`slice indices must be integers or None or have an __index__ method`);
+}
+
+function resolveStrIndex(key: unknown, length: number): number {
+  let n: number | null = null;
+  if (typeof key === "number") {
+    n = key;
+  } else if (key instanceof PyObject) {
+    n = pyIndexAsInteger(key);
+  }
+  if (n === null) {
+    throw new PyTypeError("string indices must be integers");
+  }
+  const idx = n < 0 ? length + n : n;
+  if (idx < 0 || idx >= length) {
+    throw new PyIndexError("string index out of range");
+  }
+  return idx;
 }
 
 function strSliceBounds(
@@ -1494,12 +1509,17 @@ export const strType = makeClass({
     }],
     [Slot.getitem, (self: PyObject, key: unknown) => {
       const s = nativeVal<string>(self);
-      if (typeof key === "number") {
-        const idx = key < 0 ? s.length + key : key;
-        if (idx < 0 || idx >= s.length) throw new PyIndexError("string index out of range");
-        return pyStr(s[idx]);
+      if (isSlice(key)) {
+        const { start, stop, step } = sliceFields(key);
+        const indices = sliceIndices(s.length, start, stop, step);
+        let out = "";
+        for (const i of indices) {
+          out += s[i]!;
+        }
+        return pyStr(out);
       }
-      throw new PyTypeError("string indices must be integers");
+      const idx = resolveStrIndex(key, s.length);
+      return pyStr(s[idx]!);
     }],
     [Slot.iter, (self: PyObject) => {
       const s = nativeVal<string>(self);

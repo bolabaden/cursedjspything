@@ -10,7 +10,7 @@ import {
   PyStopIteration,
 } from "../core/errors.js";
 import { nativeVal, setNative } from "./native.js";
-import { pyInt, sequenceRepeatCount, intType } from "./int.js";
+import { pyIndexAsInteger, pyInt, sequenceRepeatCount, intType } from "./int.js";
 import { pyList } from "./list.js";
 import { pyTrue, pyFalse, boolType } from "./bool.js";
 import { tupleType, pyTuple } from "./tuple.js";
@@ -554,14 +554,28 @@ function rsplitBytes(
 function parseBoundIndex(value: unknown, length: number): number {
   if (typeof value === "number") return value;
   if (value instanceof PyObject) {
-    if (value.type === intType) {
-      return nativeVal<number>(value);
-    }
-    const n = sequenceRepeatCount(value);
+    const n = pyIndexAsInteger(value);
     if (n !== null) return n;
   }
   const kind = value instanceof PyObject ? value.type.name : typeof value;
   throw new PyTypeError(`slice indices must be integers or None or have an __index__ method`);
+}
+
+function resolveBytesIndex(key: unknown, length: number): number {
+  let n: number | null = null;
+  if (typeof key === "number") {
+    n = key;
+  } else if (key instanceof PyObject) {
+    n = pyIndexAsInteger(key);
+  }
+  if (n === null) {
+    throw new PyTypeError("byte indices must be integers or slices");
+  }
+  const idx = n < 0 ? length + n : n;
+  if (idx < 0 || idx >= length) {
+    throw new PyIndexError("index out of range");
+  }
+  return idx;
 }
 
 function bytesSliceBounds(
@@ -1472,14 +1486,8 @@ export const bytesType = makeClass({
         }
         return pyBytes(out);
       }
-      if (typeof key === "number") {
-        const idx = key < 0 ? data.length + key : key;
-        if (idx < 0 || idx >= data.length) {
-          throw new PyIndexError("index out of range");
-        }
-        return pyInt(data[idx]!);
-      }
-      throw new PyTypeError("byte indices must be integers or slices");
+      const idx = resolveBytesIndex(key, data.length);
+      return pyInt(data[idx]!);
     }],
     [Slot.iter, (self: PyObject) => makeSequenceIterator(self)],
     [Hook.reversed, (self: PyObject) => {
