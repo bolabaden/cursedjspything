@@ -7,6 +7,47 @@
 
 ---
 
+## Delta update (2026-05-24, plan 886 min/max two-arg fix)
+
+### Landed
+
+- [REPO] Plan **886** — `parseMinMaxArgs` orderability gate: `min(a, b)` / `max(a, b)` comparand form; plan 867 empty-sequence default preserved; `min-max-builtin.test.ts` two-arg regression cases; **1444** tests on branch `fix/plan-886-min-max-two-arg`.
+
+### Partial
+
+- [REPO] Plan **886** — PR open; merge to `main` pending.
+- [REPO] Plan **885** `int()` builtin — plan doc drafted locally; not implemented on `main`.
+
+### Next
+
+1. Merge plan **886** PR; confirm **1444** on `main`.
+2. Ship plan **885** `int()` builtin (`intProtocol` export pattern).
+3. Deferred parity: `range` slice `__getitem__`, `list.extend` from arbitrary iterables.
+4. PEP 3118 out of scope.
+
+---
+
+## Delta update (2026-05-24, main merge stack 849–884)
+
+### Landed
+
+- [REPO] Plans **849–884** merged to `main` via PR [#551](https://github.com/bolabaden/cursedjspything/pull/551) (cumulative 849–883) and [#552](https://github.com/bolabaden/cursedjspything/pull/552) (884); PRs #517–#552 closed; **0 open PRs**.
+- [REPO] **1443** Vitest passing on `main` @ `377d68f`; builtin/protocol surface includes slice/list/tuple mutations, iterator builtins (`sorted`, `zip`, `map`, `filter`, …), container constructors, `range`, `chr`/`ord`, `bin`/`oct`/`hex`, `ascii`, `str`/`bytes` constructors + encode/decode forms.
+
+### Partial
+
+- [REPO] Plan **885** `int()` builtin — plan doc drafted locally; not implemented on `main`.
+- [REPO] Correctness review: **`min(1, 2)` / `max(1, 2)`** two-arg comparand form mis-parsed as `(iterable, default)` in `parseMinMaxArgs` (`protocols.ts`); needs fix + test.
+
+### Next
+
+1. Fix `min`/`max` two-arg positional comparand parsing (blocking correctness).
+2. Ship plan **885** `int()` builtin (`intProtocol` export pattern).
+3. Deferred parity: `range` slice `__getitem__`, `list.extend` from arbitrary iterables.
+4. PEP 3118 out of scope.
+
+---
+
 ## Delta update (2026-05-24, plan 884 bytes builtin)
 
 ### Landed
