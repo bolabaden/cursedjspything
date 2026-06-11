@@ -213,7 +213,7 @@ Implemented in `src/runtime/dispatch/operators/` and exported from `src/index.ts
 - Binary ops: `add`, `sub`, `mul`, `matmul`, `truediv`, `floordiv`, `mod`, `divmod`, `pow`, shifts, bitwise ops (and reflected fallbacks internally)
 - In-place ops: `iadd`, `isub`, `imul`, `imatmul`, `itruediv`, `ifloordiv`, `imod`, `ipow`, `ilshift`, `irshift`, `iand`, `ixor`, `ior`
 - Unary ops: `neg`, `pos`, `abs`, `invert`
-- Conversions: `intProtocol`, `floatProtocol`, `index`, `toComplex`
+- Conversions: `intProtocol`, `floatProtocol`, `index`, `complexProtocol`
 - Rounding hooks: `round`, `trunc`, `floor`, `ceil`
 - Representation: `repr`, `strProtocol`, `format`, `bytesProtocol`
 

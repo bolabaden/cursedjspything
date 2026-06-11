@@ -5,7 +5,7 @@ import { describe, it, expect } from "vitest";
 import {
   index,
   pyList,
-  toComplex,
+  complexProtocol,
   floatProtocol,
   intProtocol,
 } from "../../src/index.js";
@@ -35,9 +35,9 @@ describe("cpython-derived numeric conversion on list", () => {
     );
   });
 
-  it("toComplex rejects list", () => {
-    expect(() => toComplex(lst())).toThrow(PyTypeError);
-    expect(() => toComplex(lst())).toThrow(
+  it("complexProtocol rejects list", () => {
+    expect(() => complexProtocol(lst())).toThrow(PyTypeError);
+    expect(() => complexProtocol(lst())).toThrow(
       /complex\(\) argument must be a string or a number, not 'list'/,
     );
   });
