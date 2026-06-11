@@ -233,6 +233,14 @@ function encodeStr(
   return pyBytes(encodeStrPayload(text, enc, errMode));
 }
 
+export function pyStrEncode(
+  self: PyObject,
+  encoding?: unknown,
+  errors?: unknown,
+): PyObject {
+  return encodeStr(self, encoding, errors);
+}
+
 function strCapitalize(text: string): string {
   if (text.length === 0) return text;
   const lower = text.toLowerCase();

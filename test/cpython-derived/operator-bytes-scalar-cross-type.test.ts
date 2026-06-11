@@ -17,7 +17,7 @@ import {
 import { PyTypeError } from "../../src/runtime/core/errors.js";
 
 describe("cpython-derived bytes/scalar comparisons", () => {
-  const b = () => bytes(pyStr("ab")) as ReturnType<typeof pyBytes>;
+  const b = () => bytes(pyStr("ab"), pyStr("utf-8")) as ReturnType<typeof pyBytes>;
 
   it("eq and ne do not coerce bytes and int", () => {
     expect(eq(b(), pyInt(1))).toBe(false);
@@ -42,7 +42,7 @@ describe("cpython-derived bytes/scalar comparisons", () => {
 });
 
 describe("cpython-derived bytes/int mul", () => {
-  const b = () => bytes(pyStr("ab")) as ReturnType<typeof pyBytes>;
+  const b = () => bytes(pyStr("ab"), pyStr("utf-8")) as ReturnType<typeof pyBytes>;
 
   it("mul allows int and bytes via reflected repeat", () => {
     expect(

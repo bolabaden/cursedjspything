@@ -19,7 +19,7 @@ import {
 import { PyIndexError, PyTypeError } from "../../src/runtime/core/errors.js";
 
 describe("cpython-derived bytes getitem and compare", () => {
-  const abc = () => bytes(pyStr("abc")) as ReturnType<typeof pyBytes>;
+  const abc = () => bytes(pyStr("abc"), pyStr("utf-8")) as ReturnType<typeof pyBytes>;
 
   it("getitem returns int byte value", () => {
     expect(unwrap(getItem(abc(), 0) as ReturnType<typeof pyInt>)).toBe(97);

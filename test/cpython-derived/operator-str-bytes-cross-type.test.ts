@@ -15,7 +15,7 @@ import { registerCrossTypeOrderingRejects } from "./helpers/cross-type-ordering.
 
 describe("cpython-derived str/bytes comparisons", () => {
   const s = () => pyStr("ab");
-  const b = () => bytes(pyStr("ab")) as ReturnType<typeof pyBytes>;
+  const b = () => bytes(pyStr("ab"), pyStr("utf-8")) as ReturnType<typeof pyBytes>;
 
   it("eq and ne do not coerce str and bytes", () => {
     expect(eq(s(), b())).toBe(false);

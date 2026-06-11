@@ -73,7 +73,7 @@ describe("slice", () => {
     expect(unwrap(getItem(pyStr("abcd"), pySlice(pyInt(1), pyInt(3), null)) as ReturnType<typeof pyStr>)).toBe(
       "bc",
     );
-    const b = bytes(pyStr("abcd")) as ReturnType<typeof pyBytes>;
+    const b = bytes(pyStr("abcd"), pyStr("utf-8")) as ReturnType<typeof pyBytes>;
     const part = getItem(b, pySlice(pyTrue, pyInt(3), null));
     expect((part as ReturnType<typeof pyBytes>).type).toBe(bytesType);
     expect(Array.from(unwrap<Uint8Array>(part as ReturnType<typeof pyBytes>))).toEqual([98, 99]);

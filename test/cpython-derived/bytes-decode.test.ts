@@ -150,7 +150,7 @@ describe("cpython-derived bytes decode", () => {
   });
 
   it("non-str encoding raises TypeError", () => {
-    const b = bytes(pyStr("ab")) as PyObject;
+    const b = bytes(pyStr("ab"), pyStr("utf-8")) as PyObject;
     const decodeFn = decodeMethod(b);
     expect(() => decodeFn(b, pyInt(1))).toThrow(PyTypeError);
     expect(() => decodeFn(b, pyInt(1))).toThrow(/encoding' must be str, not int/);
@@ -186,7 +186,7 @@ describe("cpython-derived bytes decode", () => {
   });
 
   it("non-str errors raises TypeError", () => {
-    const b = bytes(pyStr("ab")) as PyObject;
+    const b = bytes(pyStr("ab"), pyStr("utf-8")) as PyObject;
     const decodeFn = decodeMethod(b);
     expect(() => decodeFn(b, pyStr("utf-8"), pyInt(1))).toThrow(PyTypeError);
     expect(() => decodeFn(b, pyStr("utf-8"), pyInt(1))).toThrow(

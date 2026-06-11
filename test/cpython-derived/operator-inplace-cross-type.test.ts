@@ -322,7 +322,7 @@ describe("cpython-derived inplace bool/str remaining ops", () => {
 });
 
 describe("cpython-derived inplace bytes/str remaining ops", () => {
-  const b = () => bytes(pyStr("ab")) as ReturnType<typeof pyBytes>;
+  const b = () => bytes(pyStr("ab"), pyStr("utf-8")) as ReturnType<typeof pyBytes>;
   const s = () => pyStr("a");
 
   it("iadd rejects bytes and str in both orders", () => {
@@ -415,7 +415,7 @@ describe("cpython-derived inplace bytes/str remaining ops", () => {
 });
 
 describe("cpython-derived inplace int/bytes remaining ops", () => {
-  const b = () => bytes(pyStr("ab")) as ReturnType<typeof pyBytes>;
+  const b = () => bytes(pyStr("ab"), pyStr("utf-8")) as ReturnType<typeof pyBytes>;
   const i = () => pyInt(1);
 
   it("iadd rejects int and bytes in both orders", () => {
@@ -499,7 +499,7 @@ describe("cpython-derived inplace int/bytes remaining ops", () => {
 });
 
 describe("cpython-derived inplace float/bytes remaining ops", () => {
-  const b = () => bytes(pyStr("ab")) as ReturnType<typeof pyBytes>;
+  const b = () => bytes(pyStr("ab"), pyStr("utf-8")) as ReturnType<typeof pyBytes>;
   const f = () => pyFloat(1.0);
 
   it("iadd rejects float and bytes in both orders", () => {
@@ -592,7 +592,7 @@ describe("cpython-derived inplace float/bytes remaining ops", () => {
 });
 
 describe("cpython-derived inplace bool/bytes remaining ops", () => {
-  const b = () => bytes(pyStr("ab")) as ReturnType<typeof pyBytes>;
+  const b = () => bytes(pyStr("ab"), pyStr("utf-8")) as ReturnType<typeof pyBytes>;
   const t = () => pyTrue;
 
   it("iadd rejects bool and bytes in both orders", () => {

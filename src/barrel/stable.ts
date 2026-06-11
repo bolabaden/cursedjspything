@@ -86,7 +86,7 @@ export {
   repr,
   str as strProtocol,
   format,
-  bytes,
+  bytes as bytesProtocol,
 } from "../runtime/dispatch/operators/index.js";
 
 export {
@@ -167,6 +167,7 @@ export {
   floatType,
   pyStr,
   str,
+  bytes,
   strType,
   pyList,
   listType,

@@ -21,7 +21,7 @@ import {
   iadd, isub, imul,
   neg, pos, abs, invert,
   hash, bool, toInt, toFloat, index,
-  repr, strProtocol, format, bytes,
+  repr, strProtocol, format, bytesProtocol,
   round, trunc, floor, ceil,
   // protocols
   call, len, lengthHint, getItem, setItem, delItem, contains,

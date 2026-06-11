@@ -176,13 +176,14 @@ Emits JSON (`vitest_seconds`, pass gates, `test_count`); use median of several r
 | `test/cpython-derived/bytes-decode.test.ts` | bytes.decode codecs + empty input (plan 550) |
 | `test/cpython-derived/bytes-iter.test.ts` | bytes.__iter__ yields int 0–255; empty bytes StopIteration; iterator __iter__ returns self |
 | `test/cpython-derived/bytes-hash.test.ts` | bytes.__hash__ stable; empty bytes hash 0; equal content matches |
-| `test/cpython-derived/bytes-bytes.test.ts` | bytes.__bytes__ returns self; bytes() on bytes is identity |
+| `test/cpython-derived/bytes-bytes.test.ts` | bytes.__bytes__ returns self; bytesProtocol() on bytes is identity |
+| `test/cpython-derived/bytes-builtin.test.ts` | builtin `bytes` constructor + str encode (plan 884) |
 | `test/cpython-derived/bytes-bool.test.ts` | bytes.__bool__ empty falsy; non-empty including b'\\x00' truthy |
 | `test/cpython-derived/bytes-reversed.test.ts` | bytes.__reversed__ yields int 0–255 last-to-first; empty StopIteration; iterator __iter__ returns self |
 | `test/cpython-derived/bytes-slice-index.test.ts` | bytes slice subscript + pyInt single-byte index (plan 849) |
 | `test/cpython-derived/str-getitem-slice.test.ts` | str slice/__getitem__ pyInt/__index__/bool index (plan 849) |
 | `test/cpython-derived/bytes-getitem-compare.test.ts` | bytes int index; non-integer subscript TypeError; out-of-range IndexError; lexicographic rich compare |
-| `test/cpython-derived/operator-bytes-conversion.test.ts` | bytes() on str vs int/float TypeError |
+| `test/cpython-derived/operator-bytes-conversion.test.ts` | bytesProtocol() on str vs int/float TypeError |
 | `test/cpython-derived/operator-bytes-cross-type.test.ts` | bytes+bytes add and bytes*int mul happy paths only (plan 418) |
 | `test/cpython-derived/operator-bytes-remaining-cross-type.test.ts` | bytes↔int/float/str/bool full binary + bytes↔int/float/bool ordering (str↔bytes ordering in str-bytes file; plan 426) |
 | `test/cpython-derived/operator-str-bytes-cross-type.test.ts` | str↔bytes eq/ne, contains, ordering (binary in bytes-remaining; plans 458/462/464) |
