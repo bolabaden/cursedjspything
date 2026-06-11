@@ -7,11 +7,11 @@
 
 ---
 
-## Delta update (2026-05-24, plan 901 scalar-complex pow floordiv)
+## Delta update (2026-05-24, plan 902 complex modulo pow truediv)
 
 ### Landed
 
-- [REPO] Plan **901** (in progress) — `complex.__rpow__` for int/float ** complex; scalar // % complex unsupported evidence.
+- [REPO] Plan **902** (in progress) — `pow` complex modulo guard; scalar `/` complex and `divmod` evidence.
 
 ### Partial
 
@@ -20,7 +20,23 @@
 ### Next
 
 1. PEP 3118 out of scope.
-2. Pick next Tier-1 parity slice after plan 901 merge.
+2. Pick next Tier-1 parity slice after plan 902 merge.
+
+---
+
+## Delta update (2026-05-24, plan 901 scalar-complex pow floordiv)
+
+### Landed
+
+- [REPO] Plan **901** merged to `main` via PR [#569](https://github.com/bolabaden/cursedjspything/pull/569) @ `3111e50` — `complex.__rpow__` for int/float ** complex; scalar // % complex unsupported evidence.
+
+### Partial
+
+- None.
+
+### Next
+
+1. Complex modulo pow guard and scalar truediv (plan 902).
 
 ---
 

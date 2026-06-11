@@ -118,6 +118,7 @@ Emits JSON (`vitest_seconds`, pass gates, `test_count`); use median of several r
 | `test/cpython-derived/operator-format-evidence.test.ts` | format() __format__ on int/str/float/bool/bytes/complex/None/list/tuple/dict/slice/set/frozenset; empty-spec repr; non-empty TypeError; repr-only fallback class |
 | `test/cpython-derived/complex-hash.test.ts` | complex unhashable TypeError (plan 900) |
 | `test/cpython-derived/operator-scalar-complex-pow-floordiv.test.ts` | int/float ** complex via __rpow__; scalar // and % complex unsupported (plan 901) |
+| `test/cpython-derived/operator-scalar-complex-truediv-pow-modulo.test.ts` | scalar / complex; divmod reject; pow complex modulo guard (plan 902) |
 | `test/cpython-derived/frozenset-set-eq.test.ts` | frozenset ↔ set cross-type __eq__; equal-but-distinct keys (plan 620) |
 | `test/cpython-derived/frozenset-hash.test.ts` | frozenset __hash__; equal-key hash+eq (plan 630); hash guards (578/582) |
 | `test/cpython-derived/frozenset-set-algebra.test.ts` | frozenset |&-^ and cross-type set↔frozenset result-type; hash+eq equal keys (plan 618) |
