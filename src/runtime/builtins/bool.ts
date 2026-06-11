@@ -4,6 +4,7 @@ import { makeClass } from "../class/class.js";
 import { nativeVal, setNative } from "./native.js";
 import { formatIntSpec, intType, pyInt } from "./int.js";
 import { floatType } from "./float.js";
+import { pyComplex } from "./complex.js";
 
 function formatBoolSpec(value: boolean, spec: string): string {
   if (spec === "") return value ? "True" : "False";
@@ -55,6 +56,8 @@ export const boolType = makeClass({
     [Slot.abs, (self: PyObject) => pyInt(nativeVal<boolean>(self) ? 1 : 0)],
     [Slot.invert, (self: PyObject) => pyInt(nativeVal<boolean>(self) ? -2 : -1)],
     [Slot.index, (self: PyObject) => nativeVal<boolean>(self) ? 1 : 0],
+    [Hook.complex, (self: PyObject) =>
+      pyComplex(nativeVal<boolean>(self) ? 1 : 0, 0)],
     [Hook.format, (self: PyObject, spec: string) =>
       formatBoolSpec(nativeVal<boolean>(self), spec)],
   ]),

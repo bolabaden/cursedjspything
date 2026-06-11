@@ -7,11 +7,11 @@
 
 ---
 
-## Delta update (2026-05-24, plan 893 index protocol rename)
+## Delta update (2026-05-24, plan 894 complex builtin)
 
 ### Landed
 
-- [REPO] Plan **893** — stable export `indexProtocol` (was `index`); numeric conversion naming complete.
+- [REPO] Plan **894** — `complex` PyType, builtin `complex()` / `complexProtocol`; `__complex__` on int/float/bool; `complex-builtin.test.ts`.
 
 ### Partial
 
@@ -20,7 +20,23 @@
 ### Next
 
 1. PEP 3118 out of scope.
-2. `complex()` builtin deferred until `complex` type exists.
+2. Complex arithmetic binary ops (add/mul on `complex` type) deferred.
+
+---
+
+## Delta update (2026-05-24, plan 893 index protocol rename)
+
+### Landed
+
+- [REPO] Plan **893** merged to `main` via PR [#561](https://github.com/bolabaden/cursedjspything/pull/561) @ `a3868c9` — stable export `indexProtocol` (was `index`); numeric conversion naming complete.
+
+### Partial
+
+- None.
+
+### Next
+
+1. `complex()` builtin (plan 894).
 
 ---
 

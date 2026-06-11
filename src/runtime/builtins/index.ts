@@ -8,6 +8,8 @@ export * from "./bytes-constructor.js";
 export * from "./int-constructor.js";
 export * from "./float-constructor.js";
 export * from "./bool-constructor.js";
+export * from "./complex.js";
+export * from "./complex-constructor.js";
 export { FormatKeywordMapping, isFormatKeywordMapping } from "./str-format.js";
 export * from "./list.js";
 export * from "./tuple.js";
