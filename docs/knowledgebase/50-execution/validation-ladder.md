@@ -115,7 +115,8 @@ Emits JSON (`vitest_seconds`, pass gates, `test_count`); use median of several r
 | `test/cpython-derived/operator-complex-pow-complex.test.ts` | complex ** complex via exp(log) (plan 899) |
 | `test/cpython-derived/int-builtin.test.ts` | builtin int() zero-arg, numeric, str/bytes literal + base parsing (plan 885) |
 | `test/cpython-derived/operator-matmul-evidence.test.ts` | matmul @ rejects builtins without __matmul__ |
-| `test/cpython-derived/operator-format-evidence.test.ts` | format() __format__ on int/str/float/bool/bytes/None/list/tuple/dict/slice/set/frozenset; empty-spec repr; non-empty TypeError; repr-only fallback class |
+| `test/cpython-derived/operator-format-evidence.test.ts` | format() __format__ on int/str/float/bool/bytes/complex/None/list/tuple/dict/slice/set/frozenset; empty-spec repr; non-empty TypeError; repr-only fallback class |
+| `test/cpython-derived/complex-hash.test.ts` | complex unhashable TypeError (plan 900) |
 | `test/cpython-derived/frozenset-set-eq.test.ts` | frozenset ↔ set cross-type __eq__; equal-but-distinct keys (plan 620) |
 | `test/cpython-derived/frozenset-hash.test.ts` | frozenset __hash__; equal-key hash+eq (plan 630); hash guards (578/582) |
 | `test/cpython-derived/frozenset-set-algebra.test.ts` | frozenset |&-^ and cross-type set↔frozenset result-type; hash+eq equal keys (plan 618) |

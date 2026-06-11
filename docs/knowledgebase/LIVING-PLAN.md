@@ -7,11 +7,11 @@
 
 ---
 
-## Delta update (2026-05-24, plan 899 complex pow complex)
+## Delta update (2026-05-24, plan 900 complex format hash)
 
 ### Landed
 
-- [REPO] Plan **899** — `complex ** complex` via `exp(log(base) * exponent)`; `operator-complex-pow-complex.test.ts`. Complex scalar operator arc (894–899) complete.
+- [REPO] Plan **900** — `complex.__format__` empty-spec repr; unhashable `hash()` evidence; `complex-hash.test.ts`.
 
 ### Partial
 
@@ -20,7 +20,23 @@
 ### Next
 
 1. PEP 3118 out of scope.
-2. Pick next non-complex parity slice from Tier-1 gaps.
+2. Pick next Tier-1 parity slice (cross-type ops, rich compare, etc.).
+
+---
+
+## Delta update (2026-05-24, plan 899 complex pow complex)
+
+### Landed
+
+- [REPO] Plan **899** merged to `main` via PR [#567](https://github.com/bolabaden/cursedjspything/pull/567) @ `8a5f2fb` — complex ** complex; operator arc 894–899 complete.
+
+### Partial
+
+- None.
+
+### Next
+
+1. Complex format/hash polish (plan 900).
 
 ---
 
