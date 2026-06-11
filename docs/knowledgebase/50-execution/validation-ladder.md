@@ -192,7 +192,7 @@ Emits JSON (`vitest_seconds`, pass gates, `test_count`); use median of several r
 | `test/cpython-derived/operator-bool-str-remaining-binary.test.ts` | bool↔str sub/truediv/floordiv/mod/divmod/pow TypeError both orders (add in str-scalar; plan 404/474) |
 | `test/cpython-derived/sequence-index-type.test.ts` | List/tuple get/set/del non-integer subscript TypeError; `pyInt`/`__index__`/`bool` integer subscripts (plan 850); list index out of range and delItem |
 | `test/cpython-derived/list-slice-mutation.test.ts` | list slice `__setitem__`/`__delitem__` (plan 854) |
-| `test/cpython-derived/list-mutation-methods.test.ts` | list `append`/`extend`/`insert`/`pop` (plan 855) |
+| `test/cpython-derived/list-mutation-methods.test.ts` | list `append`/`extend`/`insert`/`pop`; extend arbitrary iterables (plans 855, 888) |
 | `test/cpython-derived/list-index-clear-copy.test.ts` | list `index`/`count`/`clear`/`copy` (plan 856) |
 | `test/cpython-derived/list-remove-reverse.test.ts` | list `remove`/`reverse` (plan 857) |
 | `test/cpython-derived/list-sort.test.ts` | list `sort` with `key`/`reverse` (plans 858/860) |

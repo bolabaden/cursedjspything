@@ -16,6 +16,7 @@ import {
 import { pyNone } from "./none.js";
 import { tupleType } from "./tuple.js";
 import { eq, gt, lt } from "../dispatch/operators/compare.js";
+import { iter, next } from "../dispatch/protocols.js";
 import { boolType } from "./bool.js";
 
 function listIndexKey(key: unknown): number {
@@ -76,16 +77,31 @@ function imulList(self: PyObject, other: PyObject) {
 }
 
 function listItemsFromIterable(value: unknown): PyObject[] {
-  if (value instanceof PyObject) {
-    if (value.type === listType) {
-      return [...nativeVal<PyObject[]>(value)];
-    }
-    if (value.type === tupleType) {
-      return [...nativeVal<readonly PyObject[]>(value)];
-    }
+  if (!(value instanceof PyObject)) {
+    throw new PyTypeError(`'${typeof value}' object is not iterable`);
   }
-  const kind = value instanceof PyObject ? value.type.name : typeof value;
-  throw new PyTypeError("can only assign an iterable");
+  if (value.type === listType) {
+    return [...nativeVal<PyObject[]>(value)];
+  }
+  if (value.type === tupleType) {
+    return [...nativeVal<readonly PyObject[]>(value)];
+  }
+  const out: PyObject[] = [];
+  const it = iter(value);
+  for (;;) {
+    let item: unknown;
+    try {
+      item = next(it);
+    } catch (e) {
+      if (e instanceof PyStopIteration) break;
+      throw e;
+    }
+    if (!(item instanceof PyObject)) {
+      throw new PyTypeError("iter() returned non-PyObject");
+    }
+    out.push(item);
+  }
+  return out;
 }
 
 function delListSlice(arr: PyObject[], key: PyObject): void {

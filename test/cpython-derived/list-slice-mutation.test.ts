@@ -64,9 +64,9 @@ describe("cpython-derived list slice mutation", () => {
 
   it("rejects non-iterable assignment and extended size mismatch", () => {
     const lst = pyList([pyInt(1), pyInt(2), pyInt(3)]);
-    expect(() => setItem(lst, pySlice(0, 1, null), pyStr("x"))).toThrow(PyTypeError);
-    expect(() => setItem(lst, pySlice(0, 1, null), pyStr("x"))).toThrow(
-      /can only assign an iterable/,
+    expect(() => setItem(lst, pySlice(0, 1, null), pyInt(42))).toThrow(PyTypeError);
+    expect(() => setItem(lst, pySlice(0, 1, null), pyInt(42))).toThrow(
+      /'int' object is not iterable/,
     );
     expect(() =>
       setItem(lst, pySlice(null, null, 2), pyList([pyInt(9)])),
