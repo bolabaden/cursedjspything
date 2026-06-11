@@ -109,6 +109,7 @@ Emits JSON (`vitest_seconds`, pass gates, `test_count`); use median of several r
 | `test/cpython-derived/bool-builtin.test.ts` | builtin bool() zero-arg False, truthiness conversion, identity (plan 892) |
 | `test/cpython-derived/complex-builtin.test.ts` | builtin complex() zero-arg, numeric, two-arg, str/bytes literal parsing (plan 894) |
 | `test/cpython-derived/operator-complex-scalar.test.ts` | complex add/sub/mul with int/float/bool and complex (plan 895) |
+| `test/cpython-derived/operator-complex-div-unary.test.ts` | complex truediv and unary neg/pos/abs (plan 896) |
 | `test/cpython-derived/int-builtin.test.ts` | builtin int() zero-arg, numeric, str/bytes literal + base parsing (plan 885) |
 | `test/cpython-derived/operator-matmul-evidence.test.ts` | matmul @ rejects builtins without __matmul__ |
 | `test/cpython-derived/operator-format-evidence.test.ts` | format() __format__ on int/str/float/bool/bytes/None/list/tuple/dict/slice/set/frozenset; empty-spec repr; non-empty TypeError; repr-only fallback class |

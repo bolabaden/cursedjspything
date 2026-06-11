@@ -7,11 +7,11 @@
 
 ---
 
-## Delta update (2026-05-24, plan 895 complex arithmetic)
+## Delta update (2026-05-24, plan 896 complex div unary)
 
 ### Landed
 
-- [REPO] Plan **895** — complex `__add__`/`__sub__`/`__mul__` with scalar and complex operands; `operator-complex-scalar.test.ts`.
+- [REPO] Plan **896** — complex `__truediv__`/`__rtruediv__`, unary `__neg__`/`__pos__`/`__abs__`; `operator-complex-div-unary.test.ts`.
 
 ### Partial
 
@@ -20,7 +20,23 @@
 ### Next
 
 1. PEP 3118 out of scope.
-2. Complex div/pow/unary/ordering deferred.
+2. Complex pow/ordering/floordiv/mod deferred.
+
+---
+
+## Delta update (2026-05-24, plan 895 complex arithmetic)
+
+### Landed
+
+- [REPO] Plan **895** merged to `main` via PR [#563](https://github.com/bolabaden/cursedjspything/pull/563) @ `41034fe` — complex add/sub/mul; `operator-complex-scalar.test.ts`.
+
+### Partial
+
+- None.
+
+### Next
+
+1. Complex div/unary (plan 896).
 
 ---
 
