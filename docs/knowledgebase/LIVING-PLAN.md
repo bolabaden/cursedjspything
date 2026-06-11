@@ -7,11 +7,11 @@
 
 ---
 
-## Delta update (2026-05-24, plan 903 complex attributes)
+## Delta update (2026-05-24, plan 904 complex cross-type binary)
 
 ### Landed
 
-- [REPO] Plan **903** (in progress) — `complex.real` / `complex.imag` float members; `conjugate()`; readonly assignment guard.
+- [REPO] Plan **904** (in progress) — complex↔str/list/bytes binary TypeError evidence; operator arc 894–904.
 
 ### Partial
 
@@ -20,7 +20,23 @@
 ### Next
 
 1. PEP 3118 out of scope.
-2. Pick next Tier-1 parity slice after plan 903 merge.
+2. Pick next Tier-1 parity slice outside complex operator arc.
+
+---
+
+## Delta update (2026-05-24, plan 903 complex attributes)
+
+### Landed
+
+- [REPO] Plan **903** merged to `main` via PR [#571](https://github.com/bolabaden/cursedjspything/pull/571) @ `58255b2` — `complex.real` / `complex.imag` float members; `conjugate()`; readonly assignment guard.
+
+### Partial
+
+- None.
+
+### Next
+
+1. Complex cross-type binary evidence (plan 904).
 
 ---
 
