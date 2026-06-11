@@ -11,7 +11,64 @@ import {
 import { pyInt } from "./int.js";
 import { pyTuple } from "./tuple.js";
 import { pyComplex } from "./complex.js";
-import { PyZeroDivisionError, PyValueError } from "../core/errors.js";
+import { PyZeroDivisionError, PyValueError, PyOverflowError } from "../core/errors.js";
+
+function gcdBigInt(a: bigint, b: bigint): bigint {
+  a = a < 0n ? -a : a;
+  b = b < 0n ? -b : b;
+  while (b !== 0n) {
+    const t = b;
+    b = a % b;
+    a = t;
+  }
+  return a;
+}
+
+function floatAsIntegerRatio(value: number): [number, number] {
+  if (Number.isNaN(value)) {
+    throw new PyValueError("cannot convert NaN to integer ratio");
+  }
+  if (!Number.isFinite(value)) {
+    throw new PyOverflowError("cannot convert Infinity to integer ratio");
+  }
+
+  const buf = new ArrayBuffer(8);
+  const view = new DataView(buf);
+  view.setFloat64(0, value);
+  const bits = view.getBigUint64(0);
+
+  const sign = bits >> 63n;
+  let exp = (bits >> 52n) & 0x7ffn;
+  let mant = bits & 0xfffffffffffffn;
+
+  if (exp === 0n) {
+    if (mant === 0n) {
+      return [0, 1];
+    }
+  } else {
+    mant |= 1n << 52n;
+  }
+
+  const exponent = Number(exp) - 1023;
+  let numerator = sign === 1n ? -mant : mant;
+  let denominator = 1n << 52n;
+
+  if (exponent > 0) {
+    numerator <<= BigInt(exponent);
+  } else if (exponent < 0) {
+    denominator <<= BigInt(-exponent);
+  }
+
+  const g = gcdBigInt(numerator < 0n ? -numerator : numerator, denominator);
+  numerator /= g;
+  denominator /= g;
+
+  return [Number(numerator), Number(denominator)];
+}
+
+function floatIsInteger(value: number): boolean {
+  return Number.isFinite(value) && Number.isInteger(value);
+}
 
 function floatDivmodPair(n: number, d: number): PyObject {
   if (d === 0) throw new PyZeroDivisionError("division by zero");
@@ -329,6 +386,15 @@ export const floatType = makeClass({
     [Hook.format, (self: PyObject, spec: string) =>
       formatFloatSpec(nativeVal<number>(self), spec)],
   ]),
+});
+
+floatType.typeDict.set(
+  "is_integer",
+  (self: PyObject) => floatIsInteger(nativeVal<number>(self)),
+);
+floatType.typeDict.set("as_integer_ratio", (self: PyObject) => {
+  const [num, den] = floatAsIntegerRatio(nativeVal<number>(self));
+  return pyTuple([pyInt(num), pyInt(den)]);
 });
 
 export function pyFloat(v: number): PyObject {
