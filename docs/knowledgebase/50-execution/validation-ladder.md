@@ -112,6 +112,7 @@ Emits JSON (`vitest_seconds`, pass gates, `test_count`); use median of several r
 | `test/cpython-derived/operator-complex-div-unary.test.ts` | complex truediv and unary neg/pos/abs (plan 896) |
 | `test/cpython-derived/operator-complex-eq-pow.test.ts` | complex eq/ne, int pow, ordering TypeError (plan 897) |
 | `test/cpython-derived/operator-complex-pow-floordiv.test.ts` | complex float pow, floordiv/mod rejection, ordering vs int (plan 898) |
+| `test/cpython-derived/operator-complex-pow-complex.test.ts` | complex ** complex via exp(log) (plan 899) |
 | `test/cpython-derived/int-builtin.test.ts` | builtin int() zero-arg, numeric, str/bytes literal + base parsing (plan 885) |
 | `test/cpython-derived/operator-matmul-evidence.test.ts` | matmul @ rejects builtins without __matmul__ |
 | `test/cpython-derived/operator-format-evidence.test.ts` | format() __format__ on int/str/float/bool/bytes/None/list/tuple/dict/slice/set/frozenset; empty-spec repr; non-empty TypeError; repr-only fallback class |

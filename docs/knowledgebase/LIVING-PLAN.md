@@ -7,11 +7,11 @@
 
 ---
 
-## Delta update (2026-05-24, plan 898 complex pow floordiv)
+## Delta update (2026-05-24, plan 899 complex pow complex)
 
 ### Landed
 
-- [REPO] Plan **898** — float `__pow__`, floordiv/mod CPython guards, ordering evidence; `operator-complex-pow-floordiv.test.ts`.
+- [REPO] Plan **899** — `complex ** complex` via `exp(log(base) * exponent)`; `operator-complex-pow-complex.test.ts`. Complex scalar operator arc (894–899) complete.
 
 ### Partial
 
@@ -20,7 +20,23 @@
 ### Next
 
 1. PEP 3118 out of scope.
-2. Complex `** complex` and remaining cross-type edge cases deferred.
+2. Pick next non-complex parity slice from Tier-1 gaps.
+
+---
+
+## Delta update (2026-05-24, plan 898 complex pow floordiv)
+
+### Landed
+
+- [REPO] Plan **898** merged to `main` via PR [#566](https://github.com/bolabaden/cursedjspything/pull/566) @ `16415ac` — float pow, floordiv/mod guards.
+
+### Partial
+
+- None.
+
+### Next
+
+1. Complex ** complex (plan 899).
 
 ---
 
