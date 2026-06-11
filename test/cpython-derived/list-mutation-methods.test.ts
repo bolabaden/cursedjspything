@@ -15,6 +15,7 @@ import {
   pyNone,
   pyStr,
   pyTuple,
+  range,
   unwrap,
 } from "../../src/index.js";
 import { PyIndexError, PyTypeError } from "../../src/runtime/core/errors.js";
@@ -61,6 +62,16 @@ describe("cpython-derived list mutation methods", () => {
     expect(intItems(lst)).toEqual([1, 2, 3]);
   });
 
+  it("extend accepts arbitrary iterables", () => {
+    const lst = pyList([pyInt(1)]);
+    call(lst, "extend", range(pyInt(2), pyInt(5)));
+    expect(intItems(lst)).toEqual([1, 2, 3, 4]);
+    call(lst, "extend", pyStr("ab"));
+    expect(len(lst)).toBe(6);
+    expect(unwrap(getItem(lst, pyInt(4)) as ReturnType<typeof pyStr>)).toBe("a");
+    expect(unwrap(getItem(lst, pyInt(5)) as ReturnType<typeof pyStr>)).toBe("b");
+  });
+
   it("insert places item at clamped index", () => {
     const lst = pyList([pyInt(1), pyInt(3)]);
     call(lst, "insert", pyInt(1), pyInt(2));
@@ -85,7 +96,8 @@ describe("cpython-derived list mutation methods", () => {
     expect(() => call(empty, "pop")).toThrow(PyIndexError);
     expect(() => call(empty, "pop")).toThrow(/pop from empty list/);
     const lst = pyList([pyInt(1)]);
-    expect(() => call(lst, "extend", pyStr("x"))).toThrow(PyTypeError);
+    expect(() => call(lst, "extend", pyInt(42))).toThrow(PyTypeError);
+    expect(() => call(lst, "extend", pyInt(42))).toThrow(/'int' object is not iterable/);
     expect(() => call(lst, "pop", pyInt(9))).toThrow(PyIndexError);
     expect(() => call(lst, "pop", pyInt(9))).toThrow(/pop index out of range/);
   });

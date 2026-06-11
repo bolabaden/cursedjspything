@@ -7,6 +7,22 @@
 
 ---
 
+## Delta update (2026-05-24, plan 888 list extend iterable)
+
+### Landed
+
+- [REPO] Plan **888** — `list.extend` / slice RHS via `iter`/`next` for arbitrary iterables; fast-path list/tuple preserved.
+
+### Partial
+
+- None pending until PR merge.
+
+### Next
+
+1. PEP 3118 out of scope.
+
+---
+
 ## Delta update (2026-05-24, plan 887 range slice getitem)
 
 ### Landed
