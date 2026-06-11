@@ -104,7 +104,8 @@ Emits JSON (`vitest_seconds`, pass gates, `test_count`); use median of several r
 
 | `test/cpython-derived/operator-unary-evidence.test.ts` | neg/pos/invert/abs reject list without unary slots |
 | `test/cpython-derived/operator-rounding-evidence.test.ts` | round/trunc/floor/ceil reject list without hooks |
-| `test/cpython-derived/operator-numeric-conversion-evidence.test.ts` | toInt/toFloat/index/toComplex reject list |
+| `test/cpython-derived/operator-numeric-conversion-evidence.test.ts` | intProtocol/toFloat/index/toComplex reject list |
+| `test/cpython-derived/int-builtin.test.ts` | builtin int() zero-arg, numeric, str/bytes literal + base parsing (plan 885) |
 | `test/cpython-derived/operator-matmul-evidence.test.ts` | matmul @ rejects builtins without __matmul__ |
 | `test/cpython-derived/operator-format-evidence.test.ts` | format() __format__ on int/str/float/bool/bytes/None/list/tuple/dict/slice/set/frozenset; empty-spec repr; non-empty TypeError; repr-only fallback class |
 | `test/cpython-derived/frozenset-set-eq.test.ts` | frozenset ↔ set cross-type __eq__; equal-but-distinct keys (plan 620) |

@@ -7,21 +7,36 @@
 
 ---
 
+## Delta update (2026-05-24, plan 885 int builtin)
+
+### Landed
+
+- [REPO] Plan **885** — builtin `int()` / `int(x)` / `int(str|bytes, base)`; `intProtocol` stable export (replaces `toInt`); `int-builtin.test.ts`.
+
+### Partial
+
+- None pending for plan 885 until PR merge.
+
+### Next
+
+1. Deferred parity: `range` slice `__getitem__`, `list.extend` from arbitrary iterables.
+2. PEP 3118 out of scope.
+
+---
+
 ## Delta update (2026-05-24, plan 886 min/max two-arg fix)
 
 ### Landed
 
-- [REPO] Plan **886** — `parseMinMaxArgs` orderability gate: `min(a, b)` / `max(a, b)` comparand form; plan 867 empty-sequence default preserved; `min-max-builtin.test.ts` two-arg regression cases; **1444** tests on branch `fix/plan-886-min-max-two-arg`.
+- [REPO] Plan **886** merged to `main` via PR [#553](https://github.com/bolabaden/cursedjspything/pull/553) @ `e7ad443` — `parseMinMaxArgs` orderability gate; two-arg comparand + plan 867 default preserved; **1444** tests.
 
 ### Partial
 
-- [REPO] Plan **886** — PR open; merge to `main` pending.
 - [REPO] Plan **885** `int()` builtin — plan doc drafted locally; not implemented on `main`.
 
 ### Next
 
-1. Merge plan **886** PR; confirm **1444** on `main`.
-2. Ship plan **885** `int()` builtin (`intProtocol` export pattern).
+1. Ship plan **885** `int()` builtin (`intProtocol` export pattern).
 3. Deferred parity: `range` slice `__getitem__`, `list.extend` from arbitrary iterables.
 4. PEP 3118 out of scope.
 
