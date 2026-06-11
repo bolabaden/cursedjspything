@@ -7,11 +7,11 @@
 
 ---
 
-## Delta update (2026-05-24, plan 894 complex builtin)
+## Delta update (2026-05-24, plan 895 complex arithmetic)
 
 ### Landed
 
-- [REPO] Plan **894** — `complex` PyType, builtin `complex()` / `complexProtocol`; `__complex__` on int/float/bool; `complex-builtin.test.ts`.
+- [REPO] Plan **895** — complex `__add__`/`__sub__`/`__mul__` with scalar and complex operands; `operator-complex-scalar.test.ts`.
 
 ### Partial
 
@@ -20,7 +20,23 @@
 ### Next
 
 1. PEP 3118 out of scope.
-2. Complex arithmetic binary ops (add/mul on `complex` type) deferred.
+2. Complex div/pow/unary/ordering deferred.
+
+---
+
+## Delta update (2026-05-24, plan 894 complex builtin)
+
+### Landed
+
+- [REPO] Plan **894** merged to `main` via PR [#562](https://github.com/bolabaden/cursedjspything/pull/562) @ `e353a5c` — `complex` PyType, builtin `complex()` / `complexProtocol`; `complex-builtin.test.ts`.
+
+### Partial
+
+- None.
+
+### Next
+
+1. Complex arithmetic add/mul (plan 895).
 
 ---
 
