@@ -208,7 +208,7 @@ Emits JSON (`vitest_seconds`, pass gates, `test_count`); use median of several r
 | `test/cpython-derived/set-builtin.test.ts` | builtin `set` (plan 871) |
 | `test/cpython-derived/frozenset-builtin.test.ts` | builtin `frozenset` (plan 872) |
 | `test/cpython-derived/dict-builtin.test.ts` | builtin `dict` (plan 874) |
-| `test/cpython-derived/range-builtin.test.ts` | builtin `range`, `reversed(range)`, `__eq__`/unhashable (plans 875–877) |
+| `test/cpython-derived/range-builtin.test.ts` | builtin `range`, slice `__getitem__`, `reversed(range)`, `__eq__`/unhashable (plans 875–877, 887) |
 | `test/cpython-derived/chr-ord-builtin.test.ts` | builtin `chr`/`ord` (plan 878) |
 | `test/cpython-derived/bin-oct-hex-builtin.test.ts` | builtin `bin`/`oct`/`hex` (plan 879) |
 | `test/cpython-derived/ascii-builtin.test.ts` | builtin `ascii` (plan 880) |

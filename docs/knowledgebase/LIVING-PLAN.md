@@ -7,15 +7,32 @@
 
 ---
 
-## Delta update (2026-05-24, plan 885 int builtin)
+## Delta update (2026-05-24, plan 887 range slice getitem)
 
 ### Landed
 
-- [REPO] Plan **885** — builtin `int()` / `int(x)` / `int(str|bytes, base)`; `intProtocol` stable export (replaces `toInt`); `int-builtin.test.ts`.
+- [REPO] Plan **887** — `range.__getitem__(slice)` returns new `range` via CPython `compute_slice` semantics; extended `range-builtin.test.ts`.
 
 ### Partial
 
-- None pending for plan 885 until PR merge.
+- None pending until PR merge.
+
+### Next
+
+1. `list.extend` from arbitrary iterables.
+2. PEP 3118 out of scope.
+
+---
+
+## Delta update (2026-05-24, plan 885 int builtin merged)
+
+### Landed
+
+- [REPO] Plan **885** merged to `main` via PR [#554](https://github.com/bolabaden/cursedjspything/pull/554) @ `8ede436` — builtin `int()` / `int(x)` / `int(str|bytes, base)`; `intProtocol` stable export; `int-builtin.test.ts`; **1456** tests.
+
+### Partial
+
+- Residual P2: `intProtocol` vs `int()` on infinity; `PyOverflowError` gap (documented in PR #554).
 
 ### Next
 

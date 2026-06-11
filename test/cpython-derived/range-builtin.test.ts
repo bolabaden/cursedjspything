@@ -16,6 +16,7 @@ import {
   pyStr,
   range,
   rangeType,
+  pySlice,
   reversed,
   unwrap,
 } from "../../src/index.js";
@@ -119,6 +120,40 @@ describe("cpython-derived range builtin", () => {
     expect(() => getItem(range(pyInt(3)), pyInt(10))).toThrow(
       /range object index out of range/,
     );
+  });
+
+  it("slice subscript returns a new range object", () => {
+    const r = range(pyInt(10));
+    const sub = getItem(r, pySlice(pyInt(2), pyInt(8))) as PyObject;
+    expect(sub.type).toBe(rangeType);
+    expect(collectInts(iter(sub))).toEqual([2, 3, 4, 5, 6, 7]);
+    expect(eq(sub, range(pyInt(2), pyInt(8)))).toBe(true);
+  });
+
+  it("slice with step returns scaled range", () => {
+    const r = range(pyInt(0), pyInt(10), pyInt(2));
+    const sub = getItem(r, pySlice(null, null, pyInt(2))) as PyObject;
+    expect(collectInts(iter(sub))).toEqual([0, 4, 8]);
+    expect(eq(sub, range(pyInt(0), pyInt(10), pyInt(4)))).toBe(true);
+  });
+
+  it("slice on stepped range with negative slice step", () => {
+    const r = range(pyInt(0), pyInt(10), pyInt(2));
+    const sub = getItem(r, pySlice(pyInt(5), pyInt(1), pyInt(-1))) as PyObject;
+    expect(collectInts(iter(sub))).toEqual([8, 6, 4]);
+    expect(eq(sub, range(pyInt(8), pyInt(2), pyInt(-2)))).toBe(true);
+  });
+
+  it("empty slice returns empty range with CPython bounds", () => {
+    expect(eq(getItem(range(pyInt(5)), pySlice(pyInt(5), pyInt(10))) as PyObject, range(pyInt(5), pyInt(5)))).toBe(true);
+    expect(len(getItem(range(pyInt(5)), pySlice(pyInt(5), pyInt(10))) as PyObject)).toBe(0);
+    expect(eq(getItem(range(pyInt(0), pyInt(10), pyInt(2)), pySlice(pyInt(5), pyInt(10))) as PyObject, range(pyInt(10), pyInt(10), pyInt(2)))).toBe(true);
+    expect(eq(getItem(range(pyInt(5), pyInt(0), pyInt(-1)), pySlice(pyInt(0), pyInt(0))) as PyObject, range(pyInt(5), pyInt(5), pyInt(-1)))).toBe(true);
+  });
+
+  it("raises ValueError for slice step zero", () => {
+    expect(() => getItem(range(pyInt(10)), pySlice(pyInt(1), pyInt(5), pyInt(0)))).toThrow(PyValueError);
+    expect(() => getItem(range(pyInt(10)), pySlice(pyInt(1), pyInt(5), pyInt(0)))).toThrow(/slice step cannot be zero/);
   });
 
   it("reversed(range(stop)) yields stop-1 down to 0", () => {
