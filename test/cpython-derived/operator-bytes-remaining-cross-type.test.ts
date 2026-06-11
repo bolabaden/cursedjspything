@@ -22,7 +22,7 @@ import { PyTypeError } from "../../src/runtime/core/errors.js";
 import { registerCrossTypeOrderingRejects } from "./helpers/cross-type-ordering.js";
 
 describe("cpython-derived bytes/scalar remaining binary ops", () => {
-  const b = () => bytes(pyStr("ab")) as ReturnType<typeof pyBytes>;
+  const b = () => bytes(pyStr("ab"), pyStr("utf-8")) as ReturnType<typeof pyBytes>;
   const i = () => pyInt(1);
   const s = () => pyStr("a");
   const f = () => pyFloat(1.0);
@@ -360,7 +360,7 @@ describe("cpython-derived bytes/scalar remaining binary ops", () => {
 });
 
 describe("cpython-derived bytes/scalar ordering", () => {
-  const b = () => bytes(pyStr("ab")) as ReturnType<typeof pyBytes>;
+  const b = () => bytes(pyStr("ab"), pyStr("utf-8")) as ReturnType<typeof pyBytes>;
   const i = () => pyInt(1);
   const f = () => pyFloat(1.0);
   const t = () => pyTrue;

@@ -15,7 +15,7 @@ import {
 import { PyValueError } from "../../src/runtime/core/errors.js";
 
 describe("cpython-derived bytes slice indexing", () => {
-  const abcd = () => bytes(pyStr("abcd")) as ReturnType<typeof pyBytes>;
+  const abcd = () => bytes(pyStr("abcd"), pyStr("utf-8")) as ReturnType<typeof pyBytes>;
 
   function asBytes(v: unknown): Uint8Array {
     return unwrap<Uint8Array>(v as ReturnType<typeof pyBytes>);

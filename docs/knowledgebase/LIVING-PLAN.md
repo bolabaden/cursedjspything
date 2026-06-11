@@ -7,6 +7,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 884 bytes builtin)
+
+### Landed
+
+- [REPO] Plan 884 — builtin `bytes()` / `bytes(n)` / `bytes(iterable)` / `bytes(str, encoding[, errors])`; shared `pyStrEncode`; `bytes-builtin.test.ts`; protocol `bytesProtocol` export.
+
+### Partial
+
+- None.
+
+### Next
+
+1. Further str/bytes/int API niche gaps when scoped.
+2. PEP 3118 out of scope.
+
+---
+
 ## Delta update (2026-05-24, plan 883 str bytes decode)
 
 ### Landed

@@ -4,6 +4,7 @@ export * from "./bool.js";
 export * from "./float.js";
 export * from "./str.js";
 export * from "./str-constructor.js";
+export * from "./bytes-constructor.js";
 export { FormatKeywordMapping, isFormatKeywordMapping } from "./str-format.js";
 export * from "./list.js";
 export * from "./tuple.js";
