@@ -7,11 +7,11 @@
 
 ---
 
-## Delta update (2026-05-24, plan 904 complex cross-type binary)
+## Delta update (2026-05-24, plan 905 float integer ratio)
 
 ### Landed
 
-- [REPO] Plan **904** (in progress) — complex↔str/list/bytes binary TypeError evidence; operator arc 894–904.
+- [REPO] Plan **905** (in progress) — `float.is_integer()` and `float.as_integer_ratio()` with IEEE exact ratio.
 
 ### Partial
 
@@ -20,7 +20,23 @@
 ### Next
 
 1. PEP 3118 out of scope.
-2. Pick next Tier-1 parity slice outside complex operator arc.
+2. Pick next Tier-1 numeric or cross-type parity slice.
+
+---
+
+## Delta update (2026-05-24, plan 904 complex cross-type binary)
+
+### Landed
+
+- [REPO] Plan **904** merged to `main` via PR [#572](https://github.com/bolabaden/cursedjspything/pull/572) @ `7d0981a` — complex↔str/list/bytes binary TypeError evidence; operator arc 894–904.
+
+### Partial
+
+- None.
+
+### Next
+
+1. Float `is_integer` / `as_integer_ratio` (plan 905).
 
 ---
 
