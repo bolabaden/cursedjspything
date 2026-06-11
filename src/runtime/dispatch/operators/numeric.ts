@@ -3,7 +3,7 @@
 import { PyObject, isNotImplemented } from "../../core/object.js";
 import { Slot, Hook } from "../../core/slots.js";
 import { lookupSpecial } from "../../core/lookup.js";
-import { PyTypeError } from "../../core/errors.js";
+import { PyTypeError, PyValueError } from "../../core/errors.js";
 
 // ── numeric binary dispatch ───────────────────────────────────────────
 // CPython: binary_op1, binary_op (abstract.c)
@@ -42,6 +42,10 @@ function binaryOp(a: PyObject, b: PyObject, slots: BinSlots, opSymbol: string): 
   );
 }
 
+function isComplexOperand(obj: PyObject): boolean {
+  return obj.type.name === "complex";
+}
+
 function ternaryOp(
   a: PyObject,
   b: PyObject,
@@ -50,6 +54,13 @@ function ternaryOp(
   opSymbol: string,
 ): unknown {
   // __pow__ with optional modulus — CPython ternary_op
+  if (
+    c !== undefined
+    && (isComplexOperand(a) || isComplexOperand(b) || isComplexOperand(c))
+  ) {
+    throw new PyValueError("complex modulo");
+  }
+
   const aType = a.type;
   const bType = b.type;
   const checkedReflectedFirst = aType !== bType && bType.mro.includes(aType);
