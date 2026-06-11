@@ -208,12 +208,12 @@ Source: `src/runtime/core/lookup.ts`.
 Implemented in `src/runtime/dispatch/operators/` and exported from `src/index.ts`:
 
 - Identity: `is`, `isNot`
-- Truth and hashing: `bool`, `hash`
+- Truth and hashing: `boolProtocol`, `hash`
 - Rich comparisons: `eq`, `ne`, `lt`, `le`, `gt`, `ge`
 - Binary ops: `add`, `sub`, `mul`, `matmul`, `truediv`, `floordiv`, `mod`, `divmod`, `pow`, shifts, bitwise ops (and reflected fallbacks internally)
 - In-place ops: `iadd`, `isub`, `imul`, `imatmul`, `itruediv`, `ifloordiv`, `imod`, `ipow`, `ilshift`, `irshift`, `iand`, `ixor`, `ior`
 - Unary ops: `neg`, `pos`, `abs`, `invert`
-- Conversions: `intProtocol`, `floatProtocol`, `boolProtocol`, `index`, `complexProtocol`
+- Conversions: `intProtocol`, `floatProtocol`, `boolProtocol`, `indexProtocol`, `complexProtocol`
 - Rounding hooks: `round`, `trunc`, `floor`, `ceil`
 - Representation: `repr`, `strProtocol`, `format`, `bytesProtocol`
 
