@@ -152,6 +152,14 @@ function powComplexComplex(
 
 const COMPLEX_FLOOR_ERROR = "can't take floor of complex number.";
 
+function formatComplexSpec(self: PyObject, spec: string): string {
+  if (spec === "") {
+    const { real, imag } = complexNative(self);
+    return complexReprValue(real, imag);
+  }
+  throw new PyTypeError("unsupported format string passed to complex.__format__");
+}
+
 export interface ComplexNative {
   real: number;
   imag: number;
@@ -332,6 +340,7 @@ export const complexType = makeClass({
       const { real, imag } = complexNative(self);
       return pyFloat(Math.hypot(real, imag));
     }],
+    [Hook.format, (self: PyObject, spec: string) => formatComplexSpec(self, spec)],
   ]),
 });
 

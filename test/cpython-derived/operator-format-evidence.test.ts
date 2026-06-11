@@ -17,6 +17,7 @@ import {
   pySlice,
   pySet,
   pyFrozenSet,
+  pyComplex,
   makeClass,
   instantiate,
 } from "../../src/index.js";
@@ -185,6 +186,15 @@ describe("cpython-derived format on builtins with __format__", () => {
     expect(() => format(pyFrozenSet([]), "s")).toThrow(PyTypeError);
     expect(() => format(pyFrozenSet([]), "s")).toThrow(
       /unsupported format string passed to frozenset\.__format__/,
+    );
+  });
+
+  it("formats complex with empty spec only", () => {
+    expect(format(pyComplex(1, 2), "")).toBe("(1+2j)");
+    expect(format(pyComplex(0, 0), "")).toBe("0j");
+    expect(() => format(pyComplex(1, 2), "s")).toThrow(PyTypeError);
+    expect(() => format(pyComplex(1, 2), "s")).toThrow(
+      /unsupported format string passed to complex\.__format__/,
     );
   });
 
