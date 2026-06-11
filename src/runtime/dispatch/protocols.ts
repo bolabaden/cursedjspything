@@ -208,6 +208,16 @@ function isMinMaxKeyCallable(value: unknown): value is PyObject {
   );
 }
 
+function areMutuallyOrderable(a: PyObject, b: PyObject): boolean {
+  try {
+    lt(a, b);
+    return true;
+  } catch (e) {
+    if (e instanceof PyTypeError) return false;
+    throw e;
+  }
+}
+
 type MinMaxParsed = {
   candidates: PyObject[];
   keyFn: PyObject | null;
@@ -244,8 +254,14 @@ function parseMinMaxArgs(args: unknown[], fn: "min" | "max"): MinMaxParsed {
     }
   }
   if (positional.length === 2 && keyFn === null && defaultVal === null) {
+    const first = positional[0];
     const last = positional[positional.length - 1];
-    if (last instanceof PyObject && !isMinMaxKeyCallable(last)) {
+    if (
+      first instanceof PyObject &&
+      last instanceof PyObject &&
+      !isMinMaxKeyCallable(last) &&
+      !areMutuallyOrderable(first, last)
+    ) {
       defaultVal = last;
       positional.length -= 1;
     }

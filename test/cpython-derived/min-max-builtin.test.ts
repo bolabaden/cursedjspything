@@ -35,6 +35,13 @@ describe("cpython-derived min / max builtins", () => {
     expect(unwrap(max(pyInt(3), pyInt(1), pyInt(2)))).toBe(3);
   });
 
+  it("min and max compare exactly two positional values", () => {
+    expect(unwrap(min(pyInt(1), pyInt(2)))).toBe(1);
+    expect(unwrap(max(pyInt(1), pyInt(2)))).toBe(2);
+    expect(unwrap(min(pyStr("b"), pyStr("a")))).toBe("a");
+    expect(unwrap(max(pyStr("b"), pyStr("a")))).toBe("b");
+  });
+
   it("min and max accept one iterable", () => {
     expect(unwrap(min(pyList([pyInt(5), pyInt(2), pyInt(8)])))).toBe(2);
     expect(unwrap(max(pyTuple([pyInt(5), pyInt(2), pyInt(8)])))).toBe(8);
