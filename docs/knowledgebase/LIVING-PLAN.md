@@ -7,20 +7,36 @@
 
 ---
 
-## Delta update (2026-05-24, plan 900 complex format hash)
+## Delta update (2026-05-24, plan 901 scalar-complex pow floordiv)
 
 ### Landed
 
-- [REPO] Plan **900** — `complex.__format__` empty-spec repr; unhashable `hash()` evidence; `complex-hash.test.ts`.
+- [REPO] Plan **901** (in progress) — `complex.__rpow__` for int/float ** complex; scalar // % complex unsupported evidence.
 
 ### Partial
 
-- None pending until PR merge.
+- None until PR merge.
 
 ### Next
 
 1. PEP 3118 out of scope.
-2. Pick next Tier-1 parity slice (cross-type ops, rich compare, etc.).
+2. Pick next Tier-1 parity slice after plan 901 merge.
+
+---
+
+## Delta update (2026-05-24, plan 900 complex format hash)
+
+### Landed
+
+- [REPO] Plan **900** merged to `main` via PR [#568](https://github.com/bolabaden/cursedjspything/pull/568) @ `ee37598` — `complex.__format__` empty-spec repr; unhashable `hash()` evidence.
+
+### Partial
+
+- None.
+
+### Next
+
+1. Scalar-complex pow/floordiv parity (plan 901).
 
 ---
 
