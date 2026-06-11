@@ -20,7 +20,7 @@ import {
   matmul, lshift, rshift, bitwiseAnd, bitwiseOr, bitwiseXor,
   iadd, isub, imul,
   neg, pos, abs, invert,
-  hash, bool, boolProtocol, int, intProtocol, float, floatProtocol, index,
+  hash, bool, boolProtocol, int, intProtocol, float, floatProtocol, indexProtocol,
   repr, strProtocol, format, bytesProtocol,
   round, trunc, floor, ceil,
   // protocols
@@ -140,7 +140,7 @@ show("int(3.7)", unwrap(int(pyFloat(3.7))));
 show("intProtocol(3.7)", intProtocol(pyFloat(3.7)));
 show("float(5)", unwrap(float(pyInt(5))));
 show("floatProtocol(5)", floatProtocol(pyInt(5)));
-show("index(True)", index(pyBool(true)));
+show("indexProtocol(True)", indexProtocol(pyBool(true)));
 
 // ─────────────────────────────────────────────────────────────────────
 section("10. Rounding (__round__, __trunc__, __floor__, __ceil__)");
@@ -572,7 +572,7 @@ show("truediv(float(7), int(2))", unwrap(truediv(pyFloat(7), pyInt(2)) as PyObje
 // ─────────────────────────────────────────────────────────────────────
 section("38. Bool is a subtype of int");
 show("neg(True)", unwrap(neg(pyBool(true)) as PyObject));
-show("index(False)", index(pyBool(false)));
+show("indexProtocol(False)", indexProtocol(pyBool(false)));
 show("hash(True)", hash(pyTrue));
 
 // ─────────────────────────────────────────────────────────────────────

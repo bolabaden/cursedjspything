@@ -3,7 +3,7 @@
  */
 import { describe, it, expect } from "vitest";
 import {
-  index,
+  indexProtocol,
   pyList,
   complexProtocol,
   floatProtocol,
@@ -28,9 +28,9 @@ describe("cpython-derived numeric conversion on list", () => {
     );
   });
 
-  it("index rejects list", () => {
-    expect(() => index(lst())).toThrow(PyTypeError);
-    expect(() => index(lst())).toThrow(
+  it("indexProtocol rejects list", () => {
+    expect(() => indexProtocol(lst())).toThrow(PyTypeError);
+    expect(() => indexProtocol(lst())).toThrow(
       /'list' object cannot be interpreted as an integer/,
     );
   });

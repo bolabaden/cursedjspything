@@ -78,7 +78,7 @@ export {
   invert,
   toInt as intProtocol,
   toFloat as floatProtocol,
-  index,
+  index as indexProtocol,
   toComplex as complexProtocol,
   round,
   trunc,

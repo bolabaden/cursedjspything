@@ -7,11 +7,11 @@
 
 ---
 
-## Delta update (2026-05-24, plan 892 bool builtin)
+## Delta update (2026-05-24, plan 893 index protocol rename)
 
 ### Landed
 
-- [REPO] Plan **892** — builtin `bool()` / `bool(x)`; `boolProtocol` stable export for truthiness dispatch.
+- [REPO] Plan **893** — stable export `indexProtocol` (was `index`); numeric conversion naming complete.
 
 ### Partial
 
@@ -21,6 +21,24 @@
 
 1. PEP 3118 out of scope.
 2. `complex()` builtin deferred until `complex` type exists.
+
+---
+
+## Delta update (2026-05-24, plan 892 bool builtin)
+
+### Landed
+
+- [REPO] Plan **892** merged to `main` via PR [#560](https://github.com/bolabaden/cursedjspything/pull/560) @ `750e813` — builtin `bool()` / `boolProtocol`.
+
+### Partial
+
+- None.
+
+### Next
+
+1. `indexProtocol` rename (plan 893).
+
+---
 
 ---
 
