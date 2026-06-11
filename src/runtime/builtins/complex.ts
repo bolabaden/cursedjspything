@@ -2,6 +2,8 @@ import { PyObject, NotImplemented } from "../core/object.js";
 import { Slot, Hook } from "../core/slots.js";
 import { makeClass } from "../class/class.js";
 import { nativeVal, setNative } from "./native.js";
+import { PyZeroDivisionError } from "../core/errors.js";
+import { pyFloat } from "./float.js";
 
 function isScalarNumeric(other: PyObject): boolean {
   const name = other.type.name;
@@ -41,6 +43,35 @@ function mulComponents(
 
 function mulByScalar(c: ComplexNative, s: number): ComplexNative {
   return { real: c.real * s, imag: c.imag * s };
+}
+
+function divByScalar(c: ComplexNative, s: number): ComplexNative {
+  if (s === 0) {
+    throw new PyZeroDivisionError("division by zero");
+  }
+  return { real: c.real / s, imag: c.imag / s };
+}
+
+function divComponents(a: ComplexNative, b: ComplexNative): ComplexNative {
+  const denom = b.real * b.real + b.imag * b.imag;
+  if (denom === 0) {
+    throw new PyZeroDivisionError("division by zero");
+  }
+  return {
+    real: (a.real * b.real + a.imag * b.imag) / denom,
+    imag: (a.imag * b.real - a.real * b.imag) / denom,
+  };
+}
+
+function divScalarByComplex(s: number, c: ComplexNative): ComplexNative {
+  const denom = c.real * c.real + c.imag * c.imag;
+  if (denom === 0) {
+    throw new PyZeroDivisionError("division by zero");
+  }
+  return {
+    real: (s * c.real) / denom,
+    imag: (-s * c.imag) / denom,
+  };
 }
 
 export interface ComplexNative {
@@ -149,6 +180,38 @@ export const complexType = makeClass({
         return pyComplex(out.real, out.imag);
       }
       return NotImplemented;
+    }],
+    [Slot.truediv, (self: PyObject, other: PyObject) => {
+      const left = complexNative(self);
+      if (other.type === complexType) {
+        const out = divComponents(left, complexNative(other));
+        return pyComplex(out.real, out.imag);
+      }
+      if (isScalarNumeric(other)) {
+        const out = divByScalar(left, scalarReal(other));
+        return pyComplex(out.real, out.imag);
+      }
+      return NotImplemented;
+    }],
+    [Slot.rtruediv, (self: PyObject, other: PyObject) => {
+      const right = complexNative(self);
+      if (isScalarNumeric(other)) {
+        const out = divScalarByComplex(scalarReal(other), right);
+        return pyComplex(out.real, out.imag);
+      }
+      return NotImplemented;
+    }],
+    [Slot.neg, (self: PyObject) => {
+      const { real, imag } = complexNative(self);
+      return pyComplex(-real, -imag);
+    }],
+    [Slot.pos, (self: PyObject) => {
+      const { real, imag } = complexNative(self);
+      return pyComplex(real, imag);
+    }],
+    [Slot.abs, (self: PyObject) => {
+      const { real, imag } = complexNative(self);
+      return pyFloat(Math.hypot(real, imag));
     }],
   ]),
 });
