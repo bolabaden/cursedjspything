@@ -6,7 +6,7 @@ import {
   index,
   pyList,
   toComplex,
-  toFloat,
+  floatProtocol,
   intProtocol,
 } from "../../src/index.js";
 import { PyTypeError } from "../../src/runtime/core/errors.js";
@@ -21,9 +21,9 @@ describe("cpython-derived numeric conversion on list", () => {
     );
   });
 
-  it("toFloat rejects list", () => {
-    expect(() => toFloat(lst())).toThrow(PyTypeError);
-    expect(() => toFloat(lst())).toThrow(
+  it("floatProtocol rejects list", () => {
+    expect(() => floatProtocol(lst())).toThrow(PyTypeError);
+    expect(() => floatProtocol(lst())).toThrow(
       /float\(\) argument must be a string or a real number, not 'list'/,
     );
   });

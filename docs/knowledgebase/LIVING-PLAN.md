@@ -7,6 +7,22 @@
 
 ---
 
+## Delta update (2026-05-24, plan 889 float builtin)
+
+### Landed
+
+- [REPO] Plan **889** — builtin `float()` / `float(x)`; `floatProtocol` stable export; `float-builtin.test.ts`.
+
+### Partial
+
+- None pending until PR merge.
+
+### Next
+
+1. PEP 3118 out of scope.
+
+---
+
 ## Delta update (2026-05-24, plan 888 list extend iterable)
 
 ### Landed

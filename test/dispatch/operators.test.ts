@@ -5,7 +5,7 @@ import {
   add, sub, mul, truediv, floordiv, mod, pow, divmod,
   lshift, rshift, bitwiseAnd, bitwiseOr, bitwiseXor,
   iadd, neg, pos, abs, invert,
-  hash, bool, intProtocol, toFloat, index,
+  hash, bool, intProtocol, floatProtocol, index,
   repr, strProtocol, format,
   round, trunc, floor, ceil,
   pyInt, pyFloat, pyStr, pyBool, pyNone, pyList, pyTuple,
@@ -176,7 +176,7 @@ describe("truthiness", () => {
 
 describe("conversions", () => {
   it("intProtocol from float", () => { expect(intProtocol(pyFloat(3.7))).toBe(3); });
-  it("toFloat from int", () => { expect(toFloat(pyInt(5))).toBe(5); });
+  it("floatProtocol from int", () => { expect(floatProtocol(pyInt(5))).toBe(5); });
   it("index from int", () => { expect(index(pyInt(7))).toBe(7); });
   it("index from bool", () => { expect(index(pyBool(true))).toBe(1); });
 });
