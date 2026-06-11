@@ -2,7 +2,7 @@ import { PyObject } from "../core/object.js";
 import { PyTypeError, PyValueError } from "../core/errors.js";
 import { toInt, repr } from "../dispatch/operators/numeric.js";
 import { nativeVal } from "./native.js";
-import { pyIndexAsInteger, pyInt, intType } from "./int.js";
+import { pyIndexAsInteger, pyInt, intType, truncatingIntFromFloatNumber } from "./int.js";
 import { strType } from "./str.js";
 import { bytesType } from "./bytes.js";
 
@@ -161,13 +161,7 @@ function intFromNumeric(arg: PyObject): PyObject {
     return result;
   }
   if (typeof result === "number") {
-    if (Number.isNaN(result)) {
-      throw new PyValueError("cannot convert float NaN to integer");
-    }
-    if (!Number.isFinite(result)) {
-      throw new PyValueError("cannot convert float infinity to integer");
-    }
-    return pyInt(result);
+    return pyInt(truncatingIntFromFloatNumber(result));
   }
   throw new PyTypeError("__int__ returned non-int");
 }

@@ -14,7 +14,11 @@ import {
   pyTrue,
   unwrap,
 } from "../../src/index.js";
-import { PyTypeError, PyValueError } from "../../src/runtime/core/errors.js";
+import {
+  PyOverflowError,
+  PyTypeError,
+  PyValueError,
+} from "../../src/runtime/core/errors.js";
 
 describe("cpython-derived int builtin", () => {
   it("int() returns zero", () => {
@@ -101,14 +105,17 @@ describe("cpython-derived int builtin", () => {
   });
 
   it("rejects non-finite float conversion", () => {
-    expect(() => int(pyFloat(Number.POSITIVE_INFINITY))).toThrow(PyValueError);
-    expect(() => int(pyFloat(Number.POSITIVE_INFINITY))).toThrow(
-      /cannot convert float infinity to integer/,
+    const inf = pyFloat(Number.POSITIVE_INFINITY);
+    const nan = pyFloat(Number.NaN);
+    expect(() => int(inf)).toThrow(PyOverflowError);
+    expect(() => int(inf)).toThrow(/cannot convert float infinity to integer/);
+    expect(() => intProtocol(inf)).toThrow(PyOverflowError);
+    expect(() => int(pyFloat(Number.NEGATIVE_INFINITY))).toThrow(
+      PyOverflowError,
     );
-    expect(() => int(pyFloat(Number.NaN))).toThrow(PyValueError);
-    expect(() => int(pyFloat(Number.NaN))).toThrow(
-      /cannot convert float NaN to integer/,
-    );
+    expect(() => int(nan)).toThrow(PyValueError);
+    expect(() => int(nan)).toThrow(/cannot convert float NaN to integer/);
+    expect(() => intProtocol(nan)).toThrow(PyValueError);
   });
 
   it("rejects too many arguments", () => {

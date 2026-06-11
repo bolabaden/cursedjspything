@@ -51,6 +51,13 @@ export class PyValueError extends Error {
   }
 }
 
+export class PyOverflowError extends Error {
+  constructor(msg: string) {
+    super(msg);
+    this.name = "OverflowError";
+  }
+}
+
 export class PyLookupError extends Error {
   constructor(msg: string) {
     super(msg);
