@@ -326,6 +326,13 @@ function formatIntFloatPresentation(
   return body;
 }
 
+/** CPython int.bit_length: bits to represent abs(n) in binary; 0 → 0. */
+export function intBitLength(n: number): number {
+  const v = Math.trunc(n);
+  if (v === 0) return 0;
+  return BigInt(Math.abs(v)).toString(2).length;
+}
+
 export function formatIntSpec(n: number, spec: string): string {
   if (spec === "" || spec === "d") return String(n);
   const { sign, rest } = parseIntFormatSign(spec);
@@ -508,4 +515,9 @@ export function pyIntFromSafeInteger(v: number): PyObject {
   setNative(obj, v);
   return obj;
 }
+
+intType.typeDict.set(
+  "bit_length",
+  (self: PyObject) => pyInt(intBitLength(nativeVal<number>(self))),
+);
 
