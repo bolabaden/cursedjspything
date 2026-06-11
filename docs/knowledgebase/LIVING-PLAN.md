@@ -7,11 +7,11 @@
 
 ---
 
-## Delta update (2026-05-24, plan 906 int bit_length)
+## Delta update (2026-05-24, plan 907 int bytes conversion)
 
 ### Landed
 
-- [REPO] Plan **906** (in progress) — `int.bit_length()` via magnitude bit count.
+- [REPO] Plan **907** (in progress) — `int.to_bytes()` / `int.from_bytes()` big/little endian.
 
 ### Partial
 
@@ -20,7 +20,23 @@
 ### Next
 
 1. PEP 3118 out of scope.
-2. Pick next Tier-1 numeric or cross-type parity slice (`int.to_bytes`, `float.hex`, scalar-complex pow edges).
+2. Pick next Tier-1 numeric slice (`float.hex`, scalar-complex pow edges).
+
+---
+
+## Delta update (2026-05-24, plan 906 int bit_length)
+
+### Landed
+
+- [REPO] Plan **906** merged to `main` via PR [#574](https://github.com/bolabaden/cursedjspything/pull/574) @ `b0ccedc` — `int.bit_length()` via magnitude bit count.
+
+### Partial
+
+- None.
+
+### Next
+
+1. `int.to_bytes` / `int.from_bytes` (plan 907).
 
 ---
 

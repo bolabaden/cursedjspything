@@ -7,6 +7,7 @@ import { PyTypeError } from "../core/errors.js";
 import { floatType, pyFloat } from "./float.js";
 import { pyComplex } from "./complex.js";
 import { pyTuple } from "./tuple.js";
+import { bytesType, pyBytes } from "./bytes.js";
 import { PyZeroDivisionError, PyValueError, PyOverflowError } from "../core/errors.js";
 
 export function truncatingIntFromFloatNumber(value: number): number {
@@ -326,6 +327,140 @@ function formatIntFloatPresentation(
   return body;
 }
 
+function typeNameForError(arg: unknown): string {
+  if (arg instanceof PyObject) return arg.type.name;
+  if (arg === null) return "NoneType";
+  return typeof arg;
+}
+
+function parseByteorder(
+  fn: "to_bytes" | "from_bytes",
+  arg: unknown,
+): "big" | "little" {
+  if (!(arg instanceof PyObject) || arg.type.name !== "str") {
+    throw new PyTypeError(
+      `${fn}() argument 'byteorder' must be str, not ${typeNameForError(arg)}`,
+    );
+  }
+  const s = nativeVal<string>(arg);
+  if (s === "big") return "big";
+  if (s === "little") return "little";
+  throw new PyValueError("byteorder must be either 'little' or 'big'");
+}
+
+function parseToBytesLength(arg: unknown): number {
+  if (
+    !(arg instanceof PyObject) ||
+    (arg.type.name !== "int" && arg.type.name !== "bool")
+  ) {
+    throw new PyTypeError(
+      `to_bytes() argument 'length' must be int, not ${typeNameForError(arg)}`,
+    );
+  }
+  const n =
+    arg.type.name === "bool"
+      ? nativeVal<boolean>(arg)
+        ? 1
+        : 0
+      : nativeVal<number>(arg);
+  if (!Number.isInteger(n) || n < 0) {
+    throw new PyValueError("length argument must be non-negative");
+  }
+  return n;
+}
+
+function parseSignedFlag(arg: unknown | undefined): boolean {
+  if (arg === undefined) return false;
+  if (!(arg instanceof PyObject) || arg.type.name !== "bool") {
+    throw new PyTypeError(`signed must be bool, not ${typeNameForError(arg)}`);
+  }
+  return nativeVal<boolean>(arg);
+}
+
+/** CPython int.to_bytes: encode integer as fixed-width byte string. */
+export function intToBytes(
+  n: number,
+  length: number,
+  byteorder: "big" | "little",
+  signed: boolean,
+): Uint8Array {
+  if (length < 0) {
+    throw new PyValueError("length must be non-negative");
+  }
+
+  const v = Math.trunc(n);
+  const bitCount = BigInt(length * 8);
+  const maxUnsigned = bitCount === 0n ? 0n : (1n << bitCount) - 1n;
+  let big = BigInt(v);
+
+  if (!signed) {
+    if (v < 0) {
+      throw new PyOverflowError("can't convert negative int to unsigned");
+    }
+    if (big > maxUnsigned) {
+      throw new PyOverflowError("int too big to convert");
+    }
+  } else if (length === 0) {
+    if (v !== 0) {
+      throw new PyOverflowError("int too big to convert");
+    }
+  } else {
+    const minSigned = -(1n << (bitCount - 1n));
+    const maxSigned = (1n << (bitCount - 1n)) - 1n;
+    if (big < minSigned || big > maxSigned) {
+      throw new PyOverflowError("int too big to convert");
+    }
+    big = big & maxUnsigned;
+  }
+
+  const out = new Uint8Array(length);
+  for (let i = 0; i < length; i++) {
+    const byte = Number((big >> BigInt(i * 8)) & 0xffn);
+    const idx = byteorder === "little" ? i : length - 1 - i;
+    out[idx] = byte;
+  }
+  return out;
+}
+
+/** CPython int.from_bytes: decode fixed-width byte string to integer. */
+export function intFromBytes(
+  data: Uint8Array,
+  byteorder: "big" | "little",
+  signed: boolean,
+): number {
+  let big = 0n;
+  if (byteorder === "big") {
+    for (const b of data) {
+      big = (big << 8n) | BigInt(b);
+    }
+  } else {
+    for (let i = data.length - 1; i >= 0; i--) {
+      big = (big << 8n) | BigInt(data[i]!);
+    }
+  }
+
+  if (signed && data.length > 0) {
+    const signIndex = byteorder === "big" ? 0 : data.length - 1;
+    if ((data[signIndex]! & 0x80) !== 0) {
+      const bits = BigInt(data.length * 8);
+      big = big - (1n << bits);
+    }
+  }
+
+  const num = Number(big);
+  if (!Number.isSafeInteger(num)) {
+    throw new PyOverflowError("int too big to convert");
+  }
+  return num;
+}
+
+function intObjectFromDecoded(n: number): PyObject {
+  if (n >= -0x80000000 && n <= 0x7fffffff) {
+    return pyInt(n);
+  }
+  return pyIntFromSafeInteger(n);
+}
+
 /** CPython int.bit_length: bits to represent abs(n) in binary; 0 → 0. */
 export function intBitLength(n: number): number {
   const v = Math.trunc(n);
@@ -519,5 +654,30 @@ export function pyIntFromSafeInteger(v: number): PyObject {
 intType.typeDict.set(
   "bit_length",
   (self: PyObject) => pyInt(intBitLength(nativeVal<number>(self))),
+);
+intType.typeDict.set(
+  "to_bytes",
+  (self: PyObject, lengthArg: unknown, byteorderArg: unknown, signedArg?: unknown) => {
+    const length = parseToBytesLength(lengthArg);
+    const byteorder = parseByteorder("to_bytes", byteorderArg);
+    const signed = parseSignedFlag(signedArg);
+    return pyBytes(
+      intToBytes(nativeVal<number>(self), length, byteorder, signed),
+    );
+  },
+);
+intType.typeDict.set(
+  "from_bytes",
+  (_cls: unknown, bytesArg: unknown, byteorderArg: unknown, signedArg?: unknown) => {
+    if (!(bytesArg instanceof PyObject) || bytesArg.type !== bytesType) {
+      throw new PyTypeError(
+        `cannot convert '${typeNameForError(bytesArg)}' object to bytes`,
+      );
+    }
+    const byteorder = parseByteorder("from_bytes", byteorderArg);
+    const signed = parseSignedFlag(signedArg);
+    const data = nativeVal<Uint8Array>(bytesArg);
+    return intObjectFromDecoded(intFromBytes(data, byteorder, signed));
+  },
 );
 
