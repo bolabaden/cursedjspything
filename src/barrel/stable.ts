@@ -27,6 +27,7 @@ export {
   PyZeroDivisionError,
   PyStopIteration,
   PyValueError,
+  PyOverflowError,
   PyLookupError,
   PyUnicodeDecodeError,
   PyUnicodeEncodeError,

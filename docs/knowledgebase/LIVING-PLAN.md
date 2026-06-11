@@ -7,11 +7,11 @@
 
 ---
 
-## Delta update (2026-05-24, plan 889 float builtin)
+## Delta update (2026-05-24, plan 890 overflow error int float)
 
 ### Landed
 
-- [REPO] Plan **889** — builtin `float()` / `float(x)`; `floatProtocol` stable export; `float-builtin.test.ts`.
+- [REPO] Plan **890** — `PyOverflowError`; `int()` / `float.__int__` non-finite parity (inf → OverflowError, NaN → ValueError); closes plan 885 residuals.
 
 ### Partial
 
@@ -20,6 +20,24 @@
 ### Next
 
 1. PEP 3118 out of scope.
+
+---
+
+## Delta update (2026-05-24, plan 889 float builtin)
+
+### Landed
+
+- [REPO] Plan **889** merged to `main` via PR [#557](https://github.com/bolabaden/cursedjspything/pull/557) @ `921d995` — builtin `float()` / `float(x)`; `floatProtocol` stable export; `float-builtin.test.ts`.
+
+### Partial
+
+- None.
+
+### Next
+
+1. Plan 885 residuals (`PyOverflowError`, `intProtocol` on infinity).
+
+---
 
 ---
 

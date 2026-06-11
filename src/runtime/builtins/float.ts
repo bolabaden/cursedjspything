@@ -2,7 +2,12 @@ import { PyObject, NotImplemented } from "../core/object.js";
 import { Slot, Hook } from "../core/slots.js";
 import { makeClass } from "../class/class.js";
 import { nativeVal, setNative } from "./native.js";
-import { intType, isNumericOperand, numericOperand } from "./int.js";
+import {
+  intType,
+  isNumericOperand,
+  numericOperand,
+  truncatingIntFromFloatNumber,
+} from "./int.js";
 import { pyInt } from "./int.js";
 import { pyTuple } from "./tuple.js";
 import { PyZeroDivisionError, PyValueError } from "../core/errors.js";
@@ -232,7 +237,8 @@ export const floatType = makeClass({
       return (lo ^ hi) | 0;
     }],
     [Slot.bool, (self: PyObject) => nativeVal<number>(self) !== 0],
-    [Slot.int, (self: PyObject) => Math.trunc(nativeVal<number>(self))],
+    [Slot.int, (self: PyObject) =>
+      truncatingIntFromFloatNumber(nativeVal<number>(self))],
     [Slot.float, (self: PyObject) => nativeVal<number>(self)],
     [Slot.eq, (self: PyObject, other: PyObject) => {
       if (!isNumericOperand(other)) return NotImplemented;

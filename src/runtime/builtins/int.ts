@@ -6,7 +6,17 @@ import { nativeVal, setNative } from "./native.js";
 import { PyTypeError } from "../core/errors.js";
 import { floatType, pyFloat } from "./float.js";
 import { pyTuple } from "./tuple.js";
-import { PyZeroDivisionError, PyValueError } from "../core/errors.js";
+import { PyZeroDivisionError, PyValueError, PyOverflowError } from "../core/errors.js";
+
+export function truncatingIntFromFloatNumber(value: number): number {
+  if (Number.isNaN(value)) {
+    throw new PyValueError("cannot convert float NaN to integer");
+  }
+  if (!Number.isFinite(value)) {
+    throw new PyOverflowError("cannot convert float infinity to integer");
+  }
+  return Math.trunc(value);
+}
 
 function shiftCount(other: PyObject): number {
   const n = nativeVal<number>(other);
