@@ -2,7 +2,7 @@ import { PyObject, NotImplemented } from "../core/object.js";
 import { Slot, Hook } from "../core/slots.js";
 import { makeClass } from "../class/class.js";
 import { nativeVal, setNative } from "./native.js";
-import { PyZeroDivisionError } from "../core/errors.js";
+import { PyZeroDivisionError, PyTypeError } from "../core/errors.js";
 import { pyFloat } from "./float.js";
 
 function isScalarNumeric(other: PyObject): boolean {
@@ -110,6 +110,22 @@ function powComplexInt(c: ComplexNative, exp: number): ComplexNative {
   return powComplexPositiveInt(c, exp);
 }
 
+function powComplexFloat(c: ComplexNative, exp: number): ComplexNative {
+  if (exp === 0) {
+    return { real: 1, imag: 0 };
+  }
+  const r = Math.hypot(c.real, c.imag);
+  if (r === 0 && exp < 0) {
+    throw new PyZeroDivisionError("0.0 cannot be raised to a negative power");
+  }
+  const theta = Math.atan2(c.imag, c.real);
+  const rn = Math.pow(r, exp);
+  const angle = theta * exp;
+  return { real: rn * Math.cos(angle), imag: rn * Math.sin(angle) };
+}
+
+const COMPLEX_FLOOR_ERROR = "can't take floor of complex number.";
+
 export interface ComplexNative {
   real: number;
   imag: number;
@@ -182,11 +198,17 @@ export const complexType = makeClass({
         return NotImplemented;
       }
       const exp = scalarReal(other);
-      if (!Number.isInteger(exp)) {
-        return NotImplemented;
-      }
-      const out = powComplexInt(complexNative(self), exp);
+      const base = complexNative(self);
+      const out = Number.isInteger(exp)
+        ? powComplexInt(base, exp)
+        : powComplexFloat(base, exp);
       return pyComplex(out.real, out.imag);
+    }],
+    [Slot.floordiv, () => {
+      throw new PyTypeError(COMPLEX_FLOOR_ERROR);
+    }],
+    [Slot.mod, () => {
+      throw new PyTypeError(COMPLEX_FLOOR_ERROR);
     }],
     [Slot.add, (self: PyObject, other: PyObject) => {
       const left = complexNative(self);
