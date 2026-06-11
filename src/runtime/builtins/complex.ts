@@ -74,6 +74,42 @@ function divScalarByComplex(s: number, c: ComplexNative): ComplexNative {
   };
 }
 
+function eqComponents(a: ComplexNative, b: ComplexNative): boolean {
+  return a.real === b.real && a.imag === b.imag;
+}
+
+function eqScalar(c: ComplexNative, other: PyObject): boolean {
+  return c.imag === 0 && c.real === scalarReal(other);
+}
+
+function powComplexPositiveInt(c: ComplexNative, exp: number): ComplexNative {
+  let result: ComplexNative = { real: 1, imag: 0 };
+  let base = c;
+  let e = exp;
+  while (e > 0) {
+    if (e & 1) {
+      result = mulComponents(result, base);
+    }
+    base = mulComponents(base, base);
+    e >>= 1;
+  }
+  return result;
+}
+
+function powComplexInt(c: ComplexNative, exp: number): ComplexNative {
+  if (exp === 0) {
+    return { real: 1, imag: 0 };
+  }
+  if (exp < 0) {
+    if (c.real === 0 && c.imag === 0) {
+      throw new PyZeroDivisionError("0.0 cannot be raised to a negative power");
+    }
+    const pos = powComplexPositiveInt(c, -exp);
+    return divComponents({ real: 1, imag: 0 }, pos);
+  }
+  return powComplexPositiveInt(c, exp);
+}
+
 export interface ComplexNative {
   real: number;
   imag: number;
@@ -121,6 +157,37 @@ export const complexType = makeClass({
       return real !== 0 || imag !== 0;
     }],
     [Hook.complex, (self: PyObject) => self],
+    [Slot.eq, (self: PyObject, other: PyObject) => {
+      const left = complexNative(self);
+      if (other.type === complexType) {
+        return eqComponents(left, complexNative(other));
+      }
+      if (isScalarNumeric(other)) {
+        return eqScalar(left, other);
+      }
+      return NotImplemented;
+    }],
+    [Slot.ne, (self: PyObject, other: PyObject) => {
+      const left = complexNative(self);
+      if (other.type === complexType) {
+        return !eqComponents(left, complexNative(other));
+      }
+      if (isScalarNumeric(other)) {
+        return !eqScalar(left, other);
+      }
+      return NotImplemented;
+    }],
+    [Slot.pow, (self: PyObject, other: PyObject) => {
+      if (!isScalarNumeric(other)) {
+        return NotImplemented;
+      }
+      const exp = scalarReal(other);
+      if (!Number.isInteger(exp)) {
+        return NotImplemented;
+      }
+      const out = powComplexInt(complexNative(self), exp);
+      return pyComplex(out.real, out.imag);
+    }],
     [Slot.add, (self: PyObject, other: PyObject) => {
       const left = complexNative(self);
       if (other.type === complexType) {
