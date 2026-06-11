@@ -2,6 +2,11 @@ import { NotImplemented, PyObject } from "../core/object.js";
 import { Hook, Slot } from "../core/slots.js";
 import { makeClass } from "../class/class.js";
 import { PyIndexError, PyStopIteration, PyTypeError, PyValueError } from "../core/errors.js";
+import {
+  isSlice,
+  resolvedSliceFields,
+  sliceAdjustIndices,
+} from "../collections/slice.js";
 import { pyIndexAsInteger, pyInt } from "./int.js";
 
 type RangeFields = { start: number; stop: number; step: number };
@@ -54,7 +59,25 @@ function rangesEqual(a: RangeFields, b: RangeFields): boolean {
   return a.start === b.start && a.stop === b.stop && a.step === b.step;
 }
 
+function rangeValueAt(fields: RangeFields, index: number): number {
+  return fields.start + index * fields.step;
+}
+
+function rangeGetItemSlice(fields: RangeFields, key: PyObject): PyObject {
+  const length = rangeLength(fields);
+  const { start, stop, step } = resolvedSliceFields(key);
+  const [lo, hi, sliceStep] = sliceAdjustIndices(length, start, stop, step);
+  return makeRangeObject({
+    start: rangeValueAt(fields, lo),
+    stop: rangeValueAt(fields, hi),
+    step: fields.step * sliceStep,
+  });
+}
+
 function rangeGetItem(fields: RangeFields, key: unknown): PyObject {
+  if (isSlice(key)) {
+    return rangeGetItemSlice(fields, key);
+  }
   let index: number;
   if (key instanceof PyObject) {
     const n = pyIndexAsInteger(key);
@@ -73,7 +96,7 @@ function rangeGetItem(fields: RangeFields, key: unknown): PyObject {
   if (index < 0 || index >= len) {
     throw new PyIndexError("range object index out of range");
   }
-  return pyInt(fields.start + index * fields.step);
+  return pyInt(rangeValueAt(fields, index));
 }
 
 const rangeReverseIterType = makeClass({
