@@ -150,6 +150,22 @@ function powComplexComplex(
   return expComplex(mulComponents(logComplex(base), exp));
 }
 
+function powRealComplex(base: number, exp: ComplexNative): ComplexNative {
+  if (base === 0) {
+    if (exp.real === 0 && exp.imag === 0) {
+      return { real: 1, imag: 0 };
+    }
+    if (exp.imag !== 0 || exp.real < 0) {
+      throw new PyZeroDivisionError("zero to a negative or complex power");
+    }
+    return { real: 0, imag: 0 };
+  }
+  const logBase: ComplexNative = base > 0
+    ? { real: Math.log(base), imag: 0 }
+    : { real: Math.log(-base), imag: Math.PI };
+  return expComplex(mulComponents(logBase, exp));
+}
+
 const COMPLEX_FLOOR_ERROR = "can't take floor of complex number.";
 
 function formatComplexSpec(self: PyObject, spec: string): string {
@@ -240,6 +256,13 @@ export const complexType = makeClass({
       const out = Number.isInteger(exp)
         ? powComplexInt(base, exp)
         : powComplexFloat(base, exp);
+      return pyComplex(out.real, out.imag);
+    }],
+    [Slot.rpow, (self: PyObject, other: PyObject) => {
+      if (!isScalarNumeric(other)) {
+        return NotImplemented;
+      }
+      const out = powRealComplex(scalarReal(other), complexNative(self));
       return pyComplex(out.real, out.imag);
     }],
     [Slot.floordiv, () => {
