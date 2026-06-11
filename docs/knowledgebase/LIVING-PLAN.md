@@ -7,11 +7,11 @@
 
 ---
 
-## Delta update (2026-05-24, plan 890 overflow error int float)
+## Delta update (2026-05-24, plan 891 complex protocol rename)
 
 ### Landed
 
-- [REPO] Plan **890** — `PyOverflowError`; `int()` / `float.__int__` non-finite parity (inf → OverflowError, NaN → ValueError); closes plan 885 residuals.
+- [REPO] Plan **891** — stable export `complexProtocol` (was `toComplex`); numeric conversion naming aligned with `intProtocol` / `floatProtocol`.
 
 ### Partial
 
@@ -20,6 +20,25 @@
 ### Next
 
 1. PEP 3118 out of scope.
+2. `complex()` builtin deferred until `complex` type exists.
+
+---
+
+## Delta update (2026-05-24, plan 890 overflow error int float)
+
+### Landed
+
+- [REPO] Plan **890** merged to `main` via PR [#558](https://github.com/bolabaden/cursedjspything/pull/558) @ `f8d8da3` — `PyOverflowError`; non-finite float→int parity.
+
+### Partial
+
+- None.
+
+### Next
+
+1. `complexProtocol` rename (plan 891).
+
+---
 
 ---
 

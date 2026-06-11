@@ -79,7 +79,7 @@ export {
   toInt as intProtocol,
   toFloat as floatProtocol,
   index,
-  toComplex,
+  toComplex as complexProtocol,
   round,
   trunc,
   floor,
