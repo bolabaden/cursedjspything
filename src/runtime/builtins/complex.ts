@@ -2,8 +2,39 @@ import { PyObject, NotImplemented } from "../core/object.js";
 import { Slot, Hook } from "../core/slots.js";
 import { makeClass } from "../class/class.js";
 import { nativeVal, setNative } from "./native.js";
-import { PyZeroDivisionError, PyTypeError } from "../core/errors.js";
+import { PyZeroDivisionError, PyTypeError, PyAttributeError } from "../core/errors.js";
+import { defaultGetAttr, defaultSetAttr } from "../core/lookup.js";
+import { bindMethod } from "../class/method.js";
 import { pyFloat } from "./float.js";
+
+function complexConjugate(self: PyObject): PyObject {
+  const { real, imag } = complexNative(self);
+  return pyComplex(real, -imag);
+}
+
+function complexGetAttribute(obj: PyObject, name: string | symbol): unknown {
+  if (name === "real") {
+    return pyFloat(complexNative(obj).real);
+  }
+  if (name === "imag") {
+    return pyFloat(complexNative(obj).imag);
+  }
+  if (name === "conjugate") {
+    return bindMethod(complexConjugate, obj);
+  }
+  return defaultGetAttr(obj, name);
+}
+
+function complexSetAttribute(
+  obj: PyObject,
+  name: string | symbol,
+  value: unknown,
+): void {
+  if (name === "real" || name === "imag") {
+    throw new PyAttributeError("readonly attribute");
+  }
+  defaultSetAttr(obj, name, value);
+}
 
 function isScalarNumeric(other: PyObject): boolean {
   const name = other.type.name;
@@ -210,6 +241,8 @@ export function complexReprValue(real: number, imag: number): string {
 export const complexType = makeClass({
   name: "complex",
   dict: new Map<string | symbol, unknown>([
+    [Slot.getattribute, complexGetAttribute],
+    [Slot.setattr, complexSetAttribute],
     [Slot.repr, (self: PyObject) => {
       const { real, imag } = complexNative(self);
       return complexReprValue(real, imag);

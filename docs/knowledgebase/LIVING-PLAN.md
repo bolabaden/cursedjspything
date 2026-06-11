@@ -7,11 +7,11 @@
 
 ---
 
-## Delta update (2026-05-24, plan 902 complex modulo pow truediv)
+## Delta update (2026-05-24, plan 903 complex attributes)
 
 ### Landed
 
-- [REPO] Plan **902** (in progress) — `pow` complex modulo guard; scalar `/` complex and `divmod` evidence.
+- [REPO] Plan **903** (in progress) — `complex.real` / `complex.imag` float members; `conjugate()`; readonly assignment guard.
 
 ### Partial
 
@@ -20,7 +20,23 @@
 ### Next
 
 1. PEP 3118 out of scope.
-2. Pick next Tier-1 parity slice after plan 902 merge.
+2. Pick next Tier-1 parity slice after plan 903 merge.
+
+---
+
+## Delta update (2026-05-24, plan 902 complex modulo pow truediv)
+
+### Landed
+
+- [REPO] Plan **902** merged to `main` via PR [#570](https://github.com/bolabaden/cursedjspything/pull/570) @ `52942ba` — `pow` complex modulo guard; scalar `/` complex and `divmod` evidence.
+
+### Partial
+
+- None.
+
+### Next
+
+1. Complex real/imag/conjugate (plan 903).
 
 ---
 
