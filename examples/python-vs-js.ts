@@ -20,7 +20,7 @@ import {
   matmul, lshift, rshift, bitwiseAnd, bitwiseOr, bitwiseXor,
   iadd, isub, imul,
   neg, pos, abs, invert,
-  hash, bool, toInt, toFloat, index,
+  hash, bool, int, intProtocol, toFloat, index,
   repr, strProtocol, format, bytesProtocol,
   round, trunc, floor, ceil,
   // protocols
@@ -134,7 +134,8 @@ section("9. Conversions (__int__, __float__, __index__)");
 //   int(3.7)  → 3
 //   float(5)  → 5.0
 //   operator.index(True) → 1
-show("toInt(3.7)", toInt(pyFloat(3.7)));
+show("int(3.7)", unwrap(int(pyFloat(3.7))));
+show("intProtocol(3.7)", intProtocol(pyFloat(3.7)));
 show("toFloat(5)", toFloat(pyInt(5)));
 show("index(True)", index(pyBool(true)));
 

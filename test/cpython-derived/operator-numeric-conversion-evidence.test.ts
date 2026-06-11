@@ -7,16 +7,16 @@ import {
   pyList,
   toComplex,
   toFloat,
-  toInt,
+  intProtocol,
 } from "../../src/index.js";
 import { PyTypeError } from "../../src/runtime/core/errors.js";
 
 describe("cpython-derived numeric conversion on list", () => {
   const lst = () => pyList([]);
 
-  it("toInt rejects list", () => {
-    expect(() => toInt(lst())).toThrow(PyTypeError);
-    expect(() => toInt(lst())).toThrow(
+  it("intProtocol rejects list", () => {
+    expect(() => intProtocol(lst())).toThrow(PyTypeError);
+    expect(() => intProtocol(lst())).toThrow(
       /int\(\) argument must be a string or a real number, not 'list'/,
     );
   });
