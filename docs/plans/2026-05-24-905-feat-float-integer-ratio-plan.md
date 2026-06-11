@@ -27,6 +27,7 @@ Add CPython-compatible `float.is_integer()` and `float.as_integer_ratio()` metho
 ## Scope Boundaries
 
 - No `int.as_integer_ratio` (int is already rational).
+- Ratio components must fit `Number.isSafeInteger` (e.g. `0.1` raises `OverflowError` until arbitrary-size ints land).
 - No `Fraction` type.
 - PEP 3118 out of scope.
 

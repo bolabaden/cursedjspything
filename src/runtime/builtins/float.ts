@@ -8,7 +8,7 @@ import {
   numericOperand,
   truncatingIntFromFloatNumber,
 } from "./int.js";
-import { pyInt } from "./int.js";
+import { pyInt, pyIntFromSafeInteger } from "./int.js";
 import { pyTuple } from "./tuple.js";
 import { pyComplex } from "./complex.js";
 import { PyZeroDivisionError, PyValueError, PyOverflowError } from "../core/errors.js";
@@ -24,7 +24,7 @@ function gcdBigInt(a: bigint, b: bigint): bigint {
   return a;
 }
 
-function floatAsIntegerRatio(value: number): [number, number] {
+function floatAsIntegerRatio(value: number): [bigint, bigint] {
   if (Number.isNaN(value)) {
     throw new PyValueError("cannot convert NaN to integer ratio");
   }
@@ -43,7 +43,7 @@ function floatAsIntegerRatio(value: number): [number, number] {
 
   if (exp === 0n) {
     if (mant === 0n) {
-      return [0, 1];
+      return [0n, 1n];
     }
   } else {
     mant |= 1n << 52n;
@@ -63,7 +63,7 @@ function floatAsIntegerRatio(value: number): [number, number] {
   numerator /= g;
   denominator /= g;
 
-  return [Number(numerator), Number(denominator)];
+  return [numerator, denominator];
 }
 
 function floatIsInteger(value: number): boolean {
@@ -394,7 +394,12 @@ floatType.typeDict.set(
 );
 floatType.typeDict.set("as_integer_ratio", (self: PyObject) => {
   const [num, den] = floatAsIntegerRatio(nativeVal<number>(self));
-  return pyTuple([pyInt(num), pyInt(den)]);
+  const numN = Number(num);
+  const denN = Number(den);
+  if (!Number.isSafeInteger(numN) || !Number.isSafeInteger(denN)) {
+    throw new PyOverflowError("integer ratio component too large");
+  }
+  return pyTuple([pyIntFromSafeInteger(numN), pyIntFromSafeInteger(denN)]);
 });
 
 export function pyFloat(v: number): PyObject {

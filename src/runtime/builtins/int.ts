@@ -499,3 +499,13 @@ export function pyInt(v: number): PyObject {
   return obj;
 }
 
+/** Int from a safe integer without ToInt32 truncation (e.g. float.as_integer_ratio). */
+export function pyIntFromSafeInteger(v: number): PyObject {
+  if (!Number.isSafeInteger(v)) {
+    throw new PyOverflowError("int too large to convert to float");
+  }
+  const obj = new PyObject(intType);
+  setNative(obj, v);
+  return obj;
+}
+

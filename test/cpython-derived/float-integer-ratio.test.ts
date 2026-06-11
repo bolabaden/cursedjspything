@@ -49,6 +49,12 @@ describe("cpython-derived float integer methods", () => {
     expect(asIntegerRatio(2.5)).toEqual([5, 2]);
     expect(asIntegerRatio(-3)).toEqual([-3, 1]);
     expect(asIntegerRatio(0)).toEqual([0, 1]);
+    expect(asIntegerRatio(1e10)).toEqual([10_000_000_000, 1]);
+  });
+
+  it("as_integer_ratio rejects components above safe integer range", () => {
+    expect(() => asIntegerRatio(0.1)).toThrow(PyOverflowError);
+    expect(() => asIntegerRatio(0.1)).toThrow(/integer ratio component too large/);
   });
 
   it("as_integer_ratio rejects nan and infinity", () => {
