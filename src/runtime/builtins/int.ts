@@ -5,6 +5,7 @@ import { makeClass } from "../class/class.js";
 import { nativeVal, setNative } from "./native.js";
 import { PyTypeError } from "../core/errors.js";
 import { floatType, pyFloat } from "./float.js";
+import { pyComplex } from "./complex.js";
 import { pyTuple } from "./tuple.js";
 import { PyZeroDivisionError, PyValueError, PyOverflowError } from "../core/errors.js";
 
@@ -349,6 +350,7 @@ export const intType = makeClass({
     [Slot.int, (self: PyObject) => nativeVal<number>(self)],
     [Slot.float, (self: PyObject) => nativeVal<number>(self)],
     [Slot.index, (self: PyObject) => nativeVal<number>(self)],
+    [Hook.complex, (self: PyObject) => pyComplex(nativeVal<number>(self), 0)],
     [Slot.eq, (self: PyObject, other: PyObject) => {
       if (!isNumericOperand(other)) return NotImplemented;
       return nativeVal<number>(self) === numericOperand(other);

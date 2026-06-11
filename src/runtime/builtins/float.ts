@@ -10,6 +10,7 @@ import {
 } from "./int.js";
 import { pyInt } from "./int.js";
 import { pyTuple } from "./tuple.js";
+import { pyComplex } from "./complex.js";
 import { PyZeroDivisionError, PyValueError } from "../core/errors.js";
 
 function floatDivmodPair(n: number, d: number): PyObject {
@@ -240,6 +241,7 @@ export const floatType = makeClass({
     [Slot.int, (self: PyObject) =>
       truncatingIntFromFloatNumber(nativeVal<number>(self))],
     [Slot.float, (self: PyObject) => nativeVal<number>(self)],
+    [Hook.complex, (self: PyObject) => pyComplex(nativeVal<number>(self), 0)],
     [Slot.eq, (self: PyObject, other: PyObject) => {
       if (!isNumericOperand(other)) return NotImplemented;
       return nativeVal<number>(self) === numericOperand(other);
