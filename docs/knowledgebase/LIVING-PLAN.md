@@ -7,11 +7,11 @@
 
 ---
 
-## Delta update (2026-05-24, plan 905 float integer ratio)
+## Delta update (2026-05-24, plan 906 int bit_length)
 
 ### Landed
 
-- [REPO] Plan **905** (in progress) — `float.is_integer()` and `float.as_integer_ratio()` with IEEE exact ratio.
+- [REPO] Plan **906** (in progress) — `int.bit_length()` via magnitude bit count.
 
 ### Partial
 
@@ -20,7 +20,23 @@
 ### Next
 
 1. PEP 3118 out of scope.
-2. Pick next Tier-1 numeric or cross-type parity slice.
+2. Pick next Tier-1 numeric or cross-type parity slice (`int.to_bytes`, `float.hex`, scalar-complex pow edges).
+
+---
+
+## Delta update (2026-05-24, plan 905 float integer ratio)
+
+### Landed
+
+- [REPO] Plan **905** merged to `main` via PR [#573](https://github.com/bolabaden/cursedjspything/pull/573) @ `d7dd8f8` — `float.is_integer()` and `float.as_integer_ratio()` with IEEE exact ratio.
+
+### Partial
+
+- None.
+
+### Next
+
+1. `int.bit_length` (plan 906).
 
 ---
 
