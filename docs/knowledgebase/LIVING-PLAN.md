@@ -7,11 +7,11 @@
 
 ---
 
-## Delta update (2026-05-24, plan 896 complex div unary)
+## Delta update (2026-05-24, plan 897 complex eq pow)
 
 ### Landed
 
-- [REPO] Plan **896** — complex `__truediv__`/`__rtruediv__`, unary `__neg__`/`__pos__`/`__abs__`; `operator-complex-div-unary.test.ts`.
+- [REPO] Plan **897** — complex `__eq__`/`__ne__`, integer `__pow__`; ordering remains unsupported; `operator-complex-eq-pow.test.ts`.
 
 ### Partial
 
@@ -20,7 +20,23 @@
 ### Next
 
 1. PEP 3118 out of scope.
-2. Complex pow/ordering/floordiv/mod deferred.
+2. Complex non-integer pow, floordiv/mod, ordering evidence deferred.
+
+---
+
+## Delta update (2026-05-24, plan 896 complex div unary)
+
+### Landed
+
+- [REPO] Plan **896** merged to `main` via PR [#564](https://github.com/bolabaden/cursedjspything/pull/564) @ `efd2125` — complex truediv and unary neg/pos/abs.
+
+### Partial
+
+- None.
+
+### Next
+
+1. Complex eq/pow (plan 897).
 
 ---
 
