@@ -7,11 +7,11 @@
 
 ---
 
-## Delta update (2026-05-24, plan 897 complex eq pow)
+## Delta update (2026-05-24, plan 898 complex pow floordiv)
 
 ### Landed
 
-- [REPO] Plan **897** — complex `__eq__`/`__ne__`, integer `__pow__`; ordering remains unsupported; `operator-complex-eq-pow.test.ts`.
+- [REPO] Plan **898** — float `__pow__`, floordiv/mod CPython guards, ordering evidence; `operator-complex-pow-floordiv.test.ts`.
 
 ### Partial
 
@@ -20,7 +20,23 @@
 ### Next
 
 1. PEP 3118 out of scope.
-2. Complex non-integer pow, floordiv/mod, ordering evidence deferred.
+2. Complex `** complex` and remaining cross-type edge cases deferred.
+
+---
+
+## Delta update (2026-05-24, plan 897 complex eq pow)
+
+### Landed
+
+- [REPO] Plan **897** merged to `main` via PR [#565](https://github.com/bolabaden/cursedjspything/pull/565) @ `2ebb871` — complex eq/ne and integer pow.
+
+### Partial
+
+- None.
+
+### Next
+
+1. Float pow and floordiv/mod (plan 898).
 
 ---
 
