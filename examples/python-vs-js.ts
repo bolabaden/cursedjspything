@@ -21,7 +21,7 @@ import {
   iadd, isub, imul,
   neg, pos, abs, invert,
   hash, bool, toInt, toFloat, index,
-  repr, str, format, bytes,
+  repr, strProtocol, format, bytes,
   round, trunc, floor, ceil,
   // protocols
   call, len, lengthHint, getItem, setItem, delItem, contains,
@@ -152,7 +152,7 @@ section("11. Representation (__repr__, __str__, __format__)");
 //   str(42)    → '42'
 //   format(255, 'x') → 'ff'
 show("repr(42)", repr(pyInt(42)));
-show("str('hi')", str(pyStr("hi")));
+show("str('hi')", strProtocol(pyStr("hi")));
 show("format(255,'x')", format(pyInt(255), "x"));
 
 // ─────────────────────────────────────────────────────────────────────

@@ -7,6 +7,619 @@
 
 ---
 
+## Delta update (2026-05-24, plan 883 str bytes decode)
+
+### Landed
+
+- [REPO] Plan 883 — `str(bytes, encoding[, errors])`; shared `pyBytesDecode`; extended `str-builtin.test.ts`.
+
+### Partial
+
+- None.
+
+### Next
+
+1. Further str/bytes/int API niche gaps when scoped (e.g. `bytes()` constructor).
+2. PEP 3118 out of scope.
+
+---
+
+## Delta update (2026-05-24, plan 882 str builtin)
+
+### Landed
+
+- [REPO] Plan 882 — builtin `str()` / `str(obj)`; `str-builtin.test.ts`; protocol `strProtocol` export.
+
+### Partial
+
+- `str(bytes, encoding)` decode form deferred (plan 883).
+
+### Next
+
+1. Further str/bytes/int API niche gaps when scoped.
+2. PEP 3118 out of scope.
+
+---
+
+## Delta update (2026-05-24, plan 881 str repr)
+
+### Landed
+
+- [REPO] Plan 881 — `str.__repr__` CPython escapes; `str-repr.test.ts`; `ascii` newline case.
+
+### Partial
+
+- None.
+
+### Next
+
+1. Further str/bytes/int API niche gaps when scoped.
+2. PEP 3118 out of scope.
+
+---
+
+## Delta update (2026-05-24, plan 880 ascii)
+
+### Landed
+
+- [REPO] Plan 880 — builtin `ascii`; `ascii-builtin.test.ts`.
+
+### Partial
+
+- `str.__repr__` control-char gap (plan 881).
+
+### Next
+
+1. Further str/bytes/int API niche gaps when scoped.
+2. PEP 3118 out of scope.
+
+---
+
+## Delta update (2026-05-24, plan 879 bin oct hex)
+
+### Landed
+
+- [REPO] Plan 879 — builtin `bin`/`oct`/`hex`; `bin-oct-hex-builtin.test.ts`.
+
+### Partial
+
+- None.
+
+### Next
+
+1. Further str/bytes/int API niche gaps when scoped (e.g. export `ascii` builtin).
+2. PEP 3118 out of scope.
+
+---
+
+## Delta update (2026-05-24, plan 878 chr ord)
+
+### Landed
+
+- [REPO] Plan 878 — builtin `chr`/`ord`; `chr-ord-builtin.test.ts`.
+
+### Partial
+
+- None.
+
+### Next
+
+1. Further str/bytes API niche gaps when scoped.
+2. PEP 3118 out of scope.
+
+---
+
+## Delta update (2026-05-24, plan 877 range eq)
+
+### Landed
+
+- [REPO] Plan 877 — `range.__eq__` + unhashable evidence; extended `range-builtin.test.ts`.
+
+### Partial
+
+- None.
+
+### Next
+
+1. Further str/bytes API niche gaps when scoped.
+2. PEP 3118 out of scope.
+
+---
+
+## Delta update (2026-05-24, plan 876 range reversed)
+
+### Landed
+
+- [REPO] Plan 876 — `range.__reversed__` / `reversed(range)`; extended `range-builtin.test.ts`.
+
+### Partial
+
+- `range` equality / hashing deferred.
+
+### Next
+
+1. Further str/bytes API niche gaps when scoped.
+2. PEP 3118 out of scope.
+
+---
+
+## Delta update (2026-05-24, plan 875 range builtin)
+
+### Landed
+
+- [REPO] Plan 875 — builtin `range()`; `range-builtin.test.ts`.
+
+### Partial
+
+- `reversed(range)` / range equality deferred.
+
+### Next
+
+1. Further str/bytes API niche gaps when scoped.
+2. PEP 3118 out of scope.
+
+---
+
+## Delta update (2026-05-24, plan 874 dict builtin)
+
+### Landed
+
+- [REPO] Plan 874 — builtin `dict()`; `dict-builtin.test.ts`.
+
+### Partial
+
+- `dict(**kwargs)` keyword forms deferred.
+
+### Next
+
+1. `range` builtin when scoped.
+2. Further str/bytes API niche gaps when scoped.
+3. PEP 3118 out of scope.
+
+---
+
+## Delta update (2026-05-24, plan 873 zip strict)
+
+### Landed
+
+- [REPO] Plan 873 — `zip(*iterables, strict)`; extended `zip-builtin.test.ts`.
+
+### Partial
+
+- Python keyword-only `strict` deferred.
+
+### Next
+
+1. `dict()` / `range` builtins when scoped.
+2. Further str/bytes API niche gaps when scoped.
+3. PEP 3118 out of scope.
+
+---
+
+## Delta update (2026-05-24, plan 872 frozenset builtin)
+
+### Landed
+
+- [REPO] Plan 872 — builtin `frozenset()`; `frozenset-builtin.test.ts`.
+
+### Partial
+
+- `dict()` deferred.
+
+### Next
+
+1. `range` / further builtins when scoped.
+2. `zip(strict=True)` when scoped.
+3. Further str/bytes API niche gaps when scoped.
+4. PEP 3118 out of scope.
+
+---
+
+## Delta update (2026-05-24, plan 871 set builtin)
+
+### Landed
+
+- [REPO] Plan 871 — builtin `set()`; `set-builtin.test.ts`.
+
+### Partial
+
+- `frozenset()` / `dict()` deferred.
+
+### Next
+
+1. `range` / further builtins when scoped.
+2. `zip(strict=True)` when scoped.
+3. Further str/bytes API niche gaps when scoped.
+4. PEP 3118 out of scope.
+
+---
+
+## Delta update (2026-05-24, plan 870 list/tuple builtins)
+
+### Landed
+
+- [REPO] Plan 870 — builtin `list()`/`tuple()`; `list-tuple-builtin.test.ts`.
+
+### Partial
+
+- `dict()` / `set()` constructors deferred.
+
+### Next
+
+1. `range` / further builtins when scoped.
+2. `zip(strict=True)` when scoped.
+3. Further str/bytes API niche gaps when scoped.
+4. PEP 3118 out of scope.
+
+---
+
+## Delta update (2026-05-24, plan 869 filter builtin)
+
+### Landed
+
+- [REPO] Plan 869 — builtin `filter`; `filter-iterator.ts`; `filter-builtin.test.ts`.
+
+### Partial
+
+- None.
+
+### Next
+
+1. Further iterable builtins when scoped.
+2. Further str/bytes API niche gaps when scoped.
+3. PEP 3118 out of scope.
+
+---
+
+## Delta update (2026-05-24, plan 868 map builtin)
+
+### Landed
+
+- [REPO] Plan 868 — builtin `map`; `map-iterator.ts`; `map-builtin.test.ts`.
+
+### Partial
+
+- `filter()` deferred.
+
+### Next
+
+1. `filter()` builtin when scoped.
+2. Further str/bytes API niche gaps when scoped.
+3. PEP 3118 out of scope.
+
+---
+
+## Delta update (2026-05-24, plan 867 min/max key default)
+
+### Landed
+
+- [REPO] Plan 867 — `min`/`max` callable `key` + empty `default`; extended `min-max-builtin.test.ts`.
+
+### Partial
+
+- Python-syntax keyword-only `key`/`default` deferred.
+
+### Next
+
+1. Further iterable builtins when scoped.
+2. Further str/bytes API niche gaps when scoped.
+3. PEP 3118 out of scope.
+
+---
+
+## Delta update (2026-05-24, plan 866 zip builtin)
+
+### Landed
+
+- [REPO] Plan 866 — builtin `zip`; `zip-iterator.ts`; `zip-builtin.test.ts`.
+
+### Partial
+
+- `zip(strict=True)` deferred.
+
+### Next
+
+1. `min`/`max` `key=` and `default=` when scoped.
+2. Further iterable builtins when scoped.
+3. Further str/bytes API niche gaps when scoped.
+4. PEP 3118 out of scope.
+
+---
+
+## Delta update (2026-05-24, plan 865 enumerate builtin)
+
+### Landed
+
+- [REPO] Plan 865 — builtin `enumerate`; `enumerate-iterator.ts`; `enumerate-builtin.test.ts`.
+
+### Partial
+
+- None.
+
+### Next
+
+1. `min`/`max` `key=` and `default=` when scoped.
+2. `zip()` / further iterable builtins when scoped.
+3. Further str/bytes API niche gaps when scoped.
+4. PEP 3118 out of scope.
+
+---
+
+## Delta update (2026-05-24, plan 864 sum builtin)
+
+### Landed
+
+- [REPO] Plan 864 — builtin `sum`; `sum-builtin.test.ts`.
+
+### Partial
+
+- None.
+
+### Next
+
+1. `min`/`max` `key=` and `default=` when scoped.
+2. `enumerate()` / further iterable builtins when scoped.
+3. Further str/bytes API niche gaps when scoped.
+4. PEP 3118 out of scope.
+
+---
+
+## Delta update (2026-05-24, plan 863 any/all builtins)
+
+### Landed
+
+- [REPO] Plan 863 — builtin `any`/`all`; `any-all-builtin.test.ts`.
+
+### Partial
+
+- None.
+
+### Next
+
+1. `min`/`max` `key=` and `default=` when scoped.
+2. Further str/bytes API niche gaps when scoped.
+3. PEP 3118 out of scope.
+
+---
+
+## Delta update (2026-05-24, plan 862 min/max builtins)
+
+### Landed
+
+- [REPO] Plan 862 — builtin `min`/`max`; `min-max-builtin.test.ts`.
+
+### Partial
+
+- `key=` / `default=` deferred.
+
+### Next
+
+1. Further str/bytes API niche gaps when scoped.
+2. PEP 3118 out of scope.
+
+---
+
+## Delta update (2026-05-24, plan 861 tuple index/count)
+
+### Landed
+
+- [REPO] Plan 861 — `tuple.index`/`count`; shared `sequenceIndex`/`sequenceCount`; `tuple-index-count.test.ts`.
+
+### Partial
+
+- None.
+
+### Next
+
+1. Further str/bytes API niche gaps when scoped.
+2. PEP 3118 out of scope.
+
+---
+
+## Delta update (2026-05-24, plan 860 sort key)
+
+### Landed
+
+- [REPO] Plan 860 — `list.sort`/`sorted` callable `key` + `reverse`; extended sort tests.
+
+### Partial
+
+- Python-syntax keyword-only `key`/`reverse` deferred.
+
+### Next
+
+1. Further str/bytes API niche gaps when scoped.
+2. PEP 3118 out of scope.
+
+---
+
+## Delta update (2026-05-24, plan 859 sorted builtin)
+
+### Landed
+
+- [REPO] Plan 859 — builtin `sorted(iterable, reverse=)`; `sorted-builtin.test.ts`.
+
+### Partial
+
+- `sorted(key=)` / `list.sort(key=)` deferred.
+
+### Next
+
+1. Further str/bytes API niche gaps when scoped.
+2. PEP 3118 out of scope.
+
+---
+
+## Delta update (2026-05-24, plan 858 list sort)
+
+### Landed
+
+- [REPO] Plan 858 — `list.sort` (`reverse` only); `list-sort.test.ts`.
+
+### Partial
+
+- `list.sort(key=)` and builtin `sorted()` deferred.
+
+### Next
+
+1. Further str/bytes API niche gaps when scoped.
+2. PEP 3118 out of scope.
+
+---
+
+## Delta update (2026-05-24, plan 857 list remove/reverse)
+
+### Landed
+
+- [REPO] Plan 857 — `list.remove`/`reverse`; `list-remove-reverse.test.ts`.
+
+### Partial
+
+- None.
+
+### Next
+
+1. `list.sort` or further str/bytes API niche gaps when scoped.
+2. PEP 3118 out of scope.
+
+---
+
+## Delta update (2026-05-24, plan 856 list index/clear/copy)
+
+### Landed
+
+- [REPO] Plan 856 — `list.index`/`count`/`clear`/`copy`; `list-index-clear-copy.test.ts`.
+
+### Partial
+
+- None.
+
+### Next
+
+1. Further str/bytes API niche gaps when scoped.
+2. PEP 3118 out of scope.
+
+---
+
+## Delta update (2026-05-24, plan 855 list mutation methods)
+
+### Landed
+
+- [REPO] Plan 855 — `list.append`/`extend`/`insert`/`pop`; `list-mutation-methods.test.ts` (1244 Vitest / 169 files).
+
+### Partial
+
+- None.
+
+### Next
+
+1. Further str/bytes API niche gaps when scoped.
+2. PEP 3118 out of scope.
+
+---
+
+## Delta update (2026-05-24, plan 854 list slice mutation)
+
+### Landed
+
+- [REPO] Plan 854 — `list` slice `__setitem__`/`__delitem__` (contiguous + extended); `list-slice-mutation.test.ts` (1239 Vitest / 168 files).
+
+### Partial
+
+- None.
+
+### Next
+
+1. Further str/bytes API niche gaps when scoped.
+2. PEP 3118 out of scope.
+
+---
+
+## Delta update (2026-05-24, plan 853 slice attributes)
+
+### Landed
+
+- [REPO] Plan 853 — `slice.start`/`stop`/`step` attributes; `slice-attributes.test.ts` (1232 Vitest / 167 files).
+
+### Partial
+
+- None.
+
+### Next
+
+1. Further str/bytes API niche gaps when scoped.
+2. PEP 3118 out of scope.
+
+---
+
+## Delta update (2026-05-24, plan 852 slice.indices method)
+
+### Landed
+
+- [REPO] Plan 852 — `slice.indices(length)` + `sliceAdjustIndices`; `slice-indices.test.ts` (1229 Vitest / 166 files).
+
+### Partial
+
+- None.
+
+### Next
+
+1. Further str/bytes API niche gaps when scoped.
+2. PEP 3118 out of scope.
+
+---
+
+## Delta update (2026-05-24, plan 851 slice pyInt bounds)
+
+### Landed
+
+- [REPO] Plan 851 — `slice` `start`/`stop`/`step` accept `pyInt`/`__index__`/`bool`; `resolvedSliceFields` at subscript; extended `slice-with.test.ts` (1223 Vitest / 165 files).
+
+### Partial
+
+- None.
+
+### Next
+
+1. Further str/bytes API niche gaps when scoped.
+2. PEP 3118 out of scope.
+
+---
+
+## Delta update (2026-05-24, plan 850 list/tuple index parity)
+
+### Landed
+
+- [REPO] Plan 850 — `list`/`tuple` `__getitem__` and list `__setitem__`/`__delitem__` accept `pyInt`/`__index__`/`bool` via `pyIndexAsInteger`; extended `sequence-index-type.test.ts` (1220 Vitest / 165 files).
+
+### Partial
+
+- None.
+
+### Next
+
+1. Further str/bytes API niche gaps when scoped.
+2. PEP 3118 out of scope.
+
+---
+
+## Delta update (2026-05-24, plan 849 str getitem slice/index)
+
+### Landed
+
+- [REPO] Plan 849 — `str.__getitem__` slice + `pyInt`/`__index__`/`bool` index; `pyIndexAsInteger`; bytes `pyInt` index; `str-getitem-slice.test.ts` (1217 Vitest / 165 files).
+
+### Partial
+
+- None.
+
+### Next
+
+1. Further str/bytes API niche gaps when scoped.
+2. PEP 3118 out of scope.
+
+---
+
 ## Delta update (2026-05-24, plan 848 str.isdigit Unicode parity)
 
 ### Landed

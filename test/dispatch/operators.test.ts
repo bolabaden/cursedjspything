@@ -6,7 +6,7 @@ import {
   lshift, rshift, bitwiseAnd, bitwiseOr, bitwiseXor,
   iadd, neg, pos, abs, invert,
   hash, bool, toInt, toFloat, index,
-  repr, str, format,
+  repr, strProtocol, format,
   round, trunc, floor, ceil,
   pyInt, pyFloat, pyStr, pyBool, pyNone, pyList, pyTuple,
   unwrap,
@@ -191,7 +191,7 @@ describe("rounding", () => {
 describe("representation", () => {
   it("repr(int)", () => { expect(repr(pyInt(42))).toBe("42"); });
   it("repr(str)", () => { expect(repr(pyStr("hi"))).toBe("'hi'"); });
-  it("str(int)", () => { expect(str(pyInt(42))).toBe("42"); });
+  it("str(int)", () => { expect(strProtocol(pyInt(42))).toBe("42"); });
   it("str falls back to repr", () => {
     const Cls = makeClass({
       name: "Cls",
@@ -199,7 +199,7 @@ describe("representation", () => {
         [Slot.repr, () => "<Cls>"],
       ]),
     });
-    expect(str(new PyObject(Cls))).toBe("<Cls>");
+    expect(strProtocol(new PyObject(Cls))).toBe("<Cls>");
   });
   it("format(int)", () => { expect(format(pyInt(255), "x")).toBe("ff"); });
 });

@@ -51,6 +51,16 @@ export function sequenceRepeatCount(other: PyObject): number | null {
   return Math.max(0, repeatCountFromIndexResult(indexFn()));
 }
 
+/** Signed integer index for subscripts and slice bounds (int, bool, or `__index__`). */
+export function pyIndexAsInteger(other: PyObject): number | null {
+  if (other.type === intType || isBoolOperand(other)) {
+    return numericOperand(other) | 0;
+  }
+  const indexFn = lookupSpecial(other, Slot.index);
+  if (!indexFn) return null;
+  return repeatCountFromIndexResult(indexFn());
+}
+
 export { isNumericOperand, numericOperand };
 
 type IntFormatType = "d" | "b" | "o" | "x" | "X";

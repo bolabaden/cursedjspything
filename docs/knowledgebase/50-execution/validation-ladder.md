@@ -65,7 +65,9 @@ Emits JSON (`vitest_seconds`, pass gates, `test_count`); use median of several r
 | `test/cpython-derived/dict-contains-hash-eq.test.ts` | dict __contains__ and __getitem__ hash+eq keys (plan 628) |
 | `test/cpython-derived/dict-delitem-hash-eq.test.ts` | dict __delitem__ hash+eq keys (plan 632) |
 | `test/cpython-derived/hash-strictness-matrix.test.ts` | Cross-cutting hash strictness matrix dict/set/frozenset/tuple (plan 588) |
-| `test/collections/slice-with.test.ts` | `pySlice`, `withObject` |
+| `test/collections/slice-with.test.ts` | `pySlice`, `withObject`; slice `pyInt`/`__index__` bounds on sequences (plan 851) |
+| `test/cpython-derived/slice-indices.test.ts` | `slice.indices(length)` normalized bounds (plan 852) |
+| `test/cpython-derived/slice-attributes.test.ts` | `slice.start` / `stop` / `step` attributes (plan 853) |
 | `test/cpython-derived/compare-ne.test.ts` | CPython `test_compare.py` `__ne__` delegation |
 | `test/cpython-derived/richcmp-number.test.ts` | CPython `test_richcmp.py` number ordering |
 | `test/cpython-derived/richcmp-incomparable.test.ts` | CPython `test_richcmp.py` Rev/Incomparable |
@@ -177,7 +179,8 @@ Emits JSON (`vitest_seconds`, pass gates, `test_count`); use median of several r
 | `test/cpython-derived/bytes-bytes.test.ts` | bytes.__bytes__ returns self; bytes() on bytes is identity |
 | `test/cpython-derived/bytes-bool.test.ts` | bytes.__bool__ empty falsy; non-empty including b'\\x00' truthy |
 | `test/cpython-derived/bytes-reversed.test.ts` | bytes.__reversed__ yields int 0–255 last-to-first; empty StopIteration; iterator __iter__ returns self |
-| `test/cpython-derived/bytes-slice-index.test.ts` | bytes slice subscript returns bytes |
+| `test/cpython-derived/bytes-slice-index.test.ts` | bytes slice subscript + pyInt single-byte index (plan 849) |
+| `test/cpython-derived/str-getitem-slice.test.ts` | str slice/__getitem__ pyInt/__index__/bool index (plan 849) |
 | `test/cpython-derived/bytes-getitem-compare.test.ts` | bytes int index; non-integer subscript TypeError; out-of-range IndexError; lexicographic rich compare |
 | `test/cpython-derived/operator-bytes-conversion.test.ts` | bytes() on str vs int/float TypeError |
 | `test/cpython-derived/operator-bytes-cross-type.test.ts` | bytes+bytes add and bytes*int mul happy paths only (plan 418) |
@@ -185,7 +188,30 @@ Emits JSON (`vitest_seconds`, pass gates, `test_count`); use median of several r
 | `test/cpython-derived/operator-str-bytes-cross-type.test.ts` | str↔bytes eq/ne, contains, ordering (binary in bytes-remaining; plans 458/462/464) |
 | `test/cpython-derived/operator-bytes-scalar-cross-type.test.ts` | bytes↔int/float/bool eq/ne; int*bytes and bytes*int mul repeat (plans 430/845) |
 | `test/cpython-derived/operator-bool-str-remaining-binary.test.ts` | bool↔str sub/truediv/floordiv/mod/divmod/pow TypeError both orders (add in str-scalar; plan 404/474) |
-| `test/cpython-derived/sequence-index-type.test.ts` | List/tuple get/set/del non-integer subscript TypeError; list index out of range and delItem |
+| `test/cpython-derived/sequence-index-type.test.ts` | List/tuple get/set/del non-integer subscript TypeError; `pyInt`/`__index__`/`bool` integer subscripts (plan 850); list index out of range and delItem |
+| `test/cpython-derived/list-slice-mutation.test.ts` | list slice `__setitem__`/`__delitem__` (plan 854) |
+| `test/cpython-derived/list-mutation-methods.test.ts` | list `append`/`extend`/`insert`/`pop` (plan 855) |
+| `test/cpython-derived/list-index-clear-copy.test.ts` | list `index`/`count`/`clear`/`copy` (plan 856) |
+| `test/cpython-derived/list-remove-reverse.test.ts` | list `remove`/`reverse` (plan 857) |
+| `test/cpython-derived/list-sort.test.ts` | list `sort` with `key`/`reverse` (plans 858/860) |
+| `test/cpython-derived/sorted-builtin.test.ts` | builtin `sorted(iterable, key=, reverse=)` (plans 859/860) |
+| `test/cpython-derived/min-max-builtin.test.ts` | builtin `min`/`max` with `key`/`default` (plans 862/867) |
+| `test/cpython-derived/any-all-builtin.test.ts` | builtin `any`/`all` (plan 863) |
+| `test/cpython-derived/sum-builtin.test.ts` | builtin `sum` (plan 864) |
+| `test/cpython-derived/enumerate-builtin.test.ts` | builtin `enumerate` (plan 865) |
+| `test/cpython-derived/zip-builtin.test.ts` | builtin `zip` with `strict` (plans 866/873) |
+| `test/cpython-derived/map-builtin.test.ts` | builtin `map` (plan 868) |
+| `test/cpython-derived/filter-builtin.test.ts` | builtin `filter` (plan 869) |
+| `test/cpython-derived/list-tuple-builtin.test.ts` | builtin `list`/`tuple` (plan 870) |
+| `test/cpython-derived/set-builtin.test.ts` | builtin `set` (plan 871) |
+| `test/cpython-derived/frozenset-builtin.test.ts` | builtin `frozenset` (plan 872) |
+| `test/cpython-derived/dict-builtin.test.ts` | builtin `dict` (plan 874) |
+| `test/cpython-derived/range-builtin.test.ts` | builtin `range`, `reversed(range)`, `__eq__`/unhashable (plans 875–877) |
+| `test/cpython-derived/chr-ord-builtin.test.ts` | builtin `chr`/`ord` (plan 878) |
+| `test/cpython-derived/bin-oct-hex-builtin.test.ts` | builtin `bin`/`oct`/`hex` (plan 879) |
+| `test/cpython-derived/ascii-builtin.test.ts` | builtin `ascii` (plan 880) |
+| `test/cpython-derived/str-repr.test.ts` | `str.__repr__` escapes (plan 881) |
+| `test/cpython-derived/str-builtin.test.ts` | builtin `str` constructor + bytes decode (plans 882–883) |
 | `test/cpython-derived/contains-protocol.test.ts` | CPython `test_contains.py` membership protocol |
 | `test/cpython-derived/isinstance-protocol.test.ts` | CPython `test_isinstance.py` MRO / tuple checks |
 | `test/cpython-derived/sequence-repeat-nonint.test.ts` | seq*float and float*seq reject float repeat (plans 642/648) |
@@ -197,6 +223,7 @@ Emits JSON (`vitest_seconds`, pass gates, `test_count`); use median of several r
 | `test/cpython-derived/set-bool.test.ts` | set.__bool__ empty falsy; non-empty truthy |
 | `test/cpython-derived/frozenset-bool.test.ts` | frozenset.__bool__ empty falsy; non-empty truthy |
 | `test/cpython-derived/tuple-reversed.test.ts` | tuple.__reversed__ yields elements last-to-first; empty StopIteration; iterator __iter__ returns self |
+| `test/cpython-derived/tuple-index-count.test.ts` | tuple `index`/`count` (plan 861) |
 | `test/cpython-derived/tuple-bool.test.ts` | tuple.__bool__ empty falsy; non-empty truthy |
 | `test/cpython-derived/tuple-hash.test.ts` | tuple __hash__; equal-key element hash (plan 630); empty/order/guards (586, 564/572) |
 | `test/cpython-derived/int-bool.test.ts` | int.__bool__ 0 falsy; non-zero truthy |

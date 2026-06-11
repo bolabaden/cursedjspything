@@ -12,7 +12,8 @@ import {
   PyValueError,
 } from "../core/errors.js";
 import { nativeVal, setNative } from "./native.js";
-import { sequenceRepeatCount, intType, pyInt } from "./int.js";
+import { pyIndexAsInteger, sequenceRepeatCount, intType, pyInt } from "./int.js";
+import { isSlice, resolvedSliceFields, sliceIndices } from "../collections/slice.js";
 import { pyBytes } from "./bytes.js";
 import { pyFalse, pyTrue, boolType } from "./bool.js";
 import { pyList } from "./list.js";
@@ -742,14 +743,28 @@ function findStrSepIndex(text: string, sep: string, fromRight: boolean): number 
 function parseBoundIndex(value: unknown, length: number): number {
   if (typeof value === "number") return value;
   if (value instanceof PyObject) {
-    if (value.type === intType) {
-      return nativeVal<number>(value);
-    }
-    const n = sequenceRepeatCount(value);
+    const n = pyIndexAsInteger(value);
     if (n !== null) return n;
   }
   const kind = value instanceof PyObject ? value.type.name : typeof value;
   throw new PyTypeError(`slice indices must be integers or None or have an __index__ method`);
+}
+
+function resolveStrIndex(key: unknown, length: number): number {
+  let n: number | null = null;
+  if (typeof key === "number") {
+    n = key;
+  } else if (key instanceof PyObject) {
+    n = pyIndexAsInteger(key);
+  }
+  if (n === null) {
+    throw new PyTypeError("string indices must be integers");
+  }
+  const idx = n < 0 ? length + n : n;
+  if (idx < 0 || idx >= length) {
+    throw new PyIndexError("string index out of range");
+  }
+  return idx;
 }
 
 function strSliceBounds(
@@ -1435,12 +1450,45 @@ function formatStrSpec(value: string, spec: string): string {
   return body;
 }
 
+const STR_REPR_NON_PRINTABLE =
+  /\p{General_Category=Control}|\p{General_Category=Surrogate}|\p{General_Category=Unassigned}|\p{General_Category=Line_Separator}|\p{General_Category=Paragraph_Separator}|\p{General_Category=Format}/u;
+
+function isStrReprPrintable(cp: number): boolean {
+  if (cp === 0x09 || cp === 0x0a || cp === 0x0d) return false;
+  if (cp < 0x20 || cp === 0x7f) return false;
+  return !STR_REPR_NON_PRINTABLE.test(String.fromCodePoint(cp));
+}
+
+function escapeStrReprCodePoint(cp: number): string {
+  if (cp === 0x27) return "\\'";
+  if (cp === 0x5c) return "\\\\";
+  if (cp === 0x0a) return "\\n";
+  if (cp === 0x0d) return "\\r";
+  if (cp === 0x09) return "\\t";
+  if (!isStrReprPrintable(cp)) {
+    if (cp <= 0xff) return `\\x${cp.toString(16).padStart(2, "0")}`;
+    if (cp <= 0xffff) return `\\u${cp.toString(16).padStart(4, "0")}`;
+    return `\\U${cp.toString(16).padStart(8, "0")}`;
+  }
+  return String.fromCodePoint(cp);
+}
+
+export function strRepr(text: string): string {
+  let inner = "";
+  for (let i = 0; i < text.length; ) {
+    const cp = text.codePointAt(i)!;
+    inner += escapeStrReprCodePoint(cp);
+    i += cp > 0xffff ? 2 : 1;
+  }
+  return `'${inner}'`;
+}
+
 // ── pyStr ─────────────────────────────────────────────────────────────
 
 export const strType = makeClass({
   name: "str",
   dict: new Map<string | symbol, unknown>([
-    [Slot.repr, (self: PyObject) => `'${nativeVal<string>(self)}'`],
+    [Slot.repr, (self: PyObject) => strRepr(nativeVal<string>(self))],
     [Slot.str, (self: PyObject) => nativeVal<string>(self)],
     [Slot.hash, (self: PyObject) => {
       const s = nativeVal<string>(self);
@@ -1494,12 +1542,17 @@ export const strType = makeClass({
     }],
     [Slot.getitem, (self: PyObject, key: unknown) => {
       const s = nativeVal<string>(self);
-      if (typeof key === "number") {
-        const idx = key < 0 ? s.length + key : key;
-        if (idx < 0 || idx >= s.length) throw new PyIndexError("string index out of range");
-        return pyStr(s[idx]);
+      if (isSlice(key)) {
+        const { start, stop, step } = resolvedSliceFields(key);
+        const indices = sliceIndices(s.length, start, stop, step);
+        let out = "";
+        for (const i of indices) {
+          out += s[i]!;
+        }
+        return pyStr(out);
       }
-      throw new PyTypeError("string indices must be integers");
+      const idx = resolveStrIndex(key, s.length);
+      return pyStr(s[idx]!);
     }],
     [Slot.iter, (self: PyObject) => {
       const s = nativeVal<string>(self);
