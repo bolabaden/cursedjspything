@@ -20,7 +20,7 @@ import {
   matmul, lshift, rshift, bitwiseAnd, bitwiseOr, bitwiseXor,
   iadd, isub, imul,
   neg, pos, abs, invert,
-  hash, bool, int, intProtocol, float, floatProtocol, index,
+  hash, bool, boolProtocol, int, intProtocol, float, floatProtocol, index,
   repr, strProtocol, format, bytesProtocol,
   round, trunc, floor, ceil,
   // protocols
@@ -123,10 +123,12 @@ section("8. Truthiness (__bool__, __len__ fallback)");
 //   bool(1)     → True
 //   bool([])    → False
 //   bool(None)  → False
-show("bool(0)", bool(pyInt(0)));
-show("bool(1)", bool(pyInt(1)));
-show("bool([])", bool(pyList([])));
-show("bool(None)", bool(pyNone));
+show("boolProtocol(0)", boolProtocol(pyInt(0)));
+show("boolProtocol(1)", boolProtocol(pyInt(1)));
+show("boolProtocol([])", boolProtocol(pyList([])));
+show("boolProtocol(None)", boolProtocol(pyNone));
+show("bool(0)", bool(pyInt(0)) === pyFalse);
+show("bool(1)", bool(pyInt(1)) === pyTrue);
 
 // ─────────────────────────────────────────────────────────────────────
 section("9. Conversions (__int__, __float__, __index__)");
@@ -576,7 +578,7 @@ show("hash(True)", hash(pyTrue));
 // ─────────────────────────────────────────────────────────────────────
 section("39. None");
 show("repr(None)", repr(pyNone));
-show("bool(None)", bool(pyNone));
+show("boolProtocol(None)", boolProtocol(pyNone));
 show("eq(None, None)", eq(pyNone, pyNone));
 
 console.log("\n✓ All examples completed.");

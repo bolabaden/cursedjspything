@@ -7,11 +7,11 @@
 
 ---
 
-## Delta update (2026-05-24, plan 891 complex protocol rename)
+## Delta update (2026-05-24, plan 892 bool builtin)
 
 ### Landed
 
-- [REPO] Plan **891** — stable export `complexProtocol` (was `toComplex`); numeric conversion naming aligned with `intProtocol` / `floatProtocol`.
+- [REPO] Plan **892** — builtin `bool()` / `bool(x)`; `boolProtocol` stable export for truthiness dispatch.
 
 ### Partial
 
@@ -21,6 +21,24 @@
 
 1. PEP 3118 out of scope.
 2. `complex()` builtin deferred until `complex` type exists.
+
+---
+
+## Delta update (2026-05-24, plan 891 complex protocol rename)
+
+### Landed
+
+- [REPO] Plan **891** merged to `main` via PR [#559](https://github.com/bolabaden/cursedjspything/pull/559) @ `3852ecb` — `complexProtocol` rename.
+
+### Partial
+
+- None.
+
+### Next
+
+1. `bool()` builtin (plan 892).
+
+---
 
 ---
 

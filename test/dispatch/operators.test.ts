@@ -5,7 +5,7 @@ import {
   add, sub, mul, truediv, floordiv, mod, pow, divmod,
   lshift, rshift, bitwiseAnd, bitwiseOr, bitwiseXor,
   iadd, neg, pos, abs, invert,
-  hash, bool, intProtocol, floatProtocol, index,
+  hash, boolProtocol, intProtocol, floatProtocol, index,
   repr, strProtocol, format,
   round, trunc, floor, ceil,
   pyInt, pyFloat, pyStr, pyBool, pyNone, pyList, pyTuple,
@@ -158,19 +158,19 @@ describe("hashing", () => {
 
 describe("truthiness", () => {
   it("bool(0) is false, bool(1) is true", () => {
-    expect(bool(pyInt(0))).toBe(false);
-    expect(bool(pyInt(1))).toBe(true);
+    expect(boolProtocol(pyInt(0))).toBe(false);
+    expect(boolProtocol(pyInt(1))).toBe(true);
   });
   it("bool(empty str) is false", () => {
-    expect(bool(pyStr(""))).toBe(false);
-    expect(bool(pyStr("x"))).toBe(true);
+    expect(boolProtocol(pyStr(""))).toBe(false);
+    expect(boolProtocol(pyStr("x"))).toBe(true);
   });
   it("bool(None) is false", () => {
-    expect(bool(pyNone)).toBe(false);
+    expect(boolProtocol(pyNone)).toBe(false);
   });
   it("bool falls back to __len__", () => {
-    expect(bool(pyList([]))).toBe(false);
-    expect(bool(pyList([pyInt(1)]))).toBe(true);
+    expect(boolProtocol(pyList([]))).toBe(false);
+    expect(boolProtocol(pyList([pyInt(1)]))).toBe(true);
   });
 });
 
@@ -222,7 +222,7 @@ describe("hash and bool strictness", () => {
         [Slot.bool, () => 1],
       ]),
     });
-    expect(() => bool(new PyObject(BadBool))).toThrow(PyTypeError);
+    expect(() => boolProtocol(new PyObject(BadBool))).toThrow(PyTypeError);
   });
 
   it("hash coerces with | 0 for large integers", () => {
