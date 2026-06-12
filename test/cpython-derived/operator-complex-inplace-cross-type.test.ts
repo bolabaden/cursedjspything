@@ -17,6 +17,7 @@ import {
   pyInt,
   pyList,
   pyStr,
+  pyTrue,
 } from "../../src/index.js";
 import { PyTypeError } from "../../src/runtime/core/errors.js";
 
@@ -79,9 +80,18 @@ describe("cpython-derived complex inplace cross-type ops", () => {
     });
   }
 
+  it("inplace //= and %= reject complex-left with bool", () => {
+    expect(() => ifloordiv(c(), pyTrue)).toThrow(PyTypeError);
+    expect(() => ifloordiv(c(), pyTrue)).toThrow(FLOOR);
+    expect(() => imod(c(), pyTrue)).toThrow(PyTypeError);
+    expect(() => imod(c(), pyTrue)).toThrow(FLOOR);
+    expectUnsupported(ifloordiv, "//=", "bool", "complex", pyTrue, c());
+    expectUnsupported(imod, "%=", "bool", "complex", pyTrue, c());
+  });
+
   it("scalar //= and %= with complex RHS are unsupported", () => {
     const complexRhs = pyComplex(1, 2);
-    for (const left of [pyInt(1), pyFloat(1)]) {
+    for (const left of [pyInt(1), pyFloat(1), pyTrue]) {
       const typename = left.type.name;
       expect(() => ifloordiv(left, complexRhs)).toThrow(PyTypeError);
       expect(() => ifloordiv(left, complexRhs)).toThrow(
