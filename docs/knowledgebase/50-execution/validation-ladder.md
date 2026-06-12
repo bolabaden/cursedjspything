@@ -107,6 +107,7 @@ Emits JSON (`vitest_seconds`, pass gates, `test_count`); use median of several r
 | `test/cpython-derived/operator-numeric-conversion-evidence.test.ts` | intProtocol/floatProtocol/indexProtocol/complexProtocol reject list |
 | `test/cpython-derived/float-builtin.test.ts` | builtin float() zero-arg, numeric, str/bytes literal parsing (plan 889) |
 | `test/cpython-derived/float-integer-ratio.test.ts` | float.is_integer and float.as_integer_ratio (plan 905) |
+| `test/cpython-derived/float-hex-fromhex.test.ts` | float.hex and float.fromhex (plan 908) |
 | `test/cpython-derived/int-bit-length.test.ts` | int.bit_length (plan 906) |
 | `test/cpython-derived/int-bytes-conversion.test.ts` | int.to_bytes and int.from_bytes (plan 907) |
 | `test/cpython-derived/bool-builtin.test.ts` | builtin bool() zero-arg False, truthiness conversion, identity (plan 892) |

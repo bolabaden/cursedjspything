@@ -11,7 +11,8 @@ import {
 import { pyInt, pyIntFromSafeInteger } from "./int.js";
 import { pyTuple } from "./tuple.js";
 import { pyComplex } from "./complex.js";
-import { PyZeroDivisionError, PyValueError, PyOverflowError } from "../core/errors.js";
+import { PyTypeError, PyZeroDivisionError, PyValueError, PyOverflowError } from "../core/errors.js";
+import { pyStr } from "./str.js";
 
 function gcdBigInt(a: bigint, b: bigint): bigint {
   a = a < 0n ? -a : a;
@@ -68,6 +69,113 @@ function floatAsIntegerRatio(value: number): [bigint, bigint] {
 
 function floatIsInteger(value: number): boolean {
   return Number.isFinite(value) && Number.isInteger(value);
+}
+
+/** CPython float.hex: exact IEEE-754 hexadecimal string. */
+export function floatToHex(value: number): string {
+  if (Number.isNaN(value)) return "nan";
+  if (!Number.isFinite(value)) return value < 0 ? "-inf" : "inf";
+
+  const buf = new ArrayBuffer(8);
+  const view = new DataView(buf);
+  view.setFloat64(0, value);
+  const bits = view.getBigUint64(0);
+  const sign = (bits >> 63n) & 1n;
+  const expField = (bits >> 52n) & 0x7ffn;
+  const mant = bits & 0xfffffffffffffn;
+  const prefix = sign ? "-" : "";
+
+  if (expField === 0n && mant === 0n) {
+    return `${prefix}0x0.0p+0`;
+  }
+  if (expField === 0n) {
+    return `${prefix}0x0.${mant.toString(16).padStart(13, "0")}p-1022`;
+  }
+
+  const exponent = Number(expField) - 1023;
+  const fracHex = mant.toString(16).padStart(13, "0");
+  const expStr = exponent >= 0 ? `+${exponent}` : String(exponent);
+  return `${prefix}0x1.${fracHex}p${expStr}`;
+}
+
+function parseHexCoefficient(coeffPart: string): number {
+  if (coeffPart === "") {
+    throw new PyValueError("invalid hexadecimal floating-point string");
+  }
+  try {
+    if (coeffPart.includes(".")) {
+      const dot = coeffPart.indexOf(".");
+      const left = coeffPart.slice(0, dot);
+      const right = coeffPart.slice(dot + 1);
+      const intVal = left === "" ? 0 : Number.parseInt(left, 16);
+      const fracDigits = right.length;
+      const fracVal = right === "" ? 0 : Number.parseInt(right, 16);
+      if (
+        Number.isNaN(intVal) ||
+        Number.isNaN(fracVal) ||
+        (left !== "" && !/^[0-9a-fA-F]+$/.test(left)) ||
+        (right !== "" && !/^[0-9a-fA-F]+$/.test(right))
+      ) {
+        throw new PyValueError("invalid hexadecimal floating-point string");
+      }
+      return intVal + fracVal / 16 ** fracDigits;
+    }
+    if (!/^[0-9a-fA-F]+$/.test(coeffPart)) {
+      throw new PyValueError("invalid hexadecimal floating-point string");
+    }
+    return Number.parseInt(coeffPart, 16);
+  } catch (err) {
+    if (err instanceof PyValueError) throw err;
+    throw new PyValueError("invalid hexadecimal floating-point string");
+  }
+}
+
+/** CPython float.fromhex: parse hexadecimal floating-point string. */
+export function floatFromHex(string: string): number {
+  const trimmed = string.trim();
+  if (trimmed === "") {
+    throw new PyValueError("invalid hexadecimal floating-point string");
+  }
+
+  const lower = trimmed.toLowerCase();
+  if (lower === "inf" || lower === "+inf") return Number.POSITIVE_INFINITY;
+  if (lower === "-inf") return Number.NEGATIVE_INFINITY;
+  if (lower === "nan" || lower === "+nan" || lower === "-nan") return Number.NaN;
+
+  let sign = 1;
+  let body = trimmed;
+  if (body[0] === "+" || body[0] === "-") {
+    sign = body[0] === "-" ? -1 : 1;
+    body = body.slice(1);
+  }
+  if (body.startsWith("0x") || body.startsWith("0X")) {
+    body = body.slice(2);
+  }
+
+  const expSplit = body.split(/[pP]/, 2);
+  if (expSplit.length > 2) {
+    throw new PyValueError("invalid hexadecimal floating-point string");
+  }
+
+  const coeffPart = expSplit[0] ?? "";
+  let exponent = 0;
+  if (expSplit.length === 2) {
+    const expText = expSplit[1] ?? "";
+    if (!/^[-+]?\d+$/.test(expText)) {
+      throw new PyValueError("invalid hexadecimal floating-point string");
+    }
+    exponent = Number.parseInt(expText, 10);
+    if (Number.isNaN(exponent)) {
+      throw new PyValueError("invalid hexadecimal floating-point string");
+    }
+  }
+
+  const coeff = parseHexCoefficient(coeffPart);
+  const result = sign * coeff * 2 ** exponent;
+  if (!Number.isFinite(result)) {
+    throw new PyOverflowError("hexadecimal value too large to represent as a float");
+  }
+  return result;
 }
 
 function floatDivmodPair(n: number, d: number): PyObject {
@@ -400,6 +508,16 @@ floatType.typeDict.set("as_integer_ratio", (self: PyObject) => {
     throw new PyOverflowError("integer ratio component too large");
   }
   return pyTuple([pyIntFromSafeInteger(numN), pyIntFromSafeInteger(denN)]);
+});
+floatType.typeDict.set(
+  "hex",
+  (self: PyObject) => pyStr(floatToHex(nativeVal<number>(self))),
+);
+floatType.typeDict.set("fromhex", (_cls: unknown, arg: unknown) => {
+  if (!(arg instanceof PyObject) || arg.type.name !== "str") {
+    throw new PyTypeError("bad argument type for built-in operation");
+  }
+  return pyFloat(floatFromHex(nativeVal<string>(arg)));
 });
 
 export function pyFloat(v: number): PyObject {
