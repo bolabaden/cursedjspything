@@ -16,7 +16,7 @@ Lock CPython 3.14 parity for scalar **`**`** complex edge cases already implemen
 
 | ID | Requirement |
 |----|-------------|
-| R1 | `True ** complex` → `(1+0j)`; `False ** complex` → `ZeroDivisionError` |
+| R1 | `True ** complex` → `(1+0j)`; `False ** 0j` → `(1+0j)`; `False ** nonzero-complex` → `ZeroDivisionError` |
 | R2 | `0 ** 0j` → `(1+0j)`; `0 ** 1j` (and other complex nonzero exp) → `ZeroDivisionError` |
 | R3 | `2 ** 0j` → `(1+0j)` for int and float bases |
 | R4 | `(-2) ** 2j` matches CPython magnitude/phase within float tolerance |
