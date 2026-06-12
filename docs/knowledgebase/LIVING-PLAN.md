@@ -7,11 +7,11 @@
 
 ---
 
-## Delta update (2026-05-24, plan 913 int numeric roundtrip)
+## Delta update (2026-05-24, plan 914 bool inplace complex)
 
 ### Landed
 
-- [REPO] Plan **913** (in progress) — int `to_bytes`/`from_bytes`/`as_integer_ratio` roundtrip evidence.
+- [REPO] Plan **914** (in progress) — bool `//=`/`%=` complex inplace `TypeError` evidence.
 
 ### Partial
 
@@ -20,7 +20,23 @@
 ### Next
 
 1. PEP 3118 out of scope.
-2. Pick next Tier-1 slice (operator consolidation, arbitrary-size int for `0.1` ratio).
+2. Arbitrary-size `float.as_integer_ratio` or operator consolidation.
+
+---
+
+## Delta update (2026-05-24, plan 913 int numeric roundtrip)
+
+### Landed
+
+- [REPO] Plan **913** merged to `main` via PR [#581](https://github.com/bolabaden/cursedjspything/pull/581) @ `1605829` — int `to_bytes`/`from_bytes`/`as_integer_ratio` roundtrip evidence.
+
+### Partial
+
+- None.
+
+### Next
+
+1. Bool inplace complex `//=`/`%=` (plan 914).
 
 ---
 
