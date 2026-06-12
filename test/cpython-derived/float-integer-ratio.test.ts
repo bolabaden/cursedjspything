@@ -8,6 +8,7 @@ import {
   getItem,
   pyFloat,
   pyInt,
+  repr,
   tupleType,
   unwrap,
 } from "../../src/index.js";
@@ -58,6 +59,22 @@ describe("cpython-derived float integer methods", () => {
       3602879701896397n,
       36028797018963968n,
     ]);
+  });
+
+  it("as_integer_ratio bigint components repr as CPython decimal strings", () => {
+    const self = pyFloat(0.1);
+    const fn = getAttr(self, "as_integer_ratio") as (self: PyObject) => PyObject;
+    const tup = fn(self);
+    expect(repr(getItem(tup, 0) as PyObject)).toBe("3602879701896397");
+    expect(repr(getItem(tup, 1) as PyObject)).toBe("36028797018963968");
+  });
+
+  it("as_integer_ratio safe-integer components repr as plain decimals", () => {
+    const self = pyFloat(2.5);
+    const fn = getAttr(self, "as_integer_ratio") as (self: PyObject) => PyObject;
+    const tup = fn(self);
+    expect(repr(getItem(tup, 0) as PyObject)).toBe("5");
+    expect(repr(getItem(tup, 1) as PyObject)).toBe("2");
   });
 
   it("as_integer_ratio rejects nan and infinity", () => {
