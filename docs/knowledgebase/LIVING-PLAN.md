@@ -7,11 +7,11 @@
 
 ---
 
-## Delta update (2026-05-24, plan 908 float hex fromhex)
+## Delta update (2026-05-24, plan 909 scalar-complex pow edges)
 
 ### Landed
 
-- [REPO] Plan **908** (in progress) — `float.hex()` / `float.fromhex()` IEEE transport strings.
+- [REPO] Plan **909** (in progress) — scalar `**` complex edge evidence (bool, `0**0j`, negative base).
 
 ### Partial
 
@@ -20,7 +20,23 @@
 ### Next
 
 1. PEP 3118 out of scope.
-2. Pick next Tier-1 slice (scalar-complex pow edges, cross-type inplace rejects).
+2. Pick next Tier-1 slice (cross-type inplace rejects, further numeric surfaces).
+
+---
+
+## Delta update (2026-05-24, plan 908 float hex fromhex)
+
+### Landed
+
+- [REPO] Plan **908** merged to `main` via PR [#576](https://github.com/bolabaden/cursedjspything/pull/576) @ `c1e4a84` — `float.hex()` / `float.fromhex()` IEEE transport strings.
+
+### Partial
+
+- None.
+
+### Next
+
+1. Scalar-complex pow edges (plan 909).
 
 ---
 
