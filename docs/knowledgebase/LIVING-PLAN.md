@@ -7,11 +7,11 @@
 
 ---
 
-## Delta update (2026-05-24, plan 916 complex scalar bool)
+## Delta update (2026-05-24, plan 917 float ratio repr)
 
 ### Landed
 
-- [REPO] Plan **916** (in progress) — complex `+`/`-`/`*` with bool subclass operands.
+- [REPO] Plan **917** (in progress) — `repr()` evidence for bigint `as_integer_ratio` components.
 
 ### Partial
 
@@ -20,7 +20,23 @@
 ### Next
 
 1. PEP 3118 out of scope.
-2. Operator consolidation or bigint int arithmetic beyond ratio storage.
+2. Operator consolidation or broader bigint int arithmetic.
+
+---
+
+## Delta update (2026-05-24, plan 916 complex scalar bool)
+
+### Landed
+
+- [REPO] Plan **916** merged to `main` via PR [#584](https://github.com/bolabaden/cursedjspything/pull/584) @ `30bffea` — complex `+`/`-`/`*` with bool subclass operands.
+
+### Partial
+
+- None.
+
+### Next
+
+1. Float ratio bigint repr evidence (plan 917).
 
 ---
 
