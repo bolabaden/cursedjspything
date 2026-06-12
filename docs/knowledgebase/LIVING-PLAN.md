@@ -7,11 +7,11 @@
 
 ---
 
-## Delta update (2026-05-24, plan 909 scalar-complex pow edges)
+## Delta update (2026-05-24, plan 910 complex inplace cross-type)
 
 ### Landed
 
-- [REPO] Plan **909** (in progress) — scalar `**` complex edge evidence (bool, `0**0j`, negative base).
+- [REPO] Plan **910** (in progress) — complex inplace cross-type `TypeError` evidence.
 
 ### Partial
 
@@ -20,7 +20,23 @@
 ### Next
 
 1. PEP 3118 out of scope.
-2. Pick next Tier-1 slice (cross-type inplace rejects, further numeric surfaces).
+2. Pick next Tier-1 slice (further numeric surfaces, operator consolidation).
+
+---
+
+## Delta update (2026-05-24, plan 909 scalar-complex pow edges)
+
+### Landed
+
+- [REPO] Plan **909** merged to `main` via PR [#577](https://github.com/bolabaden/cursedjspything/pull/577) @ `76ade0e` — scalar `**` complex edge evidence (bool, `0**0j`, negative base).
+
+### Partial
+
+- None.
+
+### Next
+
+1. Complex inplace cross-type rejects (plan 910).
 
 ---
 
