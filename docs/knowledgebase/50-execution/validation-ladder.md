@@ -124,6 +124,7 @@ Emits JSON (`vitest_seconds`, pass gates, `test_count`); use median of several r
 | `test/cpython-derived/complex-attributes.test.ts` | complex.real/imag float members; conjugate(); readonly guard (plan 903) |
 | `test/cpython-derived/operator-complex-cross-type-binary.test.ts` | complex↔str/list/bytes binary TypeError; floor on complex-left // % (plan 904) |
 | `test/cpython-derived/operator-scalar-complex-pow-floordiv.test.ts` | int/float ** complex via __rpow__; scalar // and % complex unsupported (plan 901) |
+| `test/cpython-derived/operator-scalar-complex-pow-edges.test.ts` | scalar ** complex edge cases: bool, 0**0j, negative base (plan 909) |
 | `test/cpython-derived/operator-scalar-complex-truediv-pow-modulo.test.ts` | scalar / complex; divmod reject; pow complex modulo guard (plan 902) |
 | `test/cpython-derived/frozenset-set-eq.test.ts` | frozenset ↔ set cross-type __eq__; equal-but-distinct keys (plan 620) |
 | `test/cpython-derived/frozenset-hash.test.ts` | frozenset __hash__; equal-key hash+eq (plan 630); hash guards (578/582) |
