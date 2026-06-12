@@ -10,6 +10,7 @@ import {
   pyInt,
   pyFloat,
   pyList,
+  pyTrue,
   repr,
 } from "../../src/index.js";
 import { PyTypeError } from "../../src/runtime/core/errors.js";
@@ -33,6 +34,16 @@ describe("cpython-derived complex scalar arithmetic", () => {
     expect(repr(mul(pyComplex(1, 2), pyInt(2)))).toBe("(2+4j)");
     expect(repr(mul(pyInt(2), pyComplex(1, 2)))).toBe("(2+4j)");
     expect(repr(mul(pyComplex(1, 2), pyFloat(2)))).toBe("(2+4j)");
+  });
+
+  it("complex +/-/* bool follows int subclass semantics", () => {
+    const c = pyComplex(1, 2);
+    expect(repr(add(c, pyTrue))).toBe("(2+2j)");
+    expect(repr(add(pyTrue, c))).toBe("(2+2j)");
+    expect(repr(sub(c, pyTrue))).toBe("2j");
+    expect(repr(sub(pyTrue, c))).toBe("-2j");
+    expect(repr(mul(c, pyTrue))).toBe("(1+2j)");
+    expect(repr(mul(pyTrue, c))).toBe("(1+2j)");
   });
 
   it("complex * complex", () => {
