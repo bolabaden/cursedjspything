@@ -468,6 +468,18 @@ export function intBitLength(n: number): number {
   return BigInt(Math.abs(v)).toString(2).length;
 }
 
+/** CPython int.bit_count: number of 1 bits in abs(n) binary representation; 0 → 0. */
+export function intBitCount(n: number): number {
+  const v = Math.trunc(n);
+  if (v === 0) return 0;
+  const bits = BigInt(Math.abs(v)).toString(2);
+  let count = 0;
+  for (const ch of bits) {
+    if (ch === "1") count++;
+  }
+  return count;
+}
+
 export function formatIntSpec(n: number, spec: string): string {
   if (spec === "" || spec === "d") return String(n);
   const { sign, rest } = parseIntFormatSign(spec);
@@ -661,6 +673,10 @@ intType.typeDict.set(
 intType.typeDict.set(
   "bit_length",
   (self: PyObject) => pyInt(intBitLength(nativeVal<number>(self))),
+);
+intType.typeDict.set(
+  "bit_count",
+  (self: PyObject) => pyInt(intBitCount(nativeVal<number>(self))),
 );
 intType.typeDict.set(
   "to_bytes",

@@ -7,11 +7,11 @@
 
 ---
 
-## Delta update (2026-05-24, plan 911 int as_integer_ratio)
+## Delta update (2026-05-24, plan 912 int bit_count)
 
 ### Landed
 
-- [REPO] Plan **911** (in progress) — `int.as_integer_ratio()` returns `(n, 1)`.
+- [REPO] Plan **912** (in progress) — `int.bit_count()` population count of magnitude bits.
 
 ### Partial
 
@@ -20,7 +20,23 @@
 ### Next
 
 1. PEP 3118 out of scope.
-2. Pick next Tier-1 slice (operator consolidation, `int.bit_count`, arbitrary-size int gaps).
+2. Pick next Tier-1 slice (operator consolidation, arbitrary-size int gaps).
+
+---
+
+## Delta update (2026-05-24, plan 911 int as_integer_ratio)
+
+### Landed
+
+- [REPO] Plan **911** merged to `main` via PR [#579](https://github.com/bolabaden/cursedjspything/pull/579) @ `0292590` — `int.as_integer_ratio()` returns `(n, 1)`.
+
+### Partial
+
+- None.
+
+### Next
+
+1. `int.bit_count` (plan 912).
 
 ---
 
