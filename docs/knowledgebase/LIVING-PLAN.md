@@ -7,11 +7,11 @@
 
 ---
 
-## Delta update (2026-05-24, plan 907 int bytes conversion)
+## Delta update (2026-05-24, plan 908 float hex fromhex)
 
 ### Landed
 
-- [REPO] Plan **907** (in progress) — `int.to_bytes()` / `int.from_bytes()` big/little endian.
+- [REPO] Plan **908** (in progress) — `float.hex()` / `float.fromhex()` IEEE transport strings.
 
 ### Partial
 
@@ -20,7 +20,23 @@
 ### Next
 
 1. PEP 3118 out of scope.
-2. Pick next Tier-1 numeric slice (`float.hex`, scalar-complex pow edges).
+2. Pick next Tier-1 slice (scalar-complex pow edges, cross-type inplace rejects).
+
+---
+
+## Delta update (2026-05-24, plan 907 int bytes conversion)
+
+### Landed
+
+- [REPO] Plan **907** merged to `main` via PR [#575](https://github.com/bolabaden/cursedjspything/pull/575) @ `cf53c97` — `int.to_bytes()` / `int.from_bytes()` big/little endian.
+
+### Partial
+
+- None.
+
+### Next
+
+1. `float.hex` / `float.fromhex` (plan 908).
 
 ---
 
