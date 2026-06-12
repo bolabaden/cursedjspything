@@ -461,6 +461,41 @@ function intObjectFromDecoded(n: number): PyObject {
   return pyIntFromSafeInteger(n);
 }
 
+function intNativeValue(self: PyObject): number | bigint {
+  return nativeVal<number | bigint>(self);
+}
+
+function intNativeToString(v: number | bigint): string {
+  return String(v);
+}
+
+function intNativeIsZero(v: number | bigint): boolean {
+  return v === 0 || v === 0n;
+}
+
+function intNativeHash(v: number | bigint): number {
+  if (typeof v === "bigint") {
+    return Number(v & 0xffffffffn) | 0;
+  }
+  return v | 0;
+}
+
+/** Int from exact bigint when ratio or decode exceeds safe integer range. */
+export function intObjectFromBigInt(n: bigint): PyObject {
+  if (
+    n >= BigInt(Number.MIN_SAFE_INTEGER) &&
+    n <= BigInt(Number.MAX_SAFE_INTEGER)
+  ) {
+    const num = Number(n);
+    if (Number.isSafeInteger(num)) {
+      return intObjectFromDecoded(num);
+    }
+  }
+  const obj = new PyObject(intType);
+  setNative(obj, n);
+  return obj;
+}
+
 /** CPython int.bit_length: bits to represent abs(n) in binary; 0 → 0. */
 export function intBitLength(n: number): number {
   const v = Math.trunc(n);
@@ -497,10 +532,10 @@ export function formatIntSpec(n: number, spec: string): string {
 export const intType = makeClass({
   name: "int",
   dict: new Map<string | symbol, unknown>([
-    [Slot.repr, (self: PyObject) => String(nativeVal<number>(self))],
-    [Slot.str, (self: PyObject) => String(nativeVal<number>(self))],
-    [Slot.hash, (self: PyObject) => nativeVal<number>(self) | 0],
-    [Slot.bool, (self: PyObject) => nativeVal<number>(self) !== 0],
+    [Slot.repr, (self: PyObject) => intNativeToString(intNativeValue(self))],
+    [Slot.str, (self: PyObject) => intNativeToString(intNativeValue(self))],
+    [Slot.hash, (self: PyObject) => intNativeHash(intNativeValue(self))],
+    [Slot.bool, (self: PyObject) => !intNativeIsZero(intNativeValue(self))],
     [Slot.int, (self: PyObject) => nativeVal<number>(self)],
     [Slot.float, (self: PyObject) => nativeVal<number>(self)],
     [Slot.index, (self: PyObject) => nativeVal<number>(self)],

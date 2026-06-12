@@ -106,7 +106,7 @@ Emits JSON (`vitest_seconds`, pass gates, `test_count`); use median of several r
 | `test/cpython-derived/operator-rounding-evidence.test.ts` | round/trunc/floor/ceil reject list without hooks |
 | `test/cpython-derived/operator-numeric-conversion-evidence.test.ts` | intProtocol/floatProtocol/indexProtocol/complexProtocol reject list |
 | `test/cpython-derived/float-builtin.test.ts` | builtin float() zero-arg, numeric, str/bytes literal parsing (plan 889) |
-| `test/cpython-derived/float-integer-ratio.test.ts` | float.is_integer and float.as_integer_ratio (plan 905) |
+| `test/cpython-derived/float-integer-ratio.test.ts` | float.is_integer and float.as_integer_ratio; bigint ratio (plans 905, 915) |
 | `test/cpython-derived/float-hex-fromhex.test.ts` | float.hex and float.fromhex (plan 908) |
 | `test/cpython-derived/int-bit-length.test.ts` | int.bit_length (plan 906) |
 | `test/cpython-derived/int-as-integer-ratio.test.ts` | int.as_integer_ratio (plan 911) |

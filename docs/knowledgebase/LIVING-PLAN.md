@@ -7,11 +7,11 @@
 
 ---
 
-## Delta update (2026-05-24, plan 914 bool inplace complex)
+## Delta update (2026-05-24, plan 915 float ratio bigint)
 
 ### Landed
 
-- [REPO] Plan **914** (in progress) — bool `//=`/`%=` complex inplace `TypeError` evidence.
+- [REPO] Plan **915** (in progress) — `float.as_integer_ratio()` bigint components for `0.1`-class denominators.
 
 ### Partial
 
@@ -20,7 +20,23 @@
 ### Next
 
 1. PEP 3118 out of scope.
-2. Arbitrary-size `float.as_integer_ratio` or operator consolidation.
+2. Operator consolidation or broader arbitrary int arithmetic.
+
+---
+
+## Delta update (2026-05-24, plan 914 bool inplace complex)
+
+### Landed
+
+- [REPO] Plan **914** merged to `main` via PR [#582](https://github.com/bolabaden/cursedjspything/pull/582) @ `317e6d4` — bool `//=`/`%=` complex inplace `TypeError` evidence.
+
+### Partial
+
+- None.
+
+### Next
+
+1. Float `as_integer_ratio` bigint slice (plan 915).
 
 ---
 

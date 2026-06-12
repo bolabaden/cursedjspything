@@ -20,15 +20,16 @@ describe("cpython-derived float integer methods", () => {
     return fn(self);
   }
 
-  function asIntegerRatio(v: number): [number, number] {
+  function asIntegerRatio(v: number): [bigint, bigint] {
     const self = pyFloat(v);
     const fn = getAttr(self, "as_integer_ratio") as (self: PyObject) => PyObject;
     const tup = fn(self);
     expect(tup.type).toBe(tupleType);
-    return [
-      unwrap(getItem(tup, 0) as ReturnType<typeof pyInt>),
-      unwrap(getItem(tup, 1) as ReturnType<typeof pyInt>),
-    ];
+    const toBig = (item: PyObject) => {
+      const raw = unwrap(item);
+      return typeof raw === "bigint" ? raw : BigInt(raw as number);
+    };
+    return [toBig(getItem(tup, 0) as PyObject), toBig(getItem(tup, 1) as PyObject)];
   }
 
   it("is_integer distinguishes integral and fractional finite values", () => {
@@ -45,16 +46,18 @@ describe("cpython-derived float integer methods", () => {
   });
 
   it("as_integer_ratio returns reduced numerator and denominator", () => {
-    expect(asIntegerRatio(2)).toEqual([2, 1]);
-    expect(asIntegerRatio(2.5)).toEqual([5, 2]);
-    expect(asIntegerRatio(-3)).toEqual([-3, 1]);
-    expect(asIntegerRatio(0)).toEqual([0, 1]);
-    expect(asIntegerRatio(1e10)).toEqual([10_000_000_000, 1]);
+    expect(asIntegerRatio(2)).toEqual([2n, 1n]);
+    expect(asIntegerRatio(2.5)).toEqual([5n, 2n]);
+    expect(asIntegerRatio(-3)).toEqual([-3n, 1n]);
+    expect(asIntegerRatio(0)).toEqual([0n, 1n]);
+    expect(asIntegerRatio(1e10)).toEqual([10_000_000_000n, 1n]);
   });
 
-  it("as_integer_ratio rejects components above safe integer range", () => {
-    expect(() => asIntegerRatio(0.1)).toThrow(PyOverflowError);
-    expect(() => asIntegerRatio(0.1)).toThrow(/integer ratio component too large/);
+  it("as_integer_ratio returns bigint components beyond MAX_SAFE_INTEGER", () => {
+    expect(asIntegerRatio(0.1)).toEqual([
+      3602879701896397n,
+      36028797018963968n,
+    ]);
   });
 
   it("as_integer_ratio rejects nan and infinity", () => {
