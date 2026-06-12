@@ -7,11 +7,11 @@
 
 ---
 
-## Delta update (2026-05-24, plan 912 int bit_count)
+## Delta update (2026-05-24, plan 913 int numeric roundtrip)
 
 ### Landed
 
-- [REPO] Plan **912** (in progress) — `int.bit_count()` population count of magnitude bits.
+- [REPO] Plan **913** (in progress) — int `to_bytes`/`from_bytes`/`as_integer_ratio` roundtrip evidence.
 
 ### Partial
 
@@ -20,7 +20,23 @@
 ### Next
 
 1. PEP 3118 out of scope.
-2. Pick next Tier-1 slice (operator consolidation, arbitrary-size int gaps).
+2. Pick next Tier-1 slice (operator consolidation, arbitrary-size int for `0.1` ratio).
+
+---
+
+## Delta update (2026-05-24, plan 912 int bit_count)
+
+### Landed
+
+- [REPO] Plan **912** merged to `main` via PR [#580](https://github.com/bolabaden/cursedjspything/pull/580) @ `5035710` — `int.bit_count()` population count of magnitude bits.
+
+### Partial
+
+- None.
+
+### Next
+
+1. Int numeric pipeline roundtrip (plan 913).
 
 ---
 
