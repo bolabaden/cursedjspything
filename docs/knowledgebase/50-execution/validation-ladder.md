@@ -2,6 +2,8 @@
 
 Narrowest-first checks for pyrt changes. `[REPO]` commands from `package.json`.
 
+**Operator evidence index:** `operator-evidence-audit.md` (plan 920) — canonical file map, doc parity gaps, overlap matrix, and merge backlog for `operator-*.test.ts` and §8.6 `sequence-*` evidence.
+
 ---
 
 ## L1 — Typecheck
