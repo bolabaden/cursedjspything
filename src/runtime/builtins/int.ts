@@ -652,6 +652,13 @@ export function pyIntFromSafeInteger(v: number): PyObject {
 }
 
 intType.typeDict.set(
+  "as_integer_ratio",
+  (self: PyObject) => {
+    const n = Math.trunc(nativeVal<number>(self));
+    return pyTuple([intObjectFromDecoded(n), pyInt(1)]);
+  },
+);
+intType.typeDict.set(
   "bit_length",
   (self: PyObject) => pyInt(intBitLength(nativeVal<number>(self))),
 );

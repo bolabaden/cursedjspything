@@ -7,11 +7,11 @@
 
 ---
 
-## Delta update (2026-05-24, plan 910 complex inplace cross-type)
+## Delta update (2026-05-24, plan 911 int as_integer_ratio)
 
 ### Landed
 
-- [REPO] Plan **910** (in progress) — complex inplace cross-type `TypeError` evidence.
+- [REPO] Plan **911** (in progress) — `int.as_integer_ratio()` returns `(n, 1)`.
 
 ### Partial
 
@@ -20,7 +20,23 @@
 ### Next
 
 1. PEP 3118 out of scope.
-2. Pick next Tier-1 slice (further numeric surfaces, operator consolidation).
+2. Pick next Tier-1 slice (operator consolidation, `int.bit_count`, arbitrary-size int gaps).
+
+---
+
+## Delta update (2026-05-24, plan 910 complex inplace cross-type)
+
+### Landed
+
+- [REPO] Plan **910** merged to `main` via PR [#578](https://github.com/bolabaden/cursedjspything/pull/578) @ `11249f1` — complex inplace cross-type `TypeError` evidence.
+
+### Partial
+
+- None.
+
+### Next
+
+1. `int.as_integer_ratio` (plan 911).
 
 ---
 
