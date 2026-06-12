@@ -8,7 +8,7 @@ import {
   numericOperand,
   truncatingIntFromFloatNumber,
 } from "./int.js";
-import { pyInt, pyIntFromSafeInteger } from "./int.js";
+import { intObjectFromBigInt, pyInt } from "./int.js";
 import { pyTuple } from "./tuple.js";
 import { pyComplex } from "./complex.js";
 import { PyTypeError, PyZeroDivisionError, PyValueError, PyOverflowError } from "../core/errors.js";
@@ -502,12 +502,7 @@ floatType.typeDict.set(
 );
 floatType.typeDict.set("as_integer_ratio", (self: PyObject) => {
   const [num, den] = floatAsIntegerRatio(nativeVal<number>(self));
-  const numN = Number(num);
-  const denN = Number(den);
-  if (!Number.isSafeInteger(numN) || !Number.isSafeInteger(denN)) {
-    throw new PyOverflowError("integer ratio component too large");
-  }
-  return pyTuple([pyIntFromSafeInteger(numN), pyIntFromSafeInteger(denN)]);
+  return pyTuple([intObjectFromBigInt(num), intObjectFromBigInt(den)]);
 });
 floatType.typeDict.set(
   "hex",
