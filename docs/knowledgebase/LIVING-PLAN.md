@@ -7,6 +7,24 @@
 
 ---
 
+## Delta update (2026-06-12, plan 921 operator doc sync P1)
+
+### Landed
+
+- [REPO] Plan **921** — §8.15 complex/scalar-complex operator bullets (10 files) and validation-ladder rows for `operator-int-shift`, `operator-pow-mod`, `operator-int-bitwise-float` (P1 from plan 920 audit).
+
+### Partial
+
+- None until PR merge.
+
+### Next
+
+1. Operator consolidation audit (plan 920) if not yet merged.
+2. P2 §8.17 complex canonical-home cross-links.
+3. PEP 3118 out of scope.
+
+---
+
 ## Delta update (2026-05-24, plan 917 float ratio repr)
 
 ### Landed
