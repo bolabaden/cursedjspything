@@ -7,6 +7,24 @@
 
 ---
 
+## Delta update (2026-06-12, plan 923 inplace index P3)
+
+### Landed
+
+- [REPO] Plan **923** — §8.15 **Inplace operator evidence** index bullets for six augmented-assignment file families; monolithic `operator-inplace-cross-type` split deferred (P3 from plan 920 audit).
+
+### Partial
+
+- None until PR merge.
+
+### Next
+
+1. Plan 920–922 operator audit PRs (#588–#590) if not yet merged.
+2. P3 complex pow dedupe merges (explicit args only).
+3. PEP 3118 out of scope.
+
+---
+
 ## Delta update (2026-05-24, plan 917 float ratio repr)
 
 ### Landed
