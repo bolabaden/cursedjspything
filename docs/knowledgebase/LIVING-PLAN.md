@@ -7,11 +7,29 @@
 
 ---
 
-## Delta update (2026-05-24, plan 917 float ratio repr)
+## Delta update (2026-05-24, plan 920 operator evidence audit)
 
 ### Landed
 
-- [REPO] Plan **917** (in progress) — `repr()` evidence for bigint `as_integer_ratio` components.
+- [REPO] Plan **920** — read-only operator consolidation audit: `docs/knowledgebase/50-execution/operator-evidence-audit.md` (35 operator + 7 sequence inventory, doc parity, overlap matrix, backlog).
+
+### Partial
+
+- Doc fixes from audit (§8.15 complex bullets, validation-ladder inverse drift) not yet applied — backlog P1.
+
+### Next
+
+1. `/ce-plan` or `/ce-work` on P1 doc sync (complex §8.15 + ladder rows for int-shift/pow-mod/bitwise-float).
+2. PEP 3118 out of scope.
+3. Complex-cluster dedupe (P2/P3) only after doc sync.
+
+---
+
+## Delta update (2026-05-24, plan 919 complex eq bool)
+
+### Landed
+
+- [REPO] Plan **919** (in progress) — complex `==`/`!=` with bool subclass operands when imag is zero.
 
 ### Partial
 
@@ -21,6 +39,22 @@
 
 1. PEP 3118 out of scope.
 2. Operator consolidation or broader bigint int arithmetic.
+
+---
+
+## Delta update (2026-05-24, plan 917 float ratio repr)
+
+### Landed
+
+- [REPO] Plan **917** merged to `main` via PR [#585](https://github.com/bolabaden/cursedjspything/pull/585) @ `5939f66` — `repr()` evidence for bigint `as_integer_ratio` components.
+
+### Partial
+
+- None.
+
+### Next
+
+1. Complex eq bool evidence (plan 919); plan 918 bool truediv awaits merge.
 
 ---
 
