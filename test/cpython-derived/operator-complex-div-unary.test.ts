@@ -9,6 +9,7 @@ import {
   pos,
   pyComplex,
   pyInt,
+  pyTrue,
   repr,
   truediv,
   unwrap,
@@ -22,6 +23,12 @@ describe("cpython-derived complex div and unary", () => {
 
   it("scalar / complex", () => {
     expect(repr(truediv(pyInt(2), pyComplex(1, 2)))).toBe("(0.4-0.8j)");
+  });
+
+  it("complex / bool and bool / complex follow int subclass semantics", () => {
+    const c = pyComplex(1, 2);
+    expect(repr(truediv(c, pyTrue))).toBe("(1+2j)");
+    expect(repr(truediv(pyTrue, c))).toBe("(0.2-0.4j)");
   });
 
   it("complex / complex", () => {

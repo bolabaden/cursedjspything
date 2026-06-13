@@ -7,6 +7,23 @@
 
 ---
 
+## Delta update (2026-05-24, plan 918 complex scalar bool truediv)
+
+### Landed
+
+- [REPO] Plan **918** — complex `/` with bool subclass operands (`operator-complex-div-unary.test.ts`).
+
+### Partial
+
+- None until PR merge.
+
+### Next
+
+1. PEP 3118 out of scope.
+2. Operator consolidation follow-ups as needed.
+
+---
+
 ## Delta update (2026-06-12, plan 925 complex pow fold P3)
 
 ### Landed
