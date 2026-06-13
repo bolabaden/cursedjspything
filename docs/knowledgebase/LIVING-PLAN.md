@@ -7,6 +7,23 @@
 
 ---
 
+## Delta update (2026-06-12, plan 922 complex §8.17 canonical homes P2)
+
+### Landed
+
+- [REPO] Plan **922** — §8.17 canonical-home bullets for ten complex/scalar-complex operator files; disambiguates eq-pow vs pow-floordiv vs scalar-complex pow (P2 from plan 920 audit).
+
+### Partial
+
+- None until PR merge.
+
+### Next
+
+1. P3 complex pow dedupe merges (plans 924–925).
+2. PEP 3118 out of scope.
+
+---
+
 ## Delta update (2026-06-12, plan 921 operator doc sync P1)
 
 ### Landed
