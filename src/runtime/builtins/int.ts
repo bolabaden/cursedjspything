@@ -624,6 +624,26 @@ function intDivmodInt(a: number | bigint, b: number | bigint): PyObject {
   return pyTuple([intObjectFromBigInt(q), intObjectFromBigInt(r)]);
 }
 
+function intPowInt(
+  base: number | bigint,
+  exp: number | bigint,
+  mod?: number | bigint,
+): PyObject {
+  const e = toIntBigInt(exp);
+  if (e < 0n) {
+    return pyFloat(
+      Math.pow(intToFloatOperand(base), intToFloatOperand(exp)),
+    );
+  }
+  const b = toIntBigInt(base);
+  if (mod !== undefined) {
+    const m = toIntBigInt(mod);
+    if (m === 0n) throw new PyValueError("pow() 3rd argument cannot be 0");
+    return intObjectFromBigInt(b ** e % m);
+  }
+  return intObjectFromBigInt(b ** e);
+}
+
 /** CPython int.bit_length: bits to represent abs(n) in binary; 0 → 0. */
 export function intBitLength(n: number): number {
   const v = Math.trunc(n);
@@ -796,16 +816,30 @@ export const intType = makeClass({
     }],
     [Slot.pow, (self: PyObject, other: PyObject, modObj?: unknown) => {
       if (!isNumericOperand(other)) return NotImplemented;
-      const base = nativeVal<number>(self);
-      const exp = numericOperand(other);
-      if (modObj !== undefined && modObj instanceof PyObject) {
-        const m = nativeVal<number>(modObj);
-        if (m === 0) throw new PyValueError("pow() 3rd argument cannot be 0");
-        return pyInt(Number(BigInt(base) ** BigInt(exp) % BigInt(m)));
+      const selfVal = intNativeValue(self);
+      if (other.type === floatType) {
+        const exp = nativeVal<number>(other);
+        if (modObj !== undefined && modObj instanceof PyObject) {
+          const modInt = intOperandFromObject(modObj);
+          if (modInt !== null) {
+            return intPowInt(selfVal, Math.trunc(exp), modInt);
+          }
+          return NotImplemented;
+        }
+        return pyFloat(Math.pow(intToFloatOperand(selfVal), exp));
       }
-      return other.type === floatType
-        ? pyFloat(Math.pow(base, exp))
-        : pyInt(Math.pow(base, exp));
+      const intExp = intOperandFromObject(other);
+      if (intExp !== null) {
+        if (modObj !== undefined && modObj instanceof PyObject) {
+          const modInt = intOperandFromObject(modObj);
+          if (modInt !== null) {
+            return intPowInt(selfVal, intExp, modInt);
+          }
+          return NotImplemented;
+        }
+        return intPowInt(selfVal, intExp);
+      }
+      return NotImplemented;
     }],
     [Slot.neg, (self: PyObject) => pyInt(-nativeVal<number>(self))],
     [Slot.pos, (self: PyObject) => pyInt(+nativeVal<number>(self))],
