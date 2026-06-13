@@ -7,15 +7,33 @@
 
 ---
 
+## Delta update (2026-06-12, plan 924 bytes fold P2)
+
+### Landed
+
+- [REPO] Plan **924** — §8.15 **Bytes operator evidence** canonical-home bullets; **keep** `operator-bytes-cross-type` as dedicated happy-path file (fold into remaining deferred per plan 920 audit).
+
+### Partial
+
+- None.
+
+### Next
+
+1. P3 complex pow dedupe merge (plan 925).
+2. PEP 3118 out of scope.
+
+
+---
+
 ## Delta update (2026-06-12, plan 923 inplace index P3)
 
 ### Landed
 
-- [REPO] Plan **923** — §8.15 **Inplace operator evidence** index bullets for six augmented-assignment file families; monolithic `operator-inplace-cross-type` split deferred (P3 from plan 920 audit).
+- [REPO] Plan **923** (merged via PR #591) — §8.15 **Inplace operator evidence** index bullets for six augmented-assignment file families; monolithic `operator-inplace-cross-type` split deferred (P3 from plan 920 audit).
 
 ### Partial
 
-- None until PR merge.
+- None.
 
 ### Next
 
@@ -32,7 +50,7 @@
 
 ### Partial
 
-- None until PR merge.
+- None.
 
 ### Next
 
@@ -84,7 +102,7 @@
 
 ### Partial
 
-- None until PR merge.
+- None.
 
 ### Next
 
