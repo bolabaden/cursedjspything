@@ -8,7 +8,9 @@ import {
   ne,
   pow,
   pyComplex,
+  pyFalse,
   pyInt,
+  pyTrue,
   repr,
 } from "../../src/index.js";
 import { PyTypeError, PyZeroDivisionError } from "../../src/runtime/core/errors.js";
@@ -23,6 +25,14 @@ describe("cpython-derived complex eq and pow", () => {
     expect(eq(pyComplex(1, 0), pyInt(1))).toBe(true);
     expect(eq(pyComplex(1, 2), pyInt(1))).toBe(false);
     expect(eq(pyInt(1), pyComplex(1, 0))).toBe(true);
+  });
+
+  it("complex scalar equality with bool subclass operands", () => {
+    expect(eq(pyComplex(1, 0), pyTrue)).toBe(true);
+    expect(eq(pyTrue, pyComplex(1, 0))).toBe(true);
+    expect(eq(pyComplex(0, 0), pyFalse)).toBe(true);
+    expect(eq(pyFalse, pyComplex(0, 0))).toBe(true);
+    expect(ne(pyComplex(1, 2), pyTrue)).toBe(true);
   });
 
   it("complex ** int", () => {
