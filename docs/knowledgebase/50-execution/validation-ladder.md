@@ -2,6 +2,8 @@
 
 Narrowest-first checks for pyrt changes. `[REPO]` commands from `package.json`.
 
+**Operator evidence index:** `operator-evidence-audit.md` (plan 920) — canonical file map, doc parity gaps, overlap matrix, and merge backlog for `operator-*.test.ts` and §8.6 `sequence-*` evidence.
+
 ---
 
 ## L1 — Typecheck
@@ -113,11 +115,14 @@ Emits JSON (`vitest_seconds`, pass gates, `test_count`); use median of several r
 | `test/cpython-derived/int-bit-count.test.ts` | int.bit_count (plan 912) |
 | `test/cpython-derived/int-numeric-roundtrip.test.ts` | int to_bytes/from_bytes/as_integer_ratio roundtrip (plan 913) |
 | `test/cpython-derived/int-bytes-conversion.test.ts` | int.to_bytes and int.from_bytes (plan 907) |
+| `test/cpython-derived/operator-int-shift.test.ts` | int lshift/rshift edge cases; negative count ValueError |
+| `test/cpython-derived/operator-pow-mod.test.ts` | int two-arg and three-arg pow; mod zero ValueError |
+| `test/cpython-derived/operator-int-bitwise-float.test.ts` | int bitwise/shift vs float TypeError both orders |
 | `test/cpython-derived/bool-builtin.test.ts` | builtin bool() zero-arg False, truthiness conversion, identity (plan 892) |
 | `test/cpython-derived/complex-builtin.test.ts` | builtin complex() zero-arg, numeric, two-arg, str/bytes literal parsing (plan 894) |
 | `test/cpython-derived/operator-complex-scalar.test.ts` | complex add/sub/mul with int/float/bool and complex (plans 895, 916) |
-| `test/cpython-derived/operator-complex-div-unary.test.ts` | complex truediv and unary neg/pos/abs; bool truediv (plans 896, 918) |
-| `test/cpython-derived/operator-complex-eq-pow.test.ts` | complex eq/ne, int pow, ordering TypeError (plan 897) |
+| `test/cpython-derived/operator-complex-div-unary.test.ts` | complex truediv and unary neg/pos/abs (plan 896) |
+| `test/cpython-derived/operator-complex-eq-pow.test.ts` | complex eq/ne, bool eq, int pow, ordering TypeError (plans 897, 919) |
 | `test/cpython-derived/operator-complex-pow-floordiv.test.ts` | complex float pow, floordiv/mod rejection, ordering vs int (plan 898) |
 | `test/cpython-derived/operator-complex-pow-complex.test.ts` | complex ** complex via exp(log) (plan 899) |
 | `test/cpython-derived/int-builtin.test.ts` | builtin int() zero-arg, numeric, str/bytes literal + base parsing (plan 885) |
