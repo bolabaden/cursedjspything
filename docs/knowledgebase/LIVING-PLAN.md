@@ -15,7 +15,7 @@
 
 ### Partial
 
-- None until PR merge.
+- None.
 
 ### Next
 
@@ -69,8 +69,7 @@
 
 ### Next
 
-1. P3 complex pow dedupe merges (plans 924–925).
-2. PEP 3118 out of scope.
+1. PEP 3118 out of scope.
 
 ---
 
@@ -86,8 +85,7 @@
 
 ### Next
 
-1. P3 complex pow dedupe merges (plans 924–925).
-2. PEP 3118 out of scope.
+1. PEP 3118 out of scope.
 
 ---
 
@@ -103,8 +101,7 @@
 
 ### Next
 
-1. P2 §8.17 complex canonical-home cross-links.
-2. PEP 3118 out of scope.
+1. PEP 3118 out of scope.
 
 ---
 
@@ -116,13 +113,12 @@
 
 ### Partial
 
-- Doc fixes from audit (§8.15 complex bullets, validation-ladder inverse drift) not yet applied — backlog P1.
+- None.
 
 ### Next
 
-1. `/ce-plan` or `/ce-work` on P1 doc sync (complex §8.15 + ladder rows for int-shift/pow-mod/bitwise-float).
-2. PEP 3118 out of scope.
-3. Complex-cluster dedupe (P2/P3) only after doc sync.
+1. PEP 3118 out of scope.
+2. Operator consolidation follow-ups as needed (P1–P3 landed via plans 921–925).
 
 ---
 
