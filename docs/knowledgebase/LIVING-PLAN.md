@@ -7,6 +7,23 @@
 
 ---
 
+## Delta update (2026-06-13, plan 928 bigint int pow)
+
+### Landed
+
+- [REPO] Plan **928** — bigint-stored int `**`/`pow` against int/bool (two- and three-arg); evidence extended in `int-bigint-arithmetic.test.ts`.
+
+### Partial
+
+- Remaining bigint tower (bitwise on bigint operands, str parsing) deferred.
+
+### Next
+
+1. PEP 3118 out of scope.
+2. Further bigint int methods (`to_bytes`, `as_integer_ratio` on bigint self) as follow-up slices.
+
+---
+
 ## Delta update (2026-06-13, plan 927 bigint int divmod)
 
 ### Landed
@@ -15,7 +32,7 @@
 
 ### Partial
 
-- Remaining bigint tower (pow, bitwise on bigint operands, str parsing) deferred.
+- Remaining bigint tower (bitwise on bigint operands, str parsing) deferred.
 
 ### Next
 

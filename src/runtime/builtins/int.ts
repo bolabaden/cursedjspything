@@ -624,6 +624,63 @@ function intDivmodInt(a: number | bigint, b: number | bigint): PyObject {
   return pyTuple([intObjectFromBigInt(q), intObjectFromBigInt(r)]);
 }
 
+function intModPow(base: bigint, exp: bigint, mod: bigint): bigint {
+  let b = ((base % mod) + mod) % mod;
+  if (mod === 1n) return 0n;
+  let e = exp;
+  if (e < 0n) {
+    b = intModInverse(b, mod);
+    e = -e;
+  }
+  let result = 1n;
+  while (e > 0n) {
+    if (e & 1n) result = (result * b) % mod;
+    e >>= 1n;
+    b = (b * b) % mod;
+  }
+  return result;
+}
+
+function intModInverse(a: bigint, mod: bigint): bigint {
+  let t = 0n;
+  let newT = 1n;
+  let r = mod;
+  let newR = ((a % mod) + mod) % mod;
+  while (newR !== 0n) {
+    const q = r / newR;
+    [t, newT] = [newT, t - q * newT];
+    [r, newR] = [newR, r - q * newR];
+  }
+  if (r > 1n) {
+    throw new PyValueError("base is not invertible for the given modulus");
+  }
+  if (t < 0n) t += mod;
+  return t;
+}
+
+function intPowInt(
+  base: number | bigint,
+  exp: number | bigint,
+  mod?: number | bigint,
+): PyObject {
+  const e = toIntBigInt(exp);
+  const b = toIntBigInt(base);
+  if (mod !== undefined) {
+    const m = toIntBigInt(mod);
+    if (m === 0n) throw new PyValueError("pow() 3rd argument cannot be 0");
+    return intObjectFromBigInt(intModPow(b, e, m));
+  }
+  if (e < 0n) {
+    if (b === 0n) {
+      throw new PyZeroDivisionError("zero to a negative power");
+    }
+    return pyFloat(
+      Math.pow(intToFloatOperand(base), intToFloatOperand(exp)),
+    );
+  }
+  return intObjectFromBigInt(b ** e);
+}
+
 /** CPython int.bit_length: bits to represent abs(n) in binary; 0 → 0. */
 export function intBitLength(n: number): number {
   const v = Math.trunc(n);
@@ -796,16 +853,28 @@ export const intType = makeClass({
     }],
     [Slot.pow, (self: PyObject, other: PyObject, modObj?: unknown) => {
       if (!isNumericOperand(other)) return NotImplemented;
-      const base = nativeVal<number>(self);
-      const exp = numericOperand(other);
-      if (modObj !== undefined && modObj instanceof PyObject) {
-        const m = nativeVal<number>(modObj);
-        if (m === 0) throw new PyValueError("pow() 3rd argument cannot be 0");
-        return pyInt(Number(BigInt(base) ** BigInt(exp) % BigInt(m)));
+      const selfVal = intNativeValue(self);
+      if (other.type === floatType) {
+        const exp = nativeVal<number>(other);
+        if (modObj !== undefined && modObj instanceof PyObject) {
+          throw new PyTypeError(
+            "pow() 3rd argument not allowed unless all arguments are integers",
+          );
+        }
+        return pyFloat(Math.pow(intToFloatOperand(selfVal), exp));
       }
-      return other.type === floatType
-        ? pyFloat(Math.pow(base, exp))
-        : pyInt(Math.pow(base, exp));
+      const intExp = intOperandFromObject(other);
+      if (intExp !== null) {
+        if (modObj !== undefined && modObj instanceof PyObject) {
+          const modInt = intOperandFromObject(modObj);
+          if (modInt !== null) {
+            return intPowInt(selfVal, intExp, modInt);
+          }
+          return NotImplemented;
+        }
+        return intPowInt(selfVal, intExp);
+      }
+      return NotImplemented;
     }],
     [Slot.neg, (self: PyObject) => pyInt(-nativeVal<number>(self))],
     [Slot.pos, (self: PyObject) => pyInt(+nativeVal<number>(self))],

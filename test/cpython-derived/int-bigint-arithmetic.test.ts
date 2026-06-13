@@ -1,6 +1,6 @@
 /**
  * CPython: bigint-stored int comparison and arithmetic from float.as_integer_ratio().
- * Plan 926 — extends plan 915/917 ratio storage with int↔int and int↔bool parity.
+ * Plan 926/927/928 — extends plan 915/917 ratio storage with int↔int and int↔bool parity.
  */
 import { describe, it, expect } from "vitest";
 import {
@@ -11,6 +11,7 @@ import {
   floordiv,
   mod,
   divmod,
+  pow,
   lt,
   le,
   eq,
@@ -25,6 +26,8 @@ import {
   getAttr,
   getItem,
   PyZeroDivisionError,
+  PyTypeError,
+  PyValueError,
 } from "../../src/index.js";
 import {
   intObjectFromBigInt,
@@ -133,5 +136,68 @@ describe("cpython-derived bigint int from as_integer_ratio", () => {
     expect(() => mod(den, pyFalse)).toThrow(PyZeroDivisionError);
     expect(() => floordiv(den, pyFalse)).toThrow(PyZeroDivisionError);
     expect(() => divmod(den, pyFalse)).toThrow(PyZeroDivisionError);
+  });
+
+  it("pow on bigint operands matches CPython", () => {
+    expectBigInt(pow(den, pyIntFromSafeInteger(2)) as PyObject, 1298074214633706907132624082305024n);
+    expectIntValue(pow(den, pyIntFromSafeInteger(2), pyIntFromSafeInteger(7)) as PyObject, 4);
+    expectIntValue(
+      pow(pyIntFromSafeInteger(2), pyIntFromSafeInteger(10), pyIntFromSafeInteger(1000)) as PyObject,
+      24,
+    );
+    expectIntValue(pow(den, pyIntFromSafeInteger(2), pyIntFromSafeInteger(1000)) as PyObject, 24);
+    expectBigInt(
+      pow(den, pyIntFromSafeInteger(1), intObjectFromBigInt(36028797018963969n)) as PyObject,
+      36028797018963968n,
+    );
+    expect((pow(den, pyIntFromSafeInteger(1), intObjectFromBigInt(36028797018963969n)) as PyObject).type).toBe(
+      intType,
+    );
+    expectIntValue(pow(pyIntFromSafeInteger(2), pyIntFromSafeInteger(-1), pyIntFromSafeInteger(7)) as PyObject, 4);
+    expectBigInt(pow(den, pyTrue) as PyObject, 36028797018963968n);
+    expectIntValue(pow(den, pyFalse) as PyObject, 1);
+    expectBigInt(
+      pow(num, pyIntFromSafeInteger(3)) as PyObject,
+      46768052394588901170963202449162931770298562773n,
+    );
+    expectIntValue(pow(den, pyIntFromSafeInteger(2), num) as PyObject, 4);
+  });
+
+  it("negative bigint exponent promotes to float", () => {
+    const result = pow(den, pyIntFromSafeInteger(-1)) as PyObject;
+    expect(result.type.name).toBe("float");
+    expect(unwrap(result)).toBeCloseTo(2.7755575615628914e-17, 31);
+  });
+
+  it("zero to negative power raises ZeroDivisionError", () => {
+    expect(() => pow(pyIntFromSafeInteger(2), pyIntFromSafeInteger(3), pyIntFromSafeInteger(0))).toThrow(
+      /pow\(\) 3rd argument cannot be 0/,
+    );
+    expect(() => pow(intObjectFromBigInt(0n), pyIntFromSafeInteger(-1))).toThrow(
+      PyZeroDivisionError,
+    );
+    expect(() => pow(intObjectFromBigInt(0n), pyIntFromSafeInteger(-1))).toThrow(
+      /zero to a negative power/,
+    );
+  });
+
+  it("three-arg pow rejects float exponent", () => {
+    const err = /pow\(\) 3rd argument not allowed unless all arguments are integers/;
+    expect(() => pow(den, pyFloat(2.0), pyIntFromSafeInteger(3))).toThrow(PyTypeError);
+    expect(() => pow(den, pyFloat(2.0), pyIntFromSafeInteger(3))).toThrow(err);
+    expect(() => pow(den, pyFloat(2.5), pyIntFromSafeInteger(3))).toThrow(err);
+  });
+
+  it("non-invertible modular pow raises ValueError", () => {
+    const err = /base is not invertible for the given modulus/;
+    expect(() => pow(pyIntFromSafeInteger(2), pyIntFromSafeInteger(-1), pyIntFromSafeInteger(8))).toThrow(
+      PyValueError,
+    );
+    expect(() => pow(pyIntFromSafeInteger(2), pyIntFromSafeInteger(-1), pyIntFromSafeInteger(8))).toThrow(
+      err,
+    );
+    expect(() => pow(intObjectFromBigInt(0n), pyIntFromSafeInteger(-1), pyIntFromSafeInteger(7))).toThrow(
+      err,
+    );
   });
 });
