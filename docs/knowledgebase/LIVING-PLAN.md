@@ -7,6 +7,23 @@
 
 ---
 
+## Delta update (2026-06-13, plan 926 bigint int arithmetic)
+
+### Landed
+
+- [REPO] Plan **926** — bigint-stored int rich comparison and add/sub/mul against int/bool; evidence in `int-bigint-arithmetic.test.ts` (extends plan 915 ratio storage).
+
+### Partial
+
+- Full bigint tower (divmod, pow, bitwise on bigint operands) remains deferred.
+
+### Next
+
+1. PEP 3118 out of scope.
+2. Further bigint int methods (`to_bytes`, `as_integer_ratio` on bigint self) as follow-up slices.
+
+---
+
 ## Delta update (2026-05-24, plan 918 complex scalar bool truediv)
 
 ### Landed

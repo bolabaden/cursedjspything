@@ -4,6 +4,7 @@ import { makeClass } from "../class/class.js";
 import { nativeVal, setNative } from "./native.js";
 import {
   intType,
+  intEqFloat,
   isNumericOperand,
   numericOperand,
   truncatingIntFromFloatNumber,
@@ -409,7 +410,11 @@ export const floatType = makeClass({
     [Hook.complex, (self: PyObject) => pyComplex(nativeVal<number>(self), 0)],
     [Slot.eq, (self: PyObject, other: PyObject) => {
       if (!isNumericOperand(other)) return NotImplemented;
-      return nativeVal<number>(self) === numericOperand(other);
+      const f = nativeVal<number>(self);
+      if (other.type === intType) {
+        return intEqFloat(nativeVal<number | bigint>(other), f);
+      }
+      return f === numericOperand(other);
     }],
     [Slot.lt, (self: PyObject, other: PyObject) => {
       if (!isNumericOperand(other)) return NotImplemented;
