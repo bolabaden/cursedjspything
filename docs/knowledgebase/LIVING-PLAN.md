@@ -7,6 +7,24 @@
 
 ---
 
+## Delta update (2026-06-12, plan 924 bytes fold P2)
+
+### Landed
+
+- [REPO] Plan **924** — §8.15 **Bytes operator evidence** canonical-home bullets; **keep** `operator-bytes-cross-type` as dedicated happy-path file (fold into remaining deferred per plan 920 audit).
+
+### Partial
+
+- None until PR merge.
+
+### Next
+
+1. Plan 920–923 operator audit PRs (#588–#591) if not yet merged.
+2. P3 complex pow dedupe merges (explicit args only).
+3. PEP 3118 out of scope.
+
+---
+
 ## Delta update (2026-05-24, plan 917 float ratio repr)
 
 ### Landed
