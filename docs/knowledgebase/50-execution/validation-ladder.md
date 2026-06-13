@@ -121,7 +121,7 @@ Emits JSON (`vitest_seconds`, pass gates, `test_count`); use median of several r
 | `test/cpython-derived/bool-builtin.test.ts` | builtin bool() zero-arg False, truthiness conversion, identity (plan 892) |
 | `test/cpython-derived/complex-builtin.test.ts` | builtin complex() zero-arg, numeric, two-arg, str/bytes literal parsing (plan 894) |
 | `test/cpython-derived/operator-complex-scalar.test.ts` | complex add/sub/mul with int/float/bool and complex (plans 895, 916) |
-| `test/cpython-derived/operator-complex-div-unary.test.ts` | complex truediv and unary neg/pos/abs (plan 896) |
+| `test/cpython-derived/operator-complex-div-unary.test.ts` | complex truediv and unary neg/pos/abs; bool truediv (plans 896, 918) |
 | `test/cpython-derived/operator-complex-eq-pow.test.ts` | complex eq/ne, bool eq, int pow, ordering TypeError (plans 897, 919) |
 | `test/cpython-derived/operator-complex-pow-floordiv.test.ts` | complex float pow, floordiv/mod rejection, ordering vs int (plan 898) |
 | `test/cpython-derived/operator-complex-pow-complex.test.ts` | complex ** complex via exp(log) (plan 899) |

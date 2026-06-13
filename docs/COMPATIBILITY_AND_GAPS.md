@@ -458,7 +458,7 @@ CPython exposes **readonly mapping views** on class and instance namespaces — 
 - **`operator-complex-pow-floordiv.test.ts`** — float-base **`**`**, complex-left **`//`**/**`%`** rejection and floor message, ordering vs int (plan 898)
 - **`operator-complex-pow-complex.test.ts`** — complex **`**`** complex via exp(log) (plan 899)
 - **`operator-complex-scalar.test.ts`** — complex scalar **`+`**/**`-`**/**`*`** with int/float/bool/complex (plans 895, 916); **not** equality (see eq-pow)
-- **`operator-complex-div-unary.test.ts`** — complex **`/`** and unary **`+`**/**`-`**/**`abs()`** (plan 896)
+- **`operator-complex-div-unary.test.ts`** — complex **`/`** and unary **`+`**/**`-`**/**`abs()`** including bool truediv (plans 896, 918)
 - **`operator-complex-cross-type-binary.test.ts`** — complex↔**`str`**/**`list`**/**`bytes`** binary **`TypeError`**; complex-left **`//`**/**`%`** floor message (plan 904)
 - **`operator-complex-inplace-cross-type.test.ts`** — complex inplace cross-type rejects including bool **`//=`**/**`%=`** (plans 910, 914)
 - **`operator-scalar-complex-pow-floordiv.test.ts`** — int/float **`**`** complex via **`complex.__rpow__`**; scalar **`//`**/**`%`** complex unsupported (plan 901); shared-tuple pow also in pow-edges and truediv-pow-modulo below
