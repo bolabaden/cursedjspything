@@ -8,6 +8,9 @@ import {
   add,
   sub,
   mul,
+  floordiv,
+  mod,
+  divmod,
   lt,
   le,
   eq,
@@ -21,6 +24,7 @@ import {
   unwrap,
   getAttr,
   getItem,
+  PyZeroDivisionError,
 } from "../../src/index.js";
 import {
   intObjectFromBigInt,
@@ -36,6 +40,10 @@ function ratioComponents(v: number): [PyObject, PyObject] {
 }
 
 function expectBigInt(obj: PyObject, expected: bigint) {
+  expect(unwrap(obj)).toBe(expected);
+}
+
+function expectIntValue(obj: PyObject, expected: number | bigint) {
   expect(unwrap(obj)).toBe(expected);
 }
 
@@ -92,5 +100,38 @@ describe("cpython-derived bigint int from as_integer_ratio", () => {
     const doubled = mul(den, pyIntFromSafeInteger(2)) as PyObject;
     expectBigInt(doubled, 72057594037927936n);
     expect((doubled as PyObject).type).toBe(intType);
+  });
+
+  it("floordiv and mod on bigint denominator match CPython", () => {
+    expectBigInt(floordiv(den, pyIntFromSafeInteger(2)) as PyObject, 18014398509481984n);
+    expectIntValue(mod(den, pyIntFromSafeInteger(3)) as PyObject, 2);
+    expectBigInt(floordiv(den, pyTrue) as PyObject, 36028797018963968n);
+    expectIntValue(mod(den, pyTrue) as PyObject, 0);
+  });
+
+  it("divmod on bigint operands matches CPython", () => {
+    const pair = divmod(den, num) as PyObject;
+    expectIntValue(getItem(pair, 0) as PyObject, 9);
+    expectIntValue(getItem(pair, 1) as PyObject, 3602879701896395);
+
+    const byOne = divmod(den, pyTrue) as PyObject;
+    expectBigInt(getItem(byOne, 0) as PyObject, 36028797018963968n);
+    expectIntValue(getItem(byOne, 1) as PyObject, 0);
+  });
+
+  it("negative bigint floor division uses Python semantics", () => {
+    const negDen = sub(pyIntFromSafeInteger(0), den) as PyObject;
+    expectBigInt(floordiv(negDen, pyIntFromSafeInteger(3)) as PyObject, -12009599006321323n);
+    expectIntValue(mod(negDen, pyIntFromSafeInteger(3)) as PyObject, 1);
+
+    const pair = divmod(negDen, pyIntFromSafeInteger(3)) as PyObject;
+    expectBigInt(getItem(pair, 0) as PyObject, -12009599006321323n);
+    expectIntValue(getItem(pair, 1) as PyObject, 1);
+  });
+
+  it("zero divisor raises ZeroDivisionError", () => {
+    expect(() => mod(den, pyFalse)).toThrow(PyZeroDivisionError);
+    expect(() => floordiv(den, pyFalse)).toThrow(PyZeroDivisionError);
+    expect(() => divmod(den, pyFalse)).toThrow(PyZeroDivisionError);
   });
 });

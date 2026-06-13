@@ -595,6 +595,35 @@ function intMulInt(a: number | bigint, b: number | bigint): PyObject {
   return intObjectFromBigInt(toIntBigInt(a) * toIntBigInt(b));
 }
 
+function pythonFloorDivBigInt(a: bigint, b: bigint): bigint {
+  let q = a / b;
+  const r = a % b;
+  if (r !== 0n && (r < 0n) !== (b < 0n)) {
+    q -= 1n;
+  }
+  return q;
+}
+
+function pythonModBigInt(a: bigint, b: bigint): bigint {
+  return a - pythonFloorDivBigInt(a, b) * b;
+}
+
+function intFloorDivInt(a: number | bigint, b: number | bigint): PyObject {
+  return intObjectFromBigInt(pythonFloorDivBigInt(toIntBigInt(a), toIntBigInt(b)));
+}
+
+function intModInt(a: number | bigint, b: number | bigint): PyObject {
+  return intObjectFromBigInt(pythonModBigInt(toIntBigInt(a), toIntBigInt(b)));
+}
+
+function intDivmodInt(a: number | bigint, b: number | bigint): PyObject {
+  const bb = toIntBigInt(b);
+  const ba = toIntBigInt(a);
+  const q = pythonFloorDivBigInt(ba, bb);
+  const r = pythonModBigInt(ba, bb);
+  return pyTuple([intObjectFromBigInt(q), intObjectFromBigInt(r)]);
+}
+
 /** CPython int.bit_length: bits to represent abs(n) in binary; 0 → 0. */
 export function intBitLength(n: number): number {
   const v = Math.trunc(n);
@@ -731,19 +760,39 @@ export const intType = makeClass({
     }],
     [Slot.floordiv, (self: PyObject, other: PyObject) => {
       if (!isNumericOperand(other)) return NotImplemented;
-      const d = numericOperand(other);
-      if (d === 0) throw new PyZeroDivisionError("integer division or modulo by zero");
-      return other.type === floatType
-        ? pyFloat(Math.floor(nativeVal<number>(self) / d))
-        : pyInt(Math.floor(nativeVal<number>(self) / d));
+      const selfVal = intNativeValue(self);
+      const intOther = intOperandFromObject(other);
+      if (intOther !== null) {
+        if (intOther === 0 || intOther === 0n) {
+          throw new PyZeroDivisionError("integer division or modulo by zero");
+        }
+        return intFloorDivInt(selfVal, intOther);
+      }
+      if (other.type === floatType) {
+        const d = nativeVal<number>(other);
+        if (d === 0) throw new PyZeroDivisionError("integer division or modulo by zero");
+        return pyFloat(Math.floor(intToFloatOperand(selfVal) / d));
+      }
+      return NotImplemented;
     }],
     [Slot.mod, (self: PyObject, other: PyObject) => {
       if (!isNumericOperand(other)) return NotImplemented;
-      const d = numericOperand(other);
-      if (d === 0) throw new PyZeroDivisionError("integer modulo by zero");
-      const n = nativeVal<number>(self);
-      const r = ((n % d) + d) % d;  // Python-style modulo
-      return other.type === floatType ? pyFloat(r) : pyInt(r);
+      const selfVal = intNativeValue(self);
+      const intOther = intOperandFromObject(other);
+      if (intOther !== null) {
+        if (intOther === 0 || intOther === 0n) {
+          throw new PyZeroDivisionError("integer modulo by zero");
+        }
+        return intModInt(selfVal, intOther);
+      }
+      if (other.type === floatType) {
+        const d = nativeVal<number>(other);
+        if (d === 0) throw new PyZeroDivisionError("integer modulo by zero");
+        const n = intToFloatOperand(selfVal);
+        const r = ((n % d) + d) % d;
+        return pyFloat(r);
+      }
+      return NotImplemented;
     }],
     [Slot.pow, (self: PyObject, other: PyObject, modObj?: unknown) => {
       if (!isNumericOperand(other)) return NotImplemented;
@@ -783,13 +832,16 @@ export const intType = makeClass({
       return pyInt(nativeVal<number>(self) ^ nativeVal<number>(other));
     }],
     [Slot.divmod, (self: PyObject, other: PyObject) => {
-      if (other.type !== intType) return NotImplemented;
-      const d = nativeVal<number>(other);
-      if (d === 0) throw new PyZeroDivisionError("integer division or modulo by zero");
-      const n = nativeVal<number>(self);
-      const q = Math.floor(n / d);
-      const r = ((n % d) + d) % d;
-      return pyTuple([pyInt(q), pyInt(r)]);
+      if (!isNumericOperand(other)) return NotImplemented;
+      const selfVal = intNativeValue(self);
+      const intOther = intOperandFromObject(other);
+      if (intOther !== null) {
+        if (intOther === 0 || intOther === 0n) {
+          throw new PyZeroDivisionError("integer division or modulo by zero");
+        }
+        return intDivmodInt(selfVal, intOther);
+      }
+      return NotImplemented;
     }],
     [Hook.format, (self: PyObject, spec: string) =>
       formatIntSpec(nativeVal<number>(self), spec)],
