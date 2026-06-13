@@ -7,6 +7,23 @@
 
 ---
 
+## Delta update (2026-06-13, plan 927 bigint int divmod)
+
+### Landed
+
+- [REPO] Plan **927** — bigint-stored int `//`, `%`, `divmod` against int/bool; evidence extended in `int-bigint-arithmetic.test.ts`.
+
+### Partial
+
+- Remaining bigint tower (pow, bitwise on bigint operands, str parsing) deferred.
+
+### Next
+
+1. PEP 3118 out of scope.
+2. Further bigint int methods (`to_bytes`, `as_integer_ratio` on bigint self) as follow-up slices.
+
+---
+
 ## Delta update (2026-06-13, plan 926 bigint int arithmetic)
 
 ### Landed
