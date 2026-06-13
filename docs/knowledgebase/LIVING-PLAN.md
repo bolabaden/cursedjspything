@@ -15,13 +15,12 @@
 
 ### Partial
 
-- None.
+- None until PR merge.
 
 ### Next
 
-1. P3 complex pow dedupe merge (plan 925).
+1. P3 complex pow dedupe merges (plan 925).
 2. PEP 3118 out of scope.
-
 
 ---
 
@@ -29,11 +28,11 @@
 
 ### Landed
 
-- [REPO] Plan **923** (merged via PR #591) — §8.15 **Inplace operator evidence** index bullets for six augmented-assignment file families; monolithic `operator-inplace-cross-type` split deferred (P3 from plan 920 audit).
+- [REPO] Plan **923** — §8.15 **Inplace operator evidence** index bullets for six augmented-assignment file families; monolithic `operator-inplace-cross-type` split deferred (P3 from plan 920 audit).
 
 ### Partial
 
-- None.
+- None until PR merge.
 
 ### Next
 
@@ -50,7 +49,7 @@
 
 ### Partial
 
-- None.
+- None until PR merge.
 
 ### Next
 
@@ -102,7 +101,7 @@
 
 ### Partial
 
-- None.
+- None until PR merge.
 
 ### Next
 
