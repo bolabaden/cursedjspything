@@ -496,6 +496,105 @@ export function intObjectFromBigInt(n: bigint): PyObject {
   return obj;
 }
 
+function toIntBigInt(v: number | bigint): bigint {
+  return typeof v === "bigint" ? v : BigInt(Math.trunc(v));
+}
+
+function intOperandFromObject(other: PyObject): number | bigint | null {
+  if (other.type === intType) return intNativeValue(other);
+  if (isBoolOperand(other)) return nativeVal<boolean>(other) ? 1 : 0;
+  return null;
+}
+
+function compareIntValues(a: number | bigint, b: number | bigint): number {
+  const ba = toIntBigInt(a);
+  const bb = toIntBigInt(b);
+  if (ba < bb) return -1;
+  if (ba > bb) return 1;
+  return 0;
+}
+
+export function intEqFloat(intVal: number | bigint, floatVal: number): boolean {
+  if (typeof intVal === "bigint") {
+    if (!Number.isFinite(floatVal) || Math.trunc(floatVal) !== floatVal) {
+      return false;
+    }
+    const asNum = Number(intVal);
+    if (BigInt(asNum) !== intVal) return false;
+    return asNum === floatVal;
+  }
+  return intVal === floatVal;
+}
+
+function intCompareFloat(intVal: number | bigint, floatVal: number): number {
+  if (typeof intVal === "bigint") {
+    const asNum = Number(intVal);
+    if (BigInt(asNum) === intVal) {
+      return compareIntValues(asNum, floatVal);
+    }
+    return asNum < floatVal ? -1 : asNum > floatVal ? 1 : 0;
+  }
+  return compareIntValues(intVal, floatVal);
+}
+
+function intRichCompare(
+  selfVal: number | bigint,
+  other: PyObject,
+  op: "eq" | "ne" | "lt" | "le" | "gt" | "ge",
+): boolean | typeof NotImplemented {
+  const intOther = intOperandFromObject(other);
+  if (intOther !== null) {
+    const cmp = compareIntValues(selfVal, intOther);
+    switch (op) {
+      case "eq":
+        return cmp === 0;
+      case "ne":
+        return cmp !== 0;
+      case "lt":
+        return cmp < 0;
+      case "le":
+        return cmp <= 0;
+      case "gt":
+        return cmp > 0;
+      case "ge":
+        return cmp >= 0;
+    }
+  }
+  if (other.type === floatType) {
+    const f = nativeVal<number>(other);
+    if (op === "eq") return intEqFloat(selfVal, f);
+    if (op === "ne") return !intEqFloat(selfVal, f);
+    const cmp = intCompareFloat(selfVal, f);
+    switch (op) {
+      case "lt":
+        return cmp < 0;
+      case "le":
+        return cmp <= 0;
+      case "gt":
+        return cmp > 0;
+      case "ge":
+        return cmp >= 0;
+    }
+  }
+  return NotImplemented;
+}
+
+function intToFloatOperand(v: number | bigint): number {
+  return typeof v === "bigint" ? Number(v) : v;
+}
+
+function intAddInt(a: number | bigint, b: number | bigint): PyObject {
+  return intObjectFromBigInt(toIntBigInt(a) + toIntBigInt(b));
+}
+
+function intSubInt(a: number | bigint, b: number | bigint): PyObject {
+  return intObjectFromBigInt(toIntBigInt(a) - toIntBigInt(b));
+}
+
+function intMulInt(a: number | bigint, b: number | bigint): PyObject {
+  return intObjectFromBigInt(toIntBigInt(a) * toIntBigInt(b));
+}
+
 /** CPython int.bit_length: bits to represent abs(n) in binary; 0 → 0. */
 export function intBitLength(n: number): number {
   const v = Math.trunc(n);
@@ -542,63 +641,87 @@ export const intType = makeClass({
     [Hook.complex, (self: PyObject) => pyComplex(nativeVal<number>(self), 0)],
     [Slot.eq, (self: PyObject, other: PyObject) => {
       if (!isNumericOperand(other)) return NotImplemented;
-      return nativeVal<number>(self) === numericOperand(other);
+      return intRichCompare(intNativeValue(self), other, "eq");
     }],
     [Slot.lt, (self: PyObject, other: PyObject) => {
       if (!isNumericOperand(other)) return NotImplemented;
-      return nativeVal<number>(self) < numericOperand(other);
+      return intRichCompare(intNativeValue(self), other, "lt");
     }],
     [Slot.le, (self: PyObject, other: PyObject) => {
       if (!isNumericOperand(other)) return NotImplemented;
-      return nativeVal<number>(self) <= numericOperand(other);
+      return intRichCompare(intNativeValue(self), other, "le");
     }],
     [Slot.gt, (self: PyObject, other: PyObject) => {
       if (!isNumericOperand(other)) return NotImplemented;
-      return nativeVal<number>(self) > numericOperand(other);
+      return intRichCompare(intNativeValue(self), other, "gt");
     }],
     [Slot.ge, (self: PyObject, other: PyObject) => {
       if (!isNumericOperand(other)) return NotImplemented;
-      return nativeVal<number>(self) >= numericOperand(other);
+      return intRichCompare(intNativeValue(self), other, "ge");
     }],
     [Slot.ne, (self: PyObject, other: PyObject) => {
       if (!isNumericOperand(other)) return NotImplemented;
-      return nativeVal<number>(self) !== numericOperand(other);
+      return intRichCompare(intNativeValue(self), other, "ne");
     }],
     [Slot.add, (self: PyObject, other: PyObject) => {
       if (!isNumericOperand(other)) return NotImplemented;
-      return other.type === floatType
-        ? pyFloat(nativeVal<number>(self) + numericOperand(other))
-        : pyInt(nativeVal<number>(self) + numericOperand(other));
+      const selfVal = intNativeValue(self);
+      const intOther = intOperandFromObject(other);
+      if (intOther !== null) return intAddInt(selfVal, intOther);
+      if (other.type === floatType) {
+        return pyFloat(intToFloatOperand(selfVal) + nativeVal<number>(other));
+      }
+      return NotImplemented;
     }],
     [Slot.radd, (self: PyObject, other: PyObject) => {
       if (!isNumericOperand(other)) return NotImplemented;
-      return other.type === floatType
-        ? pyFloat(numericOperand(other) + nativeVal<number>(self))
-        : pyInt(numericOperand(other) + nativeVal<number>(self));
+      const selfVal = intNativeValue(self);
+      const intOther = intOperandFromObject(other);
+      if (intOther !== null) return intAddInt(intOther, selfVal);
+      if (other.type === floatType) {
+        return pyFloat(nativeVal<number>(other) + intToFloatOperand(selfVal));
+      }
+      return NotImplemented;
     }],
     [Slot.sub, (self: PyObject, other: PyObject) => {
       if (!isNumericOperand(other)) return NotImplemented;
-      return other.type === floatType
-        ? pyFloat(nativeVal<number>(self) - numericOperand(other))
-        : pyInt(nativeVal<number>(self) - numericOperand(other));
+      const selfVal = intNativeValue(self);
+      const intOther = intOperandFromObject(other);
+      if (intOther !== null) return intSubInt(selfVal, intOther);
+      if (other.type === floatType) {
+        return pyFloat(intToFloatOperand(selfVal) - nativeVal<number>(other));
+      }
+      return NotImplemented;
     }],
     [Slot.rsub, (self: PyObject, other: PyObject) => {
       if (!isNumericOperand(other)) return NotImplemented;
-      return other.type === floatType
-        ? pyFloat(numericOperand(other) - nativeVal<number>(self))
-        : pyInt(numericOperand(other) - nativeVal<number>(self));
+      const selfVal = intNativeValue(self);
+      const intOther = intOperandFromObject(other);
+      if (intOther !== null) return intSubInt(intOther, selfVal);
+      if (other.type === floatType) {
+        return pyFloat(nativeVal<number>(other) - intToFloatOperand(selfVal));
+      }
+      return NotImplemented;
     }],
     [Slot.mul, (self: PyObject, other: PyObject) => {
       if (!isNumericOperand(other)) return NotImplemented;
-      return other.type === floatType
-        ? pyFloat(nativeVal<number>(self) * numericOperand(other))
-        : pyInt(nativeVal<number>(self) * numericOperand(other));
+      const selfVal = intNativeValue(self);
+      const intOther = intOperandFromObject(other);
+      if (intOther !== null) return intMulInt(selfVal, intOther);
+      if (other.type === floatType) {
+        return pyFloat(intToFloatOperand(selfVal) * nativeVal<number>(other));
+      }
+      return NotImplemented;
     }],
     [Slot.rmul, (self: PyObject, other: PyObject) => {
       if (!isNumericOperand(other)) return NotImplemented;
-      return other.type === floatType
-        ? pyFloat(numericOperand(other) * nativeVal<number>(self))
-        : pyInt(numericOperand(other) * nativeVal<number>(self));
+      const selfVal = intNativeValue(self);
+      const intOther = intOperandFromObject(other);
+      if (intOther !== null) return intMulInt(intOther, selfVal);
+      if (other.type === floatType) {
+        return pyFloat(nativeVal<number>(other) * intToFloatOperand(selfVal));
+      }
+      return NotImplemented;
     }],
     [Slot.truediv, (self: PyObject, other: PyObject) => {
       if (!isNumericOperand(other)) return NotImplemented;
