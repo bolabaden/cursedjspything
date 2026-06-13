@@ -652,7 +652,7 @@ function intModInverse(a: bigint, mod: bigint): bigint {
     [r, newR] = [newR, r - q * newR];
   }
   if (r > 1n) {
-    throw new PyValueError("base is not invertible modulo mod");
+    throw new PyValueError("base is not invertible for the given modulus");
   }
   if (t < 0n) t += mod;
   return t;
@@ -857,11 +857,9 @@ export const intType = makeClass({
       if (other.type === floatType) {
         const exp = nativeVal<number>(other);
         if (modObj !== undefined && modObj instanceof PyObject) {
-          const modInt = intOperandFromObject(modObj);
-          if (modInt !== null) {
-            return intPowInt(selfVal, Math.trunc(exp), modInt);
-          }
-          return NotImplemented;
+          throw new PyTypeError(
+            "pow() 3rd argument not allowed unless all arguments are integers",
+          );
         }
         return pyFloat(Math.pow(intToFloatOperand(selfVal), exp));
       }

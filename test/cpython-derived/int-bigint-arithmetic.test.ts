@@ -26,6 +26,8 @@ import {
   getAttr,
   getItem,
   PyZeroDivisionError,
+  PyTypeError,
+  PyValueError,
 } from "../../src/index.js";
 import {
   intObjectFromBigInt,
@@ -165,6 +167,26 @@ describe("cpython-derived bigint int from as_integer_ratio", () => {
     );
     expect(() => pow(intObjectFromBigInt(0n), pyIntFromSafeInteger(-1))).toThrow(
       /zero to a negative power/,
+    );
+  });
+
+  it("three-arg pow rejects float exponent", () => {
+    const err = /pow\(\) 3rd argument not allowed unless all arguments are integers/;
+    expect(() => pow(den, pyFloat(2.0), pyIntFromSafeInteger(3))).toThrow(PyTypeError);
+    expect(() => pow(den, pyFloat(2.0), pyIntFromSafeInteger(3))).toThrow(err);
+    expect(() => pow(den, pyFloat(2.5), pyIntFromSafeInteger(3))).toThrow(err);
+  });
+
+  it("non-invertible modular pow raises ValueError", () => {
+    const err = /base is not invertible for the given modulus/;
+    expect(() => pow(pyIntFromSafeInteger(2), pyIntFromSafeInteger(-1), pyIntFromSafeInteger(8))).toThrow(
+      PyValueError,
+    );
+    expect(() => pow(pyIntFromSafeInteger(2), pyIntFromSafeInteger(-1), pyIntFromSafeInteger(8))).toThrow(
+      err,
+    );
+    expect(() => pow(intObjectFromBigInt(0n), pyIntFromSafeInteger(-1), pyIntFromSafeInteger(7))).toThrow(
+      err,
     );
   });
 });
