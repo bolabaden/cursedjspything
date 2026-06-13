@@ -139,7 +139,10 @@ describe("cpython-derived bigint int from as_integer_ratio", () => {
   it("pow on bigint operands matches CPython", () => {
     expectBigInt(pow(den, pyIntFromSafeInteger(2)) as PyObject, 1298074214633706907132624082305024n);
     expectIntValue(pow(den, pyIntFromSafeInteger(2), pyIntFromSafeInteger(7)) as PyObject, 4);
+    expectIntValue(pow(den, pyIntFromSafeInteger(2), pyIntFromSafeInteger(1000)) as PyObject, 24);
+    expectIntValue(pow(pyIntFromSafeInteger(2), pyIntFromSafeInteger(-1), pyIntFromSafeInteger(7)) as PyObject, 4);
     expectBigInt(pow(den, pyTrue) as PyObject, 36028797018963968n);
+    expectIntValue(pow(den, pyFalse) as PyObject, 1);
     expectBigInt(
       pow(num, pyIntFromSafeInteger(3)) as PyObject,
       46768052394588901170963202449162931770298562773n,
@@ -151,5 +154,17 @@ describe("cpython-derived bigint int from as_integer_ratio", () => {
     const result = pow(den, pyIntFromSafeInteger(-1)) as PyObject;
     expect(result.type.name).toBe("float");
     expect(unwrap(result)).toBeCloseTo(2.7755575615628914e-17, 31);
+  });
+
+  it("zero to negative power raises ZeroDivisionError", () => {
+    expect(() => pow(pyIntFromSafeInteger(2), pyIntFromSafeInteger(3), pyIntFromSafeInteger(0))).toThrow(
+      /pow\(\) 3rd argument cannot be 0/,
+    );
+    expect(() => pow(intObjectFromBigInt(0n), pyIntFromSafeInteger(-1))).toThrow(
+      PyZeroDivisionError,
+    );
+    expect(() => pow(intObjectFromBigInt(0n), pyIntFromSafeInteger(-1))).toThrow(
+      /zero to a negative power/,
+    );
   });
 });

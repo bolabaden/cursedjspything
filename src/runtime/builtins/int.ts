@@ -624,22 +624,59 @@ function intDivmodInt(a: number | bigint, b: number | bigint): PyObject {
   return pyTuple([intObjectFromBigInt(q), intObjectFromBigInt(r)]);
 }
 
+function intModPow(base: bigint, exp: bigint, mod: bigint): bigint {
+  let b = ((base % mod) + mod) % mod;
+  if (mod === 1n) return 0n;
+  let e = exp;
+  if (e < 0n) {
+    b = intModInverse(b, mod);
+    e = -e;
+  }
+  let result = 1n;
+  while (e > 0n) {
+    if (e & 1n) result = (result * b) % mod;
+    e >>= 1n;
+    b = (b * b) % mod;
+  }
+  return result;
+}
+
+function intModInverse(a: bigint, mod: bigint): bigint {
+  let t = 0n;
+  let newT = 1n;
+  let r = mod;
+  let newR = ((a % mod) + mod) % mod;
+  while (newR !== 0n) {
+    const q = r / newR;
+    [t, newT] = [newT, t - q * newT];
+    [r, newR] = [newR, r - q * newR];
+  }
+  if (r > 1n) {
+    throw new PyValueError("base is not invertible modulo mod");
+  }
+  if (t < 0n) t += mod;
+  return t;
+}
+
 function intPowInt(
   base: number | bigint,
   exp: number | bigint,
   mod?: number | bigint,
 ): PyObject {
   const e = toIntBigInt(exp);
-  if (e < 0n) {
-    return pyFloat(
-      Math.pow(intToFloatOperand(base), intToFloatOperand(exp)),
-    );
-  }
   const b = toIntBigInt(base);
   if (mod !== undefined) {
     const m = toIntBigInt(mod);
     if (m === 0n) throw new PyValueError("pow() 3rd argument cannot be 0");
-    return intObjectFromBigInt(b ** e % m);
+    return intObjectFromBigInt(intModPow(b, e, m));
+  }
+  if (e < 0n) {
+    if (b === 0n) {
+      throw new PyZeroDivisionError("zero to a negative power");
+    }
+    return pyFloat(
+      Math.pow(intToFloatOperand(base), intToFloatOperand(exp)),
+    );
   }
   return intObjectFromBigInt(b ** e);
 }
