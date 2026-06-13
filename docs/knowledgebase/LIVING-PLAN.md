@@ -7,6 +7,24 @@
 
 ---
 
+## Delta update (2026-06-12, plan 925 complex pow fold P3)
+
+### Landed
+
+- [REPO] Plan **925** — §8.15 **Scalar-complex pow evidence** canonical-home bullets; **keep** three scalar-complex pow files separate (merge into `pow-floordiv` deferred per plan 920 audit).
+
+### Partial
+
+- None until PR merge.
+
+### Next
+
+1. Operator audit PRs (#588–#593) if not yet merged.
+2. Future scalar-complex pow file merge only with explicit args + full `npm test` + golden.
+3. PEP 3118 out of scope.
+
+---
+
 ## Delta update (2026-05-24, plan 917 float ratio repr)
 
 ### Landed
